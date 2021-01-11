@@ -3,9 +3,5 @@
   "lang"          : "de_de",
   "servRoot"      : "D:\\servers\\Servers",
   "logRoot"       : "D:\\servers\\Logs",
-  "pathBackup"    : "D:\\servers\\Backups",
-  "steamCMDRoot"  : "D:\\servers\\SteamCMD",
-  "steamAPIKey"   : "B9531474C7C4CA2F7106939B08EC52A6",
-  "appID"         : 346110,
-  "appID_server"  : 376030
+  "pathBackup"    : "D:\\servers\\Backups"
 }

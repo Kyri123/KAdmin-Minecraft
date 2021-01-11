@@ -8,14 +8,7 @@
  */
 "use strict"
 
-const server_util           = require('./server/util')
-const server_state          = require('./server/state')
-const steamAPI              = require('./steam/steamAPI')
 const globalInfos           = require('./../global_infos')
-const si                    = require('systeminformation')
-const osu                   = require('node-os-utils')
-const disk                  = require('check-disk-space')
-const AA_util               = require('../util')
 
 
 module.exports = {

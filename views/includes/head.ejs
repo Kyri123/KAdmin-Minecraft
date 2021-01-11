@@ -43,7 +43,7 @@
     <script>
         // Vars die zur JS übergeben werden
         // Allgemeine Vars
-        var globalvars = {}
+        let globalvars = {}
         <% if(typeof PANEL_LANG !== "undefined") {%>    globalvars.alertlang    = <%- JSON.stringify(PANEL_LANG_ALERT) %>;  <% } %>
         <% if(typeof PANEL_LANG !== "undefined") {%>    globalvars.lang_arr     = <%- JSON.stringify(PANEL_LANG) %>;        <% } %>
         <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>;              <% } %>

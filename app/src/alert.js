@@ -11,6 +11,7 @@
 module.exports = {
     /**
      * @param {int}     code            Code für den Alert (lang file)
+     * @param {string}  lang            Ordner name für die Sprache (de_de)
      * @param {string}  custom_style    Style="XXX"
      * @param {int}     mb              Margin-Bottom
      * @param {int}     ml              Margin-Left
@@ -18,11 +19,11 @@ module.exports = {
      * @param {int}     mt              Margin-Top
      * @returns {string|undefined}      Undefined -> Code nicht vorhanden
      */
-    rd: (code, custom_style = "", mb = 3, ml = 0, mr = 0, mt = 0) => {
-        if(PANEL_LANG_ALERT[code] !== undefined) {
+    rd: (code, lang = "de_de", custom_style = "", mb = 3, ml = 0, mr = 0, mt = 0) => {
+        if(LANG[lang][code] !== undefined) {
             let color   = code >= 1000 ? (code >= 2000 ? (code >= 3000 ? "info" : "warning") : "success") : "danger"
-            let text    = PANEL_LANG_ALERT[code].text
-            let title   = PANEL_LANG_ALERT[code].title
+            let text    = LANG[lang][code].text
+            let title   = LANG[lang][code].title
             let rnd     = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
 
             return `<div class="callout callout-${color} mb-${mb} ml-${ml} mr-${mr} mt-${mt}" style="${custom_style}" id="${rnd}">
