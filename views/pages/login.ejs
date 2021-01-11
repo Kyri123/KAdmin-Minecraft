@@ -1,0 +1,76 @@
+<%- include('../includes/head'); -%>
+
+<style>
+    .bg-image {
+        background: url('/img/backgrounds/side.jpg');
+        background-size: cover;
+    }
+
+    body {
+        background: rgba(11, 19, 26, 1) url('/img/backgrounds/bg.jpg') no-repeat scroll center top;
+    }
+</style>
+
+<body class="register-page bg-image" style="min-height: 353.391px;">
+    <div class="register-box">
+        <div class="card register-logo bg-white border border-dark" style="height: 60px!important;">
+            <div class="d-flex justify-content-start social_icon">
+                <a href="https://discord.gg/uXxsqXD" target="_blank" style="font-size: 34px;padding-top: 4px;"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                <a href="https://github.com/Kyri123/KAdmin-Minecraft" target="_blank" style="font-size: 38px;"><i class="fab fa-github-square" aria-hidden="true"></i></a>
+            </div>
+            <span class="text-black-50 pt-1"><b>Ark</b>Admin<b>2</b></span>
+            <div class="ribbon-wrapper">
+                <div class="ribbon bg-danger">
+                    Alpha
+                </div>
+            </div>
+        </div>
+
+        <%- resp %>
+
+        <div class="card border border-dark">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg"><%= PANEL_LANG.login.welcome %></p>
+
+                <form action="#" method="post">
+                    <div class="input-group mb-3">
+                        <input name="logger" type="text" class="form-control" placeholder="<%= PANEL_LANG.login.input.username %>">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="password" name="pw" class="form-control" placeholder="<%= PANEL_LANG.login.input.password %>">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember" name="loggedin">
+                                <label for="remember">
+                                    <%= PANEL_LANG.login.input.remember %>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" name="login" class="btn btn-primary btn-block"><%= PANEL_LANG.login.input.btn_login %></button>
+                        </div>
+                    </div>
+                </form></div>
+
+
+            <p class="p-0 m-0"><a href="/reg" class="text-center btn btn-sm btn-dark" style="width: 100%;"><%= PANEL_LANG.login.toreg %></a></p>
+        </div>
+    </div>
+</body>
+
+
+<%- include('../includes/foother'); -%>

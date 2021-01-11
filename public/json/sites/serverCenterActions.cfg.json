@@ -1,0 +1,61 @@
+{
+  "actions": [
+    "install",
+    "update",
+    "start",
+    "installallmods",
+    "stop",
+    "restart",
+    "backup"
+  ],
+  "parameter":[
+    {
+      "parameter": "--validate",
+      "id_js": "validate",
+      "type": 0,
+      "for": [
+        "installallmods",
+        "update",
+        "start",
+        "restart"
+      ]
+    },
+    {
+      "parameter": "--no-autoupdate",
+      "id_js": "no-autoupdate",
+      "type": 0,
+      "for": [
+        "start",
+        "restart"
+      ]
+    },
+    {
+      "parameter": "--warn",
+      "id_js": "warn",
+      "type": 0,
+      "for": [
+        "stop",
+        "restart",
+        "update"
+      ]
+    },
+    {
+      "parameter": "--saveworld",
+      "id_js": "saveworld",
+      "type": 0,
+      "for": [
+        "stop",
+        "restart"
+      ]
+    },
+    {
+      "parameter": "--alwaysstart",
+      "id_js": "alwaysstart",
+      "type": 0,
+      "for": [
+        "restart",
+        "start"
+      ]
+    }
+  ]
+}

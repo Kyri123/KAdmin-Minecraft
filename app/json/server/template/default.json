@@ -1,0 +1,32 @@
+{
+  "path"                    : "{SERVROOT}\\{SERVERNAME}",
+  "pathLogs"                : "{LOGROOT}\\{SERVERNAME}",
+  "pathBackup"              : "{BACKUPROOT}\\{SERVERNAME}",
+  "branch"                  : "public",
+  "rcon"                    : 27020,
+  "game"                    : 7777,
+  "query"                   : 27015,
+  "serverPassword"          : "",
+  "ServerAdminPassword"     : "12345679",
+  "AltSaveDirectoryName"    : "SavedArks",
+  "autoUpdate"              : false,
+  "autoUpdateInterval"      : 1800000,
+  "autoUpdateNext"          : 0,
+  "autoBackup"              : false,
+  "autoBackupInterval"      : 1800000,
+  "autoBackupNext"          : 0,
+  "TotalConversionMod"      : 0,
+  "MapModID"                : 0,
+  "sessionName"             : "[KAdmin-Minecraft]",
+  "maxPlayers"              : 70,
+  "shouldRun"               : false,
+  "serverMap"               : "TheIsland",
+  "flags"                   : [
+    "servergamelog",
+    "servergamelogincludetribelogs",
+    "ServerRCONOutputTribeLogs",
+    "logs"
+  ],
+  "opt"                     : [],
+  "mods"                    : []
+}

@@ -1,0 +1,198 @@
+{
+  "1": {
+    "title" : "Datei Fehler",
+    "text"  : "Datei nicht gefunden oder keine Rechte"
+  },
+  "2": {
+    "title" : "MySQL Fehler",
+    "text"  : "Datensatz konnte nicht gelesen oder geschrieben werden"
+  },
+  "3": {
+    "title" : "Konnte nicht Erstellt werden",
+    "text"  : "Fehler beim Schreiben der Datei"
+  },
+  "4": {
+    "title" : "Konnte nicht Gelöscht werden",
+    "text"  : "Fehler beim Schreiben der Datei"
+  },
+  "5": {
+    "title" : "Mod wurde nicht gespeichert",
+    "text"  : "Mod exsistiert bereits"
+  },
+  "6": {
+    "title" : "Exsistiert",
+    "text"  : "Dieser Name Exsistiert bereits"
+  },
+  "7": {
+    "title" : "Benutzergruppe nicht gefunden",
+    "text"  : "Die Gruppe wurde nicht gefunden"
+  },
+  "8": {
+    "title" : "Benutzer nicht gefunden",
+    "text"  : "Dieser Benutzer wurde nicht gefunden"
+  },
+  "100": {
+    "title" : "Form Fehler",
+    "text"  : "Einige Felder wurden nicht ausgefüllt"
+  },
+  "900": {
+    "title" : "Login Fehler",
+    "text"  : "Benutzername/Email nicht gefunden"
+  },
+  "901": {
+    "title" : "Login Fehler",
+    "text"  : "Account ist gesperrt"
+  },
+  "902": {
+    "title" : "Login Fehler",
+    "text"  : "Passwort stimmt nicht mit dem Benutzer überein"
+  },
+  "903": {
+    "title" : "Fehler",
+    "text"  : "Passwörter stimmen nicht überein"
+  },
+  "905": {
+    "title" : "Registrierungs Fehler",
+    "text"  : "Benutzername muss mindestens 6 Zeichen haben"
+  },
+  "906": {
+    "title" : "Registrierungs Fehler",
+    "text"  : "Passwörter müssen mindestens 6 Zeichen haben und müssen übereinstimmen"
+  },
+  "907": {
+    "title" : "Registrierungs Fehler",
+    "text"  : "Account Code wurde bereits verwendet oder exsistiert nicht"
+  },
+  "908": {
+    "title" : "Registrierungs Fehler",
+    "text"  : "Ein Account mit der E-Mail UND dem Benutzernamen exsistiert bereits"
+  },
+
+
+
+
+  "1000": {
+    "title" : "Benutzer erstellt",
+    "text"  : "Der Benutzer wurde erfolgreich erstellt"
+  },
+  "1001": {
+    "title" : "Account bearbeitet",
+    "text"  : "Deine Benutzerdaten wurden angepasst ({what})"
+  },
+  "1002": {
+    "title" : "Server Erstellt",
+    "text"  : "Server wurde erstellt, Warte ein paar Sekunden bis dieser auftaucht"
+  },
+  "1003": {
+    "title" : "Server Gelöscht",
+    "text"  : "Server wurde gelöscht, Warte ein paar Sekunden bis dieser verschwindet"
+  },
+  "1004": {
+    "title" : "Benutzer Entsperrt",
+    "text"  : "Ban Status des Benutzers <b>{user}</b> wurde geändert"
+  },
+  "1005": {
+    "title" : "Benutzer Gesperrt",
+    "text"  : "Ban Status des Benutzers <b>{user}</b> wurde geändert"
+  },
+  "1006": {
+    "title" : "Benutzer Gelöscht",
+    "text"  : "Benutzer <b>{user}</b> wurde entfernt"
+  },
+  "1007": {
+    "title" : "Code Gelöscht",
+    "text"  : "Der Code entfernt"
+  },
+  "1008": {
+    "title" : "Code Hinzugefügt",
+    "text"  : "Der Code <b>{code}</b> wurde hinzugefügt"
+  },
+  "1009": {
+    "title" : "Konfiguration Gespeichert",
+    "text"  : "Konfiguration <b>{ini}</b> wurde gespeichert"
+  },
+  "1010": {
+    "title" : "Mod Entfernt",
+    "text"  : "Modifikation <b>{modid}</b> wurde entfernt"
+  },
+  "1011": {
+    "title" : "Mod Hinzugefügt",
+    "text"  : "Modifikation <b>{modid}</b> wurde hinzugefügt"
+  },
+  "1012": {
+    "title" : "Backup Entfernt",
+    "text"  : "Backup <b>{file}</b> wurde gelöscht"
+  },
+  "1013": {
+    "title" : "Backup Eingespielt",
+    "text"  : "Backup <b>{file}</b> wurde eingespielt"
+  },
+  "1014": {
+    "title" : "Benutzergruppe Erstellt",
+    "text"  : "Die Benutzergruppe wurde erfolgreich Erstellt"
+  },
+  "1015": {
+    "title" : "Benutzergruppe Entfernt",
+    "text"  : "Die Benutzergruppe wurde erfolgreich entfernt"
+  },
+  "1016": {
+    "title" : "Benutzergruppe Bearbeitet",
+    "text"  : "Die Benutzergruppe wurde erfolgreich verändert"
+  },
+  "1017": {
+    "title" : "Benutzergruppe(n) gesetzt",
+    "text"  : "Die Benutzergruppe(n) wurde(n) erfolgreich verändert"
+  },
+
+
+
+  "3000": {
+    "title" : "Keine Änderungen",
+    "text"  : "Es wurden keine Änderungen vorgenommen"
+  },
+
+  "3001": {
+    "title" : "Update verfügbar",
+    "text"  : "Es ist ein neues Update verfügbar Bitte beende den Server und starte <b>start_<branch>.cmd</b>"
+  },
+
+  "3993": {
+    "title" : "Modidikationen Inaktiv",
+    "text"  : "Mods Sind auf dem Server Deaktiviert (Flagge Crossplay ODER EpicOnly ist aktiv)"
+  },
+
+  "3994": {
+    "title" : "Logs Inaktiv",
+    "text"  : "Flagge Logs Fehlt dadurch ist die Logs Seite deaktiviert"
+  },
+
+  "3995": {
+    "title" : "Allwaysstart",
+    "text"  : "Server startet bei einem Crash neu"
+  },
+
+  "3996": {
+    "title" : "Mods nicht Installiert",
+    "text"  : "Eine Mod oder mehrere sind nicht Installiert: <ul><li>{modi}</li></ul>"
+  },
+
+  "3997": {
+    "title" : "Mods benötigen Update",
+    "text"  : "Eine Mod oder mehrere sind nicht auf dem neusten Stand: <ul><li>{modu}</li></ul>"
+  },
+
+  "3998": {
+    "title" : "Server benötigt Update",
+    "text"  : "Es ist ein neues Server update verfügbar"
+  },
+
+  "3999": {
+    "title" : "Server nicht Installiert",
+    "text"  : "Der Server ist noch nicht Installiert"
+  },
+
+  "4000": {
+    "title" : "Keine Meldungen",
+    "text"  : "Es wurden keine Meldungen gefunden"
+  }
+}

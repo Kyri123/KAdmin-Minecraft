@@ -1,0 +1,148 @@
+<aside class="main-sidebar sidebar-dark-primary border-right  border-secondary elevation-5">
+    <a href="/" class="brand-link elevation-5">
+        <img src="https://i.pinimg.com/originals/1d/01/30/1d01304174bbe64965d47559c61470cb.png" alt="Logo" class="ml-3 mr-2" style="height: 25px!important;">
+        <span class="brand-text font-weight-light"><b>Ark</b>Admin<b>2</b></span>
+        <div class="ribbon-wrapper">
+            <div class="ribbon bg-danger">
+                Alpha
+            </div>
+        </div>
+    </a>
+
+    <div class="sidebar">
+        <a class="user-panel mt-3 pb-0 mb-0 d-flex border-0" href="/usersettings" style="text-decoration: none!important;">
+            <div class="image" style="top:50%">
+                <i class="nav-icon fas fa-user-circle" style="font-size: 35px" aria-hidden="true"></i>
+            </div>
+            <div class="info" style="margin-top:-10px">
+                <span class="text-sm"><%- PANEL_LANG.sideNav.welcome %></span><br>
+                <span class="text-sm text-<%- userHelper.hasPermissions(user.id, "all/is_admin") ? "danger" : "success" %>" id="leftUsername"><%- user.username %></span>
+            </div>
+        </a>
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-legacy" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item">
+                    <a href="/usersettings" class="nav-link <%- page === "usersettings" ? "active" : "" %>">
+                        <i class="nav-icon fas fa-user-cog" aria-hidden="true"></i>
+                        <p>
+                            <%- PANEL_LANG.pagename.usersettings %>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt" aria-hidden="true"></i>
+                        <p>
+                            <%- PANEL_LANG.sideNav.logout %>
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-legacy" data-widget="treeview" role="menu" data-accordion="false">
+                <div class="mt-2 mb-2 user-panel"></div>
+
+                <li class="nav-item">
+                    <a href="/" class="nav-link <%- page === "home" ? "active" : "" %>">
+                        <i class="nav-icon fas fa-tachometer-alt" aria-hidden="true"></i>
+                        <p>
+                            <%- PANEL_LANG.pagename.home %>
+                        </p>
+                    </a>
+                </li>
+
+                <% if(userHelper.hasPermissions(user.id, "servercontrolcenter/show")) { %>
+                    <li class="nav-item">
+                        <a href="/servercontrolcenter" class="nav-link <%- page === "servercontrolcenter" ? "active" : "" %>">
+                            <i class="nav-icon fa fa-server" aria-hidden="true"></i>
+                            <p>
+                                <%- PANEL_LANG.pagename.servercontrolcenter %>
+                            </p>
+                        </a>
+                    </li>
+                <% } %>
+
+
+                <% if(userHelper.hasPermissions(user.id, "userpanel/show")) { %>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link <%- page === "userpanel" || page === "grouppanel" ? "active" : "" %>">
+                            <i class="nav-icon fas fa-users-cog" aria-hidden="true"></i>
+                            <p>
+                                <%- PANEL_LANG.pagename.group_user %>
+                                <i class="right fas fa-angle-left" aria-hidden="true"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <!-- Benutzer -->
+                            <li class="nav-item">
+                                <a href="/userpanel" class="nav-link <%- page === "userpanel" ? "active" : "" %>">
+                                    <i class="nav-icon fas fa-user" aria-hidden="true"></i>
+                                    <p><%- PANEL_LANG.pagename.userpanel %></p>
+                                </a>
+                            </li>
+
+                            <% if(userHelper.hasPermissions(user.id, "all/is_admin")) { %>
+                                <!-- Benutzergruppen -->
+                                <li class="nav-item">
+                                    <a href="/grouppanel" class="nav-link <%- page === "grouppanel" ? "active" : "" %>">
+                                        <i class="nav-icon fas fa-users" aria-hidden="true"></i>
+                                        <p><%- PANEL_LANG.pagename.grouppanel %></p>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </li>
+                <% } %>
+
+                <!--<li class="nav-item">
+                    <a href="/changelog" class="nav-link   ">
+                        <i class="nav-icon fa fa-book" aria-hidden="true"></i>
+                        <p>
+                            Changelogs
+                        </p>
+                    </a>
+                </li>-->
+
+                <div class="mt-2 mb-2 user-panel"></div>
+                <li class="nav-item">
+                    <a href="https://discord.gg/uXxsqXD" target="_blank" class="nav-link">
+                        <i class="nav-icon fab fa-discord" aria-hidden="true"></i>
+                        <p>
+                            Discord
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/Kyri123/KAdmin-Minecraft" target="_blank" class="nav-link">
+                        <i class="nav-icon fab fa-github" aria-hidden="true"></i>
+                        <p>
+                            Github
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://trello.com/b/HZFtQ2DZ/KAdmin-Minecraft" target="_blank" class="nav-link">
+                        <i class="nav-icon fab fa-trello" aria-hidden="true"></i>
+                        <p>
+                            Trello
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=68PT9KPRABVCU&amp;source=url" target="_blank" class="nav-link">
+                        <i class="nav-icon fa fa-paypal" aria-hidden="true"></i>
+                        <p>
+                            <%- PANEL_LANG.sideNav.donate %>
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

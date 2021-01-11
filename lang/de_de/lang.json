@@ -1,0 +1,356 @@
+{
+  "pagename": {
+    "login"                 : "Einloggen",
+    "reg"                   : "Account Erstellen",
+    "home"                  : "Dashboard",
+    "usersettings"          : "Benutzereinstellungen",
+    "group_user"            : "Benutzer und Gruppen",
+    "userpanel"             : "Benutzer",
+    "servercontrolcenter"   : "ServerControlCenter",
+    "err404"                : "Seite konnte nicht gefunden werden",
+    "err401"                : "Keine Berechtigung",
+    "grouppanel"            : "Benutzergruppen"
+  },
+
+  "updaterLOG": {
+    "conErr"        : "Verbindung fehlgeschlagen",
+    "isUpToDate"    : "Ist auf dem neusten Stand",
+    "isUpdate"      : "Update verfügbar",
+    "noSha"         : "Locale sha.txt nicht gefunden"
+  },
+
+  "sideNav": {
+    "welcome"       : "Willkommen,",
+    "logout"        : "Ausloggen",
+    "donate"        : "Spenden"
+  },
+
+  "state": {
+    "danger"        : "Offline",
+    "warning"       : "Nicht installiert",
+    "success"       : "Online",
+    "primary"       : "Startet",
+    "info"          : "Aktion ist in Arbeit"
+  },
+
+  "401": {
+    "title"           : "Ohnein! Fehlende Berechtigungen",
+    "txt"             : "Die Seite konnte nicht aufgerufen werden da du nicht die nötige Berechtigung hast ...",
+    "backToDashboard" : " Zurück zum Dashboard"
+  },
+
+  "404": {
+    "title"           : "Ohnein! Seite nicht gefunden...",
+    "txt"             : "Die Seite du du Aufrufen wolltest wurde nicht gefunden! Vielleicht wurde sie von einem Dino gefressen!?",
+    "backToDashboard" : " Zurück zum Dashboard"
+  },
+
+  "home": {
+    "t_version"       : "Versionsnummer",
+    "t_date"          : "Datum",
+    "t_state"         : "Status",
+    "curr"            : "Aktuell / Neustes",
+    "old"             : "Veraltet",
+    "readall"         : "Alle Lesen"
+  },
+
+  "timers": {
+    "stopCountDown": {
+      "30"      : "Server stoppt oder Startet in 30 Minuten neu",
+      "15"      : "Server stoppt oder Startet in 15 Minuten neu",
+      "10"      : "Server stoppt oder Startet in 10 Minuten neu",
+      "5"       : "Server stoppt oder Startet in 5 Minuten neu",
+      "4"       : "Server stoppt oder Startet in 4 Minuten neu",
+      "3"       : "Server stoppt oder Startet in 3 Minuten neu",
+      "2"       : "Server stoppt oder Startet in 2 Minuten neu",
+      "1"       : "Server stoppt oder Startet in einer Minute neu",
+      "now"     : "Server stoppt oder Startet jetzt neu (Welt wird gespeichert)",
+      "nownos"  : "Server stoppt oder Startet jetzt neu"
+    }
+  },
+
+  "parameter": {
+    "validate"            : "SteamCMD Validate",
+    "no-autoupdate"       : "Kein Automatisches Update",
+    "warn"                : "Spieler auf dem Server warnen (benötigt RCON)",
+    "saveworld"           : "Welt Speichern bevor dieser gestoppt wird (benötigt RCON)",
+    "alwaysstart"         : "Server beim Crash wieder starten"
+  },
+
+  "usersettings": {
+    "settings"            : "Account Einstellungen",
+    "btnSave"             : "Speichern",
+    "username"            : "Benutzername",
+    "email"               : "E-Mail",
+    "pw"                  : "Passwort",
+    "password_info"       : "Leer lassen um keine änderungen vorzunehmen",
+    "password"            : "Neues Passwort",
+    "password_rep"        : "Neues Passwort wiederholen"
+  },
+
+  "userPanel": {
+    "settings"            : "Account Einstellungen",
+    "banned"              : "Bannen",
+    "free"                : "Entbannen",
+    "remove"              : "Benutzer Löschen",
+    "table_username"      : "Benutzername",
+    "table_rang"          : "Rang",
+    "table_email"         : "E-Mail",
+    "modalDelete": {
+      "cancel"      : "Abbrechen",
+      "remove"      : "Löschen bestätigen",
+      "title"       : "Löschen",
+      "text"        : "Möchtest du diesen Benutzer wirklich löschen?"
+    },
+    "modalGroup": {
+      "cancel"      : "Abbrechen",
+      "send"        : "Gruppen setzten"
+    },
+    "modal": {
+      "admin"             : "Administrator",
+      "user"              : "Benutzer",
+      "title"             : "Übersicht aller Codes",
+      "create"            : "Code erstellen",
+      "cancel"            : "Schließen"
+    }
+  },
+
+  "groupPanel": {
+    "table_groupname"   : "Benutzergruppe",
+    "table_lastchange"  : "Letzte Änderung",
+    "table_from"        : "von",
+    "table_actions"     : "Aktionen",
+    "table_group"       : "Gruppe",
+    "remove"            : "Löschen",
+    "edit"              : "Bearbeiten",
+    "modalEdit": {
+      "cancel"          : "Abbrechen",
+      "edit"            : "Bestätigen",
+      "title"           : "Bearbeiten"
+    },
+    "modalDelete": {
+      "cancel"          : "Abbrechen",
+      "remove"          : "Löschen bestätigen",
+      "title"           : "Löschen",
+      "text"            : "Möchtest du diese Benutzergruppe wirklich löschen?"
+    },
+    "modal": {
+      "title"           : "Neue Benutzergruppe",
+      "create"          : "Gruppe erstellen",
+      "cancel"          : "Schließen",
+      "groupname"       : "Name der Benutzergruppe"
+    }
+  },
+
+  "logger": {
+    "doStopNoAction"      : "Server ist bereits aus",
+    "doStartNoAction"     : "Server läuft bereits",
+    "doInstallNoAction"   : "Server ist bereits Installiert",
+    "infoDoInstall"       : "Dieser vorgang wird jenach Server eine weile dauern",
+    "allg"                : "Nach einer ausführung einer Aktion kann es eine kurze weile Dauern bis diese vollständig ausgeführt wurde oder der Server Aktiv ist (jenachdem ob ein Update nötig ist)",
+    "notFound"            : "Log konnte nicht gefunden oder gelesen werden",
+    "doStart"             : "Aktion <b>Starten</b> für den Server",
+    "validate"            : "Benutzte <b>Validate</b> für SteamCMD",
+    "doUpdateBeforeStart" : "Server wird Aktualisiert (Update nötig)",
+    "doStartUpdateMods"   : "Folgende Mods werden Installiert/Geupdated: ",
+    "doUpdateServer"      : "Prüfe Updates für den Server und Installiere diese",
+    "doUpdate"            : "Server wird Aktualisiert (Update nötig)",
+    "doNoUpdate"          : "Server wird nicht Aktualisiert (kein Update nötig)",
+    "validateUpdate"      : "Server wird gezwungen zu Updaten <b>Validate</b>",
+    "doUpdateMods"        : "Folgende Mods werden Installiert/Geupdated: ",
+    "doInstallMods"       : "Alle Mods werden Installiert/Geupdated",
+    "doStop"              : "Server wird Runtergefahen",
+    "doStopWarn"          : "Spieler auf dem Server werden gewarnt",
+    "doRestart"           : "Server wird neugestartet",
+    "doBackup"            : "Server Backup wird erstellt",
+    "doBackupThis"        : "Backup",
+    "doNotBackup"         : "Server Backup wird nicht erstellt (Ordner konnte nicht gefunden werden)",
+    "doInstall"           : "Installiert",
+    "FAILED"              : "Installation Fehlgeschlagen",
+    "SUCCESS"             : "Installation Erfolgreich"
+  },
+
+  "all": {
+    "cpu"             : "CPU Traffic",
+    "ram"             : "Arbeitsspeicher",
+    "mem"             : "Festplatten Speicher",
+    "server"          : "Server",
+    "sc"              : "Server Center",
+    "createServer"    : "Server Erstellen",
+    "select_default"  : "Aktion wählen"
+  },
+
+  "reg": {
+    "info"      : "Erstelle ein neuen Account",
+    "tologin"   : "Ich besitzte bereits einen Account",
+    "input": {
+      "username"      : "Benutzername",
+      "email"         : "E-Mail",
+      "password"      : "Passwort",
+      "password_rep"  : "Passwort wiederholen",
+      "code"          : "Account Code",
+      "btn_create"    : "Erstellen"
+    }
+  },
+
+  "login": {
+    "welcome"   : "Willkommen bei ArkAdmin!",
+    "toreg"     : "Account Erstellen",
+    "input": {
+      "remember"      : "Eingeloggt bleiben",
+      "password"      : "Passwort",
+      "username"      : "Benutzername / E-Mail",
+      "btn_login"     : "Einloggen"
+    }
+  },
+
+  "commands": {
+    "install": "Installieren",
+    "update": "Update",
+    "start": "Server starten",
+    "stop": "Server stoppen",
+    "restart": "Server neustarten",
+    "installallmods": "alle Mods Installieren",
+    "backup": "Backup Erstellen"
+  },
+
+  "serverCenterAny": {
+    "actionFree"    : "Aktion ausführen",
+    "actionClose"   : "Gesperrt",
+    "state"         : "Server Status",
+    "player"        : "Spieler",
+    "action"        : "Aktion Status",
+    "arkservers"    : "ArkServers",
+    "actionsTitle"  : "Befehl an den Server senden",
+    "actionsClose"  : "Abbrechen",
+    "actionsSend"   : "Aktion ausführen",
+    "alertClose"    : "Schließen",
+    "nav" : {
+      "home"        : "Startseite",
+      "config"      : "Konfiguration",
+      "mods"        : "Modifikation",
+      "backups"     : "Backups"
+    }
+  },
+
+  "serverCenterHome": {
+    "actionLog"     : "Aktion Log/Antwort"
+  },
+
+  "serverCenterConfig": {
+    "save"          : "Speichern",
+    "true"          : "An",
+    "false"         : "Aus",
+    "cfg": {
+      "path"                  : "Server Pfad",
+      "pathBackup"            : "Backup Pfad",
+      "pathLogs"              : "Logs Pfad",
+      "flags"                 : "Ark Flaggen (-xxx)",
+      "branch"                : "Branche die Benutzt werden soll",
+      "rcon"                  : "RCON Port",
+      "game"                  : " Game Port",
+      "query"                 : "Query Port",
+      "serverPassword"        : "Passwort für den Zugang zum Server",
+      "ServerAdminPassword"   : "Admin Passwort",
+      "sessionName"           : "Server Name",
+      "AltSaveDirectoryName"  : "Name des Ordners für Spielstände",
+      "autoUpdate"            : "Automatisches Update",
+      "autoUpdateInterval"    : "Automatisches Update Intervall (in ms)",
+      "autoBackup"            : "Automatisches Backup",
+      "autoBackupInterval"    : "Automatisches Backup Intervall (in ms)",
+      "maxPlayers"            : "Maximale Spieler",
+      "serverMap"             : "Karte",
+      "MapModID"              : "Karte ModID (0 = Keine)",
+      "cflags"                : "Eigene Ark Flaggen (-xxx)",
+      "opt"                   : "Eigene Optionen (?xxx=xxx)",
+      "pick"                  : "Bitte Wählen"
+    }
+  },
+
+  "serverCenterMods": {
+    "time"            : "Letzte Update",
+    "modid"           : "Mod-ID",
+    "pagename"        : "Modifikationen",
+    "addmod"          : "Mod Hinzufügen",
+    "noModFoundTitle" : "Es wurden keine Mods gefunden",
+    "noModFoundText"  : "Du Musst erst Mods hinzufügen um diese Liste zu sehen",
+    "active"          : "Aktive Mod",
+    "notActive"       : "Inaktive Mod",
+    "modal": {
+      "title"         : "Mods Hinzufügen",
+      "placeholder"   : "Workshop URL oder Mod-ID",
+      "close"         : "Schließen",
+      "addmod"        : "Mod Hinzufügen"
+    }
+  },
+
+  "serverCenterBackups": {
+    "modal": {
+      "removeText"    : "Möchtest du wirklich dieses Backup löschen?",
+      "remove"        : "Backup Löschen",
+      "cancel"        : "Abbrechen",
+      "pitile"        : "Einspielen:",
+      "pitxt"         : "Möchtest du dieses Backup einspielen? <br />",
+      "pired"         : "<b>ACHTUNG:</b> Alle Karten, Konfigurationen (ausgenommen der von KAdmin-Minecraft) und Spieler Dateien werden gelöscht und mit dem Backup überschrieben",
+      "playin"        : "Einspielen"
+    }
+  },
+
+  "servercontrolcenter": {
+    "ip"            : "IP-Adresse",
+    "state"         : "Status",
+    "map"           : "Karte",
+    "modalDelete": {
+      "cancel"      : "Abbrechen",
+      "remove"      : "Löschen bestätigen",
+      "title"       : "Löschen",
+      "text"        : "Möchtest du den Server <b>{servername}</b> wirklich löschen?"
+    },
+    "modalCreate": {
+      "title"       : "Server Erstellen",
+      "cancel"      : "Abbrechen",
+      "add"         : "Erstellen"
+    }
+  },
+
+  "permissions": {
+    "main": {
+      "all"                     : "Allgemein",
+      "servercontrolcenter"     : "ServerControlCenter",
+      "userpanel"               : "Benutzer",
+      "server"                  : "Server Rechte",
+      "home"                    : "Startseite",
+      "mods"                    : "Modifikationen",
+      "config"                  : "Konfiguration",
+      "backups"                 : "Backups",
+      "api"                     : "ArkAPI",
+      "logs"                    : "Logs"
+    },
+    "perm": {
+      "is_admin"                : "Ist Admin (Hat Rechte auf alles)",
+      "show_traffic"            : "Darf Serverauslastung sehen",
+      "show"                    : "Darf aufrufen",
+      "create"                  : "Darf erstellen",
+      "delete"                  : "Darf löschen",
+      "show_codes"              : "Darf Codes sehen (AdminCodes nur wenn der User über Admin verfügt)",
+      "create_code"             : "Darf Codes erstellen (AdminCodes nur wenn der User über Admin verfügt)",
+      "delete_code"             : "Darf Codes löschen",
+      "ban_user"                : "Darf Benutzer Bannen",
+      "delete_user"             : "Darf Benutzer Löschen",
+      "is_server_admin"         : "Ist Admin (Hat Rechte auf alles auf dem Server)",
+      "actions"                 : "Darf Aktionen an den Server senden",
+      "changeplace"             : "Darf Mods verschieben",
+      "remove"                  : "Darf Löschen",
+      "add"                     : "Darf Hinzufügen",
+      "GameUserSettings"        : "Darf GameUserSettings sehen",
+      "Game"                    : "Darf Game sehen",
+      "Engine"                  : "Darf Engine sehen",
+      "arkadmin"                : "Darf KAdmin-Minecraft sehen",
+      "show_GameUserSettings"   : "Darf GameUserSettings bearbeiten",
+      "show_Game"               : "Darf Game bearbeiten",
+      "show_Engine"             : "Darf GameUserSettings bearbeiten",
+      "show_arkadmin"           : "Darf KAdmin-Minecraft bearbeiten",
+      "playin"                  : "Darf Backup einspielen"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top_nav'); -%>
+<%- include('../includes/side_nav'); -%>
+<%- include('../includes/start'); -%>
+
+<style>
+    .timeline h5 {
+        border-top: 1px solid rgba(0,0,0,.125);
+        border-bottom: 1px solid rgba(0,0,0,.125);
+        font-size: 16px;
+        line-height: 1.1;
+        margin: 0;
+        padding: 10px;
+        color: #fff!important;
+        background-color: #17a2b8!important;
+    }
+    ul {
+        margin-top: 10px!important;
+        margin-bottom: 10px!important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="timeline" style="margin-right: 0px;">
+
+            <% changelog.forEach((val, key) => { %>
+                <div class="time-label mb-2" id="2.0.3">
+                      <span class="bg-<%- key === 0 ? "success" : "danger" %> text-white  rounded-0">
+                        Version <%- val.version %> | <%- val.datestring %>
+                      </span>
+                       <p class="d-xl-none d-lg-none mb-0" style="margin-top: 3px;"></p>
+                </div>
+
+                <div class="time-label m-0" id="<%- val.version %>">
+                </div>
+
+                <div style="margin-right: 0px;">
+                    <i class="fa fa-server bg-<%- key === 0 ? "success" : "danger" %> text-white rounded-0" aria-hidden="true"></i>
+
+                    <div class="timeline-item rounded-0 border-0 row" style="margin-bottom: 5px;margin-right: 0px;background-color: transparent; box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 3px rgba(0,0,0,0);">
+                        <div class="col-md-4 p-md-0 pt-md-0 pb-md-2 p-0 pt-0">
+                            <div style="background-color: #2ecc71" class="p-2 pl-3 pr-3 text-light border">
+                                Neuerungen
+                            </div>
+                        </div>
+                        <div class="col-md-4 pt-md-0 p-md-2 p-0 pt-0" style="padding-top: 0px!important;">
+                            <div style="background-color: #3498db" class="p-2 pl-3 pr-3 text-light border">
+                                Änderungen
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-md-0 pt-md-0 pb-md-2 p-0 pb-2 pt-0">
+                            <div style="background-color: #9b59b6" class="p-2 pl-3 pr-3 text-light border">
+                                Bugfixes
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item rounded-0 mb-3" style="margin-bottom: 5px;margin-right: 0px;">
+
+                        <div class="timeline-header border-bottom-0 bg-dark"><h4 class="mb-0">Panel</h4></div>
+
+                        <div class="timeline-body p-0 pb-1">
+                            <%- val.new %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/end'); -%>
+<%- include('../includes/foother'); -%>

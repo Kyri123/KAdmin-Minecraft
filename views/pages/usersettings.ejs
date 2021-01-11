@@ -1,0 +1,85 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top_nav'); -%>
+<%- include('../includes/side_nav'); -%>
+<%- include('../includes/start'); -%>
+
+<div class="row">
+    <div class="col-lg-3 col-sm-12">
+        <ul class="nav nav-pills nav-sidebar flex-column navbar-dark border border-secondary aa_nav" style="margin-top:0px">
+            <li class="nav-item">
+                <a id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab" aria-controls="pills-settings" aria-selected="true" class="nav-link aa_nav_small_hover active show">
+                    <i class="nav-icon fa fa-user-cog" aria-hidden="true"></i>
+                    <%- PANEL_LANG.usersettings.settings %>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="col-lg-9 col-sm-12">
+        <div class="card shadow p-0" style="border-radius: 0 0 0 0 !important;border-top: 0!important;">
+            <div class="tab-content" id="pills-tabContent">
+                <form action="#save" method="post" class="tab-pane fade m-0 active show" id="pills-settings" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="list-group-item bg-dark">
+                        <h4><%- PANEL_LANG.usersettings.settings %></h4>
+                        <div class="right">
+                            <input type="hidden" name="saveuser" value="true">
+                            <input type="submit" class="btn btn-primary" id="submitsettings" value="<%- PANEL_LANG.usersettings.btnSave %>">
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush border">
+
+                        <li class="list-group-item" style="border-top-width: 1px;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- PANEL_LANG.usersettings.password %></span>
+                                </div>
+                                <input id="pw1" name="pw1" type="password" class="form-control" placeholder="<%- PANEL_LANG.usersettings.password_info %>">
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" style="border-top-width: 1px;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- PANEL_LANG.usersettings.password_rep %></span>
+                                </div>
+                                <input id="pw2" name="pw2" type="password" class="form-control" placeholder="<%- PANEL_LANG.usersettings.password_info %>">
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" style="border-top-width: 1px;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- PANEL_LANG.usersettings.email %></span>
+                                </div>
+                                <input id="email" name="email" type="text" class="form-control" value="<%- new_email === false ? user.email : new_email %>">
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" style="border-top-width: 1px;">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- PANEL_LANG.usersettings.username %></span>
+                                </div>
+                                <input id="username" name="username" type="text" class="form-control" value="<%- new_username === false ? user.username : new_username %>">
+                            </div>
+                        </li>
+
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+</script>
+
+<script src="/js/arkadmin2/pages/usersettings.js" type="application/javascript"></script>
+
+<%- include('../includes/end'); -%>
+<%- include('../includes/foother'); -%>

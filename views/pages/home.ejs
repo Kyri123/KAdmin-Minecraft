@@ -1,0 +1,61 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top_nav'); -%>
+<%- include('../includes/side_nav'); -%>
+<%- include('../includes/start'); -%>
+
+<div class="row">
+
+    <!-- CHANGELOGS -->
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header border-transparent bg-dark">
+                <h3 class="card-title"><i class="fa fa-book mr-1" aria-hidden="true"></i> KAdmin-Minecraft Versionen :: V.<%- panelVersion %></h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0">
+                        <thead>
+                            <tr>
+                                <th class="pt-2 pb-2"><%- PANEL_LANG.home.t_version %></th>
+                                <th class="pt-2 pb-2"><%- PANEL_LANG.home.t_date %></th>
+                                <th class="pt-2 pb-2"><%- PANEL_LANG.home.t_state %></th>
+                                <th class="pt-2 pb-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% changelog.forEach((val, key) => { %>
+                            <tr>
+                                <td>Version <%- val.version %></td>
+                                <td><%- val.datestring %></td>
+                                <td><span class="badge badge-<%- key === 0 ? "success" : "danger" %> rounded-0"><%- key === 0 ? PANEL_LANG.home.curr : PANEL_LANG.home.old %></span></td>
+                                <td class="text-right">
+                                    <a href="/changelog#<%- val.version %>" class="btn btn-xs btn-primary rounded-0"><i class="nav-icon fa fa-book" aria-hidden="true"></i></a>
+                                    <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/tag/<%- val.version %>" target="_blank" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fab fa-github" aria-hidden="true"></i></a>
+                                    <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/download/<%- val.version %>/<%- val.version %>.zip" download="" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fa fa-download" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="card-footer clearfix">
+                <a href="https://github.com/Kyri123/KAdmin-Minecraft" target="_blank" class="btn btn-sm btn-dark float-left rounded-0"><i class="fab fa-github" aria-hidden="true"></i> Github</a>
+                <a href="/changelog" class="btn btn-sm btn-primary float-right rounded-0"><%- PANEL_LANG.home.readall %></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/end'); -%>
+<%- include('../includes/foother'); -%>

@@ -1,0 +1,13 @@
+{
+  "useDebug"          : true,
+  "interval": {
+    "getAvailableVersion"   : 300000,
+    "getStateFromServers"   : 5000,
+    "getModsFromAPI"        : 60000,
+    "getTraffic"            : 15000,
+    "doReReadConfig"        : 30000,
+    "doServerBackgrounder"  : 10000,
+    "backgroundUpdater"     : 3000000,
+    "doJob"                 : 5000
+  }
+}
