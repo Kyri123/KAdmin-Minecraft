@@ -34,17 +34,9 @@ module.exports = {
         let pathConfigDir    = pathMod.join(mainDir, '/app/config/')
         fs.readdirSync(pathConfigDir).forEach(item => {
             if(item.includes(".json")) {
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Reload: ${pathConfigDir + item}`)
+                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathConfigDir + item}`)
                 try {
-                    if(item === "app.json") {
-                        global.CONFIG.app                                 = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
-                    }
-                    else if(item === "main.json") {
-                        global.CONFIG.main                                   = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
-                    }
-                    else {
-                        CONFIG[item.replaceAll(".json")]        = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
-                    }
+                    CONFIG[item.replace(".json", "")]   = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
                 }
                 catch (e) {
                     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathConfigDir + item} cannot Loaded`)
@@ -57,25 +49,23 @@ module.exports = {
         // Lade Sprachdatei(en)
         let pathLangDir    = pathMod.join(mainDir, '/lang/', CONFIG.app.lang)
         fs.readdirSync(pathLangDir).forEach(item => {
-            if(item.includes(".json")) {
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Reload: ${pathLangDir}\\${item}`)
-                try {
-                    if(item === "lang.json") {
-                        global.PANEL_LANG                                   = JSON.parse(fs.readFileSync(pathMod.join(pathLangDir, item), 'utf8'))
+            let langPath                            = pathMod.join(pathLangDir, item)
+            let pathInfo                            = fs.statSync(langPath)
+            if(LANG[item] === undefined) LANG[item] = [];
+            if(pathInfo.isDirectory())
+                fs.readdirSync(langPath).forEach(file => {
+                    if(file.includes(".json")) {
+                        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${langPath}\\${file}`)
+                        try {
+                            LANG[item][file.replace(".json", "")]   = JSON.parse(fs.readFileSync(pathMod.join(langPath, file), 'utf8'))
+                        }
+                        catch (e) {
+                            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
+                            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${langPath}\\${file} cannot Loaded`)
+                            process.exit(1)
+                        }
                     }
-                    else if(item === "alert.json") {
-                        global.PANEL_LANG_ALERT                             = JSON.parse(fs.readFileSync(pathMod.join(pathLangDir, item), 'utf8'))
-                    }
-                    else {
-                        PANEL_LANG_OTHER[item.replaceAll(".json")]          = JSON.parse(fs.readFileSync(pathMod.join(pathLangDir, item), 'utf8'))
-                    }
-                }
-                catch (e) {
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathLangDir}\\${item} cannot Loaded`)
-                    process.exit(1)
-                }
-            }
+                })
         })
     },
 

@@ -15,14 +15,14 @@
     <div class="error-page bg-light p-4 border border-secondary" style="padding-bottom: 0px !important;">
     <h2 class="headline text-warning m-0" style="font-size: 160px;"> <i class="fas fa-exclamation-triangle text-warning" aria-hidden="true"></i></h2>
         <div class="error-content">
-            <h3><b class="text-warning">401</b> <%- PANEL_LANG["401"].title %></h3>
+            <h3><b class="text-warning">401</b> <%- lang[page].title %></h3>
 
             <p>
-                <%- PANEL_LANG["401"].txt %>
+                <%- lang[page].txt %>
             </p>
 
             <form class="search-form">
-                <a class="btn btn-warning text-white" style="width: 100%" href="/"><i class="nav-icon fas fa-tachometer-alt" aria-hidden="true"></i> <%- PANEL_LANG["401"].backToDashboard %></a>
+                <a class="btn btn-warning text-white" style="width: 100%" href="/"><i class="nav-icon fas fa-tachometer-alt" aria-hidden="true"></i> <%- lang[page].backToDashboard %></a>
             </form>
         </div>
     </div>

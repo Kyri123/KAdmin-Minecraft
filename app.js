@@ -59,7 +59,7 @@ try {
 catch (e) {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m not Installed... load Installer`)
 }
-Installed = true; //(Testing)
+if(process.argv.includes("?forceInstalled")) Installed = true;
 
 require('./app/main/sqlLoader.js')
 
@@ -119,10 +119,15 @@ app.use(function(err, req, res, next) {
   res.render('error')
 })
 
-app.listen(CONFIG.app.port, "0.0.0.0", ()=>{
+// process.env.PORT = Portuse für z.B. Plesk
+let port = typeof process.env.PORT !== "undefined" ?
+   parseInt(process.env.PORT, 10) : typeof CONFIG.app.port !== "undefined" ?
+      parseInt(CONFIG.app.port, 10) : 80
+
+app.listen(port, "0.0.0.0", ()=>{
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${CONFIG.app.port}/`)
 })
 module.exports = app
 
 // Starte Intverall aufgaben
-if(Installed) backgroundRunner.startAll();
+if(Installed) backgroundRunner.startAll()

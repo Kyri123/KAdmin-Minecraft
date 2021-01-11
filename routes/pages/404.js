@@ -13,12 +13,21 @@ const router        = express.Router()
 
 router.route('/')
 
-    .get((req,res)=>{
-        res.render('pages/404', {pagename: PANEL_LANG.pagename.err404, page: "home", resp: ""})
-    })
+    .all((req,res)=>{
+       let GET         = req.query
+       let POST        = req.body;
+       let response    = "";
+       let cookies     = req.cookies;
+       let lang         = LANG[(cookies.lang !== undefined) ?
+          fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
+             cookies.lang : "de_de"
+          : "de_de"];
 
-    .post((req,res)=>{
-        res.render('pages/404', {pagename: PANEL_LANG.pagename.err404, page: "home", resp: ""})
+       res.render('pages/404', {
+          page        : "404",
+          response    : "",
+          lang        : lang
+       });
     })
 
 module.exports = router;

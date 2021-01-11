@@ -14,6 +14,15 @@ const router    = express.Router()
 router.route('/')
 
     .all((req,res)=>{
+       let GET         = req.query
+       let POST        = req.body;
+       let response    = "";
+       let cookies     = req.cookies;
+       let lang         = LANG[(cookies.lang !== undefined) ?
+          fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
+             cookies.lang : "de_de"
+          : "de_de"];
+
         globalUtil.safeFileCreateSync([pathToInstallerJSON], '{"step":1,"installed":"false"}')
         try {
             global.installerJson   = globalUtil.safeFileReadSync([pathToInstallerJSON], true)
@@ -21,12 +30,6 @@ router.route('/')
         catch (e) {
             if(debug) console.log(e)
         }
-
-        let GET         = req.query
-        let POST        = req.body
-        let resp        = ""
-        let lang        = PANEL_LANG_OTHER.installer.step1
-        let langAll     = PANEL_LANG_OTHER.installer.langAll
 
         // Leite zum Schritt wenn dieser nicht 1 entspricht
         if(installerJson.step !== undefined) {
@@ -49,10 +52,8 @@ router.route('/')
 
         // Lade Standartseite
         res.render(`installer/step${installerJson.step}`, {
-            pagename    : lang.pagename,
-            lang        : lang,
-            langAll     : langAll,
-            resp        : resp
+            lang           : lang,
+            response       : response
         })
     })
 

@@ -71,10 +71,6 @@ Webbasiertes Admin Panel für Ark-Gameserver
 | `servRoot`            | Pfad wo die Server liegen sollen |
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
-| `steamCMDRoot`        | Pfad wo die SteamCMD liegt |
-| `steamAPIKey`         | SteamAPI key bekommt ihr von https://steamcommunity.com/dev/apikey |
-| `appID`               | AppID von Ark:SE (dies sollte nicht geändert werden) |
-| `appID_server`        | AppID von Ark:SE Server (dies sollte nicht geändert werden) |
 
 # main.json
 **INFO:** Hier sollte nur etwas verändert werden wenn man weis was man tut!
@@ -82,9 +78,7 @@ Webbasiertes Admin Panel für Ark-Gameserver
 | Eigenschaften                       | Wert | 
 | :---                                | :--- |
 | `useDebug`                          | Aktiviert den Debug-Modus in der Konsole |
-| `interval > getAvailableVersion`    | Intervall wobei die letzte Versionsnummer von der Server Software abgerufen wird |
 | `interval > getStateFromServers`    | Invervall wobei die Informationen von Server erfasst werden (Online usw) |
-| `interval > getModsFromAPI`         | Invervall wobei die Mod IS's von der API geladen werden |
 | `interval > getTraffic`             | Invervall wobei der Traffic erfasst wird |
 | `interval > doReReadConfig`         | Invervall wobei die Konfigurationen neu geladen werden |
 | `interval > doServerBackgrounder`   | Invervall wobei wobei die Server geprüft werden (alwaysstarter usw) |
@@ -99,10 +93,10 @@ Webbasiertes Admin Panel für Ark-Gameserver
 
 # Benötigt
 - `Betriebssystem`
-  - Windows / Windows Server
+  - Linux (derzeit getestet auf: Debain 9)
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
 - `Node.JS` 
-  - Version == 15.0.1   > https://nodejs.org/dist/v15.0.1/node-v15.0.1-x64.msi
+  - Version >= 15.0.0   > https://nodejs.org/dist/v15.0.1/node-v15.0.1-x64.msi
   - NVM                 > https://github.com/coreybutler/nvm-windows/releases/tag/1.1.7
 - `MariaDB` 
   - Server              > z.B. https://www.apachefriends.org/de/index.html
@@ -110,10 +104,15 @@ Webbasiertes Admin Panel für Ark-Gameserver
 # Andere Projekte:
 | Projekt                     | Status          | URL | 
 | :---                        | :---            | :--- |
-| ArkAdmin2 für Linux         | Release         | https://github.com/Kyri123/ArkAdmin |
+| KAdmin-ArkLIN               | Release         | https://github.com/Kyri123/KAdmin-ArkLIN |
+| KAdmin-ArkWIN               | Alpha           | https://github.com/Kyri123/KAdmin-ArkWIN |
 | Kleines Minecraft Plugin    | Beta            | https://github.com/Kyri123/KPlugins-1.12.2 |
 
 # Danke
 - Danke an **JetBrains** für die bereitstellung der IDE's für die Entwicklung dieser Open-Source-Software
   - Link: https://www.jetbrains.com
 - Sowie allen Testern und jeden gemeldeten BUG!
+
+# Links
+ 
+- Frontend by AdminLTE (3.1)(https://github.com/ColorlibHQ/AdminLTE)

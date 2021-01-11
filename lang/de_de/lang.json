@@ -33,18 +33,6 @@
     "info"          : "Aktion ist in Arbeit"
   },
 
-  "401": {
-    "title"           : "Ohnein! Fehlende Berechtigungen",
-    "txt"             : "Die Seite konnte nicht aufgerufen werden da du nicht die nötige Berechtigung hast ...",
-    "backToDashboard" : " Zurück zum Dashboard"
-  },
-
-  "404": {
-    "title"           : "Ohnein! Seite nicht gefunden...",
-    "txt"             : "Die Seite du du Aufrufen wolltest wurde nicht gefunden! Vielleicht wurde sie von einem Dino gefressen!?",
-    "backToDashboard" : " Zurück zum Dashboard"
-  },
-
   "home": {
     "t_version"       : "Versionsnummer",
     "t_date"          : "Datum",
@@ -178,30 +166,6 @@
     "sc"              : "Server Center",
     "createServer"    : "Server Erstellen",
     "select_default"  : "Aktion wählen"
-  },
-
-  "reg": {
-    "info"      : "Erstelle ein neuen Account",
-    "tologin"   : "Ich besitzte bereits einen Account",
-    "input": {
-      "username"      : "Benutzername",
-      "email"         : "E-Mail",
-      "password"      : "Passwort",
-      "password_rep"  : "Passwort wiederholen",
-      "code"          : "Account Code",
-      "btn_create"    : "Erstellen"
-    }
-  },
-
-  "login": {
-    "welcome"   : "Willkommen bei ArkAdmin!",
-    "toreg"     : "Account Erstellen",
-    "input": {
-      "remember"      : "Eingeloggt bleiben",
-      "password"      : "Passwort",
-      "username"      : "Benutzername / E-Mail",
-      "btn_login"     : "Einloggen"
-    }
   },
 
   "commands": {

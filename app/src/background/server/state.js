@@ -25,18 +25,18 @@ const findProcess   = require('find-process')
  */
 function save(data, name, state, use_state = true) {
     // Schreibe in die Datenbank zu weiterverarbeitung
-    /*let query_lf = `SELECT * FROM \`ArkAdmin_statistiken\` WHERE \`server\` = '${name}' ORDER BY \`time\``
+    /*let query_lf = `SELECT * FROM \`statistiken\` WHERE \`server\` = '${name}' ORDER BY \`time\``
     con.query(query_lf, (error, results) => {
         if(use_state) data.state = state
         if(!error) {
             // Wenn mehr als 999 Datensätze bestehen Updaten
             if(results.length > 999) {
-                var update = `UPDATE \`ArkAdmin_statistiken\` SET \`time\` = '${Math.floor(Date.now() / 1000)}', \`serverinfo_json\` = '${JSON.stringify(data)}' WHERE \`id\` = '${results[0].id}'`
+                var update = `UPDATE \`statistiken\` SET \`time\` = '${Math.floor(Date.now() / 1000)}', \`serverinfo_json\` = '${JSON.stringify(data)}' WHERE \`id\` = '${results[0].id}'`
                 con.query(update)
             }
             // Wenn mehr weniger 999 Datensätze bestehen Erstelle neue Datensätze
             else {
-                var create = `INSERT INTO \`ArkAdmin_statistiken\` VALUES (null, '${Math.floor(Date.now() / 1000)}', '${JSON.stringify(data)}', '${name}');`
+                var create = `INSERT INTO \`statistiken\` VALUES (null, '${Math.floor(Date.now() / 1000)}', '${JSON.stringify(data)}', '${name}');`
                 con.query(create)
             }
         }

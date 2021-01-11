@@ -19,7 +19,7 @@ module.exports = {
      * @returns {boolean}
      */
     user_exsists: (uid) => {
-        let result = globalUtil.safeSendSQLSync('SELECT * FROM `ArkAdmin_users` WHERE `id`=?', uid)
+        let result = globalUtil.safeSendSQLSync('SELECT * FROM `users` WHERE `id`=?', uid)
         return result !== false ? result.length > 0 : false
     },
 
@@ -30,7 +30,7 @@ module.exports = {
      */
     getinfos: (uid) => {
         if(module.exports.user_exsists(uid)) {
-            let result = globalUtil.safeSendSQLSync('SELECT * FROM `ArkAdmin_users` WHERE `id`=?', uid)
+            let result = globalUtil.safeSendSQLSync('SELECT * FROM `users` WHERE `id`=?', uid)
             if(result !== false) if(result.length > 0) return result[0]
         }
         return false
@@ -45,7 +45,7 @@ module.exports = {
      */
     writeinfos: (uid, field, data) => {
         if(module.exports.user_exsists(uid)) {
-            return globalUtil.safeSendSQLSync('UPDATE arkadmin_users SET ?? = ? WHERE \`id\` = ?', field, data, uid) !== false
+            return globalUtil.safeSendSQLSync('UPDATE users SET ?? = ? WHERE \`id\` = ?', field, data, uid) !== false
         }
         return false
     },
@@ -77,7 +77,7 @@ module.exports = {
      * @returns {any|{id: number}}
      */
     permissions: (uid) => {
-        let result      = globalUtil.safeSendSQLSync('SELECT * FROM ArkAdmin_users WHERE `id`=?', uid)
+        let result      = globalUtil.safeSendSQLSync('SELECT * FROM users WHERE `id`=?', uid)
         if(result.length > 0) {
             let permissions         = globalUtil.safeFileReadSync([mainDir, '/app/json/permissions/', 'default.json'], true)
             let groups              = JSON.parse(result[0].rang)
@@ -94,7 +94,7 @@ module.exports = {
             }
 
             groups.forEach((val) => {
-                let group_result = globalUtil.safeSendSQLSync('SELECT * FROM ArkAdmin_user_group WHERE `id`=?', val)
+                let group_result = globalUtil.safeSendSQLSync('SELECT * FROM user_group WHERE `id`=?', val)
                 if(group_result !== false) {
                     if(group_result.length > 0) {
                         let groups_perm = JSON.parse(group_result[0].permissions)
@@ -151,7 +151,7 @@ module.exports = {
      *
      */
     setLoginTime: (uid) => {
-        let result = globalUtil.safeSendSQLSync('UPDATE arkadmin_users SET `lastlogin` = ? WHERE `id` = ?', Date.now(), uid)
+        let result = globalUtil.safeSendSQLSync('UPDATE users SET `lastlogin` = ? WHERE `id` = ?', Date.now(), uid)
         return result !== false
     },
 
@@ -161,7 +161,7 @@ module.exports = {
      * @returns {*}
      */
     removeUser: (uid) => {
-        let result = globalUtil.safeSendSQLSync('DELETE FROM arkadmin_users WHERE `id` = ?', uid)
+        let result = globalUtil.safeSendSQLSync('DELETE FROM users WHERE `id` = ?', uid)
         return result !== false
     },
 
@@ -173,7 +173,7 @@ module.exports = {
     createCode: (rank) => {
         rank = parseInt(rank)
         let rnd         = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
-        let result      = globalUtil.safeSendSQLSync('INSERT INTO arkadmin_reg_code (code, used, rang) VALUES (?, 0, ?)', rnd, rank === 1 ? 1 : 0)
+        let result      = globalUtil.safeSendSQLSync('INSERT INTO reg_code (code, used, rang) VALUES (?, 0, ?)', rnd, rank === 1 ? 1 : 0)
         return result !== false ? rnd : false
     },
 
@@ -183,7 +183,7 @@ module.exports = {
      * @returns {*}
      */
     removeCode: (id) => {
-        let result = globalUtil.safeSendSQLSync('DELETE FROM arkadmin_reg_code WHERE `id` = ?', id)
+        let result = globalUtil.safeSendSQLSync('DELETE FROM reg_code WHERE `id` = ?', id)
         return result !== false
     },
 }
