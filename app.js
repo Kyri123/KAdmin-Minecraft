@@ -35,9 +35,9 @@ global.pathMod                        = require('path')
 global.fs                             = require('fs')
 global.availableVersionPublic        = 0
 global.availableVersionActiveevent   = 0
-global.mode                           = "dev"
-global.panelVersion                   = "0.0.4"
-global.buildID                        = "004.000"
+//global.mode                           = "dev"
+global.panelVersion                   = "0.0.1"
+global.buildID                        = "001.000"
 global.isUpdate                       = false
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = false
@@ -45,7 +45,7 @@ global.Installed                      = false
 // Modulealerter
 require('./app/main/mainLoader.js')
 global.alerter                        = require('./app/src/alert.js')
-global.debug                          = PANEL_MAIN.useDebug
+global.debug                          = CONFIG.main.useDebug
 
 // Checking Installed
 global.pathToInstallerJSON  = pathMod.join(mainDir, '/app/json/panel/', 'installer.json')
@@ -59,7 +59,7 @@ try {
 catch (e) {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m not Installed... load Installer`)
 }
-//Installed = false; //(Testing)
+Installed = true; //(Testing)
 
 require('./app/main/sqlLoader.js')
 
@@ -119,8 +119,8 @@ app.use(function(err, req, res, next) {
   res.render('error')
 })
 
-app.listen(PANEL_CONFIG.port, "0.0.0.0", ()=>{
-  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${PANEL_CONFIG.port}/`)
+app.listen(CONFIG.app.port, "0.0.0.0", ()=>{
+  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${CONFIG.app.port}/`)
 })
 module.exports = app
 

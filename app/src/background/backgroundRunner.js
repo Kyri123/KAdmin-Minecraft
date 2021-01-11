@@ -8,10 +8,6 @@
  */
 "use strict"
 
-const server_util           = require('./server/util')
-const server_state          = require('./server/state')
-const serverCommands        = require('./server/commands')
-const serverClass           = require('./../util_server/class')
 const globalInfos           = require('./../global_infos')
 const si                    = require('systeminformation')
 const osu                   = require('node-os-utils')
@@ -25,8 +21,8 @@ module.exports = {
      * Startet alle Intervalle
      */
     startAll: () => {
-        setInterval(() => module.exports.backgroundUpdater(),         PANEL_MAIN.interval.backgroundUpdater);     //backgroundUpdater     > Schau nach Updates für das Panel
-        setInterval(() => module.exports.doReReadConfig(),            PANEL_MAIN.interval.doReReadConfig);        //doReReadConfig        > Liest die Globalen Configurationen
+        setInterval(() => module.exports.backgroundUpdater(),         CONFIG.main.interval.backgroundUpdater);     //backgroundUpdater     > Schau nach Updates für das Panel
+        setInterval(() => module.exports.doReReadConfig(),            CONFIG.main.interval.doReReadConfig);        //doReReadConfig        > Liest die Globalen Configurationen
     },
 
     /**
@@ -41,10 +37,10 @@ module.exports = {
                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Reload: ${pathConfigDir + item}`)
                 try {
                     if(item === "app.json") {
-                        global.PANEL_CONFIG                                 = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
+                        global.CONFIG.app                                 = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
                     }
                     else if(item === "main.json") {
-                        global.PANEL_MAIN                                   = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
+                        global.CONFIG.main                                   = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
                     }
                     else {
                         CONFIG[item.replaceAll(".json")]        = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
@@ -59,7 +55,7 @@ module.exports = {
         })
 
         // Lade Sprachdatei(en)
-        let pathLangDir    = pathMod.join(mainDir, '/lang/', PANEL_CONFIG.lang)
+        let pathLangDir    = pathMod.join(mainDir, '/lang/', CONFIG.app.lang)
         fs.readdirSync(pathLangDir).forEach(item => {
             if(item.includes(".json")) {
                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Reload: ${pathLangDir}\\${item}`)

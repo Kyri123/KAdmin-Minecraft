@@ -103,7 +103,7 @@ module.exports = {
                 data.ServerName     = servCFG.sessionName
                 data.ARKServers     = `https://arkservers.net/server/${ip.address()}:${servCFG.query}`
                 data.connect        = `steam://connect/${ip.address()}:${servCFG.query}`
-                data.is_installing  = globalUtil.safeFileExsistsSync([serverPath, '\\steamapps\\', `appmanifest_${PANEL_CONFIG.appID_server}.acf`]) && !globalUtil.safeFileExsistsSync([serverPath, '\\ShooterGame\\Binaries\\Win64\\', 'ShooterGameServer.exe'])
+                data.is_installing  = globalUtil.safeFileExsistsSync([serverPath, '\\steamapps\\', `appmanifest_${CONFIG.app.appID_server}.acf`]) && !globalUtil.safeFileExsistsSync([serverPath, '\\ShooterGame\\Binaries\\Win64\\', 'ShooterGameServer.exe'])
                 data.is_installed   = globalUtil.safeFileExsistsSync([serverPath, '\\ShooterGame\\Binaries\\Win64\\', 'ShooterGameServer.exe'])
                 data.is_free        = true
                 // Runing infos

@@ -31,7 +31,7 @@ module.exports = {
         let servInfos   = serverData.getServerInfos()
 
         if(serverData.serverExsists() && !servInfos.cmd) {
-            let steamCMDPath        = pathMod.join(`${PANEL_CONFIG.steamCMDRoot}\\steamcmd.exe`)
+            let steamCMDPath        = pathMod.join(`${CONFIG.app.steamCMDRoot}\\steamcmd.exe`)
             let serverPath          = pathMod.join(servConfig.path)
 
             // CMD Line
@@ -47,7 +47,7 @@ module.exports = {
             if(!servInfos.run) {
                 // Prüfe ob ein update verfügbar ist (nur wenn --no-autoupdate nicht gesetzt ist)
                 if(!noAutoUpdate || validate) {
-                    if(serverData.isUpdateServer() || validate)     cmdCommand      += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${PANEL_CONFIG.appID_server}${validate ? " Validate" : ""} +quit\n`
+                    if(serverData.isUpdateServer() || validate)     cmdCommand      += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${CONFIG.app.appID_server}${validate ? " Validate" : ""} +quit\n`
                     if(serverData.isUpdateServer())                 actionResponse  += `${PANEL_LANG.logger.doUpdateBeforeStart}\n`
                     if(validate)                                    actionResponse  += `${PANEL_LANG.logger.validate}\n`
 
@@ -103,7 +103,7 @@ module.exports = {
         let servConfig  = serverData.getConfig()
         let servInfos   = serverData.getServerInfos()
         if(serverData.serverExsists() && !servInfos.cmd) {
-            let steamCMDPath        = pathMod.join(`${PANEL_CONFIG.steamCMDRoot}\\steamcmd.exe`)
+            let steamCMDPath        = pathMod.join(`${CONFIG.app.steamCMDRoot}\\steamcmd.exe`)
             let serverPath          = pathMod.join(servConfig.path)
             
             // Logmeldungen
@@ -115,10 +115,10 @@ module.exports = {
 
             // Prüfe ob der Server bereits installiert ist
             if(!servInfos.is_installed) {
-                actionResponse += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${PANEL_CONFIG.appID_server} validate +quit\n`
+                actionResponse += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${CONFIG.app.appID_server} validate +quit\n`
 
                 // CMD Line
-                cmdCommand  += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${PANEL_CONFIG.appID_server} validate +quit\n`
+                cmdCommand  += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${CONFIG.app.appID_server} validate +quit\n`
                 cmdCommand  += `timeout /T 10 /nobreak & del /f ${cmdFile} & exit`
             }
             else {
@@ -154,7 +154,7 @@ module.exports = {
         let servConfig  = serverData.getConfig()
         let servInfos   = serverData.getServerInfos()
         if(serverData.serverExsists() && !servInfos.cmd) {
-            let steamCMDPath        = pathMod.join(`${PANEL_CONFIG.steamCMDRoot}\\steamcmd.exe`)
+            let steamCMDPath        = pathMod.join(`${CONFIG.app.steamCMDRoot}\\steamcmd.exe`)
             let serverPath          = pathMod.join(servConfig.path)
             let updateNeed          = serverData.isUpdateServer()
 
@@ -185,7 +185,7 @@ module.exports = {
             if(validate)    actionResponse += PANEL_LANG.logger.validateUpdate + '\n'
 
             // Wird ein Update benötigt oder Validate ist gewollt dann führe dies zur CMD line hinzu
-            if(updateNeed || validate)  cmdCommand  += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${PANEL_CONFIG.appID_server}${validate ? " validate" : ""} +quit\n`
+            if(updateNeed || validate)  cmdCommand  += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${CONFIG.app.appID_server}${validate ? " validate" : ""} +quit\n`
 
             // Prüfe Modupdates
             let modUpdates  = serverData.checkModUpdates()
@@ -208,7 +208,7 @@ module.exports = {
 
             // Beende CMDline und Update log
             cmdCommand  += `timeout /T 10 /nobreak & del /f ${cmdFile} & exit`
-            if(serverUtil.checkSeverUpdate(server) || validate) actionResponse += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${PANEL_CONFIG.appID_server}${validate ? " Validate" : ""} +quit\n`
+            if(serverUtil.checkSeverUpdate(server) || validate) actionResponse += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${CONFIG.app.appID_server}${validate ? " Validate" : ""} +quit\n`
 
             // Speichern und ausführen
             try {
@@ -244,7 +244,7 @@ module.exports = {
            !servInfos.cmd &&
            servInfos.is_installed)
         {
-            let steamCMDPath            = pathMod.join(`${PANEL_CONFIG.steamCMDRoot}\\steamcmd.exe`)
+            let steamCMDPath            = pathMod.join(`${CONFIG.app.steamCMDRoot}\\steamcmd.exe`)
             let serverPath              = pathMod.join(servConfig.path)
             let cmdFile                 = globalUtil.checkValidatePath(pathMod.join(mainDir, '\\app\\cmd\\', `${isBackground ? md5(servConfig.pathLogs + "doUpdate") : server}.cmd`))
             let cmdCommand              = backAsString ? '' :`@echo off\n`
@@ -262,13 +262,13 @@ module.exports = {
             if(Array.isArray(modID)) {
                 modID.forEach((val) => {
                     actionResponse              += `${val}\n`
-                    workshop_download_item      +=  ` +workshop_download_item ${PANEL_CONFIG.appID} ${val}`
+                    workshop_download_item      +=  ` +workshop_download_item ${CONFIG.app.appID} ${val}`
 
-                    copys   += `if exist "${serverPath}\\steamapps\\workshop\\content\\${PANEL_CONFIG.appID}\\${val}\\modmeta.info" (\n`
+                    copys   += `if exist "${serverPath}\\steamapps\\workshop\\content\\${CONFIG.app.appID}\\${val}\\modmeta.info" (\n`
                     copys   += `    ${mainDir}\\tools\\ArkModCopy\\ArkModCopy.exe "${serverPath}" "${serverPath}" "${val}"\n`
                     copys   += `    echo ${Math.round(Date.now()/1000)} > ${serverPath}\\ShooterGame\\Content\\Mods\\${val}.modtime\n`
                     copys   += `    echo ${val} - SUCCESS >> ${mainDir}\\public\\json\\serveraction\\action_${server}.log\n`
-                    copys   += `    @RD /S /Q "${serverPath}\\steamapps\\workshop\\content\\${PANEL_CONFIG.appID}\\${val}"\n`
+                    copys   += `    @RD /S /Q "${serverPath}\\steamapps\\workshop\\content\\${CONFIG.app.appID}\\${val}"\n`
                     copys   += `) else (\n`
                     copys   += `  echo ${val} - FAILED >> ${mainDir}\\public\\json\\serveraction\\action_${server}.log\n`
                     copys   += `)\n`
@@ -277,13 +277,13 @@ module.exports = {
             // Wenn nur eine Mod installiert werden soll
             else {
                 actionResponse              += `${modID}\n`
-                workshop_download_item      +=  `+workshop_download_item ${PANEL_CONFIG.appID} ${modID}`
+                workshop_download_item      +=  `+workshop_download_item ${CONFIG.app.appID} ${modID}`
 
-                copys   += `if exist "${serverPath}\\steamapps\\workshop\\content\\${PANEL_CONFIG.appID}\\${modID}\\modmeta.info" (\n`
+                copys   += `if exist "${serverPath}\\steamapps\\workshop\\content\\${CONFIG.app.appID}\\${modID}\\modmeta.info" (\n`
                 copys   += `    ${mainDir}\\tools\\ArkModCopy\\ArkModCopy.exe "${serverPath}" "${serverPath}" "${modID}"\n`
                 copys   += `    echo ${Math.round(Date.now()/1000)} > ${serverPath}\\ShooterGame\\Content\\Mods\\${modID}.modtime\n`
                 copys   += `    echo ${modID} - SUCCESS >> ${mainDir}\\public\\json\\serveraction\\action_${server}.log\n`
-                copys   += `    @RD /S /Q "${serverPath}\\steamapps\\workshop\\content\\${PANEL_CONFIG.appID}\\${modID}"\n`
+                copys   += `    @RD /S /Q "${serverPath}\\steamapps\\workshop\\content\\${CONFIG.app.appID}\\${modID}"\n`
                 copys   += `) else (\n`
                 copys   += `  echo ${modID} - FAILED >> ${mainDir}\\public\\json\\serveraction\\action_${server}.log\n`
                 copys   += `)\n`
@@ -383,7 +383,7 @@ module.exports = {
         let servInfos  = serverData.getServerInfos()
 
         if(serverData.serverExsists() && !servInfos.cmd) {
-            let steamCMDPath        = pathMod.join(`${PANEL_CONFIG.steamCMDRoot}\\steamcmd.exe`)
+            let steamCMDPath        = pathMod.join(`${CONFIG.app.steamCMDRoot}\\steamcmd.exe`)
             let serverPath          = pathMod.join(servConfig.path)
 
             // CMD Line
@@ -411,7 +411,7 @@ module.exports = {
 
             // Prüfe ob ein update verfügbar ist (nur wenn --no-autoupdate nicht gesetzt ist)
             if(!noAutoUpdate || validate) {
-                if(serverData.isUpdateServer() || validate)     cmdCommand      += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${PANEL_CONFIG.appID_server}${validate ? " Validate" : ""} +quit\n`
+                if(serverData.isUpdateServer() || validate)     cmdCommand      += `${steamCMDPath} +login anonymous +force_install_dir "${serverPath}" +app_update ${CONFIG.app.appID_server}${validate ? " Validate" : ""} +quit\n`
                 if(serverData.isUpdateServer())                 actionResponse  += `${PANEL_LANG.logger.doUpdateBeforeStart}\n`
                 if(validate)                                    actionResponse  += `${PANEL_LANG.logger.validate}\n`
                 if(!noAutoUpdate) {

@@ -174,7 +174,7 @@ module.exports = class serverClass {
       let servConfig = this.getConfig()
       if(this.serverExsists()) {
          let serverPath          = servConfig.path
-         let manifestFile        = `${serverPath}\\steamapps\\appmanifest_${PANEL_CONFIG.appID_server}.acf`
+         let manifestFile        = `${serverPath}\\steamapps\\appmanifest_${CONFIG.app.appID_server}.acf`
          let manifestArray       = globalUtil.toAcfToArraySync(manifestFile)
          return manifestArray    !== false ? manifestArray.AppState.buildid : false
       }

@@ -45,8 +45,8 @@ global.LANG = []
 fs.readdirSync(pathLangDir).forEach(item => {
     let langPath    = pathMod.join(pathLangDir, item)
     let pathInfo    = fs.statSync(langPath)
-    if(stats.isDirectory())
-        fs.readdirSync(item).forEach(file => {
+    if(pathInfo.isDirectory())
+        fs.readdirSync(langPath).forEach(file => {
             if(file.includes(".json")) {
                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${langPath}\\${file}`)
                 try {

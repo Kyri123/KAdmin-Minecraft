@@ -128,10 +128,10 @@ module.exports = {
     checkValidatePath(path) {
         return (
             (
-                path.indexOf(PANEL_CONFIG.servRoot) === 0
-                || path.indexOf(PANEL_CONFIG.logRoot) === 0
-                || path.indexOf(PANEL_CONFIG.pathBackup) === 0
-                || path.indexOf(PANEL_CONFIG.steamCMDRoot) === 0
+                path.indexOf(CONFIG.app.servRoot) === 0
+                || path.indexOf(CONFIG.app.logRoot) === 0
+                || path.indexOf(CONFIG.app.pathBackup) === 0
+                || path.indexOf(CONFIG.app.steamCMDRoot) === 0
                 || path.indexOf(`${mainDir}\\public`) === 0
                 || path.indexOf(`${mainDir}\\lang`) === 0
                 || path.indexOf(`${mainDir}\\app\\json`) === 0
