@@ -14,19 +14,25 @@ let {isNotLoggedIn, isLoggedIn, logout}   = require('./middleware/user')
 let {isServerExsits}                      = require('./middleware/server')
 
 // Login/Reg
-router.use('/reg',                  isNotLoggedIn,                   require('./pages/session_reg'))                    // RegisterPage                        | Darf nicht eingeloggt sein
-router.use('/login',                isNotLoggedIn,                   require('./pages/session_login'))                  // Login                               | Darf nicht eingeloggt sein
+router.use('/reg',                  isNotLoggedIn,                   require('./pages/session_reg'))
+router.use('/login',                isNotLoggedIn,                   require('./pages/session_login'))
 
 // Allgemeine Seiten
-router.use('/home',                 isLoggedIn,                      require('./pages/home'))                           // Startseite                          | Muss eingeloggt sein
+router.use('/home',                 isLoggedIn,                      require('./pages/home'))
+router.use('/usersettings',         isLoggedIn,                      require('./pages/usersettings'))
+router.use('/grouppanel',           isLoggedIn,                      require('./pages/groupPanel'))
+router.use('/userpanel',            isLoggedIn,                      require('./pages/userPanel'))
 
 // Server Center
 
 // ajax
+router.use('/ajax/usersettings',    isLoggedIn    ,                     require('./ajax/usersettings'))
+router.use('/ajax/userpanel',       isLoggedIn    ,                     require('./ajax/userPanel'))
+router.use('/ajax/grouppanel',      isLoggedIn    ,                     require('./ajax/groupPanel'))
 
 // Error seiten
-router.use('/404',                                                   require('./pages/404'))                            // Error 404                           | IMMER
-router.use('/401',                                                   require('./pages/401'))                            // Error 401                           | IMMER
+router.use('/404',                                                   require('./pages/404'))
+router.use('/401',                                                   require('./pages/401'))
 
 
 // Ausloggen

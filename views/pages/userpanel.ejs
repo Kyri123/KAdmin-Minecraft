@@ -1,7 +1,7 @@
 <%- include('../includes/head'); -%>
-<%- include('../includes/top_nav'); -%>
-<%- include('../includes/side_nav'); -%>
-<%- include('../includes/start'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
 
 <section class="content">
 
@@ -12,13 +12,13 @@
                     <thead>
                         <tr>
                             <th>
-                                <%- PANEL_LANG.userPanel.table_username %>
+                                <%- lang[page].table_username %>
                             </th>
                             <th>
-                                <%- PANEL_LANG.userPanel.table_rang %>
+                                <%- lang[page].table_rang %>
                             </th>
                             <th>
-                                <%- PANEL_LANG.userPanel.table_email %>
+                                <%- lang[page].table_email %>
                             </th>
                             <!--<th>
                             </th>
@@ -61,8 +61,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.userPanel.modalGroup.cancel %></button>
-                    <button type="button" class="btn btn-success" name="del" onclick="sendGroups()"><%- PANEL_LANG.userPanel.modalGroup.send %></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalGroup.cancel %></button>
+                    <button type="button" class="btn btn-success" name="del" onclick="sendGroups()"><%- lang[page].modalGroup.send %></button>
                 </div>
             </div>
         </div>
@@ -79,14 +79,14 @@
                 </div>
 
                 <div class="modal-body">
-                    <p><%- PANEL_LANG.userPanel.modalDelete.text %></p>
+                    <p><%- lang[page].modalDelete.text %></p>
                     <input name="uid" value="" type="hidden" id="removeID">
                     <input name="deleteuser" value="true" type="hidden">
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.userPanel.modalDelete.cancel %></button>
-                    <button type="button" class="btn btn-danger" name="del" onclick="removeUser()"><%- PANEL_LANG.userPanel.modalDelete.remove %></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalDelete.cancel %></button>
+                    <button type="button" class="btn btn-danger" name="del" onclick="removeUser()"><%- lang[page].modalDelete.remove %></button>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
         <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-success">
-                    <h5 class="modal-title"><%- PANEL_LANG.userPanel.modal.title %></h5>
+                    <h5 class="modal-title"><%- lang[page].modal.title %></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -121,16 +121,16 @@
                     </table>
                 </div>
                 <div class="modal-footer input-group">
-                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- PANEL_LANG.userPanel.modal.cancel %>">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- lang[page].modal.cancel %>">
                     <% if(userHelper.hasPermissions(userID, "userpanel/create_code")) { %>
                         <select class="form-control m-1" name="rank" required="">
-                            <option value="0"><%- PANEL_LANG.userPanel.modal.user %></option>
+                            <option value="0"><%- lang[page].modal.user %></option>
                             <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
-                                <option value="1"><%- PANEL_LANG.userPanel.modal.admin %></option>
+                                <option value="1"><%- lang[page].modal.admin %></option>
                             <% } %>
                         </select>
                         <input type="hidden" name="addCode" value="true">
-                        <input type="button" class="btn btn-success" onclick="createCode()" value="<%- PANEL_LANG.userPanel.modal.create %>">
+                        <input type="button" class="btn btn-success" onclick="createCode()" value="<%- lang[page].modal.create %>">
                     <% } %>
                 </div>
             </div>
@@ -145,7 +145,6 @@
     vars.self       = '<%- userID %>';
 </script>
 
-<script src="/js/arkadmin2/pages/userpanel.js" type="application/javascript"></script>
+<script src="/js/kadmin/userpanel.js" type="application/javascript"></script>
 
-<%- include('../includes/end'); -%>
 <%- include('../includes/foother'); -%>

@@ -1,0 +1,27 @@
+{
+  "pagename"          : "Benutzergruppen",
+  "table_groupname"   : "Benutzergruppe",
+  "table_lastchange"  : "Letzte Änderung",
+  "table_from"        : "von",
+  "table_actions"     : "Aktionen",
+  "table_group"       : "Gruppe",
+  "remove"            : "Löschen",
+  "edit"              : "Bearbeiten",
+  "modalEdit": {
+    "cancel"            : "Abbrechen",
+    "edit"              : "Bestätigen",
+    "title"             : "Bearbeiten"
+  },
+  "modalDelete": {
+    "cancel"            : "Abbrechen",
+    "remove"            : "Löschen bestätigen",
+    "title"             : "Löschen",
+    "text"              : "Möchtest du diese Benutzergruppe wirklich löschen?"
+  },
+  "modal": {
+    "title"             : "Neue Benutzergruppe",
+    "create"            : "Gruppe erstellen",
+    "cancel"            : "Schließen",
+    "groupname"         : "Name der Benutzergruppe"
+  }
+}

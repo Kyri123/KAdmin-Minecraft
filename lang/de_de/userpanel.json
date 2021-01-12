@@ -1,0 +1,27 @@
+{
+  "pagename"            : "Benutzer",
+  "settings"            : "Account Einstellungen",
+  "banned"              : "Bannen",
+  "free"                : "Entbannen",
+  "remove"              : "Benutzer Löschen",
+  "table_username"      : "Benutzername",
+  "table_rang"          : "Rang",
+  "table_email"         : "E-Mail",
+  "modalDelete": {
+    "cancel"              : "Abbrechen",
+    "remove"              : "Löschen bestätigen",
+    "title"               : "Löschen",
+    "text"                : "Möchtest du diesen Benutzer wirklich löschen?"
+  },
+  "modalGroup": {
+    "cancel"              : "Abbrechen",
+    "send"                : "Gruppen setzten"
+  },
+  "modal": {
+    "admin"               : "Administrator",
+    "user"                : "Benutzer",
+    "title"               : "Übersicht aller Codes",
+    "create"              : "Code erstellen",
+    "cancel"              : "Schließen"
+  }
+}

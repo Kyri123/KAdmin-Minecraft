@@ -16,19 +16,23 @@ const userHelper   = require('./../../app/src/sessions/helper');
 router.route('/')
 
     .all((req,res)=>{
-        global.user         = userHelper.getinfos(req.session.uid);
-        let resp        = "";
+       let GET         = req.query
+       let POST        = req.body;
+       let response    = "";
+       let cookies     = req.cookies;
+       let langStr     = (cookies.lang !== undefined) ?
+          fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
+             cookies.lang : "de_de"
+          : "de_de";
+       let lang         = LANG[langStr];
 
         res.render('pages/usersettings', {
+            lang            : lang,
+            userID          : req.session.uid,
             perm            : userHelper.permissions(req.session.uid),
-            icon            : "fas fa-user-cog",
-            pagename        : PANEL_LANG.pagename.usersettings,
             page            : "usersettings",
-            resp            : resp,
-            perm            : userHelper.permissions(req.session.uid),
+            response        : response,
             sinfos          : globalinfos.get(),
-            new_email       : false,
-            new_username    : false
         });
     })
 

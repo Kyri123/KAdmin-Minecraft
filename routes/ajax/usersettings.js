@@ -10,23 +10,28 @@
 
 const express           = require('express')
 const router            = express.Router()
-const userHelper   = require('./../../app/src/sessions/helper');
 
 router.route('/')
 
     .post((req,res)=>{
-        let POST        = req.body;
+        let POST        = req.body
         if(POST.saveuser !== undefined) {
-            let someChanges = false;
-            let whatChanged = ``;
-            let new_username;
-            let new_email;
+            let someChanges     = false
+            let whatChanged     = ``
+            let user            = userHelper.getinfos(req.session.uid)
+            let cookies         = req.cookies;
+            let langStr         = (cookies.lang !== undefined) ?
+               fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
+                  cookies.lang : "de_de"
+               : "de_de";
+            let lang            = LANG[langStr];
+            let resp
 
             // Speicher neuen Username
             if(user.username !== POST.username) {
                 if(userHelper.writeinfos(req.session.uid, "username", POST.username)) {
                     someChanges     = true;
-                    whatChanged     += ` ${PANEL_LANG.usersettings.username} `;
+                    whatChanged     += ` ${lang["usersettings"].username} `;
                     user.username    = POST.username;
                 }
             }
@@ -35,7 +40,7 @@ router.route('/')
             if(user.email !== POST.email) {
                 if(userHelper.writeinfos(req.session.uid, "email", POST.email)) {
                     someChanges     = true;
-                    whatChanged     += ` ${PANEL_LANG.usersettings.email} `;
+                    whatChanged     += ` ${lang["usersettings"].email} `;
                     user.email       = POST.email;
                 }
             }
@@ -45,11 +50,11 @@ router.route('/')
                 if(POST.pw1 === POST.pw2) {
                     if(userHelper.writeinfos(req.session.uid, "password", md5(POST.pw1))) {
                         someChanges = true;
-                        whatChanged += ` ${PANEL_LANG.usersettings.pw} `;
+                        whatChanged += ` ${lang["usersettings"].pw} `;
                     }
                 }
                 else {
-                    resp    += alerter.rd(903);
+                    resp    += alerter.rd(903, langStr);
                 }
             }
 
@@ -58,7 +63,7 @@ router.route('/')
                     data: JSON.stringify({
                         what: whatChanged,
                         done: true,
-                        alert: alerter.rd(1001).replace("{what}", whatChanged)
+                        alert: alerter.rd(1001, langStr).replace("{what}", whatChanged)
                     })
                 });
                 return true;
@@ -67,23 +72,12 @@ router.route('/')
                 res.render('ajax/json', {
                     data: JSON.stringify({
                         done: false,
-                        alert: alerter.rd(3000)
+                        alert: resp ? resp : alerter.rd(3000, langStr)
                     })
                 });
                 return true;
             }
         }
-    })
-
-    .get((req,res)=>{
-        // DEFAULT AJAX
-        let GET         = req.query;
-        res.render('ajax/json', {
-            data: JSON.stringify({
-                done: false
-            })
-        });
-        return true;
     })
 
 module.exports = router;

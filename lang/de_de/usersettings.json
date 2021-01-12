@@ -1,0 +1,11 @@
+{
+  "pagename"            : "Benutzereinstellungen",
+  "settings"            : "Account Einstellungen",
+  "btnSave"             : "Speichern",
+  "username"            : "Benutzername",
+  "email"               : "E-Mail",
+  "pw"                  : "Passwort",
+  "password_info"       : "Leer lassen um keine änderungen vorzunehmen",
+  "password"            : "Neues Passwort",
+  "password_rep"        : "Neues Passwort wiederholen"
+}

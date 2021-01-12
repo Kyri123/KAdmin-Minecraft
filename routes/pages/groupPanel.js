@@ -13,19 +13,27 @@ const router        = express.Router()
 const globalinfos   = require('./../../app/src/global_infos');
 const userHelper   = require('./../../app/src/sessions/helper');
 
-const topBtn    = `<div class="d-sm-inline-block">
-                        <a href="#" class="btn btn-outline-success btn-icon-split rounded-0" onclick="$('#group').trigger('reset')" data-toggle="modal" data-target="#group">
-                            <span class="icon">
-                                <i class="fas fa-plus" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                    </div>`;
-
 router.route('/')
 
     .all((req,res)=>{
-        global.user         = userHelper.getinfos(req.session.uid);
-        let resp        = "";
+       let topBtn    = `<div class="d-sm-inline-block">
+                           <a href="#" class="btn btn-outline-success btn-icon-split rounded-0" onclick="$('#group').trigger('reset')" data-toggle="modal" data-target="#group">
+                               <span class="icon">
+                                   <i class="fas fa-plus" aria-hidden="true"></i>
+                               </span>
+                           </a>
+                       </div>`;
+
+       global.user     = userHelper.getinfos(req.session.uid)
+       let GET         = req.query
+       let POST        = req.body;
+       let response    = "";
+       let cookies     = req.cookies;
+       let langStr     = (cookies.lang !== undefined) ?
+          fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
+             cookies.lang : "de_de"
+          : "de_de";
+       let lang         = LANG[langStr];
 
         if(!userHelper.hasPermissions(req.session.uid, "all/is_admin")) {
             res.redirect("/401");
@@ -33,14 +41,14 @@ router.route('/')
         }
 
         res.render('pages/grouppanel', {
-            icon                : "fas fa-users",
-            pagename            : PANEL_LANG.pagename.grouppanel,
-            page                : "grouppanel",
-            resp                : resp,
-            perm                : userHelper.permissions(req.session.uid),
-            sinfos              : globalinfos.get(),
-            topBtn              : topBtn,
-            defaultPermissions  : userHelper.defaultPermissions()
+            lang                 : lang,
+            page                 : "grouppanel",
+            userID               : req.session.uid,
+            perm                 : userHelper.permissions(req.session.uid),
+            response             : response,
+            sinfos               : globalinfos.get(),
+            topBtn               : topBtn,
+            defaultPermissions   : userHelper.defaultPermissions()
         });
     })
 

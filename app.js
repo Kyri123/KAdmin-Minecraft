@@ -40,7 +40,7 @@ global.panelVersion                   = "0.0.1"
 global.buildID                        = "001.000"
 global.isUpdate                       = false
 global.globalUtil                     = require('./app/src/util')
-global.Installed                      = false
+global.Installed                      = true
 
 // Modulealerter
 require('./app/main/mainLoader.js')
@@ -48,6 +48,7 @@ global.alerter                        = require('./app/src/alert.js')
 global.debug                          = CONFIG.main.useDebug
 
 // Checking Installed
+/*
 global.pathToInstallerJSON  = pathMod.join(mainDir, '/app/json/panel/', 'installer.json')
 global.installerJson       = []
 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[32m checking Panel is installed`)
@@ -59,9 +60,7 @@ try {
 catch (e) {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m not Installed... load Installer`)
 }
-if(process.argv.includes("?forceInstalled")) Installed = true;
-
-require('./app/main/sqlLoader.js')
+if(process.argv.includes("?forceInstalled")) Installed = true;*/
 
 // lese Changelog
 if(Installed) {
@@ -79,6 +78,7 @@ if(Installed) {
   }
 }
 
+require('./app/main/sqlLoader.js')
 let app         = express()
 
 // view engine

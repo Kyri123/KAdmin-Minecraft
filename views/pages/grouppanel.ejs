@@ -1,7 +1,7 @@
 <%- include('../includes/head'); -%>
-<%- include('../includes/top_nav'); -%>
-<%- include('../includes/side_nav'); -%>
-<%- include('../includes/start'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
 
 <section class="content">
 
@@ -12,16 +12,16 @@
                     <thead>
                         <tr>
                             <th>
-                                <%- PANEL_LANG.groupPanel.table_groupname %>
+                                <%- lang[page].table_groupname %>
                             </th>
                             <th>
-                                <%- PANEL_LANG.groupPanel.table_group %>
+                                <%- lang[page].table_group %>
                             </th>
                             <!--<th>
-                                <%- PANEL_LANG.groupPanel.table_from %>
+                                <%- lang[page].table_from %>
                             </th>-->
                             <th class="project-actions text-right">
-                                <%- PANEL_LANG.groupPanel.table_actions %>
+                                <%- lang[page].table_actions %>
                             </th>
                         </tr>
                     </thead>
@@ -42,7 +42,7 @@
     <div class="modal-dialog modal-xl border-0" role="document" style="max-width: 700px">
         <div class="modal-content border-0">
             <div class="modal-header bg-success">
-                <h5 class="modal-title"><%- PANEL_LANG.groupPanel.modal.title %></h5>
+                <h5 class="modal-title"><%- lang[page].modal.title %></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -52,7 +52,7 @@
                     <div class="col-12">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><%- PANEL_LANG.groupPanel.modal.groupname %></span>
+                                <span class="input-group-text"><%- lang[page].modal.groupname %></span>
                             </div>
                             <input name="group_name" type="text" class="form-control" placeholder="XYZ-123" id="newname">
                         </div>
@@ -62,8 +62,8 @@
             </div>
             <div class="modal-footer input-group">
                 <input type="hidden" name="add" value="true">
-                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- PANEL_LANG.groupPanel.modal.cancel %>">
-                <input type="button" class="btn btn-success" onclick="send('group')" value="<%- PANEL_LANG.groupPanel.modal.create %>">
+                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- lang[page].modal.cancel %>">
+                <input type="button" class="btn btn-success" onclick="send('group')" value="<%- lang[page].modal.create %>">
             </div>
         </div>
     </div>
@@ -74,7 +74,7 @@
     <div class="modal-dialog modal-xl border-0" role="document" style="max-width: 700px">
         <div class="modal-content border-0">
             <div class="modal-header bg-success">
-                <h5 class="modal-title"><%- PANEL_LANG.groupPanel.modalEdit.title %> - <b id="edittitle"></b></h5>
+                <h5 class="modal-title"><%- lang[page].modalEdit.title %> - <b id="edittitle"></b></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -84,7 +84,7 @@
                     <div class="col-12">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><%- PANEL_LANG.groupPanel.modal.groupname %></span>
+                                <span class="input-group-text"><%- lang[page].modal.groupname %></span>
                             </div>
                             <input name="group_name" type="text" class="form-control" placeholder="XYZ-123" id="editname">
                         </div>
@@ -95,8 +95,8 @@
             <div class="modal-footer input-group">
                 <input type="hidden" name="edit" value="true">
                 <input type="hidden" name="editgroupid" id="editgroupid" value="">
-                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- PANEL_LANG.groupPanel.modalEdit.cancel %>">
-                <input type="button" class="btn btn-success" onclick="send('edit')" value="<%- PANEL_LANG.groupPanel.modalEdit.edit %>">
+                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- lang[page].modalEdit.cancel %>">
+                <input type="button" class="btn btn-success" onclick="send('edit')" value="<%- lang[page].modalEdit.edit %>">
             </div>
         </div>
     </div>
@@ -106,18 +106,18 @@
     <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
         <div class="modal-content border-0">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title"><%- PANEL_LANG.groupPanel.modalDelete.title %> - <b id="removeNAME"></b></h5>
+                <h5 class="modal-title"><%- lang[page].modalDelete.title %> - <b id="removeNAME"></b></h5>
             </div>
 
             <div class="modal-body">
-                <p><%- PANEL_LANG.groupPanel.modalDelete.text %></p>
+                <p><%- lang[page].modalDelete.text %></p>
                 <input name="gid" value="" type="hidden" id="removeID">
                 <input name="deletegroup" value="true" type="hidden">
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.groupPanel.modalDelete.cancel %></button>
-                <button type="button" class="btn btn-danger" name="del" onclick="send('remove')"><%- PANEL_LANG.groupPanel.modalDelete.remove %></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalDelete.cancel %></button>
+                <button type="button" class="btn btn-danger" name="del" onclick="send('remove')"><%- lang[page].modalDelete.remove %></button>
             </div>
         </div>
     </div>
@@ -129,7 +129,7 @@
     var vars = {};
 </script>
 
-<script src="/js/arkadmin2/pages/grouppanel.js" type="application/javascript"></script>
+<script src="/js/kadmin/grouppanel.js" type="application/javascript"></script>
 
 
 <%
@@ -159,5 +159,4 @@
     }
 %>
 
-<%- include('../includes/end'); -%>
 <%- include('../includes/foother'); -%>
