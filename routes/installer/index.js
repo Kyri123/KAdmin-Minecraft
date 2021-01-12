@@ -19,6 +19,7 @@ router.use('/ajax', require('./ajax'));                    // RegisterPage      
 
 router.all('*', (req, res, next) => {
    res.redirect('/step/1')
+   return true
 })
 
 module.exports = router

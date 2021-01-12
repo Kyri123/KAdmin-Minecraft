@@ -72,6 +72,7 @@ router.route('/')
                         }
 
                         res.redirect("/home")
+                        return true
                     }
                     else {
                         response += alerter.rd(902, langStr)

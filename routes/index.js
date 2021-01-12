@@ -35,11 +35,13 @@ router.use('/logout',               isLoggedIn,                      logout)
 // / darf nicht so stehen > zu /home außer wenn !LoggedIn /login
 router.all('/', isLoggedIn, (req, res, next) => {
    res.redirect('/home')
+   return true
 })
 
 // 404
 router.all('*', (req, res, next) => {
    res.redirect('/404')
+   return true
 })
 
 module.exports = router;

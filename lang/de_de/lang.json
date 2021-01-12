@@ -33,15 +33,6 @@
     "info"          : "Aktion ist in Arbeit"
   },
 
-  "home": {
-    "t_version"       : "Versionsnummer",
-    "t_date"          : "Datum",
-    "t_state"         : "Status",
-    "curr"            : "Aktuell / Neustes",
-    "old"             : "Veraltet",
-    "readall"         : "Alle Lesen"
-  },
-
   "timers": {
     "stopCountDown": {
       "30"      : "Server stoppt oder Startet in 30 Minuten neu",

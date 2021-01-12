@@ -28,11 +28,15 @@
         <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
         <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
         <link rel="stylesheet" href="/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-        <link rel="stylesheet" href="/plugins/icheck/icheck-bootstrap.min.css">
+        <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
         <style type="text/css">
             * {
                 border-radius: 0px !important;
+            }
+            body {
+                background: url('/img/backgrounds/bg.jpg');
+                background-size: cover;
             }
         </style>
 
@@ -53,8 +57,8 @@
             <% if(typeof lang !== "undefined") {%>          globalvars.lang_arr     = <%- JSON.stringify(lang) %>;        <% } %>
             <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>;              <% } %>
         </script>
-        <script src="/js/arkadmin2/all/arkadmin2.js?time=<%- Date.now() %>"></script>
-        <script src="/js/adminLTE/adminlte.min.js"></script>
-        <script src="/js/adminLTE/jquery.bootstrap-duallistbox.js"></script>
+
+        <script src="/plugins/jquery/jquery.min.js"></script>
+        <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
     </head>

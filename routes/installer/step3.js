@@ -24,13 +24,13 @@ router.route('/')
         if(installerJson.step !== undefined) {
             if(parseInt(installerJson.step) !== 3) {
                 res.redirect(`/step/${installerJson.step}`)
-                return false
+               return true
             }
         }
         else
         {
             res.redirect(`/step/1`)
-            return false
+           return true
         }
 
         // verarbeite input
@@ -40,7 +40,7 @@ router.route('/')
 
             if(success) {
                 res.redirect(`/step/${installerJson.step + 1}`)
-                return false
+               return true
             }
         }
 

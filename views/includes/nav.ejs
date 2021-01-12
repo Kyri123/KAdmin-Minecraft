@@ -8,19 +8,19 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex" onclick="window.location='/usersettings'">
             <div class="image text-white" style="font-size: 23px">
                 <i class="fa fa-user" class="img-circle elevation-2"></i>
             </div>
             <div class="info">
-                <a href="#" class="d-block">???</a>
+                <a href="#" class="d-block">Hey, <b><%- user.username %></b></a>
             </div>
         </div>
 
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="/" class="nav-link active">
+                    <a href="/home" class="nav-link<%- page === "home" ? " active" : "" %>">
                         <i class="nav-icon fas fa-tachometer-alt" aria-hidden="true"></i>
                         <p>
                             Dashboard
@@ -30,7 +30,7 @@
 
 
                 <li class="nav-item">
-                    <a href="/servercontrolcenter" class="nav-link ">
+                    <a href="/servercontrolcenter<%- page === "servercontrolcenter" ? " active" : "" %>" class="nav-link ">
                         <i class="nav-icon fa fa-server" aria-hidden="true"></i>
                         <p>
                             ServerControlCenter
@@ -42,7 +42,7 @@
 
 
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link ">
+                    <a href="#" class="nav-link<%- page === "grouppanel" || page === "userpanel" ? " active" : "" %>">
                         <i class="nav-icon fas fa-users-cog" aria-hidden="true"></i>
                         <p>
                             Benutzer und Gruppen
@@ -52,7 +52,7 @@
                     <ul class="nav nav-treeview">
                         <!-- Benutzer -->
                         <li class="nav-item">
-                            <a href="/userpanel" class="nav-link ">
+                            <a href="/userpanel" class="nav-link<%- page === "userpanel" ? " active" : "" %>">
                                 <i class="nav-icon fas fa-user" aria-hidden="true"></i>
                                 <p>Benutzer</p>
                             </a>
@@ -61,7 +61,7 @@
 
                         <!-- Benutzergruppen -->
                         <li class="nav-item">
-                            <a href="/grouppanel" class="nav-link ">
+                            <a href="/grouppanel" class="nav-link<%- page === "grouppanel" ? " active" : "" %>">
                                 <i class="nav-icon fas fa-users" aria-hidden="true"></i>
                                 <p>Benutzergruppen</p>
                             </a>

@@ -34,7 +34,6 @@ module.exports = {
         let pathConfigDir    = pathMod.join(mainDir, '/app/config/')
         fs.readdirSync(pathConfigDir).forEach(item => {
             if(item.includes(".json")) {
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathConfigDir + item}`)
                 try {
                     CONFIG[item.replace(".json", "")]   = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
                 }
@@ -47,7 +46,7 @@ module.exports = {
         })
 
         // Lade Sprachdatei(en)
-        let pathLangDir    = pathMod.join(mainDir, '/lang/', CONFIG.app.lang)
+        let pathLangDir    = pathMod.join(mainDir, '/lang/')
         fs.readdirSync(pathLangDir).forEach(item => {
             let langPath                            = pathMod.join(pathLangDir, item)
             let pathInfo                            = fs.statSync(langPath)
@@ -55,7 +54,6 @@ module.exports = {
             if(pathInfo.isDirectory())
                 fs.readdirSync(langPath).forEach(file => {
                     if(file.includes(".json")) {
-                        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${langPath}\\${file}`)
                         try {
                             LANG[item][file.replace(".json", "")]   = JSON.parse(fs.readFileSync(pathMod.join(langPath, file), 'utf8'))
                         }

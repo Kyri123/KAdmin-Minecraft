@@ -35,7 +35,7 @@ router.route('/')
         if(installerJson.step !== undefined) {
             if(parseInt(installerJson.step) !== 1) {
                 res.redirect(`/step/${installerJson.step}`)
-                return false
+               return true
             }
         }
 
@@ -46,7 +46,7 @@ router.route('/')
 
             if(success) {
                 res.redirect(`/step/${installerJson.step + 1}`)
-                return false
+               return true
             }
         }
 

@@ -18,29 +18,31 @@ module.exports = {
      */
     getServerList: () => {
         let serverLocalPath     = pathMod.join(mainDir, '/public/json/server/')
-        let dirArray            = fs.readdirSync(serverLocalPath)
         let servers             = []
+        if(globalUtil.safeFileExsistsSync(serverLocalPath)) {
+            let dirArray            = fs.readdirSync(serverLocalPath)
 
-        dirArray.forEach((ITEM,KEY) => {
-            try {
-                // Serverliste
-                if(globalUtil.safeFileExsistsSync([serverLocalPath, ITEM])) {
-                    let array   = globalUtil.safeFileReadSync([serverLocalPath, ITEM], true)
-                    if(array !== false) {
-                        let serverData  = new serverClass(ITEM)
-                        ITEM            = ITEM.replace(".json", '')
-                        array           = array_replace_recursive(array, serverData.getServerInfos(), serverData.getConfig())
-                        servers[ITEM]   = array
+            dirArray.forEach((ITEM,KEY) => {
+                try {
+                    // Serverliste
+                    if(globalUtil.safeFileExsistsSync([serverLocalPath, ITEM])) {
+                        let array   = globalUtil.safeFileReadSync([serverLocalPath, ITEM], true)
+                        if(array !== false) {
+                            let serverData  = new serverClass(ITEM)
+                            ITEM            = ITEM.replace(".json", '')
+                            array           = array_replace_recursive(array, serverData.getServerInfos(), serverData.getConfig())
+                            servers[ITEM]   = array
+                        }
+                    }
+                    else {
+                        globalUtil.safeFileRmSync([serverLocalPath, ITEM])
                     }
                 }
-                else {
-                    globalUtil.safeFileRmSync([serverLocalPath, ITEM])
+                catch (e) {
+                    if(debug) console.log(e)
                 }
-            }
-            catch (e) {
-                if(debug) console.log(e)
-            }
-        })
+            })
+        }
 
         return servers
     },

@@ -1,0 +1,9 @@
+{
+  "pagename"        : "Dashboard",
+  "t_version"       : "Versionsnummer",
+  "t_date"          : "Datum",
+  "t_state"         : "Status",
+  "curr"            : "Aktuell / Neustes",
+  "old"             : "Veraltet",
+  "readall"         : "Alle Lesen"
+}

@@ -1,1 +1,12 @@
-{"path":"D:\\servers\\Servers\\5c68f48w","pathBackup":"D:\\servers\\Backups\\5g28f48x","pathLogs":"D:\\servers\\Logs\\5c68f48w","branch":"public","rcon":27020,"game":7777,"query":27015,"serverPassword":null,"ServerAdminPassword":12345679,"sessionName":"[ArkAdmin2]","AltSaveDirectoryName":"SavedArks","autoUpdate":false,"autoUpdateInterval":1800000,"autoUpdateNext":1605550427803,"autoBackup":false,"autoBackupInterval":1800000,"autoBackupNext":1605993414579,"maxPlayers":70,"shouldRun":false,"serverMap":"TheIsland","flags":["allcores","UseDynamicConfig","allowansel","ClearOldItems","noantispeedhack","NotifyAdminCommandsInChat","server","servergamelog","servergamelogincludetribelogs","ServerRCONOutputTribeLogs","logs"],"opt":[],"mods":["2275336562","1428596566","942185438"],"MapModID":0}
+{
+  "path"                    : "{SERVROOT}\\{SERVERNAME}",
+  "pathLogs"                : "{LOGROOT}\\{SERVERNAME}",
+  "pathBackup"              : "{BACKUPROOT}\\{SERVERNAME}",
+  "autoUpdate"              : false,
+  "autoUpdateInterval"      : 1800000,
+  "autoUpdateNext"          : 0,
+  "autoBackup"              : false,
+  "autoBackupInterval"      : 1800000,
+  "autoBackupNext"          : 0,
+  "shouldRun"               : false
+}

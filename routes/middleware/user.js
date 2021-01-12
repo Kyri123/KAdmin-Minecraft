@@ -48,10 +48,12 @@ module.exports = {
                 }
                 else {
                     res.redirect("/login")
+                    return true
                 }
             }
             else {
                 res.redirect("/login")
+                return true
             }
         }
     },
@@ -77,6 +79,7 @@ module.exports = {
                     result = globalUtil.safeSendSQLSync(sql, sess.uid)
                     if(result[0].ban === 0) {
                         res.redirect("/home")
+                        return true
                     }
                     else {
                         module.exports.logout(req, res)
@@ -92,6 +95,7 @@ module.exports = {
         }
         else {
             res.redirect("/home")
+            return true
         }
     },
 
@@ -110,6 +114,7 @@ module.exports = {
             res.cookie('id', "", {maxAge: 0})
             res.cookie('validate', "", {maxAge: 0})
             res.redirect('/login')
+            return true
         })
     }
 }

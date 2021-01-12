@@ -22,6 +22,7 @@ module.exports = {
         let serverData  = new serverClass(servername)
         if(serverData.serverExsists()) {
             res.redirect("/home")
+            return true
         }
         else {
             next()

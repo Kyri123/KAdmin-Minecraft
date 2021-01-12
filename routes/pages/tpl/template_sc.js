@@ -30,6 +30,7 @@ router.route('/')
             userPerm.all.is_admin === 0
         ) {
             res.redirect("/401")
+           return true
         }
 
         // Die eigentl. Seite
