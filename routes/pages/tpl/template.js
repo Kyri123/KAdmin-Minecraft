@@ -20,14 +20,14 @@ router.route('/')
     .all((req,res)=>{
        global.user     = userHelper.getinfos(req.session.uid)
        let GET         = req.query
-       let POST        = req.body;
-       let response    = "";
-       let cookies     = req.cookies;
+       let POST        = req.body
+       let response    = ""
+       let cookies     = req.cookies
        let langStr     = (cookies.lang !== undefined) ?
           fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
              cookies.lang : "de_de"
-          : "de_de";
-       let lang         = LANG[langStr];
+          : "de_de"
+       let lang         = LANG[langStr]
 
        res.render('pages/home', {
           page          : "home",

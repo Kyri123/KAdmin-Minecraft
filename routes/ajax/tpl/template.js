@@ -22,4 +22,4 @@ router.route('/')
         let GET         = req.query
     })
 
-module.exports = router;
+module.exports = routergrouppanel

@@ -50,7 +50,7 @@ module.exports = {
         fs.readdirSync(pathLangDir).forEach(item => {
             let langPath                            = pathMod.join(pathLangDir, item)
             let pathInfo                            = fs.statSync(langPath)
-            if(LANG[item] === undefined) LANG[item] = {};
+            if(LANG[item] === undefined) LANG[item] = {}
             if(pathInfo.isDirectory())
                 fs.readdirSync(langPath).forEach(file => {
                     if(file.includes(".json")) {

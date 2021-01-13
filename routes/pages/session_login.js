@@ -15,33 +15,33 @@ router.route('/')
 
     .get((req,res)=>{
         let GET         = req.query
-        let POST        = req.body;
-        let response    = "";
-        let cookies     = req.cookies;
+        let POST        = req.body
+        let response    = ""
+        let cookies     = req.cookies
         let langStr     = (cookies.lang !== undefined) ?
            fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
               cookies.lang : "de_de"
-           : "de_de";
-        let lang         = LANG[langStr];
+           : "de_de"
+        let lang         = LANG[langStr]
 
         res.render('pages/login', {
             page        : "login",
             response    : response,
             lang        : lang
-        });
-        return true;
+        })
+        return true
     })
 
     .post((req,res)=>{
         let GET         = req.query
-        let POST        = req.body;
-        let response    = "";
-        let cookies     = req.cookies;
+        let POST        = req.body
+        let response    = ""
+        let cookies     = req.cookies
         let langStr     = (cookies.lang !== undefined) ?
            fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
               cookies.lang : "de_de"
-           : "de_de";
-        let lang         = LANG[langStr];
+           : "de_de"
+        let lang         = LANG[langStr]
         let sess        = req.session
 
         // Prüfe ob alle Pflichtfelder vorhanden sind
@@ -94,8 +94,8 @@ router.route('/')
             page        : "login",
             response    : response,
             lang        : lang
-        });
-        return true;
+        })
+        return true
     })
 
 module.exports = router;

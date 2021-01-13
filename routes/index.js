@@ -50,4 +50,4 @@ router.all('*', (req, res, next) => {
    return true
 })
 
-module.exports = router;
+module.exports = router

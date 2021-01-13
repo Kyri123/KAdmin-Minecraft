@@ -15,19 +15,19 @@ router.route('/')
 
    .all((req,res)=>{
       let GET         = req.query
-      let POST        = req.body;
-      let response    = "";
-      let cookies     = req.cookies;
+      let POST        = req.body
+      let response    = ""
+      let cookies     = req.cookies
       let lang         = LANG[(cookies.lang !== undefined) ?
          fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
             cookies.lang : "de_de"
-         : "de_de"];
+         : "de_de"]
 
       res.render('pages/401', {
          page        : "401",
          response    : "",
          lang        : lang
-      });
+      })
    })
 
-module.exports = router;
+module.exports = routergrouppanel

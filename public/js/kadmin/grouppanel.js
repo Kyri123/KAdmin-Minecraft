@@ -8,9 +8,9 @@
  */
 "use strict"
 
-getGroupList();
+getGroupList()
 setInterval(() => {
-    getGroupList();
+    getGroupList()
 },2000)
 
 function getGroupList() {
@@ -19,23 +19,23 @@ function getGroupList() {
         getgrouplist: true
     }, (data) => {
         try {
-            let groups          = JSON.parse(data).grouplist;
-            let groupList       = ``;
-            let htmGroupList    = $('#grouplist');
+            let groups          = JSON.parse(data).grouplist
+            let groupList       = ``
+            let htmGroupList    = $('#grouplist')
 
             groups.forEach((val, key) => {
-                let perms = JSON.parse(val.permissions);
-                let former  = hasPermFiller(perms).split('___');
+                let perms = JSON.parse(val.permissions)
+                let former  = hasPermFiller(perms).split('___')
                 let remove  = [
                     `'#removeID~val~${val.id}'`,
                     `'#removeNAME~htm~${val.name}'`
-                ];
+                ]
                 let js      = [
                     `'#editgroupid~val~${val.id}'`,
                     `'#editname~val~${val.name}'`,
                     `'#edittitle~htm~${val.name}'`
-                ];
-                former.forEach((val) => (val !== '') ? js.push(val) : undefined);
+                ]
+                former.forEach((val) => (val !== '') ? js.push(val) : undefined)
                 groupList += `    <tr>
                                       <td>
                                           <b>${val.name}</b>
@@ -56,44 +56,44 @@ function getGroupList() {
                                               ${globalvars.lang_arr.grouppanel.edit}
                                           </a>` : ''}
                                       </td>
-                                  </tr>`;
-            });
+                                  </tr>`
+            })
 
-            if(htmGroupList.html() !== groupList) htmGroupList.html(groupList);
+            if(htmGroupList.html() !== groupList) htmGroupList.html(groupList)
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
     })
 }
 
 function hasPermFiller(permission, keys = '') {
-    let re          = '';
+    let re          = ''
 
     for (const [key, value] of Object.entries(permission)) {
         if(typeof value === "object") {
-            let thiskey = `${keys}\\\\[${key}\\\\]`;
-            re += hasPermFiller(value, thiskey);
+            let thiskey = `${keys}\\\\[${key}\\\\]`
+            re += hasPermFiller(value, thiskey)
         }
         else if(typeof value === "number") {
-            re += `'#edit${keys}\\\\[${key}\\\\]~checkbox~true'___`;
+            re += `'#edit${keys}\\\\[${key}\\\\]~checkbox~true'___`
         }
     }
 
-    return re;
+    return re
 }
 
 function send(modal) {
     $.post(`/ajax/grouppanel`, $(`#${modal}`).serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            getGroupList();
-            if(data.alert !== undefined) $('#global_resp').append(data.alert);
-            if(data.success !== undefined) $(`#${modal}`).modal('hide');
+            data    = JSON.parse(data)
+            getGroupList()
+            if(data.alert !== undefined) $('#global_resp').append(data.alert)
+            if(data.success !== undefined) $(`#${modal}`).modal('hide')
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    });
-    return false;
+    })
+    return false
 }

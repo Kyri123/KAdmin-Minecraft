@@ -10,8 +10,8 @@
 
 const express       = require('express')
 const router        = express.Router()
-const globalinfos   = require('./../../app/src/global_infos');
-const userHelper   = require('./../../app/src/sessions/helper');
+const globalinfos   = require('./../../app/src/global_infos')
+const userHelper   = require('./../../app/src/sessions/helper')
 
 router.route('/')
 
@@ -22,22 +22,22 @@ router.route('/')
                                    <i class="fas fa-plus" aria-hidden="true"></i>
                                </span>
                            </a>
-                       </div>`;
+                       </div>`
 
        global.user     = userHelper.getinfos(req.session.uid)
        let GET         = req.query
-       let POST        = req.body;
-       let response    = "";
-       let cookies     = req.cookies;
+       let POST        = req.body
+       let response    = ""
+       let cookies     = req.cookies
        let langStr     = (cookies.lang !== undefined) ?
           fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
              cookies.lang : "de_de"
-          : "de_de";
-       let lang         = LANG[langStr];
+          : "de_de"
+       let lang         = LANG[langStr]
 
         if(!userHelper.hasPermissions(req.session.uid, "all/is_admin")) {
-            res.redirect("/401");
-            return true;
+            res.redirect("/401")
+            return true
         }
 
         res.render('pages/grouppanel', {
@@ -49,7 +49,7 @@ router.route('/')
             sinfos               : globalinfos.get(),
             topBtn               : topBtn,
             defaultPermissions   : userHelper.defaultPermissions()
-        });
+        })
     })
 
 module.exports = router;

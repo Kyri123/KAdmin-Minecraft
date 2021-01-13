@@ -19,29 +19,29 @@ router.route('/')
             let someChanges     = false
             let whatChanged     = ``
             let user            = userHelper.getinfos(req.session.uid)
-            let cookies         = req.cookies;
+            let cookies         = req.cookies
             let langStr         = (cookies.lang !== undefined) ?
                fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
                   cookies.lang : "de_de"
-               : "de_de";
-            let lang            = LANG[langStr];
+               : "de_de"
+            let lang            = LANG[langStr]
             let resp
 
             // Speicher neuen Username
             if(user.username !== POST.username) {
                 if(userHelper.writeinfos(req.session.uid, "username", POST.username)) {
-                    someChanges     = true;
-                    whatChanged     += ` ${lang["usersettings"].username} `;
-                    user.username    = POST.username;
+                    someChanges     = true
+                    whatChanged     += ` ${lang["usersettings"].username} `
+                    user.username    = POST.username
                 }
             }
 
             // Speicher neue E-Mail
             if(user.email !== POST.email) {
                 if(userHelper.writeinfos(req.session.uid, "email", POST.email)) {
-                    someChanges     = true;
-                    whatChanged     += ` ${lang["usersettings"].email} `;
-                    user.email       = POST.email;
+                    someChanges     = true
+                    whatChanged     += ` ${lang["usersettings"].email} `
+                    user.email       = POST.email
                 }
             }
 
@@ -49,12 +49,12 @@ router.route('/')
             if(POST.pw1 !== "" && POST.pw2 !== "") {
                 if(POST.pw1 === POST.pw2) {
                     if(userHelper.writeinfos(req.session.uid, "password", md5(POST.pw1))) {
-                        someChanges = true;
-                        whatChanged += ` ${lang["usersettings"].pw} `;
+                        someChanges = true
+                        whatChanged += ` ${lang["usersettings"].pw} `
                     }
                 }
                 else {
-                    resp    += alerter.rd(903, langStr);
+                    resp    += alerter.rd(903, langStr)
                 }
             }
 
@@ -65,8 +65,8 @@ router.route('/')
                         done: true,
                         alert: alerter.rd(1001, langStr).replace("{what}", whatChanged)
                     })
-                });
-                return true;
+                })
+                return true
             }
             else {
                 res.render('ajax/json', {
@@ -74,8 +74,8 @@ router.route('/')
                         done: false,
                         alert: resp ? resp : alerter.rd(3000, langStr)
                     })
-                });
-                return true;
+                })
+                return true
             }
         }
     })

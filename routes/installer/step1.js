@@ -15,13 +15,13 @@ router.route('/')
 
     .all((req,res)=>{
        let GET         = req.query
-       let POST        = req.body;
-       let response    = "";
-       let cookies     = req.cookies;
+       let POST        = req.body
+       let response    = ""
+       let cookies     = req.cookies
        let lang         = LANG[(cookies.lang !== undefined) ?
           fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
              cookies.lang : "de_de"
-          : "de_de"];
+          : "de_de"]
 
         globalUtil.safeFileCreateSync([pathToInstallerJSON], '{"step":1,"installed":"false"}')
         try {

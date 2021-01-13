@@ -16,13 +16,13 @@
  */
 function convertTime(stamp = 0, format = "d.m.y h:min") {
     // nehme jetztige Zeit wenn nichts anderes angegeben ist
-    if(stamp === 0) stamp = Date.now();
+    if(stamp === 0) stamp = Date.now()
 
     // Splite Zeitstring
-    let ms = new Date(stamp).toISOString().split('.')[1].replace("Z", "");
-    stamp = new Date(stamp).toISOString().split('.')[0];
-    let date = stamp.split('T')[0].split('-');
-    let time = stamp.split('T')[1].split(':');
+    let ms = new Date(stamp).toISOString().split('.')[1].replace("Z", "")
+    stamp = new Date(stamp).toISOString().split('.')[0]
+    let date = stamp.split('T')[0].split('-')
+    let time = stamp.split('T')[1].split(':')
 
     // Return & Replacer
     return format
@@ -40,12 +40,12 @@ function convertTime(stamp = 0, format = "d.m.y h:min") {
  * @param {string} id HTML ID (Format JQUERY '#XXX')
  */
 function copythis(id) {
-    var txt = document.getElementById(id);
-    txt.select();
-    txt.setSelectionRange(0, 99999);
+    var txt = document.getElementById(id)
+    txt.select()
+    txt.setSelectionRange(0, 99999)
 
     // Kopiere
-    document.execCommand("copy");
+    document.execCommand("copy")
 }
 
 /**
@@ -61,10 +61,10 @@ function copythis(id) {
  */
 function alerter(code, custom_style = "", mb = 3, closebtn = false, ml = 0, mr = 0, mt = 0, alertform = false) {
     if(globalvars.alertlang[code] !== undefined) {
-        let color   = code >= 1000 ? (code >= 2000 ? (code >= 3000 ? "info" : "warning") : "success") : "danger";
-        let text    = globalvars.alertlang[code].text;
-        let title   = globalvars.alertlang[code].title;
-        let rnd     = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7);
+        let color   = code >= 1000 ? (code >= 2000 ? (code >= 3000 ? "info" : "warning") : "success") : "danger"
+        let text    = globalvars.alertlang[code].text
+        let title   = globalvars.alertlang[code].title
+        let rnd     = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
 
         return !alertform ?
             `<div class="callout callout-${color} mb-${mb} ml-${ml} mr-${mr} mt-${mt}" style="${custom_style}" id="${rnd}">
@@ -76,9 +76,9 @@ function alerter(code, custom_style = "", mb = 3, closebtn = false, ml = 0, mr =
                 ${closebtn ? `<button type="button" class="close" onclick="$('#${rnd}').fadeOut()"><span aria-hidden="true">&times;</span></button>` : ""}
                 <h5 class="text-${color}"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> ${title}</h5>
                 ${text}
-            </div>`;
+            </div>`
     }
-    return undefined;
+    return undefined
 }
 
 /**
@@ -92,38 +92,38 @@ function hasPermissions(permission ,perm, server = false) {
     let userperm = permission
     if(typeof userperm.id === "undefined") {
         try {
-            let permarr = server !== false ? userperm.server[server] !== undefined ? userperm.server[server] : false : userperm;
-            if(permarr === false) return false;
+            let permarr = server !== false ? userperm.server[server] !== undefined ? userperm.server[server] : false : userperm
+            if(permarr === false) return false
 
-            if(server !== false) if(permarr.is_server_admin === 1) return true;
-            if(userperm.all.is_admin === 1) return true;
+            if(server !== false) if(permarr.is_server_admin === 1) return true
+            if(userperm.all.is_admin === 1) return true
 
-            let bool        = false;
-            let needPerm    = perm.includes('/') ? perm.split('/') : [perm];
+            let bool        = false
+            let needPerm    = perm.includes('/') ? perm.split('/') : [perm]
             needPerm.forEach((val) => {
                 if(permarr[val] !== undefined) {
-                    permarr = permarr[val];
-                    if(typeof permarr !== "object" && typeof permarr === "number") bool = parseInt(permarr) === 1;
+                    permarr = permarr[val]
+                    if(typeof permarr !== "object" && typeof permarr === "number") bool = parseInt(permarr) === 1
                 }
-            });
+            })
 
-            return bool;
+            return bool
         }
         catch (e) {
-            if(debug) console.log(e);
+            if(debug) console.log(e)
         }
     }
-    return false;
+    return false
 }
 
 
 
 String.prototype.replaceArray = function(find, replace) {
-    var replaceString = this;
-    var regex;
+    var replaceString = this
+    var regex
     for (var i = 0; i < find.length; i++) {
-        regex = new RegExp(find[i], "g");
-        replaceString = replaceString.replace(regex, replace[i]);
+        regex = new RegExp(find[i], "g")
+        replaceString = replaceString.replace(regex, replace[i])
     }
-    return replaceString;
+    return replaceString
 };
