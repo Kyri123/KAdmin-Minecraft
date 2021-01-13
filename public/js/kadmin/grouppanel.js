@@ -14,6 +14,7 @@ setInterval(() => {
 },2000)
 
 function getGroupList() {
+    console.log(globalvars.lang_arr.userpanel)
     $.get('/ajax/grouppanel', {
         getgrouplist: true
     }, (data) => {
@@ -41,18 +42,18 @@ function getGroupList() {
                                       </td>
                                       <td>
                                           <span class="text-${perms.all !== undefined ? perms.all.is_admin !== undefined ? "danger" : "success" : "success"}">
-                                            ${perms.all !== undefined ? perms.all.is_admin !== undefined ? globalvars.lang_arr.userPanel.modal.admin: globalvars.lang_arr.userPanel.modal.user: globalvars.lang_arr.userPanel.modal.user}
+                                            ${perms.all !== undefined ? perms.all.is_admin !== undefined ? globalvars.lang_arr.userpanel.modal.admin: globalvars.lang_arr.userpanel.modal.user: globalvars.lang_arr.userpanel.modal.user}
                                           </span>
                                       </td>
                                       <td class="project-actions text-right">
                                           ${val.id !== 1 ? `<a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#remove" onclick="setInModal(${remove.join(',')})">
                                               <i class="fas fa-trash" aria-hidden="true">
-                                              </i> ${globalvars.lang_arr.groupPanel.remove}
+                                              </i> ${globalvars.lang_arr.grouppanel.remove}
                                           </a>
 
                                           <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#edit" onclick="$('#edit').trigger('reset');setInModal(${js.join(',')})">
                                               <i class="fas fa-edit" aria-hidden="true"></i>
-                                              ${globalvars.lang_arr.groupPanel.edit}
+                                              ${globalvars.lang_arr.grouppanel.edit}
                                           </a>` : ''}
                                       </td>
                                   </tr>`;

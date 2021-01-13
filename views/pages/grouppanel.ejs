@@ -2,6 +2,32 @@
 <%- include('../includes/top') -%>
 <%- include('../includes/nav') -%>
 <%- include('../includes/content') -%>
+<%
+function createForm(perm, id_name, keys = '') {
+    let re = '';
+    for (const [key, value] of Object.entries(perm)) {
+        if(typeof value === "object") {
+            let thiskey = `${keys}[${key}]`;
+            re += `<div class="col-12 p-2 bg-${thiskey.includes('server\]\[') ? "secondary" : "dark"}">
+                                            <h5 class="text-center left d-inline pt-3 pl-0 m-0">
+                                                ${lang.permissions.main[key] !== undefined ? lang.permissions.main[key] : key}
+                                            </h5>
+                                        </div>`;
+            re += createForm(value, id_name, thiskey);
+        }
+        else if(typeof value === "number") {
+            let thisis  = `${keys}[${key}]`;
+            re += `<div class="icheck-primary col-12 pl-2 pr-2">
+                                            <input type="checkbox" id="${id_name}${thisis}" name="permissions${thisis}">
+                                            <label for="${id_name}${thisis}">
+                                                ${lang.permissions.perm[key]} - ${key}
+                                            </label>
+                                        </div>`;
+        }
+    }
+    return re;
+}
+%>
 
 <section class="content">
 
@@ -58,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <%- createForm(defaultPermissions, 'new', '') %>
+                <%- createForm(userHelper.defaultPermissions(), 'new', '') %>
             </div>
             <div class="modal-footer input-group">
                 <input type="hidden" name="add" value="true">
@@ -129,34 +155,6 @@
     var vars = {};
 </script>
 
-<script src="/js/kadmin/grouppanel.js" type="application/javascript"></script>
-
-
-<%
-    function createForm(perm, id_name, keys = '') {
-        let re = '';
-        for (const [key, value] of Object.entries(perm)) {
-            if(typeof value === "object") {
-                let thiskey = `${keys}[${key}]`;
-                re += `<div class="col-12 p-2 bg-${thiskey.includes('server\]\[') ? "secondary" : "dark"}">
-                                            <h5 class="text-center left d-inline pt-3 pl-0 m-0">
-                                                ${PANEL_LANG.permissions.main[key] !== undefined ? PANEL_LANG.permissions.main[key] : key}
-                                            </h5>
-                                        </div>`;
-                re += createForm(value, id_name, thiskey);
-            }
-            else if(typeof value === "number") {
-                let thisis  = `${keys}[${key}]`;
-                re += `<div class="icheck-primary col-12 pl-2 pr-2">
-                                            <input type="checkbox" id="${id_name}${thisis}" name="permissions${thisis}">
-                                            <label for="${id_name}${thisis}">
-                                                ${PANEL_LANG.permissions.perm[key]} - ${key}
-                                            </label>
-                                        </div>`;
-            }
-        }
-        return re;
-    }
-%>
+<script src="/js/kadmin/grouppanel.js?time=<%- Date.now() %>" type="application/javascript"></script>
 
 <%- include('../includes/foother'); -%>
