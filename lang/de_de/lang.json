@@ -184,22 +184,5 @@
       "pired"         : "<b>ACHTUNG:</b> Alle Karten, Konfigurationen (ausgenommen der von KAdmin-Minecraft) und Spieler Dateien werden gelöscht und mit dem Backup überschrieben",
       "playin"        : "Einspielen"
     }
-  },
-
-  "servercontrolcenter": {
-    "ip"            : "IP-Adresse",
-    "state"         : "Status",
-    "map"           : "Karte",
-    "modalDelete": {
-      "cancel"      : "Abbrechen",
-      "remove"      : "Löschen bestätigen",
-      "title"       : "Löschen",
-      "text"        : "Möchtest du den Server <b>{servername}</b> wirklich löschen?"
-    },
-    "modalCreate": {
-      "title"       : "Server Erstellen",
-      "cancel"      : "Abbrechen",
-      "add"         : "Erstellen"
-    }
   }
 }

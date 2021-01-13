@@ -1,0 +1,17 @@
+{
+  "pagename"      : "ServerControlCenter",
+  "ip"            : "IP-Adresse",
+  "state"         : "Status",
+  "map"           : "Karte",
+  "modalDelete": {
+    "cancel"      : "Abbrechen",
+    "remove"      : "Löschen bestätigen",
+    "title"       : "Löschen",
+    "text"        : "Möchtest du den Server <b>{servername}</b> wirklich löschen?"
+  },
+  "modalCreate": {
+    "title"       : "Server Erstellen",
+    "cancel"      : "Abbrechen",
+    "add"         : "Erstellen"
+  }
+}

@@ -1,5 +1,6 @@
 {
   "info"      : "Erstelle ein neuen Account",
+  "pagename"  : "Erstelle ein neuen Account",
   "tologin"   : "Ich besitzte bereits einen Account",
   "input": {
     "username"      : "Benutzername",

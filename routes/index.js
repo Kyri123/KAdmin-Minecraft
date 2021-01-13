@@ -14,14 +14,15 @@ let {isNotLoggedIn, isLoggedIn, logout}   = require('./middleware/user')
 let {isServerExsits}                      = require('./middleware/server')
 
 // Login/Reg
-router.use('/reg',                  isNotLoggedIn,                   require('./pages/session_reg'))
-router.use('/login',                isNotLoggedIn,                   require('./pages/session_login'))
+router.use('/reg',                  isNotLoggedIn,                      require('./pages/session_reg'))
+router.use('/login',                isNotLoggedIn,                      require('./pages/session_login'))
 
 // Allgemeine Seiten
-router.use('/home',                 isLoggedIn,                      require('./pages/home'))
-router.use('/usersettings',         isLoggedIn,                      require('./pages/usersettings'))
-router.use('/grouppanel',           isLoggedIn,                      require('./pages/groupPanel'))
-router.use('/userpanel',            isLoggedIn,                      require('./pages/userPanel'))
+router.use('/home',                 isLoggedIn,                         require('./pages/home'))
+router.use('/changelog',            isLoggedIn,                         require('./pages/changelog'))
+router.use('/usersettings',         isLoggedIn,                         require('./pages/usersettings'))
+router.use('/grouppanel',           isLoggedIn,                         require('./pages/groupPanel'))
+router.use('/userpanel',            isLoggedIn,                         require('./pages/userPanel'))
 
 // Server Center
 
@@ -31,12 +32,12 @@ router.use('/ajax/userpanel',       isLoggedIn    ,                     require(
 router.use('/ajax/grouppanel',      isLoggedIn    ,                     require('./ajax/groupPanel'))
 
 // Error seiten
-router.use('/404',                                                   require('./pages/404'))
-router.use('/401',                                                   require('./pages/401'))
+router.use('/404',                                                      require('./pages/404'))
+router.use('/401',                                                      require('./pages/401'))
 
 
 // Ausloggen
-router.use('/logout',               isLoggedIn,                      logout)
+router.use('/logout',               isLoggedIn,                         logout)
 
 // / darf nicht so stehen > zu /home außer wenn !LoggedIn /login
 router.all('/', isLoggedIn, (req, res, next) => {

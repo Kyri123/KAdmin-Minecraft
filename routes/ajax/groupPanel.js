@@ -120,4 +120,4 @@ router.route('/')
         return true
     })
 
-module.exports = routergrouppanel
+module.exports = router

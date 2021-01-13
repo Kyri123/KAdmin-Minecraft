@@ -30,4 +30,4 @@ router.route('/')
       })
    })
 
-module.exports = routergrouppanel
+module.exports = router
