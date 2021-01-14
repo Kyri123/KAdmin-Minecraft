@@ -14,6 +14,7 @@ const osu                   = require('node-os-utils')
 const disk                  = require('check-disk-space')
 const AA_util               = require('../util')
 const req                   = require('request')
+const server_state          = require('./server/state')
 
 
 module.exports = {
@@ -21,8 +22,18 @@ module.exports = {
      * Startet alle Intervalle
      */
     startAll: () => {
-        setInterval(() => module.exports.backgroundUpdater(),         CONFIG.main.interval.backgroundUpdater);     //backgroundUpdater     > Schau nach Updates für das Panel
-        setInterval(() => module.exports.doReReadConfig(),            CONFIG.main.interval.doReReadConfig);        //doReReadConfig        > Liest die Globalen Configurationen
+        setInterval(() => module.exports.backgroundUpdater(),           CONFIG.main.interval.backgroundUpdater)
+        setInterval(() => module.exports.doReReadConfig(),              CONFIG.main.interval.doReReadConfig)
+        setInterval(() => module.exports.getTraffic(),                  CONFIG.main.interval.getTraffic)
+        setInterval(() => module.exports.getStateFromServers(),         CONFIG.main.interval.getStateFromServers)
+    },
+
+    /**
+     * Startet Intervall > getStateFromServers
+     */
+    getStateFromServers: () => {
+        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > getStateFromServers`)
+        server_state.getStateFromServers()
     },
 
     /**
@@ -59,7 +70,7 @@ module.exports = {
                         }
                         catch (e) {
                             console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-                            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${langPath}\\${file} cannot Loaded`)
+                            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${langPath}/${file} cannot Loaded`)
                             process.exit(1)
                         }
                     }
@@ -126,5 +137,34 @@ module.exports = {
                 if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}] Auto-Updater: \x1b[91m${PANEL_LANG.updaterLOG.conErr}`)
             }
         })
-    }
+    },
+
+    /**
+     * Startet Intervall > getStateFromServers
+     */
+    getTraffic: async () => {
+        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > getTraffic`)
+        osu.cpu.usage().then (cpuPercentage => {
+            let disk_path = pathMod.join(globalUtil.safeFileExsistsSync([CONFIG.app.servRoot]) ? CONFIG.app.servRoot : mainDir)
+            disk(disk_path).then((info) => {
+                si.mem()
+                   .then(mem => {
+                       let ramPercentage = 100 - (mem.available / mem.total * 100)
+                       let memPercentage = 100 - (info.free / info.size * 100)
+
+                       let data = {
+                           "cpu" : cpuPercentage.toFixed(2),
+                           "ram" : ramPercentage.toFixed(2),
+                           "ram_total" : AA_util.convertBytes(mem.total),
+                           "ram_availble" : AA_util.convertBytes(mem.total - mem.available),
+                           "mem" : memPercentage.toFixed(2),
+                           "mem_total" : AA_util.convertBytes(info.size),
+                           "mem_availble" : AA_util.convertBytes(info.size - info.free)
+                       }
+
+                       globalUtil.safeFileSaveSync([mainDir, '/public/json/serverInfos/', 'auslastung.json'], JSON.stringify(data))
+                   })
+            })
+        })
+    },
 }

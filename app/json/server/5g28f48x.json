@@ -1,7 +1,7 @@
 {
-  "path"                    : "{SERVROOT}\\{SERVERNAME}",
-  "pathLogs"                : "{LOGROOT}\\{SERVERNAME}",
-  "pathBackup"              : "{BACKUPROOT}\\{SERVERNAME}",
+  "path"                    : "{SERVROOT}/{SERVERNAME}",
+  "pathLogs"                : "{LOGROOT}/{SERVERNAME}",
+  "pathBackup"              : "{BACKUPROOT}/{SERVERNAME}",
   "autoUpdate"              : false,
   "autoUpdateInterval"      : 1800000,
   "autoUpdateNext"          : 0,

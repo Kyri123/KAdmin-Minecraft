@@ -128,18 +128,17 @@ module.exports = {
     checkValidatePath(path) {
         return (
             (
-                path.indexOf(CONFIG.app.servRoot) === 0
-                || path.indexOf(CONFIG.app.logRoot) === 0
-                || path.indexOf(CONFIG.app.pathBackup) === 0
-                || path.indexOf(CONFIG.app.steamCMDRoot) === 0
-                || path.indexOf(`${mainDir}\\public`) === 0
-                || path.indexOf(`${mainDir}\\lang`) === 0
-                || path.indexOf(`${mainDir}\\app\\json`) === 0
-                || path.indexOf(`${mainDir}\\app\\data`) === 0
-                || path.indexOf(`${mainDir}\\app\\cmd`) === 0
-                || path.indexOf(`${mainDir}\\app\\config`) === 0
+                path.indexOf(CONFIG.app.servRoot)           !== -1
+                || path.indexOf(CONFIG.app.logRoot)         !== -1
+                || path.indexOf(CONFIG.app.pathBackup)      !== -1
+                || path.indexOf(`${mainDir}/public`)       !== -1
+                || path.indexOf(`${mainDir}/lang`)         !== -1
+                || path.indexOf(`${mainDir}/app/json`)    !== -1
+                || path.indexOf(`${mainDir}/app/data`)    !== -1
+                || path.indexOf(`${mainDir}/app/cmd`)     !== -1
+                || path.indexOf(`${mainDir}/app/config`)  !== -1
             )
-            && path.indexOf(`${mainDir}\\app\\config\\mysql.json`) === -1
+            && path.indexOf(`${mainDir}/app/config/mysql.json`) === -1
         )
     },
 

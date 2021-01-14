@@ -10,8 +10,8 @@
 
 global.dateFormat                     = require('dateformat')
 global.panelBranch                    = process.argv.includes("dev") ? "dev" : "master"
-if(process.platform !== "win32") {
-  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m OS is not Windows or supported`)
+if(process.platform === "win32") {
+  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m OS is Windows or not supported`)
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
   process.exit(1)
 }
@@ -68,6 +68,11 @@ if(Installed) {
   try {
     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathFile}`)
     global.changelog                    = globalUtil.safeFileReadSync([pathFile], true)
+    if(typeof changelog === "boolean") {
+      console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
+      console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
+      process.exit(1)
+    }
     changelog.reverse()
   }
   catch (e) {

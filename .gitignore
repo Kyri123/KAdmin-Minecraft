@@ -1,9 +1,7 @@
 .idea
 app/json/serverinfo
-public/json/steamAPI/mods.json
+public/json/serverInfos
 public/json/server
-public/json/steamAPI/mods.json
-public/json/steamAPI/version.json
 node_modules
 public/json/serveraction/action_5c68f48w.json
 public/json/serveraction/action_5g28f48x.json

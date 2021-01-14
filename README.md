@@ -96,8 +96,8 @@ Webbasiertes Admin Panel für Ark-Gameserver
   - Linux (derzeit getestet auf: Debain 9)
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
 - `Node.JS` 
-  - Version >= 15.0.0   > https://nodejs.org/dist/v15.0.1/node-v15.0.1-x64.msi
-  - NVM                 > https://github.com/coreybutler/nvm-windows/releases/tag/1.1.7
+  - Version >= 15.5.1                   > https://nodejs.org/dist/v15.5.1/node-v15.5.1-x64.msi
+  - NVM (empfohlen für Versionswechsel) > https://github.com/nvm-sh/nvm
 - `MariaDB` 
   - Server              > z.B. https://www.apachefriends.org/de/index.html
 

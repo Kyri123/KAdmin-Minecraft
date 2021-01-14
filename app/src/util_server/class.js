@@ -9,6 +9,7 @@
 "use strict"
 
 const { array_replace_recursive }   = require('locutus/php/array')
+const ini                           = require('ini')
 
 /**
  * Informationen für einen Server
@@ -50,7 +51,21 @@ module.exports = class serverClass {
          dfile !== false ? array_replace_recursive(dfile, file)
             : file
       ) : false
-      if(reloadCfg !== false) this.cfg = reloadCfg
+      if(reloadCfg !== false) {
+         reloadCfg.path    = reloadCfg.path
+            .replace("{SERVROOT}", CONFIG.app.servRoot)
+            .replace("{SERVERNAME}", this.server)
+
+         reloadCfg.pathLogs    = reloadCfg.path
+            .replace("{LOGROOT}", CONFIG.app.logRoot)
+            .replace("{SERVERNAME}", this.server)
+
+         reloadCfg.pathBackup    = reloadCfg.path
+            .replace("{BACKUPROOT}", CONFIG.app.pathBackup)
+            .replace("{SERVERNAME}", this.server)
+
+         this.cfg = reloadCfg
+      }
    }
 
    /**
@@ -133,17 +148,16 @@ module.exports = class serverClass {
    }
 
    /**
-    * Speichert eine Ini
-    * @param {string} iniName
+    * Speichert eine
     * @param {object} ini
     * @return {boolean}
     */
-   saveINI(ini, iniName) {
+   saveINI(ini) {
       if(this.serverExsists()) {
-         let path    = pathMod.join(this.cfg.path, '\\ShooterGame\\Saved\\Config\\WindowsServer', `${iniName}.ini`)
+         let path    = pathMod.join(this.cfg.path, `server.properties`)
          if(!globalUtil.safeFileExsistsSync([path])) globalUtil.safeFileCreateSync([path])
          try {
-            return globalUtil.safeFileSaveSync([path,`${iniName}.ini`], JSON.stringify(ini))
+            return globalUtil.safeFileSaveSync([path,`${iniName}.ini`], ini.stringify(ini))
          }
          catch (e) {
             if(debug) console.log(e)
@@ -154,98 +168,21 @@ module.exports = class serverClass {
 
    /**
     * Speichert eine Ini
-    * @param {string} iniName
     * @return {boolean}
     */
-   getINI(iniName) {
+   getINI() {
       if(this.serverExsists()) {
-         let file            = globalUtil.safeFileReadSync([this.cfg.path, '\\ShooterGame\\Saved\\Config\\WindowsServer', `${iniName}.ini`])
-         let default_file    = globalUtil.safeFileReadSync([mainDir, '/app/data/ini/', `${GET.ini}.ini`])
-         return file !== false ? file : default_file !== false ? default_file : false
+         let file    = globalUtil.safeFileReadSync([this.cfg.path, `server.properties`])
+         if(file === false)
+            file     = globalUtil.safeFileReadSync([mainDir, `/app/data/ini`, `server.properties`])
+         if(file !== false)
+            try {
+               return ini.parse(file)
+            }
+            catch(e) {
+               if(debug) console.log(e)
+            }
       }
-      return false
-   }
-
-   /**
-    * Erhalte die derzeitige Version des Servers
-    * @return {boolean}
-    */
-   getCurrVersion() {
-      let servConfig = this.getConfig()
-      if(this.serverExsists()) {
-         let serverPath          = servConfig.path
-         let manifestFile        = `${serverPath}\\steamapps\\appmanifest_${CONFIG.app.appID_server}.acf`
-         let manifestArray       = globalUtil.toAcfToArraySync(manifestFile)
-         return manifestArray    !== false ? manifestArray.AppState.buildid : false
-      }
-      return false
-   }
-
-   /**
-    * Prüfe alle Mods ob diese ein Update brauchen
-    * @returns {array|boolean} mods die ein Update brauchen
-    */
-   isUpdateServer() {
-      let servConfig = this.getConfig()
-      if(
-         this.serverExsists() &&
-         availableVersionActiveevent !== 0 &&
-         availableVersionPublic !== 0
-      ) {
-         return this.getCurrVersion() < (servConfig.branch === "activeevent" ? availableVersionActiveevent : availableVersionPublic)
-      }
-      return false
-   }
-
-   /**
-    * prüfe ModUpdates
-    * @return {boolean|array}
-    */
-   checkModUpdates() {
-      let servConfig = this.getConfig()
-
-      if(this.serverExsists()) {
-         let modsNeedUpdate      = []
-         let API                 = false
-         try {
-            let json             = globalUtil.safeFileReadSync([mainDir, '/public/json/steamAPI/', 'mods.json'], true)
-            API                  = json !== false ? json.response.publishedfiledetails : false
-         }
-         catch (e) {
-            if(debug) console.log(e)
-         }
-
-         if(servConfig.MapModID !== 0)                                                                               servConfig.mods.push(servConfig.MapModID)
-         if(parseInt(servConfig.TotalConversionMod) !== 0 && parseInt(servConfig.TotalConversionMod) !== 111111111)  servConfig.mods.push(servConfig.TotalConversionMod)
-
-         if(servConfig.mods.length > 0) {
-            servConfig.mods.forEach((modid) => {
-               let KEY = false
-               if(API !== false) API.forEach((val, key) => {
-                  if(parseInt(val.publishedfileid) === parseInt(modid)) KEY = key
-               })
-
-               if(
-                  KEY !== false &&
-                  globalUtil.safeFileExsistsSync([servConfig.path, '\\ShooterGame\\Content\\Mods\\', `${modid}.modtime`])
-               ) {
-                  let modtime     = parseInt(globalUtil.safeFileReadSync([servConfig.path, '\\ShooterGame\\Content\\Mods\\', `${modid}.modtime`]))
-                  let API_UPDATE  = API[KEY].time_updated
-                  if(API_UPDATE > modtime) modsNeedUpdate.push(modid)
-               }
-               else if(
-                  !globalUtil.safeFileExsistsSync([servConfig.path, '\\ShooterGame\\Content\\Mods\\', `${modid}.mod`])      ||
-                  !globalUtil.safeFileExsistsSync([servConfig.path, '\\ShooterGame\\Content\\Mods\\', `${modid}.modtime`])  ||
-                  !globalUtil.safeFileExsistsSync([servConfig.path, '\\ShooterGame\\Content\\Mods\\', modid])
-               ) {
-                  modsNeedUpdate.push(modid)
-               }
-            })
-
-            return modsNeedUpdate.length > 0 ? modsNeedUpdate : false
-         }
-      }
-
       return false
    }
 }
