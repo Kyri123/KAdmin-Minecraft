@@ -11,7 +11,6 @@
 // require Module
 const Gamedig       = require('gamedig')
 const ip            = require("ip")
-const serverClass   = require('./../../util_server/class')
 const findProcess   = require('find-process')
 
 
@@ -68,12 +67,12 @@ module.exports = {
                 data.listening      = false
                 data.online         = false
                 data.cfg            = name
-                data.ServerMap      = servCFG.serverMap
-                data.ServerName     = servCFG.sessionName
-                data.ARKServers     = `https://arkservers.net/server/${ip.address()}:${servCFG.query}`
+                data.ServerMap      = servINI["level-name"]
+                data.ServerName     = servINI["motd"]
                 data.connect        = `steam://connect/${ip.address()}:${servCFG.query}`
                 data.is_installed   = globalUtil.safeFileExsistsSync([serverPath, 'server.jar'])
                 data.is_free        = true
+                data.selfName       = servCFG.selfname
 
                 // Runing infos
                 data.run            = false
@@ -98,7 +97,7 @@ module.exports = {
                     data.alerts.push("3999")
                 }
 
-                findProcess('port', servINI['query.port'])
+                findProcess('port', servINI['server-port'])
                     .then(function (list) {
                         if (list.length) {
                             let pid     = list[0].pid
@@ -119,7 +118,6 @@ module.exports = {
                                     port: servINI['query.port']
                                 })
                                     .then((state) => {
-                                        console.log(state)
                                         data.players        = state.maxplayers
                                         data.aplayers       = state.players.length
                                         data.aplayersarr    = state.players

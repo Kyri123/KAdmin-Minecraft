@@ -5,10 +5,10 @@ public/json/server
 node_modules
 public/json/serveraction/action_5c68f48w.json
 public/json/serveraction/action_5g28f48x.json
-start_dev.cmd
+start_dev.shell
 .snyk
-app/cmd/5c68f48w.cmd
-app/cmd/5g28f48x.cmd
+app/shell/5c68f48w.shell
+app/shell/5g28f48x.shell
 app/config/mysql.json
 app/config/mysql_old.json
 app/data/sha.txt

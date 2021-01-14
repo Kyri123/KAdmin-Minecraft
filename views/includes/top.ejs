@@ -15,19 +15,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fa fa-server"></i>
-                        <span class="badge badge-success navbar-badge">X</span>
+                        <span class="badge badge-success navbar-badge" id="serverbadge">X</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-server mr-2"></i> Server 1
-                            <span class="float-right text-sm text-danger">Offline</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-server mr-2"></i> Server 2
-                            <span class="float-right text-sm text-success">Online</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
+                        <div id="serverlist"></div>
                         <a href="#" class="dropdown-item dropdown-footer"><%- lang.all.nav.createServer %></a>
                     </div>
                 </li>

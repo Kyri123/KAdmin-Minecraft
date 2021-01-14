@@ -1,0 +1,184 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-widget widget-user item-box">
+            <div class="widget-user-header text-white p-0" style="background: url('/img/backgrounds/<%- scfg.serverMap %>.jpg') center center;">
+                <div style="background-color: rgba(66,66,66,0.30)!important; height: 100%" class="p-3">
+                    <h3 class="widget-user-username text-center text-light left"><%- scfg.sessionName %></h3>
+                    <h5 class="widget-user-desc text-center text-light"><%- ip.address() %>:<%- scfg.query %></h5>
+                    <div class="d-none" id="secretInfo"><%- ip.address() %>:<%- scfg.query %></div>
+                </div>
+            </div>
+            <div class="widget-user-image" style="z-index: 1000"><img id="serv_img" src="/img/igmap/<%- scfg.serverMap %>.jpg" style="border-radius: 25rem !important;border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-dark"></div>
+            <div class="card card-widget widget-user mb-0">
+                <div class="text-left left d-inline" style="width:50%">
+                    <button style="width: 100%" class="btn btn-dark" onclick="copyToClipboard('info')" id="btnCopy"><i class="fas fa-copy" aria-hidden="true"></i></button>
+                </div>
+                <div class="right-no-top ml-auto d-inline" style="width:50%">
+                    <a style="width: 100%" href="steam://connect/<%- ip.address() %>:<%- scfg.query %>" class="text-white btn btn-dark" id="btnJoin"><i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
+                </div>
+            </div>
+            <div class="card-footer pt-3">
+                <div class="row">
+                    <div class="col-sm-3 border-sm-right">
+                        <div class="description-block">
+                            <h5 class="description-header text-success" id="state">...</h5>
+                            <span class="description-text"><%- PANEL_LANG.serverCenterAny.state %></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 border-sm-right">
+                        <div class="description-block">
+                            <h5 class="description-header" id="player">...</h5>
+                            <span class="description-text"><%- PANEL_LANG.serverCenterAny.player %></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 border-sm-right">
+                        <div class="description-block">
+                            <h5 class="description-header text-success" id="actions">...</h5>
+                            <span class="description-text"><%- PANEL_LANG.serverCenterAny.action %></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="description-block">
+                            <h5 class="description-header"><a href="https://arkservers.net/server/<%- ip.address() %>:<%- scfg.query %>" target="_blank">Öffnen</a></h5>
+                            <span class="description-text"><%- PANEL_LANG.serverCenterAny.arkservers %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <nav class="navbar navbar-expand-lg navbar-dark p-0">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHead" aria-controls="navbarHead" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse navbar-secondary" id="navbarHead">
+                        <ul class="nav navbar-nav mr-auto" id="pills-tab">
+
+                            <li class="nav-item">
+                                <a href="/servercenter/<%- serverName %>/home" class="nav-link <%- subpage === "home" ? "active" : "" %> btn-dark p-3" <%- subpage === "home" ? "" : `onmouseenter="$('#home').toggleClass('d-lg-none', false)" onmouseleave="$('#home').toggleClass('d-lg-none', true)"` %>>
+                                    <i class="nav-icon fas fa-home pr-1" aria-hidden="true"></i> <span id="home" class="<%- subpage === "home" ? "" : "d-lg-none" %>"><%- PANEL_LANG.serverCenterAny.nav.home %></span>
+                                </a>
+                            </li>
+
+                            <% if(userHelper.hasPermissions(user.id, "mods/config", serverName)) { %>
+                                <li class="nav-item">
+                                    <a href="/servercenter/<%- serverName %>/config" class="nav-link <%- subpage === "config" ? "active" : "" %> btn-dark p-3" <%- subpage === "config" ? "" : `onmouseenter="$('#config').toggleClass('d-lg-none', false)" onmouseleave="$('#config').toggleClass('d-lg-none', true)"` %>>
+                                        <i class="nav-icon fas fa-edit pr-1" aria-hidden="true"></i> <span id="config" class="<%- subpage === "config" ? "" : "d-lg-none" %>"><%- PANEL_LANG.serverCenterAny.nav.config %></span>
+                                    </a>
+                                </li>
+                            <% } %>
+
+                            <% if(userHelper.hasPermissions(user.id, "mods/show", serverName) && !scfg.flags.includes('epiconly') && !scfg.flags.includes('crossplay')) { %>
+                                <li class="nav-item">
+                                    <a href="/servercenter/<%- serverName %>/mods" class="nav-link <%- subpage === "mods" ? "active" : "" %> btn-dark p-3" <%- subpage === "mods" ? "" : `onmouseenter="$('#mods').toggleClass('d-lg-none', false)" onmouseleave="$('#mods').toggleClass('d-lg-none', true)"` %>>
+                                        <i class="nav-icon fas fa-cogs pr-1" aria-hidden="true"></i> <span id="mods" class="<%- subpage === "mods" ? "" : "d-lg-none" %>"><%- PANEL_LANG.serverCenterAny.nav.mods %></span>
+                                    </a>
+                                </li>
+                            <% } %>
+
+                            <% if(userHelper.hasPermissions(user.id, "mods/backups", serverName)) { %>
+                                <li class="nav-item">
+                                    <a href="/servercenter/<%- serverName %>/backups" class="nav-link <%- subpage === "backups" ? "active" : "" %> btn-dark p-3" <%- subpage === "backups" ? "" : `onmouseenter="$('#backups').toggleClass('d-lg-none', false)" onmouseleave="$('#backups').toggleClass('d-lg-none', true)"` %>>
+                                        <i class="nav-icon fas fa-hdd pr-1" aria-hidden="true"></i> <span id="backups" class="<%- subpage === "backups" ? "" : "d-lg-none" %>"><%- PANEL_LANG.serverCenterAny.nav.backups %></span>
+                                    </a>
+                                </li>
+                            <% } %>
+
+                            <!-- TODO: 0.0.4 -->
+                            <!--<% if(scfg.flags.includes('logs')) { %>
+                                <li class="nav-item">
+                                    <a href="/servercenter/<%- serverName %>/logs" class="nav-link <%- subpage === "logs" ? "active" : "" %> btn-dark p-3" <%- subpage === "backups" ? "" : `onmouseenter="$('#logs').toggleClass('d-lg-none', false)" onmouseleave="$('#logs').toggleClass('d-lg-none', true)"` %>>
+                                        <i class="nav-icon fas fa-list pr-1" aria-hidden="true"></i> <span id="backups" class="<%- subpage === "logs" ? "" : "d-lg-none" %>"><%- PANEL_LANG.serverCenterAny.nav.logs %></span>
+                                    </a>
+                                </li>
+                            <% } %>-->
+                        </ul>
+
+                        <!-- RIGHT -->
+                        <ul class="nav navbar-nav aa-nav ml-auto float-right" id="logbar">
+
+                            <li class="nav-item" style="cursor: pointer">
+                                <a data-toggle="modal" data-target="#alert" href="#" class="nav-link btn-info p-3" style="padding-right: 50px!important;">
+                                    <i class="fa fa-info" aria-hidden="true"></i><div class="ribbon-wrapper">
+                                        <div class="ribbon" style="background: #116b79" id="infoCounter">
+                                            0
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Meldungen -->
+<div id="all_resp"><%- resp %></div>
+<% if(userHelper.hasPermissions(user.id, "actions", serverName)) { %>
+<!-- MODAL AKTION -->
+    <div class="modal fade" id="action" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <form id="action_form" class="modal-dialog modal-xl" role="document" style="max-width: 700px" method="POST">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title"><%- PANEL_LANG.serverCenterAny.actionsTitle %></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="action_resp"></p>
+
+                    <select name="action" id="action_sel" class="form-control">
+                            <option><%- PANEL_LANG.all.select_default %></option>
+                        </option>
+                    </select>
+                    <div id="actioninfo" class="d-none">
+                        <div class="callout callout-info mb-3 ml-0 mr-0 mt-0">
+                            <h5 class="text-info"><i class="fas fa-info" aria-hidden="true"></i> <span id="actioninfo_title"></span></h5>
+                            <span id="actioninfo_text"></span>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="form-row" style="padding-left: 25px;padding-right: 25px" id="action_parm"></div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="actions" value="sendcommand">
+                    <input type="hidden" name="cfg" value="<%- serverName %>">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.serverCenterAny.actionsClose %></button>
+                    <button type="submit" class="btn btn-primary" id="sendaction"><%- PANEL_LANG.serverCenterAny.actionsSend %></button>
+                </div>
+            </div>
+        </form>
+    </div>
+<% } %>
+
+<!-- MODAL ALERTS -->
+<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width: 700px">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title"><%- PANEL_LANG.serverCenterAny.actionsTitle %></h5>
+            </div>
+            <div class="modal-body p-0" id="AlertBody">
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="actions" value="sendcommand">
+                <input type="hidden" name="cfg" value="<%- serverName %>">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.serverCenterAny.alertClose %></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var varser = {};
+    varser.lang_arr = <%- JSON.stringify(PANEL_LANG) %>;
+    varser.data = <%- JSON.stringify(servinfos) %>;
+    varser.cfg = '<%- serverName %>';
+    varser.installed = <%- servinfos.is_installed ? 1 : 2 %>;
+</script>
+
+<script src="/js/arkadmin2/pages/servercenter.js" type="application/javascript"></script>

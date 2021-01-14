@@ -8,8 +8,6 @@
  */
 "use strict"
 
-const cmd           = require('node-cmd')
-
 module.exports = {
     /**
      * Führt CMD Command aus
@@ -18,7 +16,6 @@ module.exports = {
      */
     runCMD: (command) => {
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command}`)
-        cmd.run(command)
         return true
     },
 }

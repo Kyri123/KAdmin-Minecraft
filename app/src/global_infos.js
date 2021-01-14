@@ -8,7 +8,6 @@
  */
 "use strict"
 
-const serverClass                   = require('./util_server/class')
 const { array_replace_recursive }   = require('locutus/php/array')
 
 module.exports = {
@@ -17,9 +16,10 @@ module.exports = {
      * @return {array}
      */
     getServerList: () => {
-        let serverLocalPath     = pathMod.join(mainDir, '/public/json/server/')
+        let serverLocalPath     = pathMod.join(mainDir, '/public/json/server')
         let servers             = []
-        if(globalUtil.safeFileExsistsSync(serverLocalPath)) {
+
+        if(globalUtil.safeFileExsistsSync([serverLocalPath])) {
             let dirArray            = fs.readdirSync(serverLocalPath)
 
             dirArray.forEach((ITEM,KEY) => {
@@ -61,6 +61,7 @@ module.exports = {
         infos.servercounter.off     = 0
         infos.servercounter.proc    = 0
         infos.servercounter.total   = infos.servers_arr.length
+
         infos.servers_arr.forEach((val) => {
             if(val[1].online) {
                 infos.servercounter.on++

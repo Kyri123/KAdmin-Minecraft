@@ -8,7 +8,6 @@
  */
 "use strict"
 
-const serverClass           = require('./../../util_server/class')
 //const rcon                  = require('rcon')
 
 module.exports = {

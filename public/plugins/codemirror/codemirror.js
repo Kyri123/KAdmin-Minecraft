@@ -43,7 +43,7 @@
   var presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
   if (presto_version) { presto_version = Number(presto_version[1]); }
   if (presto_version && presto_version >= 15) { presto = false; webkit = true; }
-  // Some browsers use the wrong event properties to signal cmd/ctrl on OS X
+  // Some browsers use the wrong event properties to signal shell/ctrl on OS X
   var flipCtrlCmd = mac && (qtwebkit || presto && (presto_version == null || presto_version < 12.11));
   var captureRightClick = gecko || (ie && ie_version >= 9);
 
@@ -6706,10 +6706,10 @@
   function normalizeKeyName(name) {
     var parts = name.split(/-(?!$)/);
     name = parts[parts.length - 1];
-    var alt, ctrl, shift, cmd;
+    var alt, ctrl, shift, shell;
     for (var i = 0; i < parts.length - 1; i++) {
       var mod = parts[i];
-      if (/^(cmd|meta|m)$/i.test(mod)) { cmd = true; }
+      if (/^(shell|meta|m)$/i.test(mod)) { shell = true; }
       else if (/^a(lt)?$/i.test(mod)) { alt = true; }
       else if (/^(c|ctrl|control)$/i.test(mod)) { ctrl = true; }
       else if (/^s(hift)?$/i.test(mod)) { shift = true; }
@@ -6717,7 +6717,7 @@
     }
     if (alt) { name = "Alt-" + name; }
     if (ctrl) { name = "Ctrl-" + name; }
-    if (cmd) { name = "Cmd-" + name; }
+    if (shell) { name = "Cmd-" + name; }
     if (shift) { name = "Shift-" + name; }
     return name
   }
@@ -8451,9 +8451,9 @@
       triggerOnKeyUp: onKeyUp,
       triggerOnMouseDown: methodOp(onMouseDown),
 
-      execCommand: function(cmd) {
-        if (commands.hasOwnProperty(cmd))
-          { return commands[cmd].call(null, this) }
+      execCommand: function(shell) {
+        if (commands.hasOwnProperty(shell))
+          { return commands[shell].call(null, this) }
       },
 
       triggerElectric: methodOp(function(text) { triggerElectric(this, text); }),

@@ -84,16 +84,6 @@
     "SUCCESS"             : "Installation Erfolgreich"
   },
 
-  "all": {
-    "cpu"             : "CPU Traffic",
-    "ram"             : "Arbeitsspeicher",
-    "mem"             : "Festplatten Speicher",
-    "server"          : "Server",
-    "sc"              : "Server Center",
-    "createServer"    : "Server Erstellen",
-    "select_default"  : "Aktion wählen"
-  },
-
   "commands": {
     "install": "Installieren",
     "update": "Update",

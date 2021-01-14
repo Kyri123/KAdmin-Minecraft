@@ -8,5 +8,6 @@
   "autoBackup"              : false,
   "autoBackupInterval"      : 1800000,
   "autoBackupNext"          : 0,
-  "shouldRun"               : false
+  "shouldRun"               : false,
+  "selfname"                : "MinecraftServer 2"
 }

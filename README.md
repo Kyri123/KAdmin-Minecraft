@@ -24,7 +24,7 @@ Webbasiertes Admin Panel für Ark-Gameserver
 - **[Dev-Tree]** Benutzten auf eigene GEFAHR (Debugs, Tests usw.)
 - Derzeitiger Status: **Alpha**
 - `Links`
-  - Spenden? https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
+  - Spenden? https://www.paypal.com/cgi-bin/webscr?shell=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
   - Discord: https://discord.gg/ykGnw49
   - Trello: https://trello.com/b/HZFtQ2DZ/KAdmin-Minecraft
 
@@ -34,13 +34,13 @@ Webbasiertes Admin Panel für Ark-Gameserver
 - Erstelle einen Ordner
 - Kopiere alles hier hinein
 - Starte das Programm mit einer der CMD's
-  - Hierbei ist zu beachten, dass der Automatischen Updater nur aktiv wird, wenn das Programm mit gestartet `start_master.cmd` oder `start_dev.cmd` wird
-  - sollte dies nicht gewünscht sein starte einfach das Programm mit `start_noUpdater.cmd`
+  - Hierbei ist zu beachten, dass der Automatischen Updater nur aktiv wird, wenn das Programm mit gestartet `start_master.shell` oder `start_dev.shell` wird
+  - sollte dies nicht gewünscht sein starte einfach das Programm mit `start_noUpdater.shell`
 - Folge den Angezeigten anweisungen auf der Webseite (http://ip:port)
 - Nach abschluss der Installation startet das Panel neu mit den gewählten Einstellungen und du kannst loslegen
 
 **Alternative:**
-- Downloade nur `start_master.cmd` oder `start_dev.cmd`
+- Downloade nur `start_master.shell` oder `start_dev.shell`
 - Erstelle einen Ordner und in diesen einen `cache`
 - Kopiere die CMD in den Ordner und führe diese aus
 - nun solle das Panel runtergeladen werden und gestartet werden
@@ -48,10 +48,10 @@ Webbasiertes Admin Panel für Ark-Gameserver
 
 # Update
 
-- Ist das Panel bereits mit `start_master.cmd` oder `start_dev.cmd` gestartet musst du nichts tun einfach warten bis auf ein neues Update geprüft wird.
+- Ist das Panel bereits mit `start_master.shell` oder `start_dev.shell` gestartet musst du nichts tun einfach warten bis auf ein neues Update geprüft wird.
 - Ansonsten:
   - Beende das Panel
-  - Starte einer der folgenden CMD's: `start_master.cmd` oder `start_dev.cmd`
+  - Starte einer der folgenden CMD's: `start_master.shell` oder `start_dev.shell`
 
 **Alternative:**
 - Downloade den letzten Release

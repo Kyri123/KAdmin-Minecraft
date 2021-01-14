@@ -1,0 +1,443 @@
+<%- include('../../includes/head'); -%>
+<%- include('../../includes/top_nav'); -%>
+<%- include('../../includes/side_nav'); -%>
+<%- include('../../includes/start'); -%>
+<%- include('./head'); -%>
+<div class="row">
+    <div class="col-12 mb-4">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark p-0">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse navbar-secondary" id="navbarColor03">
+                <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
+                    <% if(userHelper.hasPermissions(user.id, "config/GameUserSettings")) { %>
+                        <li class="nav-item">
+                            <a class="nav-link active btn-dark p-3" id="pills-gus-tab" data-toggle="pill" href="#pills-gus" role="tab" aria-controls="pills-gus" aria-selected="false">
+                                GameUserSettings.ini
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if(userHelper.hasPermissions(user.id, "config/Game")) { %>
+                        <li class="nav-item">
+                            <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-game-tab" data-toggle="pill" href="#pills-game" role="tab" aria-controls="pills-game" aria-selected="false">
+                                Game.ini
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if(userHelper.hasPermissions(user.id, "config/Engine")) { %>
+                        <li class="nav-item">
+                            <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-engine-tab" data-toggle="pill" href="#pills-engine" role="tab" aria-controls="pills-engine" aria-selected="false">
+                                Engine.ini
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if(userHelper.hasPermissions(user.id, "config/arkadmin")) { %>
+                        <li class="nav-item">
+                            <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
+                                KAdmin-ArkWIN
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+        <hr>
+        <!-- Cards -->
+        <div class="card shadow">
+            <div class="tab-content" id="pills-tabContent">
+
+                <% if(userHelper.hasPermissions(user.id, "config/GameUserSettings")) { %>
+                    <!-- GameUserSettings.ini -->
+                    <div class="tab-pane fade show active" id="pills-gus" role="tabpanel" aria-labelledby="pills-llog-tab">
+                        <table class="table table-striped mb-0" style="border: 0!important;">
+                            <tbody>
+                                <tr class="bg-dark">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0">GameUserSettings.ini</h4>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <textarea class="p-3 m-0" style="max-height: 500px; width: 100%; overflow-y: scroll; overflow-x: hidden; min-height: 500px" id="GameUserSettings">Loading...</textarea>
+                        <button class="btn btn-primary" style="width: 100%" onclick="saveIni('#GameUserSettings', 'GameUserSettings', '<%- serverName %>')"><%- PANEL_LANG.serverCenterConfig.save %></button>
+                    </div>
+                <% } %>
+
+                <% if(userHelper.hasPermissions(user.id, "config/Game")) { %>
+                    <!-- Game.ini -->
+                    <div class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " show active" : "" %>" id="pills-game" role="tabpanel" aria-labelledby="pills-llog-tab">
+                        <table class="table table-striped mb-0" style="border: 0!important;">
+                            <tbody>
+                            <tr class="bg-dark">
+                                <th colspan="2" class="p-0" style="border: 0!important;">
+                                    <div class="list-group-item bg-dark">
+                                        <h4 class="m-0">Game.ini</h4>
+                                    </div>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <textarea class="p-3 m-0" style="max-height: 500px; width: 100%; overflow-y: scroll; overflow-x: hidden; min-height: 500px" id="Game">Loading...</textarea>
+                        <button class="btn btn-primary" style="width: 100%" onclick="saveIni('#Game', 'Game', '<%- serverName %>')"><%- PANEL_LANG.serverCenterConfig.save %></button>
+                    </div>
+                <% } %>
+
+                <% if(userHelper.hasPermissions(user.id, "config/Engine")) { %>
+                    <!-- GameUserSettings.ini -->
+                    <div class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings")  ? " show active" : "" %>" id="pills-engine" role="tabpanel" aria-labelledby="pills-llog-tab">
+                        <table class="table table-striped mb-0" style="border: 0!important;">
+                            <tbody>
+                            <tr class="bg-dark">
+                                <th colspan="2" class="p-0" style="border: 0!important;">
+                                    <div class="list-group-item bg-dark">
+                                        <h4 class="m-0">Engine.ini</h4>
+                                    </div>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <textarea class="p-3 m-0" style="max-height: 500px; width: 100%; overflow-y: scroll; overflow-x: hidden; min-height: 500px" id="Engine">Loading...</textarea>
+                        <button class="btn btn-primary" style="width: 100%" onclick="saveIni('#Engine', 'Engine', '<%- serverName %>')"><%- PANEL_LANG.serverCenterConfig.save %></button>
+                    </div>
+                <% } %>
+
+                <% if(userHelper.hasPermissions(user.id, "config/arkadmin")) { %>
+                    <!-- KAdmin-ArkWIN -->
+                    <form class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
+                        <table class="table table-striped mb-0" style="border: 0!important;">
+                            <thead>
+                                <tr class="bg-dark">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0">KAdmin-ArkWIN</h4>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.path %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="path" class="form-control form-control-sm" value="<%- sconfig.path %>" readonly>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.pathBackup %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="pathBackup" class="form-control form-control-sm" value="<%- sconfig.pathBackup %>" readonly>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.pathLogs %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="pathLogs" class="form-control form-control-sm" value="<%- sconfig.pathLogs %>" readonly>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.branch %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <select class="form-control form-control-sm" name="branch">
+                                                <option value="public" <%- sconfig.branch === "public" ? "selected" : "" %>>Public</option>
+                                                <option value="activeevent" <%- sconfig.branch === "activeevent" ? "selected" : "" %>>Active Event</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.rcon %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" name="rcon" class="form-control form-control-sm" value="<%- sconfig.rcon %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.game %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" name="game" class="form-control form-control-sm" value="<%- sconfig.game %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.query %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" name="query" class="form-control form-control-sm" value="<%- sconfig.query %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.serverPassword %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="serverPassword" class="form-control form-control-sm" value="<%- sconfig.serverPassword %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.ServerAdminPassword %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="ServerAdminPassword" class="form-control form-control-sm" value="<%- sconfig.ServerAdminPassword %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.sessionName %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="sessionName" class="form-control form-control-sm" value="<%- sconfig.sessionName %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.AltSaveDirectoryName %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="AltSaveDirectoryName" class="form-control form-control-sm" value="<%- sconfig.AltSaveDirectoryName %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.autoUpdate %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <select class="form-control form-control-sm" name="autoUpdate">
+                                                <option value="true" <%- Boolean(sconfig.autoUpdate) === true ? "selected" : "" %>><%- PANEL_LANG.serverCenterConfig.true %></option>
+                                                <option value="false" <%- Boolean(sconfig.autoUpdate) === false ? "selected" : "" %>><%- PANEL_LANG.serverCenterConfig.false %></option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.autoUpdateInterval %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" name="autoUpdateInterval" class="form-control form-control-sm" value="<%- sconfig.autoUpdateInterval %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.autoBackup %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <select class="form-control form-control-sm" name="autoBackup">
+                                                <option value="true" <%- Boolean(sconfig.autoBackup) === true ? "selected" : "" %>><%- PANEL_LANG.serverCenterConfig.true %></option>
+                                                <option value="false" <%- Boolean(sconfig.autoBackup) === false ? "selected" : "" %>><%- PANEL_LANG.serverCenterConfig.false %></option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.autoBackupInterval %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" name="autoBackupInterval" class="form-control form-control-sm" value="<%- sconfig.autoBackupInterval %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.serverMap %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="text" name="serverMap" class="form-control form-control-sm" value="<%- sconfig.serverMap %>" id="input_serverMap">
+                                            <div class="input-group-append">
+                                                <select class="form-control form-control-sm" onchange="
+                                                    $('#input_serverMap').val($('#' + this.id).val());
+                                                    $('#MapModID').val($('#' + $('#' + this.id).val()).data('modid'));
+                                                " id="mapsel">
+                                                    <option value=""><%- PANEL_LANG.serverCenterConfig.cfg.pick %></option>
+
+                                                    <% for (const [key, val] of Object.entries(maps)) {
+                                                        if(val.mod === 0 || (val.mod !== 0 && !(sconfig.flags.includes('epiconly') || sconfig.flags.includes('crossplay')))) {%>
+                                                        <option id="<%- key %>" value="<%- key %>" data-modid="<%- val.mod === 0 ? 0 : val.modid %>" <%- sconfig.serverMap === key ? "selected" : "" %>>
+                                                            <%- val.mod === 0 ? "" : "[MOD]" %> <%- val.name %>
+                                                        </option>
+                                                    <% }} %>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <% if(!(sconfig.flags.includes('epiconly') || sconfig.flags.includes('crossplay'))) {%>
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.MapModID %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input min="0" type="number" name="MapModID" id="MapModID" class="form-control form-control-sm" value="<%- sconfig.MapModID %>">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% } else { %>
+                                <input type="hidden" name="MapModID" value="0">
+                                <% } %>
+
+                                <tr>
+                                    <td class="p-2">TotalConversionMod</td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" min="0" name="TotalConversionMod" class="form-control form-control-sm" value="<%- sconfig.TotalConversionMod %>" id="input_TotalConversionMod">
+                                            <div class="input-group-append">
+                                                <select class="form-control form-control-sm" onchange="$('#input_TotalConversionMod').val($('#' + this.id).val());" id="tmodsel">
+                                                    <option value="0"><%- PANEL_LANG.serverCenterConfig.cfg.pick %></option>
+                                                    <option value="111111111">Primitive Plus</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-2"><%- PANEL_LANG.serverCenterConfig.cfg.maxPlayers %></td>
+                                    <td class="p-2">
+                                        <div class="input-group mb-0">
+                                            <input type="number" name="maxPlayers" class="form-control form-control-sm" value="<%- sconfig.maxPlayers %>">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- hidden -->
+                                <input type="hidden" value="true" name="saveServer">
+                                <input type="hidden" value="<%- serverName %>" name="cfg">
+                                <input type="hidden" value="<%- sconfig.shouldRun %>" name="shouldRun">
+                                <input type="hidden" value="<%- sconfig.autoUpdateNext %>" name="autoUpdateNext">
+                                <input type="hidden" value="<%- sconfig.autoBackupNext %>" name="autoBackupNext">
+                                <% if(sconfig.mods) sconfig.mods.forEach((val) => { %>
+                                    <input type="hidden" value="<%- val %>" name="mods[]">
+                                <% }) %>
+
+                                <!-- OPT -->
+
+                                <tr class="bg-dark" id="opt">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0"><%- PANEL_LANG.serverCenterConfig.cfg.opt %></h4>
+                                            <div class="right">
+                                                <button type="button" onclick="addToForm('opt')" class="btn btn-sm btn-outline-success"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <% if(sconfig.opt) sconfig.opt.forEach((val) => { %>
+                                    <tr id="<%- md5(val + "opt") %>">
+                                        <td class="p-2" colspan="2">
+                                            <div class="input-group mb-0">
+                                                <input type="text" name="opt[]" class="form-control form-control-sm" value="<%- val %>">
+                                                <div class="input-group-append">
+                                                    <span onclick="$('#<%- md5(val + "opt") %>').remove()" style="cursor:pointer" class="input-group-btn btn-danger pr-2 pl-2 pt-1 " id="basic-addon2"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+
+                                <!-- CustomFlags -->
+
+                                <tr class="bg-dark" id="flags">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0"><%- PANEL_LANG.serverCenterConfig.cfg.cflags %></h4>
+                                            <div class="right">
+                                                <button type="button" onclick="addToForm('flags')" class="btn btn-sm btn-outline-success"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <% sconfig.flags.forEach((val) => { %>
+                                    <% if(!flags.includes(val)) { %>
+                                    <tr id="<%- md5(val + "flags") %>">
+                                        <td class="p-2" colspan="2">
+                                            <div class="input-group mb-0">
+                                                <input type="text" name="flags[]" class="form-control form-control-sm" value="<%- val %>">
+                                                <div class="input-group-append">
+                                                    <span onclick="$('#<%- md5(val + "flags") %>').remove()" style="cursor:pointer" class="input-group-btn btn-danger pr-2 pl-2 pt-1 " id="basic-addon2"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                <% }) %>
+
+                                <!-- flags -->
+                                <tr class="bg-dark">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0"><%- PANEL_LANG.serverCenterConfig.cfg.flags %></h4>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 pl-4" colspan="2">
+                                        <div class="row">
+                                            <% flags.forEach((val) => { %>
+                                                <div class="icheck-primary mb-3 col-lg-6 col-12">
+                                                    <input type="checkbox" name="flags[]" value="<%- val %>" id="<%- md5(val) %>" <%- sconfig.flags.includes(val) ? `checked="true"` : '' %>>
+                                                    <label for="<%- md5(val) %>">
+                                                        <%- val %>
+                                                    </label>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary" style="width: 100%" onclick="saveCfg()" type="button"><%- PANEL_LANG.serverCenterConfig.save %></button>
+                    </form>
+
+                </div>
+            <% } %>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+    vars.cfg = '<%- serverName %>';
+</script>
+
+<script src="/js/arkadmin2/pages/servercenter_config.js" type="application/javascript"></script>
+
+<%- include('../../includes/end'); -%>
+<%- include('../../includes/foother'); -%>

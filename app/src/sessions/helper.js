@@ -9,7 +9,7 @@
 "use strict"
 
 const { array_replace_recursive }   = require('locutus/php/array')
-const { getServerList }             = require('./../global_infos')
+const globalInfos                   = require('./../global_infos')
 
 
 module.exports = {
@@ -81,7 +81,7 @@ module.exports = {
         if(result.length > 0) {
             let permissions         = globalUtil.safeFileReadSync([mainDir, '/app/json/permissions/', 'default.json'], true)
             let groups              = JSON.parse(result[0].rang)
-            let servers             = getServerList()
+            let servers             = globalInfos.getServerList()
 
             for (const [key] of Object.entries(servers)) {
                 try {
