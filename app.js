@@ -37,13 +37,13 @@ global.availableVersionPublic        = 0
 global.availableVersionActiveevent   = 0
 //global.mode                           = "dev"
 global.panelVersion                   = "0.0.1"
-global.buildID                        = "001.000"
+global.buildID                        = "00001.00000"
 global.isUpdate                       = false
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = true
 global.serverClass                    = require('./app/src/util_server/class')
 global.versionVanillaControler        = require('./app/src/util_server/versionControler')
-versionVanillaControler               = new versionVanillaControler()
+global.versionVanillaControler        = new versionVanillaControler()
 // Modulealerter
 require('./app/main/mainLoader.js')
 global.alerter                        = require('./app/src/alert.js')
@@ -134,4 +134,6 @@ let port = typeof process.env.PORT !== "undefined" ?
 app.listen(port, "0.0.0.0", ()=>{
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${CONFIG.app.port}/`)
 })
+backgroundRunner.startAll()
+
 module.exports = app

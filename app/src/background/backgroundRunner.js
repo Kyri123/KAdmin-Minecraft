@@ -26,6 +26,15 @@ module.exports = {
         setInterval(() => module.exports.doReReadConfig(),              CONFIG.main.interval.doReReadConfig)
         setInterval(() => module.exports.getTraffic(),                  CONFIG.main.interval.getTraffic)
         setInterval(() => module.exports.getStateFromServers(),         CONFIG.main.interval.getStateFromServers)
+        setInterval(() => module.exports.getVersionList(),              CONFIG.main.interval.getVersionList)
+    },
+
+    /**
+     * Startet Intervall > getStateFromServers
+     */
+    getVersionList: () => {
+        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > getVersionList`)
+        versionVanillaControler.getList()
     },
 
     /**

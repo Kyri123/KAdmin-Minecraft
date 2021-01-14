@@ -5,7 +5,8 @@
     "getTraffic"            : 15000,
     "doReReadConfig"        : 30000,
     "doServerBackgrounder"  : 10000,
-    "backgroundUpdater"     : 3000000,
-    "doJob"                 : 5000
+    "backgroundUpdater"     : 1800000,
+    "doJob"                 : 5000,
+    "getVersionList"        : 3600000
   }
 }
