@@ -18,9 +18,9 @@ module.exports = {
      * @param next
      */
     isServerExsits: (req, res, next) => {
-        let servername  = req.params.nameCONFIG
+        let servername  = req.params.name
         let serverData  = new serverClass(servername)
-        if(serverData.serverExsists()) {
+        if(!serverData.serverExsists()) {
             res.redirect("/home")
             return true
         }

@@ -25,7 +25,6 @@ router.use('/grouppanel',                    isLoggedIn,                        
 router.use('/userpanel',                     isLoggedIn,                         require('./pages/userPanel'))
 
 // Server Center
-router.use('/servercenter/:name/logs',       isLoggedIn    , isServerExsits    , require('./pages/servercenter/serverCenter_logs'));
 router.use('/servercenter/:name/backups',    isLoggedIn    , isServerExsits    , require('./pages/servercenter/serverCenter_backups'));
 router.use('/servercenter/:name/config',     isLoggedIn    , isServerExsits    , require('./pages/servercenter/serverCenter_config'));
 router.use('/servercenter/:name/home',       isLoggedIn    , isServerExsits    , require('./pages/servercenter/serverCenter_home'));
@@ -40,7 +39,6 @@ router.use('/ajax/grouppanel',               isLoggedIn    ,                    
 router.use('/ajax/serverCenterAny',          isLoggedIn    ,                     require('./ajax/servercenter/serverCenterAny'));
 router.use('/ajax/serverCenterBackups',      isLoggedIn    ,                     require('./ajax/servercenter/serverCenterBackups'));
 router.use('/ajax/serverCenterConfig',       isLoggedIn    ,                     require('./ajax/servercenter/serverCenterConfig'));
-router.use('/ajax/serverCenterLogs',         isLoggedIn    ,                     require('./ajax/servercenter/serverCenterLogs'));
 
 
 // Error seiten

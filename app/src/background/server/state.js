@@ -72,7 +72,7 @@ module.exports = {
                 data.connect        = `steam://connect/${ip.address()}:${servCFG.query}`
                 data.is_installed   = globalUtil.safeFileExsistsSync([serverPath, 'server.jar'])
                 data.is_free        = true
-                data.selfName       = servCFG.selfname
+                data.selfname       = servCFG.selfname
 
                 // Runing infos
                 data.run            = false
