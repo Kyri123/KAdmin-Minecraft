@@ -1,15 +1,15 @@
+# IDE & Node
 .idea
-app/json/serverinfo
-public/json/serverInfos
-public/json/server
-node_modules
-public/json/serveraction/action_5c68f48w.json
-public/json/serveraction/action_5g28f48x.json
-start_dev.shell
 .snyk
-app/shell/5c68f48w.shell
-app/shell/5g28f48x.shell
-app/config/mysql.json
-app/config/mysql_old.json
+node_modules
+
+# APP
+app/json/serverinfo
 app/data/sha.txt
 app/json/panel/installer.json
+
+# PUBLIC
+public/json/serverInfos
+public/json/server
+public/json/serveraction/action_5c68f48w.json
+public/json/serveraction/action_5g28f48x.json
