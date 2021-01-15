@@ -36,6 +36,21 @@ module.exports = class serverClass {
             dfile !== false ? array_replace_recursive(dfile, file)
                : file
          ) : false
+
+         if(this.cfg !== false) {
+            this.cfg.path    = this.cfg.path
+               .replace("{SERVROOT}", CONFIG.app.servRoot)
+               .replace("{SERVERNAME}", this.server)
+
+            this.cfg.pathLogs    = this.cfg.path
+               .replace("{LOGROOT}", CONFIG.app.logRoot)
+               .replace("{SERVERNAME}", this.server)
+
+            this.cfg.pathBackup    = this.cfg.path
+               .replace("{BACKUPROOT}", CONFIG.app.pathBackup)
+               .replace("{SERVERNAME}", this.server)
+         }
+
          this.exsists    = this.cfg !== false
       }
    }
@@ -149,15 +164,15 @@ module.exports = class serverClass {
 
    /**
     * Speichert eine
-    * @param {object} ini
+    * @param {string} prop
     * @return {boolean}
     */
-   saveINI(ini) {
+   saveINI(prop) {
       if(this.serverExsists()) {
          let path    = pathMod.join(this.cfg.path, `server.properties`)
          if(!globalUtil.safeFileExsistsSync([path])) globalUtil.safeFileCreateSync([path])
          try {
-            return globalUtil.safeFileSaveSync([path,`${iniName}.ini`], ini.stringify(ini))
+            return globalUtil.safeFileSaveSync([path], prop)
          }
          catch (e) {
             if(debug) console.log(e)

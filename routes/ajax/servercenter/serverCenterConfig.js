@@ -11,6 +11,7 @@
 const express           = require('express')
 const router            = express.Router()
 const serverClass       = require('./../../../app/src/util_server/class');
+const ini               = require('ini')
 
 router.route('/')
 
@@ -25,39 +26,34 @@ router.route('/')
             delete POST.cfg;
 
             // Wandel string in
-            Object.keys(POST).forEach((key) => {
-                if(!isNaN(POST[key])){
-                    POST[key] = parseInt(POST[key]);
+            Object.keys(POST.cfgsend).forEach((key) => {
+                if(!isNaN(POST.cfgsend[key])){
+                    POST.cfgsend[key] = parseInt(POST.cfgsend[key], 10);
                 }
-                else if(POST[key] === 'false'){
-                    POST[key] = false;
+                else if(POST.cfgsend[key] === 'false'){
+                    POST.cfgsend[key] = false;
                 }
-                else if(POST[key] === 'true'){
-                    POST[key] = true;
+                else if(POST.cfgsend[key] === 'true'){
+                    POST.cfgsend[key] = true;
                 }
             });
 
-            if(POST.opt === undefined)      POST.opt    = [];
-            if(POST.flags === undefined)    POST.flags  = [];
-
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(serverData.saveConfig(POST) ? 1009 : 3).replace("{ini}", "KAdmin-ArkWIN")
+                    alert: alerter.rd(serverData.saveConfig(POST.cfgsend) ? 1009 : 3).replace("{ini}", "KAdmin-ArkWIN")
                 })
             });
             return true;
         }
 
-        // Speicher Inis
-        if(POST.sendini !== undefined) {
+        // Server.Properties
+        if(POST.server !== undefined) {
             let serverData  = new serverClass(POST.cfg);
-            POST.iniSend = escape(POST.iniSend).replaceAll("/", "");
-
-            if(!userHelper.hasPermissions(req.session.uid, `config/${POST.iniSend}`, cfg)) return true;
+            if(!userHelper.hasPermissions(req.session.uid, `config/server`, POST.cfg)) return true;
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(serverData.saveINI(POST.iniText , POST.iniSend) ? 1009 : 3).replace("{ini}", POST.iniSend + ".ini")
+                    alert: alerter.rd(serverData.saveINI(POST.iniText) ? 1009 : 3).replace("{ini}", "Server.Properties")
                 })
             });
             return true;
@@ -73,13 +69,10 @@ router.route('/')
 
         // GET serverInis
         if(GET.serverInis !== undefined) {
-            let serverData  = new serverClass(GET.cfg);
-            let serverInfos     = serverData.getConfig();
-            let file            = globalUtil.safeFileReadSync([serverInfos.path, '\\ShooterGame\\Saved\\Config\\WindowsServer\\', `${GET.ini}.ini`]);
-            let default_file    = globalUtil.safeFileReadSync([serverInfos.path, '/app/data/ini/', `${GET.ini}.ini`]);
+            let serverData  = new serverClass(GET.server);
 
             res.render('ajax/json', {
-                data: file !== false ? file : default_file !== false ? default_file : 'failed'
+                data: serverData.getINI() !== false ? ini.stringify(serverData.getINI()) : 'failed'
             });
             return true;
         }

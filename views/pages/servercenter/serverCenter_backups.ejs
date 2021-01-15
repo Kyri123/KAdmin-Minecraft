@@ -1,7 +1,7 @@
 <%- include('../../includes/head'); -%>
-<%- include('../../includes/top_nav'); -%>
-<%- include('../../includes/side_nav'); -%>
-<%- include('../../includes/start'); -%>
+<%- include('../../includes/top') -%>
+<%- include('../../includes/nav') -%>
+<%- include('../../includes/content') -%>
 <%- include('./head'); -%>
 <div class="row">
     <div class="col-12 mb-4">
@@ -33,15 +33,15 @@
             </div>
 
             <div class="modal-body">
-                <%- PANEL_LANG.serverCenterBackups.modal.removeText %>
+                <%- lang[page].modal.removeText %>
             </div>
 
             <div class="modal-footer">
                 <input type="hidden" name="file" value="" id="fileNameRemove">
                 <input type="hidden" name="remove" value="true">
                 <input type="hidden" name="server" value="<%- serverName %>">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.serverCenterBackups.modal.cancel %></button>
-                <button type="button" class="btn btn-danger" onclick="removeFile()"><%- PANEL_LANG.serverCenterBackups.modal.remove %></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modal.cancel %></button>
+                <button type="button" class="btn btn-danger" onclick="removeFile()"><%- lang[page].modal.remove %></button>
             </div>
         </div>
     </div>
@@ -51,19 +51,19 @@
     <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
         <div class="modal-content border-0">
             <div class="modal-header">
-                <h5 class="modal-title"><%- PANEL_LANG.serverCenterBackups.modal.pititle %> <span id="filepititle"></span></h5>
+                <h5 class="modal-title"><%- lang[page].modal.pititle %> <span id="filepititle"></span></h5>
             </div>
 
             <div class="modal-body">
                 <input type="hidden" name="playin" value="true">
                 <input type="hidden" name="server" value="<%- serverName %>">
                 <input type="hidden" name="file" value="" id="filepi">
-                <%- PANEL_LANG.serverCenterBackups.modal.pitxt %><span class="text-danger"><%- PANEL_LANG.serverCenterBackups.modal.pired %></span>
+                <%- lang[page].modal.pitxt %><span class="text-danger"><%- lang[page].modal.pired %></span>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- PANEL_LANG.serverCenterBackups.modal.cancel %></button>
-                <button type="button" class="btn btn-primary" onclick="playthisin()"><%- PANEL_LANG.serverCenterBackups.modal.playin %></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modal.cancel %></button>
+                <button type="button" class="btn btn-primary" onclick="playthisin()"><%- lang[page].modal.playin %></button>
             </div>
         </div>
     </div>
@@ -77,7 +77,6 @@
     vars.cfg = '<%- serverName %>';
 </script>
 
-<script src="/js/arkadmin2/pages/servercenter_backups.js" type="application/javascript"></script>
+<script src="/js/kadmin/servercenter_backups.js" type="application/javascript"></script>
 
-<%- include('../../includes/end'); -%>
 <%- include('../../includes/foother'); -%>

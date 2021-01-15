@@ -40,7 +40,6 @@ router.use('/ajax/serverCenterAny',          isLoggedIn    ,                    
 router.use('/ajax/serverCenterBackups',      isLoggedIn    ,                     require('./ajax/servercenter/serverCenterBackups'));
 router.use('/ajax/serverCenterConfig',       isLoggedIn    ,                     require('./ajax/servercenter/serverCenterConfig'));
 
-
 // Error seiten
 router.use('/404',                                                               require('./pages/404'))
 router.use('/401',                                                               require('./pages/401'))

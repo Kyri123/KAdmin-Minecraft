@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "removeText"    : "Möchtest du wirklich dieses Backup löschen?",
+    "remove"        : "Backup Löschen",
+    "cancel"        : "Abbrechen",
+    "pitile"        : "Einspielen:",
+    "pitxt"         : "Möchtest du dieses Backup einspielen? <br />",
+    "pired"         : "<b>ACHTUNG:</b> Alle Karten, Konfigurationen (ausgenommen der von KAdmin-Minecraft) und Spieler Dateien werden gelöscht und mit dem Backup überschrieben",
+    "playin"        : "Einspielen"
+  }
+}

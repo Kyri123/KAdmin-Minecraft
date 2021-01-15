@@ -41,7 +41,6 @@ function getServerList() {
     }, (data) => {
         let newServerList = ``
         data = JSON.parse(data)
-        console.log(data)
 
         data.servers_arr.forEach((val, key) => {
             if (hasPermissions(globalvars.perm, "all/show_traffic")) {

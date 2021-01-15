@@ -1,0 +1,17 @@
+{
+  "actionFree"    : "Aktion ausführen",
+  "actionClose"   : "Gesperrt",
+  "state"         : "Server Status",
+  "player"        : "Spieler",
+  "action"        : "Aktion Status",
+  "actionsTitle"  : "Befehl an den Server senden",
+  "actionsClose"  : "Abbrechen",
+  "actionsSend"   : "Aktion ausführen",
+  "alertClose"    : "Schließen",
+  "nav" : {
+    "home"        : "Startseite",
+    "config"      : "Konfiguration",
+    "mods"        : "Modifikation",
+    "backups"     : "Backups"
+  }
+}

@@ -49,11 +49,9 @@ router.route('/')
          sinfos                  : globalinfos.get(),
          servini                 : servIni,
          servinfos               : serverData.getServerInfos(),
-         serccfg                 : servCfg,
+         servcfg                 : servCfg,
          sclass                  : serverData,
-         serverName              : serverName,
-         sercerCenterAny         : globalUtil.safeFileReadSync([mainDir, '/public/json/sites/', 'serverCenterAny.cfg.json'], true),
-         sercerCenterActions     : globalUtil.safeFileReadSync([mainDir, '/public/json/sites/', 'serverCenterActions.cfg.json'], true)
+         serverName              : serverName
       });
  })
 

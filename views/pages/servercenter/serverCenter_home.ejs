@@ -1,7 +1,7 @@
 <%- include('../../includes/head'); -%>
-<%- include('../../includes/top_nav'); -%>
-<%- include('../../includes/side_nav'); -%>
-<%- include('../../includes/start'); -%>
+<%- include('../../includes/top') -%>
+<%- include('../../includes/nav') -%>
+<%- include('../../includes/content') -%>
 <%- include('./head'); -%>
 <div class="row">
     <div class="col-12 mb-4">
@@ -15,7 +15,7 @@
                 <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
                     <li class="nav-item">
                         <a class="nav-link active btn-dark p-3" id="pills-llog-tab" data-toggle="pill" href="#pills-llog" role="tab" aria-controls="pills-llog" aria-selected="false" onclick="setdisplay('logbar', 'inline-flex');" onmouseenter="$('#llog').toggleClass('d-lg-none', false)" onmouseleave="$('#llog').toggleClass('d-lg-none', true)">
-                            <i class="nav-icon fas fa-code pr-1" aria-hidden="true"></i> <span id="llog" class="d-lg-none"><%- PANEL_LANG.serverCenterHome.actionLog %></span>
+                            <i class="nav-icon fas fa-code pr-1" aria-hidden="true"></i> <span id="llog" class="d-lg-none"><%- lang[page].actionLog %></span>
                         </a>
                     </li>
                 </ul>
@@ -33,7 +33,7 @@
                             <tr class="bg-dark">
                                 <th colspan="2" class="p-0" style="border: 0!important;">
                                     <div class="list-group-item bg-dark">
-                                        <h4 class="m-0"><%- PANEL_LANG.serverCenterHome.actionLog %></h4>
+                                        <h4 class="m-0"><%- lang[page].actionLog %></h4>
                                     </div>
                                 </th>
                             </tr>
@@ -61,7 +61,6 @@
     vars.cfg = '<%- serverName %>';
 </script>
 
-<script src="/js/arkadmin2/pages/servercenter_home.js" type="application/javascript"></script>
+<script src="/js/kadmin/servercenter_home.js" type="application/javascript"></script>
 
-<%- include('../../includes/end'); -%>
 <%- include('../../includes/foother'); -%>

@@ -1,0 +1,13 @@
+{
+  "save"          : "Speichern",
+  "true"          : "An",
+  "false"         : "Aus",
+  "cfg": {
+    "path"                  : "Server Pfad",
+    "pathBackup"            : "Backup Pfad",
+    "pathLogs"              : "Logs Pfad",
+    "autoBackup"            : "Automatisches Backup",
+    "autoBackupInterval"    : "Automatisches Backup Intervall (in ms)",
+    "selfname"              : "Serverbezeichnung (im Panel)"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "commands": {
+    "install": "Installieren",
+    "update": "Update",
+    "start": "Server starten",
+    "stop": "Server stoppen",
+    "restart": "Server neustarten",
+    "installallmods": "alle Mods Installieren",
+    "backup": "Backup Erstellen"
+  },
+  "parameter": {
+    "validate"            : "SteamCMD Validate",
+    "no-autoupdate"       : "Kein Automatisches Update",
+    "warn"                : "Spieler auf dem Server warnen (benötigt RCON)",
+    "saveworld"           : "Welt Speichern bevor dieser gestoppt wird (benötigt RCON)",
+    "alwaysstart"         : "Server beim Crash wieder starten"
+  },
+  "state": {
+    "danger"        : "Offline",
+    "warning"       : "Nicht installiert",
+    "success"       : "Online",
+    "primary"       : "Startet",
+    "info"          : "Aktion ist in Arbeit"
+  },
+  "timers": {
+    "stopCountDown": {
+      "30"      : "Server stoppt oder Startet in 30 Minuten neu",
+      "15"      : "Server stoppt oder Startet in 15 Minuten neu",
+      "10"      : "Server stoppt oder Startet in 10 Minuten neu",
+      "5"       : "Server stoppt oder Startet in 5 Minuten neu",
+      "4"       : "Server stoppt oder Startet in 4 Minuten neu",
+      "3"       : "Server stoppt oder Startet in 3 Minuten neu",
+      "2"       : "Server stoppt oder Startet in 2 Minuten neu",
+      "1"       : "Server stoppt oder Startet in einer Minute neu",
+      "now"     : "Server stoppt oder Startet jetzt neu (Welt wird gespeichert)",
+      "nownos"  : "Server stoppt oder Startet jetzt neu"
+    }
+  }
+}

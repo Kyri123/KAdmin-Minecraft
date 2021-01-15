@@ -2,32 +2,16 @@
   "is_server_admin"       : 0,
   "show"                  : 0,
   "actions"               : 0,
-  "mods": {
-    "show"                  : 1,
-    "changeplace"           : 0,
-    "remove"                : 0,
-    "add"                   : 0
-  },
   "config": {
     "show"                  : 1,
-    "GameUserSettings"      : 1,
-    "Game"                  : 1,
-    "Engine"                : 1,
-    "arkadmin"              : 1,
-    "show_GameUserSettings" : 0,
-    "show_Game"             : 0,
-    "show_Engine"           : 0,
-    "show_arkadmin"         : 0
+    "server"                : 1,
+    "kadmin"                : 1,
+    "show_server"           : 0,
+    "show_kadmin"           : 0
   },
   "backups": {
     "show"                  : 1,
     "remove"                : 0,
     "playin"                : 0
-  },
-  "api": {
-    "show"                  : 0
-  },
-  "logs": {
-    "show"                  : 1
   }
 }
