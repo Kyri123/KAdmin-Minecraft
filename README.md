@@ -1,5 +1,5 @@
-# Arkadmin 
-
+Arkadmin 
+=============
 Webbasiertes Admin Panel für Ark-Gameserver
 
 **Derzeitige Features**
@@ -10,97 +10,97 @@ Webbasiertes Admin Panel für Ark-Gameserver
   - Erstellen sowie Löschen von Server
   - Übersicht aller Aktiven Server
 - ServerCenter
-  - CMD Response
-  - Backup Kontrolle
-  - Modübersicht mit SteamAPI und Grafiker oberfläche über bessere Übersicht
+  - Konsole
   - Verwaltung und einspielen von Backups
-  - Meldungen bezüglich Benötigten Updates & Installierten Mod
-  - Automatische Updates (mit Mods Updates)
   - Automatische Backups
-  - **[WIP (Funktioniert schon unklar ob in jeden Fall)]** Restart beim Crash vom Server (alwaysstart)
+  - Konfiguration von KAdmin & Server.properties
+  - **[WIP (Funktioniert schon... unklar ob in jeden Fall)]** Restart beim Crash vom Server
 
-# Wichtig
+**Geplante Features**
 
+- ServerCenter
+  - Forge Support
+  - Spigot Support
+  - Konsolen befehle
+- uvm.
+
+Wichtig
+=============
 - **[Dev-Tree]** Benutzten auf eigene GEFAHR (Debugs, Tests usw.)
 - Derzeitiger Status: **Alpha**
 - `Links`
   - Spenden? https://www.paypal.com/cgi-bin/webscr?shell=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
   - Discord: https://discord.gg/ykGnw49
-  - Trello: https://trello.com/b/HZFtQ2DZ/KAdmin-Minecraft
+  - Trello: https://trello.com/b/qJfbqaoq
 
-# Installation
+Installation
+=============
+1. Erstelle einen Ordner
+2. Downloade den letzten Release
+   - MASTER: `wget XXX & chmod 777 ./installer_master.sh & ./starter_master.sh`
+   - DEV: `wget XXX; chmod 777 ./installer_dev.sh & ./starter_dev.sh`
+3. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese
+4. Konfiguriere:
+   - `app/config/app.json`
+   - `app/config/mysql.json`
+5. Starte das Programm mit 
+   - MASTER: `./starter_master.sh`
+   - DEV: `./starter_dev.sh`
 
-- Downloade den letzten Release
-- Erstelle einen Ordner
-- Kopiere alles hier hinein
-- Starte das Programm mit einer der CMD's
-  - Hierbei ist zu beachten, dass der Automatischen Updater nur aktiv wird, wenn das Programm mit gestartet `start_master.shell` oder `start_dev.shell` wird
-  - sollte dies nicht gewünscht sein starte einfach das Programm mit `start_noUpdater.shell`
-- Folge den Angezeigten anweisungen auf der Webseite (http://ip:port)
-- Nach abschluss der Installation startet das Panel neu mit den gewählten Einstellungen und du kannst loslegen
-
-**Alternative:**
-- Downloade nur `start_master.shell` oder `start_dev.shell`
-- Erstelle einen Ordner und in diesen einen `cache`
-- Kopiere die CMD in den Ordner und führe diese aus
-- nun solle das Panel runtergeladen werden und gestartet werden
-  - Es wird IMMER die letzte version der jeweiligen Branch genommen!
-
-# Update
-
-- Ist das Panel bereits mit `start_master.shell` oder `start_dev.shell` gestartet musst du nichts tun einfach warten bis auf ein neues Update geprüft wird.
+Update
+=============
+- Funktioniert automatisch
 - Ansonsten:
   - Beende das Panel
-  - Starte einer der folgenden CMD's: `start_master.shell` oder `start_dev.shell`
+    - MASTER: `./starter_master.sh`
+    - DEV: `./starter_dev.sh`
 
-**Alternative:**
-- Downloade den letzten Release
-- Kopiere alles in den Ordner vom Panel
-- Starte das Programm mit einer der CMD's
-
-# Standart Login
-
+Standart Login
+=============
 - Benutzername UND Password: `admin`
 
-# app.json
-
+app.json
+=============
 | Eigenschaften         | Wert | 
 | :---                  | :--- |
-| `lang`                | Ordner name der für die Sprachdatei verwendet werden soll |
 | `port`                | Port der genutzt werden soll für den Webserver |
 | `servRoot`            | Pfad wo die Server liegen sollen |
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
 
-# main.json
+main.json
+=============
 **INFO:** Hier sollte nur etwas verändert werden wenn man weis was man tut!
 
 | Eigenschaften                       | Wert | 
 | :---                                | :--- |
-| `useDebug`                          | Aktiviert den Debug-Modus in der Konsole |
-| `interval > getStateFromServers`    | Invervall wobei die Informationen von Server erfasst werden (Online usw) |
-| `interval > getTraffic`             | Invervall wobei der Traffic erfasst wird |
-| `interval > doReReadConfig`         | Invervall wobei die Konfigurationen neu geladen werden |
-| `interval > doServerBackgrounder`   | Invervall wobei wobei die Server geprüft werden (alwaysstarter usw) |
-| `interval > backgroundUpdater`      | Invervall wobei das Panel auf eine neue Version geprüft wird |
+| `useDebug`                          | WIP |
+| `interval > getStateFromServers`    | WIP |
+| `interval > getTraffic`             | WIP |
+| `interval > doReReadConfig`         | WIP |
+| `interval > doServerBackgrounder`   | WIP |
+| `interval > backgroundUpdater`      | WIP |
 | `interval > doJob`                  | WIP |
 
 # Sprache Installieren
 
 - Lade die JSON Dateien in `/lang/<lang>/` hoch 
-- Bearbeite die `/app/config/app.json` und stelle `lang` auf den ordner Namen `<lang>`
 - WICHTIG: Es wird derzeit nur Deutsch mitgeliefert 
 
 # Benötigt
 - `Betriebssystem`
-  - Linux (derzeit getestet auf: Debain 9)
+  - Linux | Getestet auf:
+    - Debain 9 & 10
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
 - `Node.JS` 
   - Version >= 15.5.1                   > https://nodejs.org/dist/v15.5.1/node-v15.5.1-x64.msi
   - NVM (empfohlen für Versionswechsel) > https://github.com/nvm-sh/nvm
 - `MariaDB` 
   - Server              > z.B. https://www.apachefriends.org/de/index.html
-
+- `Linux`
+  - screen
+  - java-8 jenachdem welche MC server und Mods!
+  
 # Andere Projekte:
 | Projekt                     | Status          | URL | 
 | :---                        | :---            | :--- |
@@ -115,4 +115,4 @@ Webbasiertes Admin Panel für Ark-Gameserver
 
 # Links
  
-- Frontend by AdminLTE (3.1)(https://github.com/ColorlibHQ/AdminLTE)
+- Frontend by **AdminLTE 3.1** (https://github.com/ColorlibHQ/AdminLTE)
