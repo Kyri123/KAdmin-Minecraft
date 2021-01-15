@@ -22,87 +22,6 @@ module.exports = {
     },
 
     /**
-     *
-     * Kovertiert ACF datei von Steam zu einem Array
-     * @param {string} logPath Pfad zur Datei
-     * @return {Promise<array|boolean>}
-     */
-    toAcfToArraySync: (logPath) => {
-        if(globalUtil.safeFileExsistsSync([logPath])) {
-            let file     = module.exports.safeFileReadSync([logPath])
-            if(file !== false) {
-                let rawFile  = file.toString()
-                rawFile      = rawFile
-                   .replace(/\n/g, '-n-')
-                   .replace(/\r/g, '')
-                   .replace(/\t/g, '-t-')
-                   .replace(/(.*)"376030"-n-{(.*)/, `"376030"-n-{$2`) // Ark:SE DedServer
-                   .replace(/"-t--t-"/g, '":"')
-                   .replace(/-n-/g, '')
-                   .replace(/(.*)-t--t-}-t-}}(.*)/, '$1-t--t-}-t-}}')
-                   .replace(/}"/g, '},"')
-                   .replace(/"{/g, '":{')
-                   .replace(/-t-/g, '')
-                   .replace(/""/g, '","')
-                   .replace(/}"/g, '},"')
-                   .replace(/"{/g, '":{')
-                   .replace(/"description":",""pwdrequired"/g, '"pwdrequired"')
-                   .replace(/"description":",""timeupdated"/g, '"timeupdated"')
-                   .replace(/(.*)"346110":(.*)/, `"346110":$2`) // Ark:SE DedServer
-                   .replace(/(.*)"maxnumfiles":"100"}}(.*)/, `$1"maxnumfiles":"100"}}`)
-                try {
-                    return JSON.parse(`{${rawFile}}`)
-                }
-                catch (e) {
-                    if(debug) console.log(e)
-                }
-            }
-        }
-        return false
-    },
-
-    /**
-     * Kovertiert ACF datei von Steam zu einem Array
-     * @param {string} logPath Pfad zur Datei
-     * @return {Promise<array|boolean>}
-     */
-    toAcfToArray: async (logPath) => {
-        return new Promise(resolve => {
-            if(globalUtil.safeFileExsistsSync([logPath])) {
-                let file     = module.exports.safeFileReadSync([logPath])
-                if(file !== false) {
-                    let rawFile  = file.toString()
-                    rawFile      = rawFile
-                       .replace(/\n/g, '-n-')
-                       .replace(/\r/g, '')
-                       .replace(/\t/g, '-t-')
-                       .replace(/(.*)"376030"-n-{(.*)/, `"376030"-n-{$2`) // Ark:SE DedServer
-                       .replace(/"-t--t-"/g, '":"')
-                       .replace(/-n-/g, '')
-                       .replace(/(.*)-t--t-}-t-}}(.*)/, '$1-t--t-}-t-}}')
-                       .replace(/}"/g, '},"')
-                       .replace(/"{/g, '":{')
-                       .replace(/-t-/g, '')
-                       .replace(/""/g, '","')
-                       .replace(/}"/g, '},"')
-                       .replace(/"{/g, '":{')
-                       .replace(/"description":",""pwdrequired"/g, '"pwdrequired"')
-                       .replace(/"description":",""timeupdated"/g, '"timeupdated"')
-                       .replace(/(.*)"346110":(.*)/, `"346110":$2`) // Ark:SE DedServer
-                       .replace(/(.*)"maxnumfiles":"100"}}(.*)/, `$1"maxnumfiles":"100"}}`)
-                    try {
-                        resolve(JSON.parse(`{${rawFile}}`))
-                    }
-                    catch (e) {
-                        if(debug) console.log(e)
-                    }
-                }
-            }
-            return resolve(false)
-        })
-    },
-
-    /**
      * Prüft string auf unzulässige Zeichen (Pfad)
      * @param {string|any[]} paths Pfade
      * @return {boolean|array}
@@ -118,6 +37,24 @@ module.exports = {
             bool = paths.indexOf('\0') === -1
         }
         return bool
+    },
+
+    /**
+     * Gibt aus ob eine Datei exsistiert
+     * @param {string[]} paths Pfade zur Datei
+     * @return {boolean}
+     */
+    safeFileExsistsSync(paths) {
+        // Prüfe Pfad
+        if(module.exports.poisonNull(paths)) {
+            // Lege Pfad fest
+            let filePath        = pathMod.join(...paths)
+
+            if(module.exports.checkValidatePath(filePath) === true) {
+                return fs.existsSync(filePath)
+            }
+        }
+        return false
     },
 
     /**
@@ -181,7 +118,7 @@ module.exports = {
             if(module.exports.checkValidatePath(filePath) === true) {
                 // Datei Speichern
                 try {
-                    fs.mkdirSync(filePath, {recursive: true})
+                    if(fs.existsSync(filePath)) fs.mkdirSync(filePath, {recursive: true})
                     return true
                 }
                 catch (e) {
@@ -235,28 +172,8 @@ module.exports = {
 
             // Datei Speichern und Prüfen
             if(module.exports.checkValidatePath(filePath) === true)
-                if(!module.exports.safeFileExsistsSync([filePath]))
+                if(!fs.existsSync([filePath]))
                     return module.exports.safeFileSaveSync([filePath], data, codierung)
-        }
-        return false
-    },
-
-    /**
-     * Gibt aus ob eine Datei exsistiert
-     * @param {string[]} paths Pfade zur Datei
-     * @param {boolean} json JSON.parse(this)
-     * @param {string} codierung Coodierung die Benutzt werden soll
-     * @return {boolean}
-     */
-    safeFileExsistsSync(paths, json = false, codierung = 'utf8') {
-        // Prüfe Pfad
-        if(module.exports.poisonNull(paths)) {
-            // Lege Pfad fest
-            let filePath        = pathMod.join(...paths)
-
-            if(module.exports.checkValidatePath(filePath) === true) {
-                return fs.existsSync(filePath)
-            }
         }
         return false
     },

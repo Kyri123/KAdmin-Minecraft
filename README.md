@@ -20,8 +20,9 @@ Webbasiertes Admin Panel für Ark-Gameserver
 
 - ServerCenter
   - Forge Support
+  - Modpack Support
   - Spigot Support
-  - Konsolen befehle
+  - Konsolen Befehle
 - uvm.
 
 Wichtig

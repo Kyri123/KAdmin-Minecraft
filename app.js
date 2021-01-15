@@ -49,6 +49,11 @@ require('./app/main/mainLoader.js')
 global.alerter                        = require('./app/src/alert.js')
 global.debug                          = CONFIG.main.useDebug
 
+globalUtil.safeFileMkdirSync([CONFIG.app.servRoot])
+globalUtil.safeFileMkdirSync([CONFIG.app.logRoot])
+globalUtil.safeFileMkdirSync([CONFIG.app.pathBackup])
+
+
 // Checking Installed
 /*
 global.pathToInstallerJSON  = pathMod.join(mainDir, '/app/json/panel/', 'installer.json')
