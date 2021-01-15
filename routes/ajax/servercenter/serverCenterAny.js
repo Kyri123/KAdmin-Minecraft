@@ -11,13 +11,31 @@
 const express           = require('express')
 const router            = express.Router()
 const globalinfos       = require('./../../../app/src/global_infos');
-const serverClass       = require('./../../../app/src/util_server/class');
 const serverCommands    = require('./../../../app/src/background/server/commands');
 
 router.route('/')
 
     .post((req,res)=>{
         let POST        = req.body;
+
+        // VersionPicker
+        if(POST.installVersion !== undefined && userHelper.hasPermissions(req.session.uid, "actions", POST.cfg)) {
+            POST.version    = parseInt(POST.version, 10)
+            let serv        = new serverClass(POST.cfg)
+
+            if(!isNaN(POST.version) && serv.serverExsists()) {
+                let v       = versionVanillaControler.readList().versions[POST.version].id
+                let succ    = versionVanillaControler.downloadServer(POST.version, `${serv.getConfig().path}/server.jar`)
+                if(succ) serv.writeConfig("currversion", v)
+
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        alert: alerter.rd(succ ? 1018 : 3).replace("{v}", v)
+                    })
+                });
+                return true;
+            }
+        }
 
         // Action Handle
         if(POST.actions !== undefined && POST.cfg !== undefined && userHelper.hasPermissions(req.session.uid, "actions", POST.cfg)) {

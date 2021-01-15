@@ -155,6 +155,38 @@
     </div>
 </div>
 
+<% if(userHelper.hasPermissions(user.id, "versionpicker", serverName)) { %>
+    <!-- MODAL VERSION -->
+    <div class="modal fade" id="versionpicker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="max-width: 700px">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><%- lang["servercenter_any"].versionpicker.title %></h5>
+                </div>
+                <div class="modal-body p-0" id="AlertBody">
+                        <div class="pl-3 pr-3 mt-2 mb-2"><%- lang["servercenter_any"].versionpicker.branch %></div>
+                        <select name="action" id="tpick" class="form-control" onchange="generateVersionList(this.id)">
+                            <option value="release"><%- lang["servercenter_any"].versionpicker.release %></option>
+                            <option value="snapshot"><%- lang["servercenter_any"].versionpicker.snapshot %></option>
+                            <option value="old_beta"><%- lang["servercenter_any"].versionpicker.old_beta %></option>
+                            <option value="old_alpha"><%- lang["servercenter_any"].versionpicker.old_alpha %></option>
+                        </select>
+                        <div class="pl-3 pr-3 mt-2 mb-2"><%- lang["servercenter_any"].versionpicker.pick %></div>
+                        <select name="action" id="vpick" class="form-control">
+                            <option><%- lang["servercenter_any"].versionpicker.pick %></option>
+                        </select>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="actions" value="sendcommand">
+                    <input type="hidden" name="cfg" value="<%- serverName %>">
+                    <button type="button" class="btn btn-success" onclick="installVersion('<%- serverName %>')"><%- lang["servercenter_any"].versionpicker.send %></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+
 <script>
     // Vars die zur JS übergeben werden
     // Allgemeine Vars

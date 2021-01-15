@@ -94,7 +94,7 @@ main.json
     - Debain 9 & 10
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
 - `Node.JS` 
-  - Version >= 15.5.1                   > https://nodejs.org/dist/v15.5.1/node-v15.5.1-x64.msi
+  - Version >= 15.6.0                   > https://nodejs.org/dist/v15.5.1/node-v15.5.1-x64.msi
   - NVM (empfohlen für Versionswechsel) > https://github.com/nvm-sh/nvm
 - `MariaDB` 
   - Server              > z.B. https://www.apachefriends.org/de/index.html

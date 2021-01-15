@@ -51,26 +51,6 @@ module.exports = class versionControler {
    }
 
    /**
-    * Hollt die DownloadURL über versionUrl
-    * version {string} VersionsURL
-    * @return {boolean|string}
-    */
-   getVersionDownloadUrlVersionUrl(version) {
-      rq(version, (error, response, body) => {
-         try {
-            if(!error && response.statusCode === 200) {
-               let data    = JSON.parse(body);
-               return      data.downloads.server.url
-            }
-         }
-         catch (e) {
-            if(debug) console.log(e)
-         }
-      })
-      return false
-   }
-
-   /**
     * Hollt die DownloadURL über versionString
     * version {string} VersionsString
     * @return {boolean|string}
@@ -120,29 +100,28 @@ module.exports = class versionControler {
 
    /**
     * Download Server
-    * version {string} VersionsURL/String/Index
+    * version {string} String/Index
     * path {string} Pfad wo es gespeichert werden soll
     * @return {boolean}
     */
    downloadServer(version, path) {
-      (async () => {
-         let url  = false
-         if(validUrl.isUri(version)) {
-            url  = this.getVersionDownloadUrlVersionUrl(version)
-         }
-         else if(version.isNumber) {
-            url  = this.getVersionDownloadUrlVersionIndex(version)
-         }
-         else if(typeof version === "string") {
-            url  = this.getVersionDownloadUrlVersionString(version)
-         }
+      let url  = false
+      if(!isNaN(parseInt(version, 10))) {
+         url  = this.getVersionDownloadUrlVersionIndex(version)
+      }
+      else if(typeof version === "string") {
+         url  = this.getVersionDownloadUrlVersionString(version)
+      }
 
-         if(url !== false) {
-            globalUtil.safeFileRmSync([path])
-            globalUtil.safeFileSaveSync([pathMod.join(path).replace("server.jar", "eula.txt")], "eula=true")
-            download(url)
-               .pipe(fs.createWriteStream(pathMod.join(path)))
-         }
-      })();
+      if(url !== false) {
+         (async () => {
+               globalUtil.safeFileRmSync([path])
+               globalUtil.safeFileSaveSync([pathMod.join(path).replace("server.jar", "eula.txt")], "eula=true")
+               download(url)
+                  .pipe(fs.createWriteStream(pathMod.join(path)))
+         })()
+      }
+
+      return url !== false
    }
 }

@@ -40,7 +40,7 @@ router.route('/')
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(serverData.saveConfig(POST.cfgsend) ? 1009 : 3).replace("{ini}", "KAdmin-ArkWIN")
+                    alert: alerter.rd(serverData.saveConfig(POST.cfgsend) ? 1018 : 3).replace("{ini}", "KAdmin-ArkWIN")
                 })
             });
             return true;

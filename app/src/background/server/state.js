@@ -90,7 +90,7 @@ module.exports = {
                    ? (data.version === undefined || data.version.trim() === ""
                      ? servCFG.currversion
                      : data.version
-                   ) : data.version
+                   ) : servCFG.currversion
 
 
                 // Alerts

@@ -143,6 +143,10 @@
     "title" : "Benutzergruppe(n) gesetzt",
     "text"  : "Die Benutzergruppe(n) wurde(n) erfolgreich verändert"
   },
+  "1018": {
+    "title" : "Wird Installiert",
+    "text"  : "Die Version <b>{v}</b> wird nun installiert"
+  },
 
 
 

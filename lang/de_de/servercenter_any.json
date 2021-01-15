@@ -8,10 +8,20 @@
   "actionsClose"  : "Abbrechen",
   "actionsSend"   : "Aktion ausführen",
   "alertClose"    : "Schließen",
-  "nav" : {
+  "nav"           : {
     "home"        : "Startseite",
     "config"      : "Konfiguration",
     "mods"        : "Modifikation",
     "backups"     : "Backups"
+  },
+  "versionpicker" : {
+    "title"       : "Versionsauswahl",
+    "release"     : "Releases",
+    "snapshot"    : "Snapshots",
+    "old_beta"    : "alte Beta",
+    "old_alpha"   : "alte Alpha",
+    "pick"        : "Version auswählen",
+    "branch"      : "Wählen die Art",
+    "send"        : "Version Installieren"
   }
 }

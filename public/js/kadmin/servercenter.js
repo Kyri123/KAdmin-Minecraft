@@ -181,7 +181,7 @@ $('#action_sel').change(() => {
                 </label>
             </div>`
         })
-        parmForm = parmFormT0 + parmFormT1
+        let parmForm = parmFormT0 + parmFormT1
         if($('#action_parm').html() !== parmForm) $('#action_parm').html(parmForm);// Action Card -> Select
     })
 })
@@ -206,3 +206,38 @@ $btnCopy.addEventListener('click', (ev) => {
     alert("Kopiert: " + secretInfo)
 })
 // }
+
+function generateVersionList(qid) {
+    let quelle      = $(`#${qid}`)
+    let ziel        = $(`#vpick`)
+    let zielList    = `<option>${globalvars.lang_arr["servercenter_any"].versionpicker.pick}</option>`
+    let lf          = quelle.val()
+    ziel.html(zielList)
+
+    // hole Versionsliste
+    $.get('/json/serverInfos/mcVersions.json', (list) => {
+        if(typeof list !== "undefined")
+            for(let i in list.versions)
+                if(list.versions[i].type === lf)
+                    ziel.append(`<option value="${i}">${list.versions[i].id}</option>`)
+    })
+}
+generateVersionList("tpick")
+
+
+function installVersion(cfg) {
+    $.post('/ajax/serverCenterAny' , {
+        installVersion  : true,
+        cfg             : cfg,
+        version         : $(`#vpick`).val()
+    }, (data) => {
+        try {
+            data    = JSON.parse(data);
+            if(data.alert !== undefined) $('#all_resp').append(data.alert);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    })
+    return false;
+}

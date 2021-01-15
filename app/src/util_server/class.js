@@ -131,7 +131,7 @@ module.exports = class serverClass {
       if(this.serverExsists() && typeof this.cfg[key] !== "undefined") {
          this.cfg[key] = value
          try {
-            return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(config))
+            return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(this.cfg))
          }
          catch (e) {
             if(debug) console.log(e)

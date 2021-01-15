@@ -1,14 +1,19 @@
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="/home" class="brand-link">
-        <!--<img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">-->
-        <span class="brand-text font-weight-light pl-2">KAdmin-Minecraft</span>
+        <img src="/img/logo/logo.png" alt="AdminLTE Logo" class="brand-image img-circle" style="opacity: .8">
+        <span class="brand-text font-weight-light pl-0">KAdmin-Minecraft</span>
+        <div class="ribbon-wrapper">
+            <div class="ribbon bg-danger">
+                Alpha
+            </div>
+        </div>
     </a>
 
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex" onclick="window.location='/usersettings'">
             <div class="image text-white" style="font-size: 23px">
-                <i class="fa fa-user" class="img-circle elevation-2"></i>
+                <i class="nav-icon fa fa-user" class="img-circle elevation-2"></i>
             </div>
             <div class="info">
                 <a href="#" class="d-block">Hey, <b><%- userHelper.getinfos(userID) !== false ? userHelper.getinfos(userID).username : "???" %></b></a>
