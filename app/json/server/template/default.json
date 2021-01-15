@@ -8,5 +8,7 @@
   "autoBackup"              : false,
   "autoBackupInterval"      : 1800000,
   "autoBackupNext"          : 0,
-  "shouldRun"               : false
+  "shouldRun"               : false,
+  "selfname"                : "[KAdmin] MinecraftServer",
+  "currversion"             : "0.0.0"
 }

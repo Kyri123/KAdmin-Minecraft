@@ -19,8 +19,7 @@
     "danger"        : "Offline",
     "warning"       : "Nicht installiert",
     "success"       : "Online",
-    "primary"       : "Startet",
-    "info"          : "Aktion ist in Arbeit"
+    "primary"       : "Startet"
   },
   "timers": {
     "stopCountDown": {

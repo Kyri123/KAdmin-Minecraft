@@ -86,7 +86,11 @@ module.exports = {
                 data.aplayers       = 0
                 data.aplayersarr    = []
                 data.ping           = 0
-                data.version        = data.version === undefined ? "" : data.version
+                data.version        = servCFG.currversion === "0.0.0"
+                   ? (data.version === undefined || data.version.trim() === ""
+                     ? servCFG.currversion
+                     : data.version
+                   ) : data.version
 
 
                 // Alerts

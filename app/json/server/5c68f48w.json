@@ -9,5 +9,6 @@
   "autoBackupInterval"      : 1800000,
   "autoBackupNext"          : 0,
   "shouldRun"               : false,
-  "selfname"                : "MinecraftServer 1"
+  "selfname"                : "MinecraftServer 1",
+  "currversion"             : "0.0.0"
 }

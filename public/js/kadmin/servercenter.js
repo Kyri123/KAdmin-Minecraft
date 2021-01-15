@@ -22,7 +22,6 @@ function getSCState() {
         "server": varser.cfg
     }, (data) => {
         let serverInfos = JSON.parse(data)
-        console.log(serverInfos)
         let state_id = $('#state')
         let player_id = $('#player')
         let inhalt
@@ -31,9 +30,20 @@ function getSCState() {
         if(!serverInfos.is_installed)                       stateColor = "warning"
         if(serverInfos.pid !== 0 && !serverInfos.online)    stateColor = "primary"
         if(serverInfos.pid !== 0 && serverInfos.online)     stateColor = "success"
-        if(serverInfos.cmd || serverInfos.steamcmd)         stateColor = "info"
 
-        let stateText = varser.lang_arr.state[stateColor]
+        let stateText = varser.lang_arr.forservers.state[stateColor]
+
+        // Versionserfassung
+        let version
+        if(stateColor === "danger" || stateColor === "warning") {
+            version = hasPermissions(globalvars.perm, "versionpicker", varser.cfg)
+               ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
+               : serverInfos.version
+        }
+        else {
+            version = serverInfos.version
+        }
+        if($('#version').html().trim().toUpperCase() !== version.trim().toUpperCase()) $('#version').html(version)
 
         //server IMG
         $('#serv_img').attr('class', `border-${stateColor}`)
@@ -55,27 +65,21 @@ function getSCState() {
 
         // Action Card
         let css
-        if(serverInfos.cmd) {
-            inhalt = varser.lang_arr.serverCenterAny.actionClose
+        if(stateColor === "warning") {
+            inhalt = varser.lang_arr.servercenter_any.actionClose
         }
         else {
             inhalt = hasPermissions(globalvars.perm, "actions", varser.cfg)
-                ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#action">${varser.lang_arr.serverCenterAny.actionFree}</a>`
-                : varser.lang_arr.serverCenterAny.actionClose
+                ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#action">${varser.lang_arr.servercenter_any.actionFree}</a>`
+                : varser.lang_arr.servercenter_any.actionClose
         }
         css = 'success'
         if($('#actions').html() !== inhalt) $('#actions').html(inhalt).attr('class',`description-header text-${css}`);// Action Card -> Select
 
         // Alerts
-        if(serverInfos.alerts !== undefined) {
+        /*if(serverInfos.alerts !== undefined) {
             $.get('/json/steamAPI/mods.json', (mods) => {
                 let modNeedUpdates      = []
-
-                if(serverInfos.modNeedUpdates !== false) serverInfos.modNeedUpdates.forEach((val) => {
-                    val     = parseInt(val).toString()
-                    if(serverInfos.installedMods.includes(val) && !modNeedUpdates.includes(val)) modNeedUpdates.push(val)
-                })
-
                 let rplf                = []
                 let tplt                = []
                 mods.response.publishedfiledetails.forEach((val) => {
@@ -100,7 +104,7 @@ function getSCState() {
                     .replace("{modi}", serverInfos.notInstalledMods.join("</li><li>"))
                     .replaceArray(rplf, tplt))
             })
-        }
+        }*/
     })
 }
 

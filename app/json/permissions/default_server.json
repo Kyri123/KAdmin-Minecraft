@@ -2,6 +2,7 @@
   "is_server_admin"       : 0,
   "show"                  : 0,
   "actions"               : 0,
+  "versionpicker"         : 0,
   "config": {
     "show"                  : 1,
     "server"                : 1,
