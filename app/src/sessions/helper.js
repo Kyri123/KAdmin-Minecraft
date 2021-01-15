@@ -56,7 +56,7 @@ module.exports = {
      */
     defaultPermissions: () => {
         let permissions         = globalUtil.safeFileReadSync([mainDir, '/app/json/permissions/', 'default.json'], true)
-        let servers             = getServerList()
+        let servers             = globalInfos.getServerList()
 
         for (const [key] of Object.entries(servers)) {
             try {
