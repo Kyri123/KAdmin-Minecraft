@@ -101,7 +101,7 @@ module.exports = {
                     data.alerts.push("3999")
                 }
 
-                findProcess('port', servINI['server-port'])
+                findProcess('name', name)
                     .then(function (list) {
                         if (list.length) {
                             let pid     = list[0].pid
