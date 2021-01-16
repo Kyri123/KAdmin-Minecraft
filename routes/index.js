@@ -23,6 +23,7 @@ router.use('/changelog',                     isLoggedIn,                        
 router.use('/usersettings',                  isLoggedIn,                         require('./pages/usersettings'))
 router.use('/grouppanel',                    isLoggedIn,                         require('./pages/groupPanel'))
 router.use('/userpanel',                     isLoggedIn,                         require('./pages/userPanel'))
+router.use('/servercontrolcenter',           isLoggedIn,                         require('./pages/serverControlCenter'))
 
 // Server Center
 router.use('/servercenter/:name/backups',    isLoggedIn    , isServerExsits    , require('./pages/servercenter/serverCenter_backups'));
@@ -34,6 +35,7 @@ router.use('/servercenter/:name',            isLoggedIn    , isServerExsits    ,
 router.use('/ajax/usersettings',             isLoggedIn    ,                     require('./ajax/usersettings'))
 router.use('/ajax/userpanel',                isLoggedIn    ,                     require('./ajax/userPanel'))
 router.use('/ajax/grouppanel',               isLoggedIn    ,                     require('./ajax/groupPanel'))
+router.use('/ajax/servercontrolcenter',      isLoggedIn    ,                     require('./ajax/serverControlCenter'))
 
 // ajax - ServerCenter
 router.use('/ajax/serverCenterHome',         isLoggedIn    ,                     require('./ajax/servercenter/serverCenterHome'));
