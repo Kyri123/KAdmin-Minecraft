@@ -2,8 +2,8 @@
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
  * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-ArkWIN/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-ArkWIN
+ * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+ * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
  */
 "use strict"
@@ -40,7 +40,7 @@ router.route('/')
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(serverData.saveConfig(POST.cfgsend) ? 1009 : 3).replace("{ini}", "KAdmin-ArkWIN")
+                    alert: alerter.rd(serverData.saveConfig(POST.cfgsend) ? 1009 : 3).replace("{ini}", "KAdmin-Minecraft")
                 })
             });
             return true;

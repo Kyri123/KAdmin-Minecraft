@@ -15,6 +15,7 @@ const disk                  = require('check-disk-space')
 const AA_util               = require('../util')
 const req                   = require('request')
 const server_state          = require('./server/state')
+const serverCommands        = require('./server/commands')
 
 
 module.exports = {
@@ -27,6 +28,7 @@ module.exports = {
         setInterval(() => module.exports.getTraffic(),                  CONFIG.main.interval.getTraffic)
         setInterval(() => module.exports.getStateFromServers(),         CONFIG.main.interval.getStateFromServers)
         setInterval(() => module.exports.getVersionList(),              CONFIG.main.interval.getVersionList)
+        setInterval(() => module.exports.doServerBackgrounder(),        CONFIG.main.interval.doServerBackgrounder)
     },
 
     /**
@@ -176,4 +178,38 @@ module.exports = {
             })
         })
     },
+
+
+    /**
+     * Führt hintergrund aktionen von Server aus Bsp.: Automatisches Update
+     * @returns {Promise<void>}
+     */
+    doServerBackgrounder: async () => {
+        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > doServerBackgrounder`)
+        let serverInfos     = globalInfos.get()
+
+        if(serverInfos.servers_arr.length > 0) {
+            serverInfos.servers_arr.forEach((val) => {
+                let serv = new serverClass(val[0])
+                if(serv.serverExsists()) {
+                    let cfg = serv.getConfig()
+                    // Auto Backup system
+                    if(cfg.autoBackup) {
+                        if(Date.now() > cfg.autoBackupNext) {
+                            serverCommands.doBackup(val[0], []);
+                            serv.writeConfig("autoBackupNext", (Date.now() + cfg.autoBackupInterval))
+                            if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > doServerBackgrounder > autoBackup > ${val[0]}`)
+                        }
+                    }
+
+                    // soll der Server laufen?
+                    if(cfg.shouldRun && val[1].pid === 0) {
+                        console.log(val[0])
+                        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > doServerBackgrounder > Start > ${val[0]}`)
+                        serverCommands.doStart(val[0], [])
+                    }
+                }
+            })
+        }
+    }
 }

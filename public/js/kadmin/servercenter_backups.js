@@ -2,8 +2,8 @@
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
  * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-ArkWIN/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-ArkWIN
+ * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+ * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
  */
 "use strict"
@@ -27,9 +27,11 @@ function get() {
             let ktime   = ``;
             let ktimes  = ``;
 
+            console.log(server)
+
             server.forEach((val) => {
-                if(val.includes(".zip")) {
-                    let timeStamp   = val.replace(".zip", "");
+                if(val.includes(".tar.gz")) {
+                    let timeStamp   = val.replace(".tar.gz", "");
                     let time        = convertTime(parseInt(timeStamp));
                     let cktime      = time.split(" ")[0];
 
@@ -65,11 +67,11 @@ function get() {
                                 </table>
                                 <div class="right">
     
-                                    ${serverInfos.pid === 0 && hasPermissions(globalvars.perm, "backups/playin", varser.cfg) ? `<a href="javascript:void();" onclick="setInModal('#filepi~val~${val}', '#filepititle~htm~${time}')" class="btn btn-info btn-sm" data-toggle="modal" data-target="#playinBackup">
+                                    ${serverInfos.pid === 0 && hasPermissions(globalvars.perm, "backups/playin", varser.cfg) ? `<!--<a href="javascript:void();" onclick="setInModal('#filepi~val~${val}', '#filepititle~htm~${time}')" class="btn btn-info btn-sm" data-toggle="modal" data-target="#playinBackup">
                                         <span class="icon text-white">
                                             <i class="fas fa-play" aria-hidden="true"></i>
                                         </span>
-                                    </a>` : ""}
+                                    </a>-->` : ""}
     
                                     ${hasPermissions(globalvars.perm, "backups/remove", varser.cfg) ? `<a href="javascript:void();" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeBackup" onclick="setInModal('#fileNameRemove~val~${val}', '#removeTitle~htm~${time}')">
                                         <span class="icon text-white">
