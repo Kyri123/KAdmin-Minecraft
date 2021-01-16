@@ -163,13 +163,13 @@
                 <div class="modal-header bg-info text-white">
                     <h5 class="modal-title"><%- lang["servercenter_any"].versionpicker.title %></h5>
                 </div>
-                <div class="modal-body p-0" id="AlertBody">
-                        <div class="pl-3 pr-3 mt-2 mb-2"><%- lang["servercenter_any"].versionpicker.branch %></div>
+                <div class="modal-body">
+                        <div class="pl-3 pr-3 mb-2"><%- lang["servercenter_any"].versionpicker.branch %></div>
                         <select name="action" id="tpick" class="form-control" onchange="generateVersionList(this.id)">
                             <option value="release"><%- lang["servercenter_any"].versionpicker.release %></option>
                             <option value="snapshot"><%- lang["servercenter_any"].versionpicker.snapshot %></option>
-                            <option value="old_beta"><%- lang["servercenter_any"].versionpicker.old_beta %></option>
-                            <option value="old_alpha"><%- lang["servercenter_any"].versionpicker.old_alpha %></option>
+                            <!--<option value="old_beta"><%- lang["servercenter_any"].versionpicker.old_beta %></option>
+                            <option value="old_alpha"><%- lang["servercenter_any"].versionpicker.old_alpha %></option>-->
                         </select>
                         <div class="pl-3 pr-3 mt-2 mb-2"><%- lang["servercenter_any"].versionpicker.pick %></div>
                         <select name="action" id="vpick" class="form-control">

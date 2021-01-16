@@ -1,4 +1,5 @@
 {
+  "pagename"        : "SC - Backups",
   "modal": {
     "removeText"    : "Möchtest du wirklich dieses Backup löschen?",
     "remove"        : "Backup Löschen",

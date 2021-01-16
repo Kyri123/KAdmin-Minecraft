@@ -110,21 +110,13 @@ function getSCState() {
 
 $('#action').on('show.bs.modal', () => {
     // Selects
-    $.get('/ajax/serverCenterAny', {
-        "getserverinfos": true,
-        "server": varser.cfg
-    }, (data) => {
-        let serverInfos = JSON.parse(data)
-        $.get('/ajax/serverCenterAny', {
-            "getscglobalinfos": true
-        }, (datas) => {
-            let sels    = JSON.parse(datas)[0].actions
-            let selects = `<option value="">${varser.lang_arr.all.select_default}</option>`
-            sels.forEach((val) => {
-                if(!serverInfos.is_installed && val === "install") selects += `<option value="${val}">${varser.lang_arr.commands[val]}</option>`
-                if(serverInfos.is_installed && val !== "install") selects += `<option value="${val}">${varser.lang_arr.commands[val]}</option>`
-            })
-            if($('#action_sel').html() !== selects) $('#action_sel').html(selects);// Action Card -> Select
+    $.get('/json/sites/serverCenterActions.cfg.json' , (datas) => {
+        console.log(datas)
+        let sels    = datas.actions
+        let id      = "#action_sel"
+        $(id).html(`<option value="">${varser.lang_arr.all.select_default}</option>`)
+        sels.forEach(item => {
+            $(id).append(`<option value="${item}">${varser.lang_arr.forservers.commands[item]}</option>`)
         })
     })
 })
@@ -166,18 +158,16 @@ $("#action_form").submit(() => {
 
 $('#action_sel').change(() => {
     var action = $("#action_sel").val()
-    $.get('/ajax/serverCenterAny', {
-        "getscglobalinfos": true
-    }, (datas) => {
-        let parm    = JSON.parse(datas)[0].parameter
-        let parmFormT0 = ``
-        let parmFormT1 = ``
+    $.get('/json/sites/serverCenterActions.cfg.json', (datas) => {
+        let parm        = datas.parameter
+        let parmFormT0  = ``
+        let parmFormT1  = ``
         parm.forEach((val) => {
             if(val.for.includes(action) && val.type === 0) parmFormT0 += `
             <div class="icheck-primary mb-3 col-md-6">
                 <input type="checkbox" name="para[]" value="${val.parameter}" id="${val.id_js}">
                 <label for="${val.id_js}">
-                    ${globalvars.lang_arr.parameter[val.id_js]}
+                    ${varser.lang_arr.forservers.parameter[val.id_js]}
                 </label>
             </div>`
         })
@@ -234,6 +224,9 @@ function installVersion(cfg) {
         try {
             data    = JSON.parse(data);
             if(data.alert !== undefined) $('#all_resp').append(data.alert);
+            $('#versionpicker').modal('hide')
+            $('.modal-backdrop').remove()
+            $('.modal-backdrop').remove()
         }
         catch (e) {
             console.log(e);

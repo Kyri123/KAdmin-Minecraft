@@ -12,4 +12,11 @@ const CommandUtil           = require('./commands_util')
 const serverShell           = require('./shell')
 
 module.exports = {
+
+   doStart: (server) => {
+      let serv       = new serverClass(server)
+      if(serv.serverExsists()) {
+
+      }
+   }
 }

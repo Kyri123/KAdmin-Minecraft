@@ -40,9 +40,32 @@ router.route('/')
         // Action Handle
         if(POST.actions !== undefined && POST.cfg !== undefined && userHelper.hasPermissions(req.session.uid, "actions", POST.cfg)) {
             if(POST.actions === "sendcommand") {
-                let stop = false;
+                let stop    = false
+                let done    = false
 
                 // Server Installieren
+                switch(POST.action) {
+                    case "start":
+
+                       break;
+                    case "stop":
+
+                        break;
+                    case "restart":
+
+                        break;
+                    case "backup":
+
+                        break;
+                }
+
+                if(done) {
+                    res.render('ajax/json', {
+                        data: `{"code":"1", "txt": "Install running"}`
+                    });
+                    return true;
+                }
+
                 if(POST.action === "install") {
                     if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > install`);
                     serverCommands.doInstallServer(
@@ -183,29 +206,6 @@ router.route('/')
                 data: JSON.stringify(globalinfos.get())
             });
             return true;
-        }
-
-        // GET ActionJson
-        if(GET.getscglobalinfos !== undefined) {
-            try {
-                let array = [];
-                let file = globalUtil.safeFileReadSync([mainDir, '/public/json/sites/', 'serverCenterActions.cfg.json'], true);
-                array[0] = file !== false ? file : [];
-                file     = globalUtil.safeFileReadSync([mainDir, '/public/json/sites/', 'serverCenterAny.cfg.json'], true);
-                array[1] = file !== false ? file : [];
-
-                res.render('ajax/json', {
-                    data: JSON.stringify(array)
-                });
-                return true;
-            }
-            catch (e) {
-                if(debug) console.log(e);
-                res.render('ajax/json', {
-                    data: '{"state": false}'
-                });
-                return true;
-            }
         }
     })
 

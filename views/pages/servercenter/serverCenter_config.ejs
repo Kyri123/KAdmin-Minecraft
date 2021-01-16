@@ -76,7 +76,7 @@
                                            "autoBackupNext",
                                            "autoUpdateNext",
                                            "autoUpdate",
-                                           "autoUpdateIntverall",
+                                           "autoUpdateInterval",
                                            "currversion"
                                        ]
                                         let readonly = [
@@ -84,13 +84,28 @@
                                             "pathLogs",
                                             "pathBackup"
                                         ]
+                                        let isNum = [
+                                            "autoBackupInterval",
+                                            "xmx",
+                                            "xms"
+                                        ]
+                                        let isBool = [
+                                            "autoBackup"
+                                        ]
                                         if(!skip.includes(key)) {
                                 %>
                                     <tr>
                                         <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
                                         <td class="p-2" colspan="2">
                                             <div class="input-group mb-0">
-                                                <input type="text" class="form-control form-control-sm" name="cfgsend[<%- key %>]" value="<%- value %>" <%- readonly.includes(key) ? "readonly" : "" %>>
+                                                <% if(isBool.includes(key)) { %>
+                                                    <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
+                                                        <option value="true" <%- value.toString() === "true" ? "selected" : "" %>>true</option>
+                                                        <option value="false" <%- value.toString() === "false" ? "selected" : "" %>>false</option>
+                                                    </select>
+                                                <% } else { %>
+                                                    <input type="<%- isNum.includes(key) ? "number" : "text" %>" class="form-control form-control-sm" name="cfgsend[<%- key %>]" value="<%- value %>" <%- readonly.includes(key) ? "readonly" : "" %>>
+                                                <% } %>
                                             </div>
                                         </td>
                                     </tr>

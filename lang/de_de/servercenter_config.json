@@ -1,4 +1,5 @@
 {
+  "pagename"      : "SC - Konfig",
   "save"          : "Speichern",
   "true"          : "An",
   "false"         : "Aus",
@@ -8,6 +9,9 @@
     "pathLogs"              : "Logs Pfad",
     "autoBackup"            : "Automatisches Backup",
     "autoBackupInterval"    : "Automatisches Backup Intervall (in ms)",
-    "selfname"              : "Serverbezeichnung (im Panel)"
+    "selfname"              : "Serverbezeichnung (im Panel)",
+    "xmx"                   : "Maximale RAM zuweisung (in MB)",
+    "xms"                   : "Minimale RAM zuweisung (in MB)",
+    "extrajava"             : "Java Parameters"
   }
 }
