@@ -10,7 +10,7 @@
 loadActionLog();
 setInterval(() => {
     loadActionLog();
-}, 2000);
+}, 5000);
 
 function loadActionLog() {
     $.get(`/ajax/ServerCenterHome`, {
@@ -24,10 +24,15 @@ function loadActionLog() {
                 $('#actionlog').html(convLog)
             }
             else {
-               let log = [];
-               data.split('\n').reverse().forEach((val, key) => {
-                   if(val !== "") log.push(`${val.replace("[CMD]", "<b>[CMD]</b>")}<br />`);
-               });
+               let log  = [];
+               let i    = 0
+               for(let item of data.split('\n').reverse()) {
+                  if(item.trim() !== "" && item.trim() !== ">")  {
+                     log.push(`${item}<br />`)
+                     i++
+                  }
+                  if(i > 99) break
+               }
                $('#actionlog').html('<tr><td class="p-2">' + log.join('</td></tr><tr><td class="p-2">'))
             }
         })
