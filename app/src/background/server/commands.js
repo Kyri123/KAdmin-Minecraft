@@ -16,7 +16,7 @@ module.exports = {
    /**
     * Startet einen Server
     * @param server {string}
-    * @param server {array}
+    * @param para {array}
     * @return {boolean}
     */
    doStart: (server, para) => {
@@ -36,7 +36,7 @@ module.exports = {
    /**
     * Startet einen Server
     * @param server {string}
-    * @param server {array}
+    * @param para {array}
     * @return {boolean}
     */
    doStop: (server, para) => {
@@ -60,7 +60,7 @@ module.exports = {
    /**
     * Startet einen Server
     * @param server {string}
-    * @param server {array}
+    * @param para {array}
     * @return {boolean}
     */
    doBackup: (server, para) => {

@@ -47,13 +47,13 @@ router.route('/')
                 // Server Installieren
                 switch(POST.action) {
                     case "start":
-                        done = serverCommands.doStart(POST.cfg, POST.para)
+                        done = serverCommands.doStart(POST.cfg, para)
                         break;
                     case "stop":
-                        done = serverCommands.doStop(POST.cfg, POST.para)
+                        done = serverCommands.doStop(POST.cfg, para)
                         break;
                     case "backup":
-                        done = serverCommands.doBackup(POST.cfg, POST.para)
+                        done = serverCommands.doBackup(POST.cfg, para)
                         break;
                 }
 

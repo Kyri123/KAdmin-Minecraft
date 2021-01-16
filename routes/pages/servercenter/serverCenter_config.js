@@ -38,6 +38,11 @@ router.route('/')
        let serverData    = new serverClass(serverName);
        let servCfg       = serverData.getConfig();
        let servIni       = serverData.getINI();
+       let jars          = []
+
+       if(fs.existsSync(servCfg.path)) fs.readdirSync(servCfg.path).forEach(file => {
+          if(file.includes(".jar")) jars.push(file)
+       })
 
       // Render Seite
       res.render('pages/servercenter/serverCenter_config', {
@@ -51,7 +56,8 @@ router.route('/')
          servinfos               : serverData.getServerInfos(),
          servcfg                 : servCfg,
          sclass                  : serverData,
-         serverName              : serverName
+         serverName              : serverName,
+         jars                    : jars
       });
  })
 

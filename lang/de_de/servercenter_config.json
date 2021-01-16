@@ -12,6 +12,7 @@
     "selfname"              : "Serverbezeichnung (im Panel)",
     "xmx"                   : "Maximale RAM zuweisung (in MB)",
     "xms"                   : "Minimale RAM zuweisung (in MB)",
-    "extrajava"             : "Java Parameters"
+    "extrajava"             : "Java Parameters",
+    "jar"                   : ".Jar Datei die als Server verwendet werden soll"
   }
 }

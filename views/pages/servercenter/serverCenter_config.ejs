@@ -77,7 +77,8 @@
                                            "autoUpdateNext",
                                            "autoUpdate",
                                            "autoUpdateInterval",
-                                           "currversion"
+                                           "currversion",
+                                           "jar"
                                        ]
                                         let readonly = [
                                             "path",
@@ -98,13 +99,13 @@
                                         <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
                                         <td class="p-2" colspan="2">
                                             <div class="input-group mb-0">
-                                                <% if(isBool.includes(key)) { %>
+                                                <%  if(isBool.includes(key)) { %>
                                                     <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
-                                                        <option value="true" <%- value.toString() === "true" ? "selected" : "" %>>true</option>
-                                                        <option value="false" <%- value.toString() === "false" ? "selected" : "" %>>false</option>
+                                                        <option value="true" <%- value.toString() === "true" ? "selected" : "" %>><%- lang[page].true %></option>
+                                                        <option value="false" <%- value.toString() === "false" ? "selected" : "" %>><%- lang[page].false %></option>
                                                     </select>
-                                                <% } else { %>
-                                                    <input type="<%- isNum.includes(key) ? "number" : "text" %>" class="form-control form-control-sm" name="cfgsend[<%- key %>]" value="<%- value %>" <%- readonly.includes(key) ? "readonly" : "" %>>
+                                                <%  } else { %>
+                                                            <input type="<%- isNum.includes(key) ? "number" : "text" %>" class="form-control form-control-sm" name="cfgsend[<%- key %>]" value="<%- value %>" <%- readonly.includes(key) ? "readonly" : "" %>>
                                                 <% } %>
                                             </div>
                                         </td>
@@ -112,9 +113,23 @@
                                 <%
                                         }
                                         else {
-                                            %><input type="hidden" name="cfgsend[<%- key %>]" class="form-control form-control-sm" value="<%- value %>"><%
+                                            if(key !== "jar") {
+                                                %><input type="hidden" name="cfgsend[<%- key %>]" class="form-control form-control-sm" value="<%- value %>"><%
+                                            }
                                         }
                                     }) %>
+                                <tr>
+                                    <td class="p-2"><%- lang[page].cfg.jar %></td>
+                                    <td class="p-2" colspan="2">
+                                        <div class="input-group mb-0">
+                                            <select class="form-control form-control-sm" name="cfgsend[jar]">
+                                                <%  jars.forEach(item => { %>
+                                                    <option value="<%- item %>" <%- item === servcfg.jar ? "selected" : "" %>><%- item %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <input type="hidden" name="saveServer" class="form-control form-control-sm" value="true">

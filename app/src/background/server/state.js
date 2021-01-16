@@ -70,7 +70,7 @@ module.exports = {
                 data.ServerMap      = servINI["level-name"]
                 data.ServerName     = servINI["motd"]
                 data.connect        = `steam://connect/${ip.address()}:${servCFG.query}`
-                data.is_installed   = globalUtil.safeFileExsistsSync([serverPath, 'server.jar'])
+                data.is_installed   = globalUtil.safeFileExsistsSync([serverPath, servCFG.jar])
                 data.is_free        = true
                 data.selfname       = servCFG.selfname
 
