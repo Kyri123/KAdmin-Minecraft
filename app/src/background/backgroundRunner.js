@@ -29,6 +29,9 @@ module.exports = {
         setInterval(() => module.exports.getStateFromServers(),         CONFIG.main.interval.getStateFromServers)
         setInterval(() => module.exports.getVersionList(),              CONFIG.main.interval.getVersionList)
         setInterval(() => module.exports.doServerBackgrounder(),        CONFIG.main.interval.doServerBackgrounder)
+
+        // on load
+        module.exports.getVersionList()
     },
 
     /**

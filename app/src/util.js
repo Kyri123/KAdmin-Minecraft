@@ -90,15 +90,13 @@ module.exports = {
             // Lege Pfad fest
             let filePath        = pathMod.join(...paths)
 
-            if(module.exports.checkValidatePath(filePath) === true) {
-                // Datei Speichern
-                try {
-                    fs.rmSync(filePath, {recursive: true})
-                    return true
-                }
-                catch (e) {
-                    if(debug) console.log(e)
-                }
+            // Datei Speichern
+            try {
+                if(fs.existsSync(filePath)) fs.rmSync(filePath, {recursive: true})
+                return true
+            }
+            catch (e) {
+                if(debug) console.log(e)
             }
         }
         return false
