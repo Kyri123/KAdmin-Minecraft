@@ -2,7 +2,6 @@
   "actions": [
     "start",
     "stop",
-    "restart",
     "backup"
   ],
   "parameter":[
@@ -13,6 +12,14 @@
       "for": [
         "restart",
         "start"
+      ]
+    },
+    {
+      "parameter": "--hardstop",
+      "id_js": "hardstop",
+      "type": 0,
+      "for": [
+        "stop"
       ]
     }
   ]

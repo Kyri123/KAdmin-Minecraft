@@ -13,7 +13,10 @@ setInterval(() => {
 }, 2000);
 
 function loadActionLog() {
-    $.get(`/json/serveraction/action_${vars.cfg}.log`)
+    $.get(`/ajax/ServerCenterHome`, {
+       getLogFormServer: true,
+       server: vars.cfg
+   })
         .done(function(data) {
             let convLog = ``;
             if(data.includes('ArkAdmin ::')) {
@@ -22,7 +25,7 @@ function loadActionLog() {
             }
             else {
                let log = [];
-               data.split('\n').forEach((val, key) => {
+               data.split('\n').reverse().forEach((val, key) => {
                    if(val !== "") log.push(`${val.replace("[CMD]", "<b>[CMD]</b>")}<br />`);
                });
                $('#actionlog').html('<tr><td class="p-2">' + log.join('</td></tr><tr><td class="p-2">'))
@@ -32,4 +35,24 @@ function loadActionLog() {
             let convLog = `<tbody><tr><td>${globalvars.lang_arr.logger.notFound}</td></tr></tbody>`
            $('#actionLogs').html(convLog)
         });
+}
+
+function sendCommand() {
+   let q = $('#sendCommand')
+   $.post(`/ajax/ServerCenterHome`, {
+      sendCommandToServer: true,
+      server: vars.cfg,
+      command: q.val()
+   })
+      .done(function(data) {
+         q.val('')
+         if(data === "true") {
+            q.toggleClass("is-valid", true)
+            q.toggleClass("is-invalid", false)
+         }
+         else {
+            q.toggleClass("is-valid", false)
+            q.toggleClass("is-invalid", true)
+         }
+      })
 }

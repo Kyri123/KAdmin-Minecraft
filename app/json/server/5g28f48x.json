@@ -1,7 +1,7 @@
 {
-  "path"                    : "{SERVROOT}/{SERVERNAME}",
-  "pathLogs"                : "{LOGROOT}/{SERVERNAME}",
-  "pathBackup"              : "{BACKUPROOT}/{SERVERNAME}",
+  "path"                    : "/home/kadmin-mc/server/5g28f48x",
+  "pathLogs"                : "/home/kadmin-mc/logs/5g28f48x",
+  "pathBackup"              : "/home/kadmin-mc/backups/5g28f48x",
   "autoUpdate"              : false,
   "autoUpdateInterval"      : 1800000,
   "autoUpdateNext"          : 0,
@@ -13,5 +13,5 @@
   "currversion"             : "0.0.0",
   "xmx"                     : 2048,
   "xms"                     : 1024,
-  "extrajava"               : "-jar -XX:PermSize=256m"
+  "extrajava"               : "-jar"
 }

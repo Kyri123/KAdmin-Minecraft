@@ -42,137 +42,24 @@ router.route('/')
             if(POST.actions === "sendcommand") {
                 let stop    = false
                 let done    = false
+                let para    = POST.para === undefined ? [] : POST.para
 
                 // Server Installieren
                 switch(POST.action) {
                     case "start":
-
-                       break;
-                    case "stop":
-
+                        done = serverCommands.doStart(POST.cfg, POST.para)
                         break;
-                    case "restart":
-
+                    case "stop":
+                        done = serverCommands.doStop(POST.cfg, POST.para)
                         break;
                     case "backup":
-
+                        done = serverCommands.doBackup(POST.cfg, POST.para)
                         break;
                 }
 
                 if(done) {
                     res.render('ajax/json', {
                         data: `{"code":"1", "txt": "Install running"}`
-                    });
-                    return true;
-                }
-
-                if(POST.action === "install") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > install`);
-                    serverCommands.doInstallServer(
-                        POST.cfg
-                    );
-                    stop = true;
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "Install running"}`
-                    });
-                    return true;
-                }
-
-                // Server Updaten
-                if(POST.action === "update") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > update`);
-                    let update = serverCommands.doUpdateServer(
-                        POST.cfg,
-                        POST.para === undefined ? false : POST.para.includes("--validate"),
-                        POST.para === undefined ? false : POST.para.includes("--warn")
-                    );
-                    stop = true;
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "${update !== false ? "update running": "already up to date"}"}`
-                    });
-                    return true;
-                }
-
-                // Alle mods Installieren
-                if(POST.action === "installallmods") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > installallmods`);
-
-                    let serverData  = new serverClass(POST.cfg);
-
-                    let serverInfos     = serverData.getConfig();
-                    let modlist         = serverInfos.mods;
-                    if(serverInfos.MapModID !== 0) modlist.push(serverInfos.MapModID);
-
-                    serverCommands.doInstallMods(
-                        POST.cfg,
-                        modlist,
-                        POST.para === undefined ? false : POST.para.includes("--validate")
-                    );
-                    stop = true;
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "installallmods running"}`
-                    });
-                    return true;
-                }
-
-                // Starten
-                if(POST.action === "start") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > start`);
-                    serverCommands.doStart(
-                        POST.cfg,
-            POST.para === undefined ? false : POST.para.includes("--no-autoupdate"),
-                POST.para === undefined ? false : POST.para.includes("--validate"),
-                        POST.para === undefined ? false : POST.para.includes("--alwaysstart")
-                    );
-                    stop = true;
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "Start running"}`
-                    });
-                    return true;
-                }
-
-                // Stoppen
-                if(POST.action === "stop") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > stop`);
-                    serverCommands.doStop(
-                        POST.cfg,
-                        POST.para === undefined ? false : POST.para.includes("--saveworld"),
-                        POST.para === undefined ? false : POST.para.includes("--warn")
-                    );
-
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "Stop running"}`
-                    });
-                    return true;
-                }
-
-                // Restarten
-                if(POST.action === "restart") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > stop`);
-                    serverCommands.doRestart(
-                        POST.cfg,
-                        POST.para === undefined ? false : POST.para.includes("--saveworld"),
-                        POST.para === undefined ? false : POST.para.includes("--warn"),
-                        POST.para === undefined ? false : POST.para.includes("--validate"),
-                    POST.para === undefined ? false : POST.para.includes("--no-autoupdate"),
-                        POST.para === undefined ? false : POST.para.includes("--alwaysstart")
-                    );
-
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "Stop running"}`
-                    });
-                    return true;
-                }
-
-                // Backup
-                if(POST.action === "backup") {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m sendCommand > ${POST.cfg} > backup`);
-                    serverCommands.doBackup(
-                        POST.cfg
-                    );
-                    stop = true;
-                    res.render('ajax/json', {
-                        data: `{"code":"1", "txt": "installallmods running"}`
                     });
                     return true;
                 }

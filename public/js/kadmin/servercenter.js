@@ -111,7 +111,6 @@ function getSCState() {
 $('#action').on('show.bs.modal', () => {
     // Selects
     $.get('/json/sites/serverCenterActions.cfg.json' , (datas) => {
-        console.log(datas)
         let sels    = datas.actions
         let id      = "#action_sel"
         $(id).html(`<option value="">${varser.lang_arr.all.select_default}</option>`)
@@ -139,6 +138,8 @@ $("#action_form").submit(() => {
                         $("#action_resp").html(data.msg)
                         $("#all_resp").html(data.msg)
                         $('#action').modal('hide')
+                        $('.modal-backdrop').remove()
+                        $('.modal-backdrop').remove()
 
                         $("#action_sel").prop('selectedIndex',0)
                         $('#actioninfo').toggleClass('d-none', true)
@@ -164,7 +165,7 @@ $('#action_sel').change(() => {
         let parmFormT1  = ``
         parm.forEach((val) => {
             if(val.for.includes(action) && val.type === 0) parmFormT0 += `
-            <div class="icheck-primary mb-3 col-md-6">
+            <div class="icheck-primary mb-3 col-12">
                 <input type="checkbox" name="para[]" value="${val.parameter}" id="${val.id_js}">
                 <label for="${val.id_js}">
                     ${varser.lang_arr.forservers.parameter[val.id_js]}

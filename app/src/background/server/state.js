@@ -105,62 +105,57 @@ module.exports = {
                     .then(function (list) {
                         if (list.length) {
                             let pid     = list[0].pid
-                            let ppid     = list[0].ppid
+                            let ppid    = list[0].ppid
                             let cmd     = list[0].cmd
                             let bin     = list[0].bin
 
-                            if(cmd.includes(name)) {
-                                data.run            = true
-                                data.cmd            = cmd
-                                data.pid            = pid
-                                data.ppid           = ppid
-                                data.bin            = bin
+                             data.run            = true
+                             data.cmd            = cmd
+                             data.pid            = pid
+                             data.ppid           = ppid
+                             data.bin            = bin
 
-                                Gamedig.query({
-                                    type: 'minecraft',
-                                    host: ip.address(),
-                                    port: servINI['query.port']
-                                })
-                                    .then((state) => {
-                                        data.players        = state.maxplayers
-                                        data.aplayers       = state.players.length
-                                        data.aplayersarr    = state.players
-                                        data.listening      = 'Yes'
-                                        data.online         = 'Yes'
-                                        data.cfg            = name
-                                        data.ServerMap      = state.map
-                                        data.ServerName     = state.name
-                                        data.ping           = state.ping
-                                        data.usePW          = state.ping
-                                        data.isVanilla      = state.raw.badrock === undefined
-                                        data.version        = data.isVanilla ? state.raw.vanilla.raw.version.name : state.raw.badrock.raw.version.name
-                                        data.protocol       = data.isVanilla ? state.raw.vanilla.raw.version.protocol : state.raw.badrock.raw.version.protocol
-                                        data.type           = "vanilla"
-                                        if(data.isVanilla) {
-                                            if(state.raw.vanilla.raw.modinfo !== undefined) {
-                                                data.type       = state.raw.vanilla.raw.modinfo.type
-                                                data.modlist    = state.raw.vanilla.raw.modinfo.modList
-                                            }
-                                        }
+                             Gamedig.query({
+                                 type: 'minecraft',
+                                 host: "127.0.0.1",
+                                 port: servINI['server-port']
+                             })
+                                 .then((state) => {
+                                     data.players        = state.maxplayers
+                                     data.aplayers       = state.players.length
+                                     data.aplayersarr    = state.players
+                                     data.listening      = true
+                                     data.online         = true
+                                     data.cfg            = name
+                                     data.ServerMap      = state.map
+                                     data.ServerName     = state.name
+                                     data.ping           = state.ping
+                                     data.usePW          = state.ping
+                                     data.isVanilla      = state.raw.badrock === undefined
+                                     data.version        = data.isVanilla ? state.raw.vanilla.raw.version.name : state.raw.badrock.raw.version.name
+                                     data.protocol       = data.isVanilla ? state.raw.vanilla.raw.version.protocol : state.raw.badrock.raw.version.protocol
+                                     data.type           = "vanilla"
+                                     if(data.isVanilla) {
+                                         if(state.raw.vanilla.raw.modinfo !== undefined) {
+                                             data.type       = state.raw.vanilla.raw.modinfo.type
+                                             data.modlist    = state.raw.vanilla.raw.modinfo.modList
+                                         }
+                                     }
 
-                                        // Hole Version
-                                        var version_split = state.name.split("-")[1]
-                                        version_split = version_split.replace(")", "")
-                                        version_split = version_split.replace("(", "")
-                                        version_split = version_split.replace(" ", "")
-                                        version_split = version_split.replace("v", "")
-                                        data.version = version_split
+                                     // Hole Version
+                                     var version_split = state.name.split("-")[1]
+                                     version_split = version_split.replace(")", "")
+                                     version_split = version_split.replace("(", "")
+                                     version_split = version_split.replace(" ", "")
+                                     version_split = version_split.replace("v", "")
+                                     data.version = version_split
 
-                                        // Speichern
-                                        save(data, name, state)
-                                    }).catch((error) => {
-                                        // Speichern
-                                        save(data, name, {})
-                                    })
-                            }
-                            else {
-                                save(data, name, {})
-                            }
+                                     // Speichern
+                                     save(data, name, state)
+                                 }).catch((error) => {
+                                     // Speichern
+                                     save(data, name, {})
+                                 })
                         }
                         else {
                             // Speichern

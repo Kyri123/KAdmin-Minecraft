@@ -9,6 +9,7 @@
 "use strict"
 
 //const rcon                  = require('rcon')
+const shell                 = require('./shell')
 
 module.exports = {
 
@@ -22,28 +23,25 @@ module.exports = {
         if(serverData.serverExsists()) {
             let servConfig      = serverData.getConfig()
             let serverPath      = servConfig.path
-            let logPath         = servConfig.pathLogs + '\\latest.log'
+            let logPath         = servConfig.pathLogs + '/latest.log'
             if(!globalUtil.safeFileExsistsSync([logPath])) globalUtil.safeFileSaveSync([logPath], '')
 
-            // baue Mod optionen
-            let opt    = ''
-            if(!servConfig.flags.includes(['crossplay', 'epiconly'])) if(servConfig.mods.length > 0) opt = `?GameModIds=${servConfig.mods.join(',')}`
+            return `screen -dmS kadmin-${server} bash -c "cd ${serverPath} && java ${servConfig.extrajava} -Xmx${servConfig.xmx}m -Xms${servConfig.xms}m server.jar nogui > ${logPath}"`
+        }
+        return false
+    },
 
-            // baue custom Optionen
-            if(servConfig.opt.length > 0) servConfig.opt.forEach((val) => {
-                opt += `?${val}`
-            })
-
-            // TotalConversionMod
-            if(parseInt(servConfig.TotalConversionMod) !== 0) opt += `?TotalConversionMod=${servConfig.TotalConversionMod}`
-
-            // baue Flaggen
-            let flags    = ''
-            if(servConfig.flags.length > 0) servConfig.flags.forEach((val) => {
-                flags += ` -${val}`
-            })
-
-            return `start ${serverPath}\\ShooterGame\\Binaries\\Win64\\ShooterGameServer.exe ${servConfig.serverMap}?listen?SessionName=${servConfig.sessionName}?AltSaveDirectoryName=${servConfig.AltSaveDirectoryName}?ServerAdminPassword=${servConfig.ServerAdminPassword}?Port=${servConfig.game}?QueryPort=${servConfig.query}?MaxPlayers=${servConfig.maxPlayers}?RCONEnabled=True?RCONPort${servConfig.rcon}${opt}${flags}\n`
+    /**
+     * sendet ein Befehl zum Screen
+     * @param {string} server Server Name
+     * @param {string} befehl
+     * @param server
+     */
+    sendToScreen(server, command) {
+        let serverData  = new serverClass(server)
+        if(serverData.serverExsists()) {
+            let info            = serverData.getServerInfos()
+            return info.pid !== 0 ? shell.runSHELL(`screen -S kadmin-${server} -p 0 -X stuff "${command.replace("%20", " ")}^M"`) : false
         }
         return false
     },

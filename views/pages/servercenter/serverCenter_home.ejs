@@ -40,7 +40,13 @@
                         </tbody>
                     </table>
                     <!-- LLOG -->
-                    <div class="p-0">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="op KAdmin" id="sendCommand">
+                        <div class="input-group-append">
+                            <button class="btn btn-info" type="button" onclick="sendCommand()">Send</button>
+                        </div>
+                    </div>
+                    <div class="p-0 direct-chat-messages" style="height: 492px">
                         <table class="table table-striped mb-0" id="actionlog">
                             <tr><td></td></tr>
                         </table>

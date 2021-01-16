@@ -1,17 +1,14 @@
 {
   "commands": {
-    "install": "Installieren",
-    "update": "Update",
     "start": "Server starten",
-    "stop": "Server stoppen",
-    "restart": "Server neustarten",
-    "installallmods": "alle Mods Installieren",
+    "stop": "Server stoppen (Deaktiviert auch Allwaysstart)",
     "backup": "Backup Erstellen"
   },
   "parameter": {
     "warn"                : "Spieler auf dem Server warnen (benötigt RCON)",
     "saveworld"           : "Welt Speichern bevor dieser gestoppt wird (benötigt RCON)",
-    "alwaysstart"         : "Server beim Crash wieder starten (startet den Server auch sofort wenn das Panel an ist und der Server aus bsp.: Root neustart)"
+    "alwaysstart"         : "Server beim Crash wieder starten (startet den Server auch sofort wenn das Panel an ist und der Server aus bsp.: Root neustart)",
+    "hardstop"            : "Beende Server mit Kill Befehl"
   },
   "state": {
     "danger"        : "Offline",

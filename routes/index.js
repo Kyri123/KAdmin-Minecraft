@@ -36,6 +36,7 @@ router.use('/ajax/userpanel',                isLoggedIn    ,                    
 router.use('/ajax/grouppanel',               isLoggedIn    ,                     require('./ajax/groupPanel'))
 
 // ajax - ServerCenter
+router.use('/ajax/serverCenterHome',         isLoggedIn    ,                     require('./ajax/servercenter/serverCenterHome'));
 router.use('/ajax/serverCenterAny',          isLoggedIn    ,                     require('./ajax/servercenter/serverCenterAny'));
 router.use('/ajax/serverCenterBackups',      isLoggedIn    ,                     require('./ajax/servercenter/serverCenterBackups'));
 router.use('/ajax/serverCenterConfig',       isLoggedIn    ,                     require('./ajax/servercenter/serverCenterConfig'));

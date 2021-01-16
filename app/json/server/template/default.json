@@ -13,5 +13,5 @@
   "currversion"             : "0.0.0",
   "xmx"                     : 2048,
   "xms"                     : 1024,
-  "extrajava"               : "-jar -XX:PermSize=256m"
+  "extrajava"               : "-jar"
 }

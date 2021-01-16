@@ -37,20 +37,6 @@ module.exports = class serverClass {
                : file
          ) : false
 
-         if(this.cfg !== false) {
-            this.cfg.path    = this.cfg.path
-               .replace("{SERVROOT}", CONFIG.app.servRoot)
-               .replace("{SERVERNAME}", this.server)
-
-            this.cfg.pathLogs    = this.cfg.path
-               .replace("{LOGROOT}", CONFIG.app.logRoot)
-               .replace("{SERVERNAME}", this.server)
-
-            this.cfg.pathBackup    = this.cfg.path
-               .replace("{BACKUPROOT}", CONFIG.app.pathBackup)
-               .replace("{SERVERNAME}", this.server)
-         }
-
          this.exsists    = this.cfg !== false
       }
    }
@@ -67,18 +53,6 @@ module.exports = class serverClass {
             : file
       ) : false
       if(reloadCfg !== false) {
-         reloadCfg.path    = reloadCfg.path
-            .replace("{SERVROOT}", CONFIG.app.servRoot)
-            .replace("{SERVERNAME}", this.server)
-
-         reloadCfg.pathLogs    = reloadCfg.path
-            .replace("{LOGROOT}", CONFIG.app.logRoot)
-            .replace("{SERVERNAME}", this.server)
-
-         reloadCfg.pathBackup    = reloadCfg.path
-            .replace("{BACKUPROOT}", CONFIG.app.pathBackup)
-            .replace("{SERVERNAME}", this.server)
-
          this.cfg = reloadCfg
       }
    }
