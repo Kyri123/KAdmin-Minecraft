@@ -25,7 +25,6 @@ do
   yes | cp -rf ./ ./../../
   cd ../../
   rm -R tmp
-  chmod 777 -R ./
 
   echo Done!
 
