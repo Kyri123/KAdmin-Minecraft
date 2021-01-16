@@ -1,13 +1,13 @@
 [
   {
     "version":"0.0.1",
-    "datestring":"13.11.2020",
+    "datestring":"16.01.2021",
     "java":"",
     "fix":"",
     "change":"",
     "new":"<ul>\r\n\t<li>Erster Release<\/li>\r\n<\/ul>\r\n",
-    "git":"1",
-    "download":"1",
+    "git":"https://github.com/Kyri123/KAdmin-Minecraft/releases/tag/0.0.1",
+    "download":"https://github.com/Kyri123/KAdmin-Minecraft/archive/0.0.1.zip",
     "updated":1605620901
   }
 ]

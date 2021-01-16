@@ -38,8 +38,8 @@ Installation
 =============
 1. Erstelle einen Ordner
 2. Downloade den letzten Release
-   - MASTER: `wget XXX & chmod 777 ./installer_master.sh & ./starter_master.sh`
-   - DEV: `wget XXX; chmod 777 ./installer_dev.sh & ./starter_dev.sh`
+   - MASTER: `wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.1/installer_master.sh && chmod 777 ./installer_master.sh`
+   - DEV: `wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.1/installer_dev.sh && chmod 777 ./installer_dev.sh`
 3. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese
 4. Konfiguriere:
    - `app/config/app.json`
