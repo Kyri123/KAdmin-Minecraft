@@ -142,14 +142,6 @@ module.exports = {
                                          }
                                      }
 
-                                     // Hole Version
-                                     var version_split = state.name.split("-")[1]
-                                     version_split = version_split.replace(")", "")
-                                     version_split = version_split.replace("(", "")
-                                     version_split = version_split.replace(" ", "")
-                                     version_split = version_split.replace("v", "")
-                                     data.version = version_split
-
                                      // Speichern
                                      save(data, name, state)
                                  }).catch((error) => {
