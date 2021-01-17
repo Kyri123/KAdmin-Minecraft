@@ -42,8 +42,15 @@ global.isUpdate                       = false
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = true
 global.serverClass                    = require('./app/src/util_server/class')
+
+//version Controllers
 global.versionVanillaControler        = require('./app/src/util_server/versionControler')
+global.versionSpigotControler         = require('./app/src/util_server/versionControlerSpigot')
+global.versionCraftbukkitControler    = require('./app/src/util_server/versionControlerCraftbukkit')
 global.versionVanillaControler        = new versionVanillaControler()
+global.versionSpigotControler         = new versionSpigotControler()
+global.versionCraftbukkitControler    = new versionCraftbukkitControler()
+
 // Modulealerter
 require('./app/main/mainLoader.js')
 global.alerter                        = require('./app/src/alert.js')

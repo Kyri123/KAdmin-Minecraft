@@ -16,6 +16,7 @@ const AA_util               = require('../util')
 const req                   = require('request')
 const server_state          = require('./server/state')
 const serverCommands        = require('./server/commands')
+const shell                 = require('./server/shell')
 
 
 module.exports = {
@@ -29,11 +30,22 @@ module.exports = {
         setInterval(() => module.exports.getStateFromServers(),         CONFIG.main.interval.getStateFromServers)
         setInterval(() => module.exports.getVersionList(),              CONFIG.main.interval.getVersionList)
         setInterval(() => module.exports.doServerBackgrounder(),        CONFIG.main.interval.doServerBackgrounder)
-        setInterval(() => module.exports.getChangelogList(),        CONFIG.main.interval.getChangelogList)
+        setInterval(() => module.exports.getChangelogList(),            CONFIG.main.interval.getChangelogList)
+        setInterval(() => module.exports.getSpigotCraftbukkitList(),    CONFIG.main.interval.getSpigotCraftbukkitList)
 
         // on load
         module.exports.getVersionList()
         module.exports.getChangelogList()
+        if(!globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsSpigot.json"]) || !globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsCraftbukkit.json"]))
+            module.exports.getSpigotCraftbukkitList()
+    },
+
+    /**
+     * Startet Intervall > getStateFromServers
+     */
+    getSpigotCraftbukkitList: () => {
+        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > getSpigotCraftbukkitList`)
+        shell.runSHELL(`screen -dmS kadmin-updateVersionLists bash -c "cd ${mainDir} && node updateVersionLists.js"`)
     },
 
     /**

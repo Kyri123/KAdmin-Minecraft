@@ -1,5 +1,5 @@
 {
-  "pagename"        : "SC - Backups WIP",
+  "pagename"        : "ServerCenter > Backups",
   "modal": {
     "removeText"    : "Möchtest du wirklich dieses Backup löschen?",
     "remove"        : "Backup Löschen",

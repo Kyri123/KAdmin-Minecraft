@@ -12,7 +12,6 @@
 const rq          = require("request")
 const srq         = require("sync-request")
 const download    = require("download")
-const validUrl    = require("valid-url")
 
 module.exports = class versionControler {
 
