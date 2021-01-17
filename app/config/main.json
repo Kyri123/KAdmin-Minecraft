@@ -3,10 +3,11 @@
   "interval": {
     "getStateFromServers"   : 5000,
     "getTraffic"            : 15000,
-    "doReReadConfig"        : 30000,
+    "doReReadConfig"        : 60000,
     "doServerBackgrounder"  : 60000,
     "backgroundUpdater"     : 1800000,
     "doJob"                 : 5000,
-    "getVersionList"        : 3600000
+    "getVersionList"        : 3600000,
+    "getChangelogList"      : 3600000
   }
 }

@@ -36,8 +36,8 @@ global.fs                             = require('fs')
 global.availableVersionPublic        = 0
 global.availableVersionActiveevent   = 0
 //global.mode                           = "dev"
-global.panelVersion                   = "0.0.1"
-global.buildID                        = "00001.00000"
+global.panelVersion                   = "0.0.2"
+global.buildID                        = "00002.00007"
 global.isUpdate                       = false
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = true
@@ -68,27 +68,6 @@ catch (e) {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m not Installed... load Installer`)
 }
 if(process.argv.includes("?forceInstalled")) Installed = true;*/
-
-// lese Changelog
-if(Installed) {
-  let pathFile    = pathMod.join(mainDir, '/app/json/panel/', 'changelog.json')
-  try {
-    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathFile}`)
-    global.changelog                    = globalUtil.safeFileReadSync([pathFile], true)
-    if(typeof changelog === "boolean") {
-      console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
-      console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-      process.exit(1)
-    }
-    changelog.reverse()
-  }
-  catch (e) {
-    if(debug) console.log(e)
-    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
-    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-    process.exit(1)
-  }
-}
 
 require('./app/main/sqlLoader.js')
 let app         = express()

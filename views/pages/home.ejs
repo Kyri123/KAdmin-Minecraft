@@ -31,11 +31,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <% changelog.forEach((val, key) => { %>
+                        <%
+                        let currfound = false
+                        changelog.forEach((val, key) => {
+                            if(val.version === panelVersion) currfound = true
+                        %>
                             <tr>
                                 <td>Version <%- val.version %></td>
                                 <td><%- val.datestring %></td>
-                                <td><span class="badge badge-<%- val.version === panelVersion ? "success" : "danger" %> rounded-0"><%- val.version === panelVersion ? lang[page].curr : lang[page].old %></span></td>
+                                <td><span class="badge badge-<%- val.version === panelVersion ? "success" : currfound ? "info" : "danger" %> rounded-0"><%- val.version === panelVersion ? lang[page].curr : currfound ? lang[page].old : lang[page].new %></span></td>
                                 <td class="text-right">
                                     <a href="/changelog#<%- val.version %>" class="btn btn-xs btn-primary rounded-0"><i class="nav-icon fa fa-book" aria-hidden="true"></i></a>
                                     <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/tag/<%- val.version %>" target="_blank" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fab fa-github" aria-hidden="true"></i></a>
