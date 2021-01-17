@@ -33,7 +33,7 @@
 
                 <% if(userHelper.hasPermissions(userID, "servercontrolcenter/show")) { %>
                     <li class="nav-item">
-                        <a href="/servercontrolcenter<%- page === "servercontrolcenter" ? " active" : "" %>" class="nav-link ">
+                        <a href="/servercontrolcenter" class="nav-link <%- page === "servercontrolcenter" ? " active" : "" %>">
                             <i class="nav-icon fa fa-server" aria-hidden="true"></i>
                             <p>
                                 <%- lang.servercontrolcenter.pagename %>
