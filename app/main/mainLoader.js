@@ -8,6 +8,16 @@
  */
 "use strict"
 // Header
+console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
+console.log('\x1b[33m%s\x1b[0m', `          ${Installed ? "       " : " "}   [ KAdmin-Minecraft${Installed ? "" : " - Installer"} ] `)
+console.log('\x1b[33m%s\x1b[0m', `                       Version: \x1b[36m${panelVersion}`)
+console.log('\x1b[33m%s\x1b[0m', `                    Entwickler: \x1b[36mKyri123`)
+console.log('\x1b[33m%s\x1b[0m', `                        Branch: \x1b[36m${panelBranch}`)
+console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
+console.log('\x1b[33m%s\x1b[0m', `  Github:  \x1b[36mhttps://github.com/Kyri123/KAdmin-Minecraft`)
+console.log('\x1b[33m%s\x1b[0m', `  Discord: \x1b[36mhttps://discord.gg/uXxsqXD`)
+console.log('\x1b[33m%s\x1b[0m', `  Trello:  \x1b[36mhttps://trello.com/b/qJfbqaoq/kadmin-minecraft`)
+console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
 
 // Lade Konfigurationen
 let pathConfigDir    = pathMod.join(mainDir, '/app/config/')
