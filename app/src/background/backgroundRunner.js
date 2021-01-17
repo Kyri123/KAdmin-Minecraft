@@ -34,10 +34,12 @@ module.exports = {
         setInterval(() => module.exports.getSpigotCraftbukkitList(),    CONFIG.main.interval.getSpigotCraftbukkitList)
 
         // on load
-        module.exports.getVersionList()
-        module.exports.getChangelogList()
+        if(!globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersions.json"]))
+            module.exports.getVersionList()
         if(!globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsSpigot.json"]) || !globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsCraftbukkit.json"]))
             module.exports.getSpigotCraftbukkitList()
+
+        module.exports.getChangelogList()
     },
 
     /**

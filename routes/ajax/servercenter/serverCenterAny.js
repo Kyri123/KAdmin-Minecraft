@@ -20,13 +20,26 @@ router.route('/')
 
         // VersionPicker
         if(POST.installVersion !== undefined && userHelper.hasPermissions(req.session.uid, "actions", POST.cfg)) {
-            POST.version    = parseInt(POST.version, 10)
             let serv        = new serverClass(POST.cfg)
 
-            if(!isNaN(POST.version) && serv.serverExsists()) {
-                let v       = versionVanillaControler.readList().versions[POST.version].id
-                let succ    = versionVanillaControler.downloadServer(POST.version, `${serv.getConfig().path}/server.jar`)
+            if(serv.serverExsists()) {
+                let v       = POST.version.replace(".jar", "")
+                let succ
+                if(POST.type === "spigot") {
+                    succ    = versionSpigotControler.downloadServer(POST.version, `${serv.getConfig().path}/serverSpigot.jar`)
+                    if(succ) serv.writeConfig("jar", "serverSpigot.jar")
+                }
+                else if(POST.type === "craftbukkit") {
+                    succ    = versionCraftbukkitControler.downloadServer(POST.version, `${serv.getConfig().path}/serverCraftbukkit.jar`)
+                    if(succ) serv.writeConfig("jar", "serverCraftbukkit.jar")
+                }
+                else {
+                    v       = versionVanillaControler.readList().versions[POST.version].id
+                    succ    = versionVanillaControler.downloadServer(POST.version, `${serv.getConfig().path}/server.jar`)
+                    if(succ) serv.writeConfig("jar", "server.jar")
+                }
                 if(succ) serv.writeConfig("currversion", v)
+                console.log(succ)
 
                 res.render('ajax/json', {
                     data: JSON.stringify({

@@ -206,12 +206,30 @@ function generateVersionList(qid) {
     ziel.html(zielList)
 
     // hole Versionsliste
-    $.get('/json/serverInfos/mcVersions.json', (list) => {
-        if(typeof list !== "undefined")
-            for(let i in list.versions)
-                if(list.versions[i].type === lf)
-                    ziel.append(`<option value="${i}">${list.versions[i].id}</option>`)
-    })
+    if(lf === "release" || lf === "snapshot") {
+        $.get('/json/serverInfos/mcVersions.json', (list) => {
+            if(typeof list !== "undefined")
+                for(let i in list.versions)
+                    if(list.versions[i].type === lf)
+                        ziel.append(`<option value="${i}">${list.versions[i].id}</option>`)
+        })
+    }
+    else if(lf === "spigot") {
+        $.get('/json/serverInfos/mcVersionsSpigot.json', (list) => {
+            if(typeof list !== "undefined")
+                list.forEach(item => {
+                    ziel.append(`<option value="${item}">${item}</option>`)
+                })
+        })
+    }
+    else {
+        $.get('/json/serverInfos/mcVersionsCraftbukkit.json', (list) => {
+            if(typeof list !== "undefined")
+                list.forEach(item => {
+                    ziel.append(`<option value="${item}">${item}</option>`)
+                })
+        })
+    }
 }
 generateVersionList("tpick")
 
@@ -220,7 +238,8 @@ function installVersion(cfg) {
     $.post('/ajax/serverCenterAny' , {
         installVersion  : true,
         cfg             : cfg,
-        version         : $(`#vpick`).val()
+        version         : $(`#vpick`).val(),
+        type            : $(`#tpick`).val()
     }, (data) => {
         try {
             data    = JSON.parse(data);

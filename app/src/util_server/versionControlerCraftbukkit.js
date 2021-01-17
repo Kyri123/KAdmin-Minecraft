@@ -110,15 +110,12 @@ module.exports = class versionCraftbukkitControler {
     * @return {boolean}
     */
    downloadServer(version, path) {
-      if(url !== false) {
-         (async () => {
-            globalUtil.safeFileRmSync([path])
-            globalUtil.safeFileSaveSync([pathMod.join(path).replace("serverCraftbukkit.jar", "eula.txt")], "eula=true")
-            download(this.downloadUrlRaw + version)
-               .pipe(fs.createWriteStream(pathMod.join(path)))
-         })()
-      }
-
-      return url !== false
+      (async () => {
+         globalUtil.safeFileRmSync([path])
+         globalUtil.safeFileSaveSync([pathMod.join(path).replace("serverCraftbukkit.jar", "eula.txt")], "eula=true")
+         download(this.downloadUrlRaw + version)
+            .pipe(fs.createWriteStream(pathMod.join(path)))
+      })()
+      return true
    }
 }
