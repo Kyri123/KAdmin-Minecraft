@@ -28,13 +28,15 @@ function loadActionLog() {
                let i    = 0
                for(let item of data.split('\n').reverse()) {
                   if(item.trim() !== "" && item.trim() !== ">")  {
-                     let color = item.includes("server overloaded") || item.includes("ERROR")
+                     let color = item.includes("server overloaded") || item.includes("/ERROR")
                         ? "red"
-                        : item.includes("WARN")
+                        : item.includes("/WARN")
                            ? "yellow"
-                           : item.includes("Done (")
-                                 ? "blue"
-                                 : "green"
+                           : item.includes("/INFO")
+                                 ? "info"
+                                 : item.includes("Done (")
+                                    ? "blue"
+                                    : "green"
                      log.push(`<span class="text-${color}">${item}</span>`)
                      i++
                   }
@@ -51,6 +53,7 @@ function loadActionLog() {
 
 function sendCommand() {
    let q = $('#sendCommand')
+   let q2 = $('#sendCommandBtn')
    $.post(`/ajax/ServerCenterHome`, {
       sendCommandToServer: true,
       server: vars.cfg,
@@ -60,11 +63,20 @@ function sendCommand() {
          q.val('')
          if(data === "true") {
             q.toggleClass("is-valid", true)
-            q.toggleClass("is-invalid", false)
+               .toggleClass("is-invalid", false)
+            q2
+               .toggleClass("btn-outline-light", false)
+               .toggleClass("btn-outline-danger", false)
+               .toggleClass("btn-outline-success", true)
          }
          else {
-            q.toggleClass("is-valid", false)
-            q.toggleClass("is-invalid", true)
+            q
+               .toggleClass("is-valid", false)
+               .toggleClass("is-invalid", true)
+            q2
+               .toggleClass("btn-outline-light", false)
+               .toggleClass("btn-outline-danger", true)
+               .toggleClass("btn-outline-success", false)
          }
       })
 }
