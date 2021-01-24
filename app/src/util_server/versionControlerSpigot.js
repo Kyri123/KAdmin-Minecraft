@@ -97,10 +97,15 @@ module.exports = class versionSpigotControler {
     */
    downloadServer(version, path) {
       (async () => {
+         path = pathMod.join(path)
+         if(globalUtil.checkValidatePath(pathMod.join(path)))
+            fs.writeFile(path.replace("serverCraftbukkit.jar", "eula.txt"), "eula=true", err => {
+               if(err && debug) console.log(err)
+            })
+
          globalUtil.safeFileRmSync([path])
-         globalUtil.safeFileSaveSync([pathMod.join(path).replace("serverSpigot.jar", "eula.txt")], "eula=true")
          download(this.downloadUrlRaw + version.replace("Spigot", "spigot"))
-               .pipe(fs.createWriteStream(pathMod.join(path)))
+               .pipe(fs.createWriteStream(path))
       })()
       return true
    }

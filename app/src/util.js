@@ -203,6 +203,48 @@ module.exports = {
     },
 
     /**
+     * Liest ein Verzeichnis aus
+     * @param {string[]} paths Pfade zur Datei
+     * @return {boolean|array}
+     */
+    safeFileReadDirSync(paths) {
+        // Prüfe Pfad
+        if(module.exports.poisonNull(paths)) {
+            // Lege Pfad fest
+            let filePath        = pathMod.join(...paths)
+
+            if(
+               module.exports.checkValidatePath(filePath) === true &&
+               fs.existsSync(filePath)
+            ) {
+                // Datei Speichern
+                try {
+                    let dir       = fs.readdirSync(filePath, {withFileTypes: true})
+                    let dirArray  = []
+                    dir.forEach(item => {
+                        let fileName        = item.name
+                        let fileExt         = item.isFile() ? "." + fileName.split(".")[(fileName.split(".").length - 1)] : false
+                        let namePure        = item.isFile() ? fileName.replace(fileExt, "") : fileName
+                        dirArray.push({
+                            "name"      : fileName,
+                            "namePure"  : namePure,
+                            "FileExt"   : item.isFile() ? "." + item.name.split(".")[(item.name.split(".").length - 1)] : false,
+                            "totalPath" : pathMod.join(filePath, item.name),
+                            "isDir"     : item.isDirectory(),
+                            "isFile"    : item.isFile()
+                        })
+                    })
+                    return dirArray
+                }
+                catch (e) {
+                    if(debug) console.log(e)
+                }
+            }
+        }
+        return false
+    },
+
+    /**
      * Speichert sicher eine Datei
      * @param {string} sql SQL abfrage
      * @return {boolean|array}

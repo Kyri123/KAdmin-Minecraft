@@ -22,10 +22,10 @@ module.exports  = {
 
         async function cmd() {
             const { stdout, stderr } = await exec(command)
-            if(debug && stdout.trim() !== "")
+            /*if(debug && stdout.trim() !== "")
                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stdout)
             if(debug && stderr.trim() !== "")
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stderr)
+                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stderr)*/
         }
         cmd()
 

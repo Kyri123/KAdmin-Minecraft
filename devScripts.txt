@@ -1,0 +1,3 @@
+cd ~/.nvm && . ./nvm.sh && cd /home/kadmin-mc/panel && nvm use 15.6.0 && node -v && npm -v
+cd /home/kadmin-mc/panel && nvm use 15.6.0 && node app.js
+cd ~/.nvm && . ./nvm.sh && cd /home/kadmin-mc/panel && nvm use 15.6.0 && node -v && npm -v && node app.js

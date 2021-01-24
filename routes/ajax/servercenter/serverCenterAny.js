@@ -39,7 +39,6 @@ router.route('/')
                     if(succ) serv.writeConfig("jar", "server.jar")
                 }
                 if(succ) serv.writeConfig("currversion", v)
-                console.log(succ)
 
                 res.render('ajax/json', {
                     data: JSON.stringify({

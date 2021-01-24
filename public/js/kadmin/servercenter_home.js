@@ -20,7 +20,7 @@ function loadActionLog() {
         .done(function(data) {
             let convLog = ``;
             if(data.includes('ArkAdmin ::')) {
-                let convLog = `<tbody><tr><td>${globalvars.lang_arr.logger.notFound}</td></tr></tbody>`
+                let convLog = `${globalvars.lang_arr.logger.notFound}`
                 $('#actionlog').html(convLog)
             }
             else {
@@ -28,12 +28,19 @@ function loadActionLog() {
                let i    = 0
                for(let item of data.split('\n').reverse()) {
                   if(item.trim() !== "" && item.trim() !== ">")  {
-                     log.push(`${item}<br />`)
+                     let color = item.includes("server overloaded") || item.includes("ERROR")
+                        ? "red"
+                        : item.includes("WARN")
+                           ? "yellow"
+                           : item.includes("Done (")
+                                 ? "blue"
+                                 : "green"
+                     log.push(`<span class="text-${color}">${item}</span>`)
                      i++
                   }
                   if(i > 99) break
                }
-               $('#actionlog').html('<tr><td class="p-2">' + log.join('</td></tr><tr><td class="p-2">'))
+               $('#actionlog').html(log.join('<br />'))
             }
         })
         .fail(function() {

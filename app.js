@@ -33,8 +33,8 @@ global.htmlspecialchars               = require('htmlspecialchars')
 global.mysql                          = require('mysql')
 global.pathMod                        = require('path')
 global.fs                             = require('fs')
-global.availableVersionPublic        = 0
-global.availableVersionActiveevent   = 0
+global.availableVersionPublic         = 0
+global.availableVersionActiveevent    = 0
 //global.mode                           = "dev"
 global.panelVersion                   = "0.0.2"
 global.buildID                        = "00002.00297"
@@ -124,5 +124,4 @@ app.listen(port, "0.0.0.0", ()=>{
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${CONFIG.app.port}/`)
 })
 backgroundRunner.startAll()
-
 module.exports = app

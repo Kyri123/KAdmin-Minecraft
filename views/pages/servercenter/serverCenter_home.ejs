@@ -41,15 +41,13 @@
                     </table>
                     <!-- LLOG -->
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="op KAdmin" id="sendCommand">
+                        <input type="text" class="form-control bg-dark" placeholder="op KAdmin" id="sendCommand">
                         <div class="input-group-append">
-                            <button class="btn btn-info" type="button" onclick="sendCommand()">Send</button>
+                            <button class="btn btn-outline-light bg-dark text-dark" type="button" onclick="sendCommand()">Send</button>
                         </div>
                     </div>
-                    <div class="p-0 direct-chat-messages" style="height: 492px">
-                        <table class="table table-striped mb-0" id="actionlog">
-                            <tr><td></td></tr>
-                        </table>
+                    <div class="p-0 direct-chat-messages bg-dark p-1" style="height: 492px">
+                        <code id="actionlog"></code>
                     </div>
                 </div>
             </div>
