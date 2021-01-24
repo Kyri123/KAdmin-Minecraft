@@ -9,8 +9,16 @@
 "use strict"
 loadActionLog();
 setInterval(() => {
-    loadActionLog();
-}, 5000);
+    loadActionLog()
+}, 5000)
+
+// Bestätige mit Enter Konsolenbefehle
+document.getElementById("sendCommand").addEventListener("keyup", function(event) {
+   if (event.keyCode === 13) {
+      event.preventDefault()
+      document.getElementById("sendCommandBtn").click()
+   }
+});
 
 function loadActionLog() {
     $.get(`/ajax/ServerCenterHome`, {
@@ -33,14 +41,28 @@ function loadActionLog() {
                         : item.includes("/WARN")
                            ? "yellow"
                            : item.includes("/INFO")
-                                 ? "info"
-                                 : item.includes("Done (")
-                                    ? "blue"
-                                    : "green"
-                     log.push(`<span class="text-${color}">${item}</span>`)
-                     i++
+                              ? "info"
+                              : item.includes("Done (")
+                                 ? "blue"
+                                 : "green"
+
+                     item = JSON.stringify(item)
+                        .replaceAll(`"`, "")
+                        .replaceAll(`\\u001b`, "")
+                        .replaceAll(`\\b`, "")
+                        .replaceAll(`> `, "")
+                        .replaceAll(`[39;0m`, "")
+                        .replaceAll(`[33;1m`, "")
+                        .replaceAll(`[K`, "")
+                        .replaceAll(`[8D`, "")
+                        .replaceAll(`\\r`, "")
+
+                     if(item.trim() !== "" && item.trim() !== ">") {
+                        log.push(`<span class="text-${color}">${item}</span>`)
+                        i++
+                     }
                   }
-                  if(i > 99) break
+                  if(i > 199) break
                }
                $('#actionlog').html(log.join('<br />'))
             }
