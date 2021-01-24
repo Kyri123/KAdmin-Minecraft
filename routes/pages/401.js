@@ -19,7 +19,7 @@ router.route('/')
       let response    = ""
       let cookies     = req.cookies
       let lang         = LANG[(cookies.lang !== undefined) ?
-         fs.existsSync(pathMod.join(mainDirWeb, "lang", cookies.lang)) ?
+         fs.existsSync(pathMod.join(mainDir, "lang", cookies.lang)) ?
             cookies.lang : "de_de"
          : "de_de"]
 
