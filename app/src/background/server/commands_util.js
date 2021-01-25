@@ -34,7 +34,7 @@ module.exports = {
     /**
      * sendet ein Befehl zum Screen
      * @param {string} server Server Name
-     * @param {string} befehl
+     * @param {string} command
      * @param server
      */
     sendToScreen(server, command) {
@@ -53,6 +53,7 @@ module.exports = {
      * @return {string|boolean}
      */
     stopCountDown: (server, saveworld = true) => {
+        // Todo - OLD
         let serverData  = new serverClass(server)
         let servConfig  = serverData.getConfig()
         let servInfos   = serverData.getServerInfos()

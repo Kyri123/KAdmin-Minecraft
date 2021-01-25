@@ -9,7 +9,20 @@
 "use strict"
 
 const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const exec = util.promisify(require('child_process').exec)
+
+/**
+ * Führt einen Befehl aus
+ * @param command
+ * @return {void}
+ */
+async function execShell(command) {
+    const { stdout, stderr } = await exec(command)
+    if(debug) {
+        if(stdout) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stdout)
+        if(stderr) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stderr)
+    }
+}
 
 module.exports  = {
     /**
@@ -19,16 +32,7 @@ module.exports  = {
      */
     runSHELL: (command) => {
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command}`)
-
-        async function cmd() {
-            const { stdout, stderr } = await exec(command)
-            /*if(debug && stdout.trim() !== "")
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stdout)
-            if(debug && stderr.trim() !== "")
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stderr)*/
-        }
-        cmd()
-
+        execShell(command)
         return true
     },
 }

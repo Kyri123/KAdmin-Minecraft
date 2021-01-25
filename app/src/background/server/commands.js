@@ -34,9 +34,11 @@ module.exports = {
    },
 
    /**
-    * Startet einen Server
+    * Stoppt einen Server
     * @param server {string}
-    * @param para {array}
+    * @param para {array} Parameters
+    * <br>
+    * - **--hardstop** (Beendet mit kill) <br>
     * @return {boolean}
     */
    doStop: (server, para) => {
@@ -47,6 +49,7 @@ module.exports = {
          if(info.pid !== 0) {
             serv.writeConfig("shouldRun", false)
             if(para.includes("--hardstop")) {
+               //serverShell.runSHELL(`kill ${info.ppid}`)
                return serverShell.runSHELL(`kill ${info.pid}`)
             }
             else {
@@ -58,7 +61,7 @@ module.exports = {
    },
 
    /**
-    * Startet einen Server
+    * Erstellt ein Backup vom Server
     * @param server {string}
     * @param para {array}
     * @return {boolean}
