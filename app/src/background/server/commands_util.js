@@ -41,7 +41,7 @@ module.exports = {
         let serverData  = new serverClass(server)
         if(serverData.serverExsists()) {
             let info            = serverData.getServerInfos()
-            return info.pid !== 0 ? shell.runSHELL(`screen -S kadmin-${server} -p 0 -X stuff "${command.replace("%20", " ")}^M"`) : false
+            return info.pid !== 0 ? shell.runSHELL(`screen -S kadmin-${server} -p 0 -X stuff "${command.replaceAll("%20", " ")}^M"`) : false
         }
         return false
     },
