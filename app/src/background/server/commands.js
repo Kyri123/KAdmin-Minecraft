@@ -16,7 +16,9 @@ module.exports = {
    /**
     * Startet einen Server
     * @param server {string}
-    * @param para {array}
+    * @param para {array} Parameters
+    * <br>
+    * - **--alwaysstart** (Server startet immer wenn dieser NICHT läuft) <br>
     * @return {boolean}
     */
    doStart: (server, para) => {
@@ -63,7 +65,9 @@ module.exports = {
    /**
     * Erstellt ein Backup vom Server
     * @param server {string}
-    * @param para {array}
+    * @param para {array} Parameters
+    * <br>
+    * - **Derzeit keine Parameter**
     * @return {boolean}
     */
    doBackup: (server, para) => {

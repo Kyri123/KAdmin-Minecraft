@@ -39,55 +39,57 @@ function get() {
                         ktime   = cktime;
                         ktimes  = timeStamp;
                         if($(`#lc${ktimes}`).html() === undefined) $(`#backupList`).append(`
-                        <li class="list-group-item rounded-0 main" id="lcm${ktimes}">
-                            <i class="fa fa-folder pr-2" aria-hidden="true"></i> ${ktime}
-                            <div class="right">
-                                <button class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#lc${ktimes}" aria-expanded="true"><i class="fa fa-arrow-down pr-1" aria-hidden="true"></i> <span id="lcc${ktimes}">0</span></button>
-                                <span class="icon text-white">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </span>
-                                </a>
+                        <li class="list-group-item rounded-0 main p-0" id="lcm${ktimes}">
+                            <div class="d-flex">
+                                <div class="p-2">
+                                    <i class="fa fa-folder pr-2" aria-hidden="true"></i> ${ktime}
+                                </div>
+                                <div class="ml-auto p-0">
+                                    <button style="height: 40px" class="btn btn-primary" data-toggle="collapse" onclick="$('#lc${ktimes}').toggle('slow', () => {})">
+                                        <i class="fa fa-arrow-down pr-1" aria-hidden="true"></i> <span id="lcc${ktimes}">0</span>
+                                    </button>
+                                    <span style="height: 40px" class="btn btn-danger">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </span>
+                                </div>
                             </div>
                         </li>
     
-                        <ul style="margin-bottom: -1px; background: rgba(0, 0, 0, 0.125);" class="collapse" id="lc${ktimes}"></ul>`);
+                        <ul style="margin-bottom: -1px; background: rgba(0, 0, 0, 0.125);display:none" id="lc${ktimes}"></ul>`)
                     }
 
-                    if($(`#${timeStamp}`).html() === undefined) $(`#lc${ktimes}`).append(`<li class="list-group-item rounded-0" id="${timeStamp}">
-                                <table>
+                    if($(`#${timeStamp}`).html() === undefined) $(`#lc${ktimes}`).append(`<li class="list-group-item rounded-0 p-0" id="${timeStamp}">
+                                <table style="width: 100%" class="p-0">
                                     <tbody>
                                         <tr>
-                                            <td rowspan="2" class="pr-3"><i class="fas fa-file-archive text-lg" aria-hidden="true"></i></td>
-                                            <td class="pl-2">${time}</td>
+                                            <td rowspan="2" class="p-0 pl-2 pr-2" style="width:30px"><i class="fas fa-file-archive text-lg" aria-hidden="true"></i></td>
+                                            <td class="p-0">${time}</td>
+                                            <td align="right" class="p-0">
+                                                <div class="d-flex justify-content-end">
+                    
+                                                    ${serverInfos.pid === 0 && hasPermissions(globalvars.perm, "backups/playin", varser.cfg) ? `<a href="javascript:void();" onclick="setInModal('#filepi~val~${val}', '#filepititle~htm~${time}')" class="btn btn-info btn-sm" data-toggle="modal" data-target="#playinBackup">
+                                                        <span class="icon text-white">
+                                                            <i class="fas fa-play" aria-hidden="true"></i>
+                                                        </span>
+                                                    </a>` : ""}
+                    
+                                                    ${hasPermissions(globalvars.perm, "backups/remove", varser.cfg) ? `<a href="javascript:void();" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeBackup" onclick="setInModal('#fileNameRemove~val~${val}', '#removeTitle~htm~${time}')">
+                                                        <span class="icon text-white">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </span>
+                                                    </a>` : ""}
+                                                </div>
+                                            </td>
                                         </tr>
-                                        <!--<tr>
-                                            <td class="pl-2 text-sm">Dateigröße: 128 bit</td>
-                                        </tr>-->
                                     </tbody>
                                 </table>
-                                <div class="right">
-    
-                                    ${serverInfos.pid === 0 && hasPermissions(globalvars.perm, "backups/playin", varser.cfg) ? `<!--<a href="javascript:void();" onclick="setInModal('#filepi~val~${val}', '#filepititle~htm~${time}')" class="btn btn-info btn-sm" data-toggle="modal" data-target="#playinBackup">
-                                        <span class="icon text-white">
-                                            <i class="fas fa-play" aria-hidden="true"></i>
-                                        </span>
-                                    </a>-->` : ""}
-    
-                                    ${hasPermissions(globalvars.perm, "backups/remove", varser.cfg) ? `<a href="javascript:void();" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeBackup" onclick="setInModal('#fileNameRemove~val~${val}', '#removeTitle~htm~${time}')">
-                                        <span class="icon text-white">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </span>
-                                    </a>` : ""}
-                                </div>
                             </li>`);
                     $(`#lcc${ktimes}`).html($(`#lc${ktimes} li`).length);
                     if($(`#lc${ktimes} li`).length === 0) $(`#lcm${ktimes}`).remove();
                 }
-            });
-
-            if($('#modlist').html() !== list) $('#modlist').html(list);
-        });
-    });
+            })
+        })
+    })
 }
 
 function removeFile() {
