@@ -7,10 +7,10 @@
  * *******************************************************************************************
  */
 "use strict"
-get();
+get()
 setInterval(() => {
-    get();
-}, 10000);
+    get()
+}, 5000)
 
 function get() {
     $.get('/ajax/serverCenterAny', {
@@ -23,21 +23,20 @@ function get() {
             server          : vars.cfg
         }, (server) => {
             server  = JSON.parse(server);
-            let list    = ``;
-            let ktime   = ``;
-            let ktimes  = ``;
+            let ktime   = ``
+            let ktimes  = ``
 
             console.log(server)
 
             server.forEach((val) => {
                 if(val.includes(".tar.gz")) {
-                    let timeStamp   = val.replace(".tar.gz", "");
-                    let time        = convertTime(parseInt(timeStamp));
-                    let cktime      = time.split(" ")[0];
+                    let timeStamp   = val.replace(".tar.gz", "")
+                    let time        = convertTime(parseInt(timeStamp))
+                    let cktime      = time.split(" ")[0]
 
                     if(cktime !== ktime) {
-                        ktime   = cktime;
-                        ktimes  = timeStamp;
+                        ktime   = cktime
+                        ktimes  = timeStamp
 
                         // Erstelle "Ordner"
                         if($(`#lc${ktimes}`).html() === undefined) $(`#backupList`).append(`
@@ -104,39 +103,39 @@ function get() {
 function removeFile() {
     $.post('/ajax/serverCenterBackups' , $('#removeBackup').serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#all_resp').append(data.alert);
-            $('#removeBackup').modal('hide');
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#all_resp').append(data.alert)
+            $('#removeBackup').modal('hide')
 
-            let id = $('#fileNameRemove').val().replace('.zip', '');
-            $(`#${id}`).remove();
+            let id = $('#fileNameRemove').val().replace('.zip', '')
+            $(`#${id}`).remove()
             if($(`#lc${id} li`).length === 0) {
-                $(`#lcm${id}`).remove();
-                $(`#lc${id}`).remove();
+                $(`#lcm${id}`).remove()
+                $(`#lc${id}`).remove()
             }
             else {
-                $(`#lcc${id}`).html($(`#lc${id} li`).length);
+                $(`#lcc${id}`).html($(`#lc${id} li`).length)
             }
-            get();
+            get()
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
     });
-    return false;
+    return false
 }
 
 
 function playthisin() {
     $.post('/ajax/serverCenterBackups' , $('#playinBackup').serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#all_resp').append(data.alert);
-            $('#playinBackup').modal('hide');
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#all_resp').append(data.alert)
+            $('#playinBackup').modal('hide')
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
     });
-    return false;
+    return false
 }
