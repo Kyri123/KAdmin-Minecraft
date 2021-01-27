@@ -15,13 +15,20 @@
     "backups"     : "Backups WIP"
   },
   "versionpicker" : {
-    "title"       : "Versionsauswahl",
-    "release"     : "Releases",
-    "snapshot"    : "Snapshots",
-    "old_beta"    : "alte Beta",
-    "old_alpha"   : "alte Alpha",
-    "pick"        : "Version auswählen",
+    "title"       : "Versionen & Modpacks",
+    "pick"        : {
+      "pick"          : "Bitte wählen",
+      "release"       : "Releases",
+      "snapshot"      : "Snapshots",
+      "old_beta"      : "alte Beta",
+      "old_alpha"     : "alte Alpha",
+      "modpacks"      : "Modpacks"
+    },
+    "vpick"       : "Version auswählen",
     "branch"      : "Wählen die Art",
-    "send"        : "Version Installieren"
+    "send"        : "Version / Modpacks Installieren",
+    "mpnotfound"  : "Modpack nicht gefunden",
+    "mpnoserver"  : "Modpack besitzt keine ServerFiles",
+    "queue"       : "Modpack ist in der Warteschlange... versuche es nach ein paar Sekunden erneut"
   }
 }

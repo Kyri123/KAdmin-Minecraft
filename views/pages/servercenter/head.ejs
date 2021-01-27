@@ -164,20 +164,46 @@
                     <h5 class="modal-title"><%- lang["servercenter_any"].versionpicker.title %></h5>
                 </div>
                 <div class="modal-body">
-                        <div class="pl-3 pr-3 mb-2"><%- lang["servercenter_any"].versionpicker.branch %></div>
-                        <select id="tpick" class="form-control" onchange="generateVersionList(this.id)">
-                            <option value="release"><%- lang["servercenter_any"].versionpicker.release %></option>
-                            <option value="snapshot"><%- lang["servercenter_any"].versionpicker.snapshot %></option>
-                            <!--<option value="old_beta"><%- lang["servercenter_any"].versionpicker.old_beta %></option>
-                            <option value="old_alpha"><%- lang["servercenter_any"].versionpicker.old_alpha %></option>-->
-                            <option value="spigot">Spigot</option>
-                            <option value="craftbukkit">Craftbukkit</option>
-                            <!--<option value="forge">Forge</option>-->
-                        </select>
-                        <div class="pl-3 pr-3 mt-2 mb-2"><%- lang["servercenter_any"].versionpicker.pick %></div>
+                    <div class="pl-3 pr-3 mb-2"><%- lang["servercenter_any"].versionpicker.branch %></div>
+                    <select id="tpick" class="form-control" onchange="generateVersionList(this.id)">
+                        <option><%- lang["servercenter_any"].versionpicker.pick.pick %></option>
+                        <option value="release"><%- lang["servercenter_any"].versionpicker.pick.release %></option>
+                        <option value="snapshot"><%- lang["servercenter_any"].versionpicker.pick.snapshot %></option>
+                        <!--<option value="old_beta"><%- lang["servercenter_any"].versionpicker.pick.old_beta %></option>
+                        <option value="old_alpha"><%- lang["servercenter_any"].versionpicker.pick.old_alpha %></option>-->
+                        <option value="spigot">Spigot</option>
+                        <option value="craftbukkit">Craftbukkit</option>
+                        <option value="modpacks"><%- lang["servercenter_any"].versionpicker.pick.modpacks %> (CurseForge)(WIP)</option>
+                    </select>
+
+                    <!-- Loading -->
+                    <div id="vloading" class="align-content-center text-center p-4" style="display: none; width: 100%">
+                        <i class="fas fa-spinner fa-pulse"></i>
+                    </div>
+
+                    <!-- VPicker -->
+                    <div id="versionpick" style="display: none">
+                        <hr>
+                        <div class="pl-3 pr-3 mt-2 mb-2"><%- lang["servercenter_any"].versionpicker.vpick %></div>
                         <select id="vpick" class="form-control">
-                            <option><%- lang["servercenter_any"].versionpicker.pick %></option>
+                            <option><%- lang["servercenter_any"].versionpicker.pick.pick %></option>
                         </select>
+                    </div>
+
+                    <!-- ModpackPicker -->
+                    <div id="modpackpick" style="display: none">
+                        <hr>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="123456" id="lfModPackInput">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-dark" type="button" onclick="lfModPack()" id="sendCommandBtn">Suchen</button>
+                            </div>
+                        </div>
+                        <br>
+                        <table class="table table-striped table-bordered">
+                            <tbody id="modpackinfos"></tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="actions" value="sendcommand">

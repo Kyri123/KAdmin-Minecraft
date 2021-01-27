@@ -124,5 +124,5 @@ function submitform(id) {
             catch (e) {
                 $(id).modal('hide');
             }
-        });
+        })
 }

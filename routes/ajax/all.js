@@ -10,6 +10,7 @@
 
 const express           = require('express')
 const router            = express.Router()
+const srq               = require("sync-request")
 
 router.route('/')
 
@@ -28,6 +29,17 @@ router.route('/')
             })
             return true
         }
+
+       // getModpackInfos
+       if(
+          POST.GETModPackInfos   !== undefined &&
+          POST.ID                !== undefined
+       ) {
+          res.render('ajax/json', {
+             data: versionControlerModpacks.getModpackInfos(parseInt(POST.ID))
+          })
+          return true
+       }
     })
 
 module.exports = router;

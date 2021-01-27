@@ -201,37 +201,145 @@ $btnCopy.addEventListener('click', (ev) => {
 function generateVersionList(qid) {
     let quelle      = $(`#${qid}`)
     let ziel        = $(`#vpick`)
-    let zielList    = `<option>${globalvars.lang_arr["servercenter_any"].versionpicker.pick}</option>`
+    let zielList    = `<option>${globalvars.lang_arr["servercenter_any"].versionpicker.pick.pick}</option>`
     let lf          = quelle.val()
     ziel.html(zielList)
 
+    $('#vloading').toggle(false)
+    $('#versionpick').toggle(false)
+    $('#modpackpick').toggle(false)
+
     // hole Versionsliste
     if(lf === "release" || lf === "snapshot") {
+        $('#vloading').toggle(true)
         $.get('/json/serverInfos/mcVersions.json', (list) => {
             if(typeof list !== "undefined")
                 for(let i in list.versions)
                     if(list.versions[i].type === lf)
                         ziel.append(`<option value="${i}">${list.versions[i].id}</option>`)
+            $('#vloading').toggle(false)
+            $('#versionpick').toggle(true)
         })
     }
-    else if(lf === "spigot") {
-        $.get('/json/serverInfos/mcVersionsSpigot.json', (list) => {
+    else if(lf === "spigot" || lf === "craftbukkit") {
+        $('#vloading').toggle(true)
+        $.get(`/json/serverInfos/${lf === "craftbukkit" ? 'mcVersionsCraftbukkit' : 'mcVersionsSpigot'}.json`, (list) => {
             if(typeof list !== "undefined")
                 list.forEach(item => {
                     ziel.append(`<option value="${item}">${item}</option>`)
                 })
+            $('#vloading').toggle(false)
+            $('#versionpick').toggle(true)
+        })
+    }
+
+    // Modpacks
+    else if(lf === "modpacks") {
+        $('#vloading').toggle(true)
+        $('#modpackpick').toggle(true)
+        $('#vloading').toggle(false)
+    }
+}
+
+function lfModPack() {
+
+    let input   = $('#lfModPackInput')
+    let output  = $('#modpackinfos')
+    let value   = parseInt(input.val())
+
+    output.html(`
+        <tr>
+            <td colspan="4" class="text-center">
+                <i class="fas fa-spinner fa-pulse"></i>
+            </td>
+        </tr>
+    `)
+
+    if(!isNaN(value)) {
+        $.post(`/ajax/all`, {
+            GETModPackInfos : true,
+            ID              : value,
+        }, (data) => {
+            console.log(data)
+            let list = ""
+            try {
+                if(data !== false) {
+                    input.toggleClass('is-valid')
+                    let modpack    = JSON.parse(data)
+                    console.log(JSON.stringify(modpack))
+
+                    // is modpack in Queue
+                    if(modpack.error === "in_queue") {
+                        output.html(`
+                            <tr>
+                                <td colspan="4" class="text-center text-danger">
+                                    ${varser.lang_arr.servercenter_any.versionpicker.queue}
+                                </td>
+                            </tr>
+                       `)
+                    }
+                    else {
+
+                        // werte Modpack infos aus
+                        console.log(modpack)
+
+                        output.html(`
+                            <tr>
+                                <td colspan="4" class="text-center text-danger">
+                                    ${varser.lang_arr.servercenter_any.versionpicker.mpnoserver}
+                                </td>
+                            </tr>
+                       `)
+
+                        console.log(modpack.versions)
+
+                        // baue liste
+                        output.append(list)
+                        if(list === "")
+                            output.html(`
+                            <tr>
+                                <td colspan="4" class="text-center text-danger">
+                                    ${varser.lang_arr.servercenter_any.versionpicker.mpnoserver}
+                                </td>
+                            </tr>
+                       `)
+                    }
+                }
+                else {
+                    input.toggleClass('is-invalid')
+                    output.html(`
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">
+                                ${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}
+                            </td>
+                        </tr>
+                   `)
+                }
+            }
+            catch (e) {
+                input.toggleClass('is-invalid')
+                output.html(`
+                    <tr>
+                        <td colspan="4" class="text-center text-danger">
+                            ${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}
+                        </td>
+                    </tr>
+               `)
+               console.log(e)
+            }
         })
     }
     else {
-        $.get('/json/serverInfos/mcVersionsCraftbukkit.json', (list) => {
-            if(typeof list !== "undefined")
-                list.forEach(item => {
-                    ziel.append(`<option value="${item}">${item}</option>`)
-                })
-        })
+        input.toggleClass('is-invalid')
+        output.html(`
+            <tr>
+                <td colspan="4" class="text-center text-danger">
+                    ${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}
+                </td>
+            </tr>
+       `)
     }
 }
-generateVersionList("tpick")
 
 
 function installVersion(cfg) {

@@ -23,6 +23,7 @@
     "ini": "^2.0.0",
     "ip": "^1.1.5",
     "locutus": "^2.0.14",
+    "mc-curseforge-api": "^2.2.3",
     "md5": "^2.3.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
@@ -32,6 +33,7 @@
     "sync-mysql": "^3.0.1",
     "sync-request": "^6.1.0",
     "systeminformation": "^4.34.5",
+    "unzipper": "^0.10.11",
     "uuid": "^3.4.0",
     "valid-url": "^1.0.9"
   },

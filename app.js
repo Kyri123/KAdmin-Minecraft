@@ -45,9 +45,11 @@ global.serverClass                    = require('./app/src/util_server/class')
 global.versionVanillaControler        = require('./app/src/util_server/versionControler')
 global.versionSpigotControler         = require('./app/src/util_server/versionControlerSpigot')
 global.versionCraftbukkitControler    = require('./app/src/util_server/versionControlerCraftbukkit')
+global.versionControlerModpacks       = require('./app/src/util_server/versionControlerModpacks')
 global.versionVanillaControler        = new versionVanillaControler()
 global.versionSpigotControler         = new versionSpigotControler()
 global.versionCraftbukkitControler    = new versionCraftbukkitControler()
+global.versionControlerModpacks       = new versionControlerModpacks()
 
 // Modulealerter
 require('./app/main/mainLoader.js')
