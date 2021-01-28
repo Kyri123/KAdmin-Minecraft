@@ -1,14 +1,14 @@
 {
   "useDebug"          : true,
   "interval": {
-    "getStateFromServers"       : 30000,
+    "getStateFromServers"       : 20000,
     "getTraffic"                : 300000,
-    "doReReadConfig"            : 60000,
-    "doServerBackgrounder"      : 60000,
+    "doReReadConfig"            : 120000,
+    "doServerBackgrounder"      : 120000,
     "backgroundUpdater"         : 1800000,
-    "doJob"                     : 5000,
+    "doJob"                     : 60000,
     "getVersionList"            : 3600000,
     "getChangelogList"          : 3600000,
-    "getSpigotCraftbukkitList"  : 86400000
+    "getSpigotCraftbukkitList"  : 21600000
   }
 }
