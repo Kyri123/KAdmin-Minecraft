@@ -39,6 +39,8 @@ module.exports = {
         if(!globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsSpigot.json"]) || !globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsCraftbukkit.json"]))
             module.exports.getSpigotCraftbukkitList()
 
+        module.exports.getTraffic()
+        module.exports.getStateFromServers()
         module.exports.getChangelogList()
     },
 

@@ -56,6 +56,14 @@ function loadActionLog() {
                         .replaceAll(`[K`, "")
                         .replaceAll(`[8D`, "")
                         .replaceAll(`\\r`, "")
+                        .replaceAll(`[0;33;1m`, "")
+                        .replaceAll(`[0;32;1m`, "")
+                        .replaceAll(`[0;31;1m`, "")
+                        .replaceAll(`[?1000l`, "")
+                        .replaceAll(`[?2004l`, "")
+                        .replaceAll(`[?1h=`, "")
+                        .replaceAll(`[?1l>`, "")
+                        .replaceAll(`[?2004h`, "")
 
                      if(item.trim() !== "" && item.trim() !== ">") {
                         log.push(`<span class="text-${color}">${item}</span>`)
