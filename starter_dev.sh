@@ -21,6 +21,8 @@ do
   cd KAdmin-Minecraft-dev
   rm ./app/config/app.json
   rm ./app/config/mysql.json
+  rm ./public/json/serverInfos/mcVersionsCraftbukkit.json
+  rm ./public/json/serverInfos/mcVersionsSpigot.json
   rm -R ./app/json/server
   yes | cp -rf ./ ./../../
   cd ../../

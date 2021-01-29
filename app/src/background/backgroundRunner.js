@@ -23,7 +23,7 @@ module.exports = {
     /**
      * Startet alle Intervalle
      */
-    startAll: () => {
+    startAll: async () => {
         setInterval(() => module.exports.backgroundUpdater(),           CONFIG.main.interval.backgroundUpdater)
         setInterval(() => module.exports.doReReadConfig(),              CONFIG.main.interval.doReReadConfig)
         setInterval(() => module.exports.getTraffic(),                  CONFIG.main.interval.getTraffic)

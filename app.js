@@ -132,15 +132,13 @@ let port = typeof process.env.PORT !== "undefined" ?
    parseInt(process.env.PORT, 10) : typeof CONFIG.app.port !== "undefined" ?
       parseInt(CONFIG.app.port, 10) : 80
 
+http.globalAgent.maxSockets = Infinity;
+
 let httpServer = http.createServer(app)
 httpServer.listen(port)
    .on('listening', () => {
      console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${CONFIG.app.port}/`)
    })
 
-/*
-app.listen(port, "0.0.0.0", () => {
-  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m${Installed ? "" : " follow Installer here:"} http://${ip.address()}:${CONFIG.app.port}/`)
-})*/
 backgroundRunner.startAll()
 module.exports = { app, httpServer }
