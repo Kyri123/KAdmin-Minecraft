@@ -26,8 +26,6 @@ function get() {
             let ktime   = ``
             let ktimes  = ``
 
-            console.log(server)
-
             server.forEach((val) => {
                 if(val.includes(".tar.gz")) {
                     let timeStamp   = val.replace(".tar.gz", "")
@@ -49,9 +47,9 @@ function get() {
                                     <button style="height: 40px" class="btn btn-primary" data-toggle="collapse" onclick="$('#lc${ktimes}').toggle('slow', () => {})">
                                         <i class="fa fa-arrow-down pr-1" aria-hidden="true"></i> <span id="lcc${ktimes}">0</span>
                                     </button>
-                                    <span style="height: 40px" class="btn btn-danger">
+                                    <!--<span style="height: 40px" class="btn btn-danger">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </span>
+                                    </span>-->
                                 </div>
                             </div>
                         </li>
@@ -106,16 +104,17 @@ function removeFile() {
             data    = JSON.parse(data)
             if(data.alert !== undefined) $('#all_resp').append(data.alert)
             $('#removeBackup').modal('hide')
+            $('.modal-backdrop').remove()
 
-            let id = $('#fileNameRemove').val().replace('.zip', '')
+
+            let id = $('#fileNameRemove').val().replace('.tar.gz', '')
+
             $(`#${id}`).remove()
             if($(`#lc${id} li`).length === 0) {
                 $(`#lcm${id}`).remove()
                 $(`#lc${id}`).remove()
             }
-            else {
-                $(`#lcc${id}`).html($(`#lc${id} li`).length)
-            }
+            if($(`#lcc${id}`) !== undefined) $(`#lcc${id}`).html($(`#lc${id} li`).length)
             get()
         }
         catch (e) {
@@ -132,6 +131,7 @@ function playthisin() {
             data    = JSON.parse(data)
             if(data.alert !== undefined) $('#all_resp').append(data.alert)
             $('#playinBackup').modal('hide')
+            $('.modal-backdrop').remove()
         }
         catch (e) {
             console.log(e)

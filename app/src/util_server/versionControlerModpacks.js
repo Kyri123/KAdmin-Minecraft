@@ -103,6 +103,7 @@ module.exports = class versionControlerModpacks {
                .on("close", () => {
                   globalUtil.safeFileSaveSync([cfg.path, "eula.txt"], "eula=true")
                   serv.writeConfig("currversion", "ModPack - " + modpackID)
+                  globalUtil.safeFileRmSync([cfg.path, "modpack.zip"])
                })
 
          })()

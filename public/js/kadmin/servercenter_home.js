@@ -57,9 +57,11 @@ function loadActionLog() {
                         .replaceAll(`[K`, "")
                         .replaceAll(`[8D`, "")
                         .replaceAll(`\\r`, "")
+                        .replaceAll(`[0;31;1m`, "")
                         .replaceAll(`[0;33;1m`, "")
                         .replaceAll(`[0;32;1m`, "")
-                        .replaceAll(`[0;31;1m`, "")
+                        .replaceAll(`[0;32;22m`, "")
+                        .replaceAll(`\\tat `, "")
                         .replaceAll(`[?1000l`, "")
                         .replaceAll(`[?2004l`, "")
                         .replaceAll(`[?1h=`, "")
@@ -99,7 +101,6 @@ function sendCommand() {
                .toggleClass("btn-outline-light", false)
                .toggleClass("btn-outline-danger", false)
                .toggleClass("btn-outline-success", true)
-            loadActionLog()
          }
          else {
             q
