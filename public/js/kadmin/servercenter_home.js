@@ -28,7 +28,7 @@ function loadActionLog() {
    })
         .done(function(data) {
             let convLog = ``;
-            if(data.includes('ArkAdmin ::')) {
+            if(data.includes('KAdmin-Minecraft ::')) {
                 let convLog = `${globalvars.lang_arr.logger.notFound}`
                 $('#actionlog').html(convLog)
             }

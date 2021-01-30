@@ -30,11 +30,11 @@
     "GameUserSettings"        : "Darf GameUserSettings sehen",
     "Game"                    : "Darf Game sehen",
     "Engine"                  : "Darf Engine sehen",
-    "arkadmin"                : "Darf KAdmin-Minecraft sehen",
+    "kadmin-mc"                : "Darf KAdmin-Minecraft sehen",
     "show_GameUserSettings"   : "Darf GameUserSettings bearbeiten",
     "show_Game"               : "Darf Game bearbeiten",
     "show_Engine"             : "Darf GameUserSettings bearbeiten",
-    "show_arkadmin"           : "Darf KAdmin-Minecraft bearbeiten",
+    "show_kadmin-mc"           : "Darf KAdmin-Minecraft bearbeiten",
     "playin"                  : "Darf Backup einspielen"
   }
 }

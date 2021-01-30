@@ -9,6 +9,6 @@
     "doJob"                     : 60000,
     "getVersionList"            : 3600000,
     "getChangelogList"          : 3600000,
-    "getSpigotCraftbukkitList"  : 21600000
+    "getSpigotCraftbukkitList"  : 3600000
   }
 }

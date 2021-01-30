@@ -19,7 +19,7 @@ router.route('/')
         let POST        = req.body;
 
         // Speicher Server
-        if(POST.saveServer !== undefined && userHelper.hasPermissions(req.session.uid, "config/arkadmin", POST.cfg)) {
+        if(POST.saveServer !== undefined && userHelper.hasPermissions(req.session.uid, "config/kadmin-mc", POST.cfg)) {
             let serverData  = new serverClass(POST.cfg);
 
             delete POST.saveServer;

@@ -1,6 +1,6 @@
-Arkadmin 
+KAdmin-Minecraft 
 =============
-Webbasiertes Admin Panel für Ark-Gameserver
+Webbasiertes Admin Panel für Minecraft-Server
 
 **Derzeitige Features**
 
@@ -10,20 +10,26 @@ Webbasiertes Admin Panel für Ark-Gameserver
   - Erstellen sowie Löschen von Server
   - Übersicht aller Aktiven Server
 - ServerCenter
-  - Konsole
+  - Echzeit Konsole mit Befehleingabe
   - Verwaltung und einspielen von Backups
   - Automatische Backups
   - Konfiguration von KAdmin & Server.properties
-  - **[WIP (Funktioniert schon... unklar ob in jeden Fall)]** Restart beim Crash vom Server
+  - Restart beim Crash vom Server
+  - Versions auswahl von
+    - Vanilla Release (+ Snapshots)
+    - Spigot
+    - Craftbukkit
+  - Modpack Installer über Projekt ID insofern diese ein Serverpack haben (nur Curseforge)
 
 **Geplante Features**
 
 - ServerCenter
-  - Forge Support
-  - Modpack Support
-  - Spigot Support
-  - Konsolen Befehle
-- uvm.
+  - Spieler verwaltung und Anzeige wer ist Online
+  - Filebrowser für Konfigs von Mods & Plugins
+    - Löschen von Dateien
+    - Hochladen von Dateien
+  - uvm.
+- Ideen gerne gesehen!
 
 Wichtig
 =============
@@ -91,23 +97,24 @@ main.json
 # Benötigt
 - `Betriebssystem`
   - Linux | Getestet auf:
-    - Debain 9 & 10
+    - Debain 9
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
 - `Node.JS` 
-  - Version >= 15.6.0                   > https://nodejs.org/dist/v15.5.1/node-v15.5.1-x64.msi
+  - Version >= 15.6.0
   - NVM (empfohlen für Versionswechsel) > https://github.com/nvm-sh/nvm
 - `MariaDB` 
-  - Server              > z.B. https://www.apachefriends.org/de/index.html
+  - Server   
 - `Linux`
   - screen
   - java-8 jenachdem welche MC server und Mods!
+  - Node.JS
   
 # Andere Projekte:
-| Projekt                     | Status          | URL | 
-| :---                        | :---            | :--- |
-| KAdmin-ArkLIN               | Release         | https://github.com/Kyri123/KAdmin-ArkLIN |
-| KAdmin-ArkWIN               | Alpha           | https://github.com/Kyri123/KAdmin-ArkWIN |
-| Kleines Minecraft Plugin    | Beta            | https://github.com/Kyri123/KPlugins-1.12.2 |
+| Projekt                     | Status            | URL | 
+| :---                        | :---              | :--- |
+| KAdmin-ArkLIN               | Release           | https://github.com/Kyri123/KAdmin-ArkLIN |
+| KAdmin-ArkWIN               | Alpha (gestoppt)  | https://github.com/Kyri123/KAdmin-ArkWIN |
+| Kleines Minecraft Plugin    | Beta              | https://github.com/Kyri123/KPlugins-1.12.2 |
 
 # Danke
 - Danke an **JetBrains** für die bereitstellung der IDE's für die Entwicklung dieser Open-Source-Software
