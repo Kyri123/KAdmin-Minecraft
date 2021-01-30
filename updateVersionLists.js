@@ -10,6 +10,7 @@
 
 global.dateFormat                     = require('dateformat')
 global.panelBranch                    = process.argv.includes("dev") ? "dev" : "master"
+global.panelVersion                   = ""
 if(process.platform === "win32") {
    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m OS is Windows or not supported`)
    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
