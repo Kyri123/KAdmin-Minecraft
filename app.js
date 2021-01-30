@@ -88,6 +88,9 @@ let app         = express()
 
   // Statics
   app.use(express.static(pathMod.join(__dirname, 'public')))
+  app.use('/serv', express.static(pathMod.join(CONFIG.app.servRoot)))
+  app.use('/logs', express.static(pathMod.join(CONFIG.app.logRoot)))
+  app.use('/backup', express.static(pathMod.join(CONFIG.app.pathBackup)))
 
   // Session
   app.use(session({

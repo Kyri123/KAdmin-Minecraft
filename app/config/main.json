@@ -1,10 +1,10 @@
 {
   "useDebug"          : true,
   "interval": {
-    "getStateFromServers"       : 20000,
-    "getTraffic"                : 300000,
-    "doReReadConfig"            : 120000,
-    "doServerBackgrounder"      : 120000,
+    "getStateFromServers"       : 5000,
+    "getTraffic"                : 15000,
+    "doReReadConfig"            : 60000,
+    "doServerBackgrounder"      : 30000,
     "backgroundUpdater"         : 1800000,
     "doJob"                     : 60000,
     "getVersionList"            : 3600000,

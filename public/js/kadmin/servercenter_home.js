@@ -10,18 +10,19 @@
 loadActionLog();
 setInterval(() => {
     loadActionLog()
-}, 5000)
+}, 50)
 
 // Bestätige mit Enter Konsolenbefehle
-document.getElementById("sendCommand").addEventListener("keyup", function(event) {
-   if (event.keyCode === 13) {
+$("#sendCommand").keypress((event) => {
+   if (event.key === "Enter") {
       event.preventDefault()
-      document.getElementById("sendCommandBtn").click()
+      sendCommand()
    }
-});
+})
 
 function loadActionLog() {
-    $.get(`/ajax/ServerCenterHome`, {
+   console.log(`/logs/${vars.cfg}/latest.log`)
+    $.get(`/logs/${vars.cfg}/latest.log`, {
        getLogFormServer: true,
        server: vars.cfg
    })
@@ -98,6 +99,7 @@ function sendCommand() {
                .toggleClass("btn-outline-light", false)
                .toggleClass("btn-outline-danger", false)
                .toggleClass("btn-outline-success", true)
+            loadActionLog()
          }
          else {
             q
