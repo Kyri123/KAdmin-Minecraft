@@ -10,7 +10,16 @@
 
 let joinAdress = $('#btnJoin').attr('href')
 
+// Bestätige mit Enter suche
+$("#lfModPackInput").keypress((event) => {
+    if (event.key === "Enter") {
+        event.preventDefault()
+        lfModPack()
+    }
+})
+
 // Server Status / Aktionen
+$(`#modpackinfo`).html(alerter(3900, "", 3, false, 0, 0, 3))
 getSCState()
 setInterval(() => {
     getSCState()
@@ -244,6 +253,9 @@ function generateVersionList(qid) {
     }
 }
 
+/**
+ * Sucht nach eingebenen Modpack
+ */
 function lfModPack() {
 
     let input   = $('#lfModPackInput')
@@ -275,7 +287,7 @@ function lfModPack() {
                     }
                     else {
                         // werte Modpack infos aus
-                        modpack.dFiles[0].reverse()
+                        modpack.dFiles[0].sort((a, b) => (a.fileDate < b.fileDate) ? 1 : -1)
                         for(let item of modpack.dFiles[0])
                             if(item.serverPackFileId !== null) {
                                 let datestamp   = new Date(item.fileDate)
@@ -284,8 +296,10 @@ function lfModPack() {
                                     <tr>
                                         <td>${item.displayName}</td>
                                         <td>${convertTime(datestamp)}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="installModpack('${value}', '${item.serverPackFileId}', '${vars.cfg}')">Install</button>
+                                        <td align="center">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" id="ibtn${item.serverPackFileId}" onclick="installModpack('${value}', '${item.serverPackFileId}', '${vars.cfg}', this.id)">
+                                                <i class="fa fa-download"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 `
@@ -347,7 +361,11 @@ function lfModPack() {
     }
 }
 
-
+/**
+ * Installiert eine gewählte Version
+ * @param cfg
+ * @return {boolean}
+ */
 function installVersion(cfg) {
     $.post('/ajax/serverCenterAny' , {
         installVersion  : true,
@@ -367,4 +385,46 @@ function installVersion(cfg) {
         }
     })
     return false;
+}
+
+/**
+ * Sendet den Befehl ein Modpack zu Installieren
+ * @param modid
+ * @param fileid
+ * @param server
+ * @param btnid
+ */
+function installModpack(modid, fileid, server, btnid) {
+    let btn     = $(`#${btnid}`)
+    btn
+       .attr("class", "btn btn-sm btn-outline-info")
+       .html(`<i class="fas fa-spinner fa-pulse"></i>`)
+
+    // Sende an Server
+    $.post('/ajax/serverCenterAny' , {
+        installModpack  : true,
+        cfg             : server,
+        modid           : modid,
+        fileid          : fileid
+    }, (data) => {
+        try {
+            let info    = JSON.parse(data)
+            if(info.success) {
+                btn
+                   .attr("class", "btn btn-sm btn-outline-success")
+                   .html(`<i class="fas fa-check"></i>`)
+            }
+            else {
+                btn
+                   .attr("class", "btn btn-sm btn-outline-danger")
+                   .html(`<i class="fas fa-times"></i>`)
+            }
+        }
+        catch (e) {
+            console.log(e)
+            btn
+               .attr("class", "btn btn-sm btn-outline-danger")
+               .html(`<i class="fa fa-times"></i>`)
+        }
+    })
 }

@@ -11,6 +11,7 @@
 const srq         = require("sync-request")
 const download    = require("download")
 const unzip       = require("unzipper")
+const shell       = require("./../background/server/shell")
 
 module.exports = class versionControlerModpacks {
 
@@ -96,19 +97,47 @@ module.exports = class versionControlerModpacks {
             globalUtil.safeFileRmSync([cfg.path, "libraries"])
             globalUtil.safeFileRmSync([cfg.path, "scripts"])
             globalUtil.safeFileRmSync([cfg.path, "modpack"])
+            globalUtil.safeFileRmSync([cfg.path, "resources"])
+            globalUtil.safeFileRmSync([cfg.path, "oresources"])
+            globalUtil.safeFileRmSync([cfg.path, "fontfiles"])
+
+            fs.readdir(pathMod.join(cfg.path), (err, files) =>
+               files.forEach(file => {
+                  if (
+                     file.includes(".jar") ||
+                     file.includes(".sh") ||
+                     file.includes(".cmd") ||
+                     file.includes(".bat") ||
+                     file.includes(".pdf") ||
+                     file.includes(".txt")
+                  )
+                     globalUtil.safeFileRmSync([cfg.path, file])
+               })
+            )
 
             fs.writeFileSync(pathMod.join(cfg.path, "modpack.zip"), await download(url))
             fs.createReadStream(pathMod.join(cfg.path, "modpack.zip"))
                .pipe(unzip.Extract({ path: pathMod.join(cfg.path)}))
                .on("close", () => {
-                  globalUtil.safeFileSaveSync([cfg.path, "eula.txt"], "eula=true")
+                  fs.readdir(pathMod.join(cfg.path), (err, files) =>
+                     files.forEach(file => {
+                        if(file.includes("forge") && !file.includes("install"))
+                           serv.writeConfig("jar", file)
+
+                        if((file.includes("install") || file.includes("Install")) && file.includes(".sh")) {
+                           shell.runSHELL(`chmod 777 -R ${pathMod.join(cfg.path)} && cd ${pathMod.join(cfg.path)} && ./${file}`)
+                        }
+                     })
+                  )
+
                   serv.writeConfig("currversion", "ModPack - " + modpackID)
                   globalUtil.safeFileRmSync([cfg.path, "modpack.zip"])
+                  globalUtil.safeFileSaveSync([cfg.path, "eula.txt"], "eula=true")
                })
 
          })()
          return true
       }
-      return false
+      return url !== false
    }
 }

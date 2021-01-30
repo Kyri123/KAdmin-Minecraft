@@ -18,8 +18,35 @@ router.route('/')
     .post((req,res)=>{
         let POST        = req.body;
 
+        // ModpackPicker
+        if(
+           POST.installModpack !== undefined &&
+           POST.cfg !== undefined &&
+           POST.modid !== undefined &&
+           POST.fileid !== undefined &&
+           userHelper.hasPermissions(req.session.uid, "versionpicker", POST.cfg)
+        ) {
+            let serv        = new serverClass(POST.cfg)
+
+            if(serv.serverExsists()) {
+                let modid   = parseInt(POST.modid)
+                let succ    = versionControlerModpacks.InstallPack(modid, parseInt(POST.fileid), POST.cfg)
+                if(succ) serv.writeConfig("currversion", modid)
+
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        success: succ
+                    })
+                });
+                return true;
+            }
+        }
+
         // VersionPicker
-        if(POST.installVersion !== undefined && userHelper.hasPermissions(req.session.uid, "actions", POST.cfg)) {
+        if(
+           POST.installVersion !== undefined &&
+           userHelper.hasPermissions(req.session.uid, "versionpicker", POST.cfg)
+        ) {
             let serv        = new serverClass(POST.cfg)
 
             if(serv.serverExsists()) {

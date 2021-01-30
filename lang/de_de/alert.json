@@ -160,6 +160,11 @@
     "text"  : "Es ist ein neues Update verfügbar Bitte beende den Server und starte <b>start_<branch>.cmd</b>"
   },
 
+  "3900": {
+    "title" : "Infos zur Modpack Installation",
+    "text"  : "Da viele Modpacks anders installiert werden prüft bitte, ob automatisch die Richtige .jar Datei erkannt wurde. Außerdem ob dieser auch Installiert ist (einige Modpack benötigen Ausführungen von extra Befehlen oder Dateien)<hr>Die Modpack ID findet ihr auf der Modpack Seite auf Curseforge auf rechten Seite. <br><a href='https://www.curseforge.com/minecraft/modpacks/modern-skyblock-3-departed' target='_blank'>(Beispiel: Project ID 286377)</a>"
+  },
+
   "3993": {
     "title" : "Modidikationen Inaktiv",
     "text"  : "Mods Sind auf dem Server Deaktiviert (Flagge Crossplay ODER EpicOnly ist aktiv)"
