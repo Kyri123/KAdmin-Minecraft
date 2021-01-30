@@ -24,11 +24,13 @@
       "old_alpha"     : "alte Alpha",
       "modpacks"      : "Modpacks"
     },
-    "vpick"       : "Version auswählen",
-    "branch"      : "Wählen die Art",
-    "send"        : "Version / Modpacks Installieren",
-    "mpnotfound"  : "Modpack nicht gefunden",
-    "mpnoserver"  : "Modpack besitzt keine ServerFiles",
-    "queue"       : "Modpack ist in der Warteschlange... versuche es nach ein paar Sekunden erneut"
+    "vpick"         : "Version auswählen",
+    "branch"        : "Wählen die Art",
+    "send"          : "Version / Modpacks Installieren",
+    "mpnotfound"    : "Modpack nicht gefunden",
+    "mpnoserver"    : "Modpack besitzt keine ServerFiles",
+    "queue"         : "Modpack ist in der Warteschlange... versuche es nach ein paar Sekunden erneut",
+    "mp_cat"        : "Kategorien",
+    "mp_lastupdate" : "Letztes Update"
   }
 }

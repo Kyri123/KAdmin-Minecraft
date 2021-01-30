@@ -10,7 +10,7 @@
 loadActionLog();
 setInterval(() => {
     loadActionLog()
-}, 50)
+}, 200)
 
 // Bestätige mit Enter Konsolenbefehle
 $("#sendCommand").keypress((event) => {
@@ -21,7 +21,6 @@ $("#sendCommand").keypress((event) => {
 })
 
 function loadActionLog() {
-   console.log(`/logs/${vars.cfg}/latest.log`)
     $.get(`/logs/${vars.cfg}/latest.log`, {
        getLogFormServer: true,
        server: vars.cfg

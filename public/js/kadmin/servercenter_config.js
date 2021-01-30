@@ -14,7 +14,7 @@ if(hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/ser
     server      : vars.cfg
 }, (data) => {
     $('#serverprop').text(data);
-});
+})
 
 function saveCfg() {
     $.post('/ajax/serverCenterConfig' , $('#pills-server').serialize(), (data) => {

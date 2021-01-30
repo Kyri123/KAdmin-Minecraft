@@ -173,7 +173,7 @@
                         <option value="old_alpha"><%- lang["servercenter_any"].versionpicker.pick.old_alpha %></option>-->
                         <option value="spigot">Spigot</option>
                         <option value="craftbukkit">Craftbukkit</option>
-                        <option value="modpacks"><%- lang["servercenter_any"].versionpicker.pick.modpacks %> (CurseForge)(WIP)</option>
+                        <option value="modpacks"><%- lang["servercenter_any"].versionpicker.pick.modpacks %> [CurseForge]</option>
                     </select>
 
                     <!-- Loading -->
@@ -208,7 +208,7 @@
                 <div class="modal-footer">
                     <input type="hidden" name="actions" value="sendcommand">
                     <input type="hidden" name="cfg" value="<%- serverName %>">
-                    <button type="button" class="btn btn-success" onclick="installVersion('<%- serverName %>')"><%- lang["servercenter_any"].versionpicker.send %></button>
+                    <button id="installvbtn" style="display: none" type="button" class="btn btn-success" onclick="installVersion('<%- serverName %>')"><%- lang["servercenter_any"].versionpicker.send %></button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
                 </div>
             </div>

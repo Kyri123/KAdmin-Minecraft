@@ -211,6 +211,7 @@ function generateVersionList(qid) {
 
     // hole Versionsliste
     if(lf === "release" || lf === "snapshot") {
+        $('#installvbtn').toggle(true)
         $('#vloading').toggle(true)
         $.get('/json/serverInfos/mcVersions.json', (list) => {
             if(typeof list !== "undefined")
@@ -222,6 +223,7 @@ function generateVersionList(qid) {
         })
     }
     else if(lf === "spigot" || lf === "craftbukkit") {
+        $('#installvbtn').toggle(true)
         $('#vloading').toggle(true)
         $.get(`/json/serverInfos/${lf === "craftbukkit" ? 'mcVersionsCraftbukkit' : 'mcVersionsSpigot'}.json`, (list) => {
             if(typeof list !== "undefined")
@@ -235,6 +237,7 @@ function generateVersionList(qid) {
 
     // Modpacks
     else if(lf === "modpacks") {
+        $('#installvbtn').toggle(false)
         $('#vloading').toggle(true)
         $('#modpackpick').toggle(true)
         $('#vloading').toggle(false)
@@ -249,7 +252,7 @@ function lfModPack() {
 
     output.html(`
         <tr>
-            <td colspan="4" class="text-center">
+            <td colspan="3" class="text-center">
                 <i class="fas fa-spinner fa-pulse"></i>
             </td>
         </tr>
@@ -260,72 +263,75 @@ function lfModPack() {
             GETModPackInfos : true,
             ID              : value,
         }, (data) => {
-            console.log(data)
             let list = ""
             try {
                 if(data !== false) {
                     input.toggleClass('is-valid')
                     let modpack    = JSON.parse(data)
-                    console.log(JSON.stringify(modpack))
 
                     // is modpack in Queue
                     if(modpack.error === "in_queue") {
-                        output.html(`
-                            <tr>
-                                <td colspan="4" class="text-center text-danger">
-                                    ${varser.lang_arr.servercenter_any.versionpicker.queue}
-                                </td>
-                            </tr>
-                       `)
+                        output.html(`<tr><td colspan="3" class="text-center text-danger">${varser.lang_arr.servercenter_any.versionpicker.queue}</td></tr>`)
                     }
                     else {
-
                         // werte Modpack infos aus
-                        console.log(modpack)
+                        modpack.dFiles[0].reverse()
+                        for(let item of modpack.dFiles[0])
+                            if(item.serverPackFileId !== null) {
+                                let datestamp   = new Date(item.fileDate)
+                                datestamp       = parseInt(datestamp.getTime())
+                                list += `
+                                    <tr>
+                                        <td>${item.displayName}</td>
+                                        <td>${convertTime(datestamp)}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="installModpack('${value}', '${item.serverPackFileId}', '${vars.cfg}')">Install</button>
+                                        </td>
+                                    </tr>
+                                `
+                            }
 
+                        let datestamp   = new Date(modpack.dateModified)
+                        let cat         = []
+                        for(let item of modpack.categories) {
+                            cat.push(`<a href="${item.url}" target="_blank">${item.name}</a>`)
+                        }
                         output.html(`
-                            <tr>
-                                <td colspan="4" class="text-center text-danger">
-                                    ${varser.lang_arr.servercenter_any.versionpicker.mpnoserver}
-                                </td>
-                            </tr>
-                       `)
-
-                        console.log(modpack.versions)
-
+                                <tr>
+                                    <th colspan="3">
+                                    <div class="media">
+                                        <img src="${modpack.attachments[0].thumbnailUrl}" alt="User Avatar" class="mr-3 img-circle" style="height: 77px">
+                                        <div class="media-body">
+                                            <h3 class="dropdown-item-title">
+                                                ${modpack.name}
+                                                <a target="_blank" href="${modpack.websiteUrl}" class="float-right text-sm"><i class="fa fa-link"></i></a>
+                                            </h3>
+                                            <p class="text-sm"><b>${varser.lang_arr.servercenter_any.versionpicker.mp_cat}:</b> ${cat.join(" - ")}</p>
+                                            <p class="text-sm text-muted mb-0"><i class="far fa-clock mr-1"></i> <b>${varser.lang_arr.servercenter_any.versionpicker.mp_lastupdate}:</b> ${convertTime(datestamp)}</p>
+                                        </div>
+                                    </div>
+                                    </th>
+                                </tr>
+                            `)
                         // baue liste
-                        output.append(list)
-                        if(list === "")
-                            output.html(`
-                            <tr>
-                                <td colspan="4" class="text-center text-danger">
-                                    ${varser.lang_arr.servercenter_any.versionpicker.mpnoserver}
-                                </td>
-                            </tr>
-                       `)
+                        if(list === "") {
+                            output.append(`<tr><td colspan="3" class="text-center text-danger">${varser.lang_arr.servercenter_any.versionpicker.mpnoserver}</td></tr>`)
+                        }
+                        else {
+                            output.append(list)
+                        }
+
                     }
                 }
                 else {
                     input.toggleClass('is-invalid')
-                    output.html(`
-                        <tr>
-                            <td colspan="4" class="text-center text-danger">
-                                ${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}
-                            </td>
-                        </tr>
-                   `)
+                    output.html(`<tr><td colspan="3" class="text-center text-danger">${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}</td></tr>`)
                 }
             }
             catch (e) {
                 input.toggleClass('is-invalid')
-                output.html(`
-                    <tr>
-                        <td colspan="4" class="text-center text-danger">
-                            ${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}
-                        </td>
-                    </tr>
-               `)
-               console.log(e)
+                output.html(`<tr><td colspan="3" class="text-center text-danger">${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}</td></tr>`)
+                console.log(e)
             }
         })
     }
@@ -333,7 +339,7 @@ function lfModPack() {
         input.toggleClass('is-invalid')
         output.html(`
             <tr>
-                <td colspan="4" class="text-center text-danger">
+                <td colspan="3" class="text-center text-danger">
                     ${varser.lang_arr.servercenter_any.versionpicker.mpnotfound}
                 </td>
             </tr>
