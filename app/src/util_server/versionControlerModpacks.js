@@ -122,10 +122,10 @@ module.exports = class versionControlerModpacks {
                .on("close", () => {
                   fs.readdir(pathMod.join(cfg.path), (err, files) =>
                      files.forEach(file => {
-                        if(file.includes("forge") && !file.includes("install"))
+                        if(file.toLowerCase().includes("forge") && !file.toLowerCase().includes("install"))
                            serv.writeConfig("jar", file)
 
-                        if((file.includes("install") || file.includes("Install")) && file.includes(".sh")) {
+                        if(file.toLowerCase().includes("install") || file.toLowerCase().includes("ftbserver") && file.toLowerCase().includes(".sh")) {
                            shell.runSHELL(`chmod 777 -R ${pathMod.join(cfg.path)} && cd ${pathMod.join(cfg.path)} && ./${file}`)
                         }
                      })
