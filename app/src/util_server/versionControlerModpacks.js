@@ -91,6 +91,7 @@ module.exports = class versionControlerModpacks {
          let cfg  = serv.getConfig();
 
          (async () => {
+            globalUtil.safeFileSaveSync([cfg.path, "installing"], "true")
             globalUtil.safeFileRmSync([cfg.path, "mods"])
             globalUtil.safeFileRmSync([cfg.path, "config"])
             globalUtil.safeFileRmSync([cfg.path, "journeymap"])
@@ -132,6 +133,7 @@ module.exports = class versionControlerModpacks {
 
                   serv.writeConfig("currversion", "ModPack - " + modpackID)
                   globalUtil.safeFileRmSync([cfg.path, "modpack.zip"])
+                  globalUtil.safeFileRmSync([cfg.path, "installing"])
                   globalUtil.safeFileSaveSync([cfg.path, "eula.txt"], "eula=true")
                })
 

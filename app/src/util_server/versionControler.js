@@ -114,10 +114,15 @@ module.exports = class versionControler {
 
       if(url !== false) {
          (async () => {
-               globalUtil.safeFileRmSync([path])
-               globalUtil.safeFileSaveSync([pathMod.join(path).replace("server.jar", "eula.txt")], "eula=true")
-               download(url)
-                  .pipe(fs.createWriteStream(pathMod.join(path)))
+            path = pathMod.join(path)
+            globalUtil.safeFileSaveSync([path.replace("server.jar", "installing")], "true")
+            globalUtil.safeFileRmSync([path])
+            download(url)
+               .pipe(fs.createWriteStream(pathMod.join(path)))
+               .on("close", () => {
+                  globalUtil.safeFileRmSync([path.replace("server.jar", "installing")])
+                  globalUtil.safeFileSaveSync([path.replace("server.jar", "eula.txt")], "eula=true")
+               })
          })()
       }
 
