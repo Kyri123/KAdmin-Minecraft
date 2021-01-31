@@ -132,13 +132,14 @@ function getSCState() {
                 playerlist  += `
                     <td style="width: 50%">
                         <div class="media">
-                            <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 40px">
+                            <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 60px">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title text-bold">
                                     ${item.name}
                                     <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm"><i class="fa fa-link" aria-hidden="true"></i></a>
                                 </h3>
                                 <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
+                                <p class="text-sm m-0"><b>ID:</b> ${item.id}</p>
                             </div>
                         </div>
                     </td>
