@@ -47,12 +47,16 @@ function loadActionLog() {
                                  : "green"
 
                      item = JSON.stringify(item)
+                     console.log(item[1])
+                     if(item[1] === ">")
+                        item = item.replace("> ", "")
+
+                     item = item
                         .replaceAll(`"`, "")
                         .replaceAll(`\\u001b`, "")
                         .replaceAll(`\\b`, "")
-                        .replaceAll(`<`, "[")
-                        .replaceAll(`>`, "]")
-                        .replaceAll(`> `, "")
+                        .replaceAll(`<`, "&lt;")
+                        .replaceAll(`>`, "&gt;")
                         .replaceAll(`[39;0m`, "")
                         .replaceAll(`[33;1m`, "")
                         .replaceAll(`[K`, "")
@@ -68,6 +72,7 @@ function loadActionLog() {
                         .replaceAll(`[?1h=`, "")
                         .replaceAll(`[?1l>`, "")
                         .replaceAll(`[?2004h`, "")
+                        .replaceAll(`[?1l>>`, "")
 
                      if(item.trim() !== "" && item.trim() !== ">") {
                         log.push(`<span class="text-${color}">${item}</span>`)
