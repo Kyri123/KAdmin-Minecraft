@@ -50,6 +50,8 @@ function loadActionLog() {
                         .replaceAll(`"`, "")
                         .replaceAll(`\\u001b`, "")
                         .replaceAll(`\\b`, "")
+                        .replaceAll(`<`, "[")
+                        .replaceAll(`>`, "]")
                         .replaceAll(`> `, "")
                         .replaceAll(`[39;0m`, "")
                         .replaceAll(`[33;1m`, "")
