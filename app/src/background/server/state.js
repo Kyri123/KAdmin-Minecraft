@@ -52,41 +52,42 @@ module.exports = {
             // Erstelle Abfrage wenn es eine .cfg Datei ist
             if (ITEM.includes(".json")) {
 
-                let file = pathMod.join(mainDir, '/public/json/server/')
+                let file               = pathMod.join(mainDir, '/public/json/server/')
                 if(!globalUtil.safeFileExsistsSync([file])) globalUtil.safeFileMkdirSync([file])
-                let name            = ITEM.replace(".json", "")
-                let serverData      = new serverClass(name)
-                let data            = serverData.getServerInfos() !== false ? serverData.getServerInfos() : {}
-                let servCFG         = serverData.getConfig()
-                let servINI         = serverData.getINI()
-                let serverPath      = servCFG.path
+                let name               = ITEM.replace(".json", "")
+                let serverData         = new serverClass(name)
+                let data               = serverData.getServerInfos() !== false ? serverData.getServerInfos() : {}
+                let servCFG            = serverData.getConfig()
+                let servINI            = serverData.getINI()
+                let serverPath         = servCFG.path
 
                 // Default werte
-                data.aplayers       = 0
-                data.players        = 0
-                data.listening      = false
-                data.online         = false
-                data.cfg            = name
-                data.ServerMap      = servINI["level-name"]
-                data.ServerName     = servINI["motd"]
-                data.connect        = `steam://connect/${ip.address()}:${servCFG.query}`
-                data.is_installed   = globalUtil.safeFileExsistsSync([serverPath, servCFG.jar])
-                data.is_free        = true
-                data.selfname       = servCFG.selfname
+                data.aplayers          = 0
+                data.players           = 0
+                data.listening         = false
+                data.online            = false
+                data.cfg               = name
+                data.ServerMap         = servINI["level-name"]
+                data.ServerName        = servINI["motd"]
+                data.connect           = `steam://connect/${ip.address()}:${servCFG.query}`
+                data.is_installed      = globalUtil.safeFileExsistsSync([serverPath, servCFG.jar])
+                data.is_installing     = globalUtil.safeFileExsistsSync([serverPath, "installing"])
+                data.is_free           = true
+                data.selfname          = servCFG.selfname
 
                 // Runing infos
-                data.run            = false
-                data.steamcmd       = false
-                data.cmd            = false
-                data.pid            = 0
-                data.ppid           = 0
-                data.bin            = ""
+                data.run               = false
+                data.steamcmd          = false
+                data.cmd               = false
+                data.pid               = 0
+                data.ppid              = 0
+                data.bin               = ""
 
                 // More data
-                data.aplayers       = 0
-                data.aplayersarr    = []
-                data.ping           = 0
-                data.version        = servCFG.currversion === "0.0.0"
+                data.aplayers          = 0
+                data.aplayersarr       = []
+                data.ping              = 0
+                data.version           = servCFG.currversion === "0.0.0"
                    ? (data.version === undefined || data.version.trim() === ""
                      ? servCFG.currversion
                      : data.version
