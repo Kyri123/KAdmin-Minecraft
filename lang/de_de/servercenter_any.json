@@ -8,6 +8,9 @@
   "actionsClose"  : "Abbrechen",
   "actionsSend"   : "Aktion ausführen",
   "alertClose"    : "Schließen",
+  "playermodal"   : {
+    "title"       : "Aktive Spieler"
+  },
   "nav"           : {
     "home"        : "Startseite",
     "config"      : "Konfiguration",
