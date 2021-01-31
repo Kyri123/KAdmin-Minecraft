@@ -40,12 +40,14 @@
                         </tbody>
                     </table>
                     <!-- LLOG -->
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-dark" placeholder="op KAdmin" id="sendCommand">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-light bg-dark text-dark" type="button" onclick="sendCommand()" id="sendCommandBtn">Send</button>
+                    <% if(userHelper.hasPermissions(user.id, "sendCommands", serverName)) { %>
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-dark" placeholder="op KAdmin" id="sendCommand">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-light bg-dark text-dark" type="button" onclick="sendCommand()" id="sendCommandBtn">Send</button>
+                            </div>
                         </div>
-                    </div>
+                    <% } %>
                     <div class="p-0 direct-chat-messages bg-dark p-1" style="height: 492px">
                         <code id="actionlog"></code>
                     </div>

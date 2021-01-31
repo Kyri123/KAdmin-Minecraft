@@ -162,7 +162,10 @@ function removeUser() {
         try {
             data    = JSON.parse(data);
             if(data.alert !== undefined) $('#global_resp').append(data.alert);
-            if (data.remove !== undefined) $('#remove').modal('hide');
+            if (data.remove !== undefined) {
+                $('#remove').modal('hide')
+                $('.modal-backdrop').remove()
+            }
         }
         catch (e) {
             console.log(e);
@@ -198,7 +201,10 @@ function sendGroups() {
             data    = JSON.parse(data);
             if(data.alert !== undefined) $('#global_resp').append(data.alert);
             getUserList();
-            if(data.success !== undefined) $(`#groups`).modal('hide');
+            if(data.success !== undefined) {
+                $(`#groups`).modal('hide')
+                $('.modal-backdrop').remove()
+            }
         }
         catch (e) {
             console.log(e);

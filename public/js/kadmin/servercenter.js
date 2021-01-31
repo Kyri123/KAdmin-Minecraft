@@ -128,24 +128,31 @@ function getSCState() {
                 let isOP    = "false"
                 for(let op of opList)
                     if(op.uuid === item.id) isOP = "true"
-                if(i % 2 === 0) playerlist  += `<tr>`
+                //if(i % 2 === 0) playerlist  += `<tr>`
                 playerlist  += `
-                    <td style="width: 50%">
-                        <div class="media">
-                            <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 60px">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title text-bold">
-                                    ${item.name}
-                                    <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                </h3>
-                                <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
-                                <p class="text-sm m-0"><b>ID:</b> ${item.id}</p>
+                        <tr>
+                        <td style="width: 50%">
+                            <div class="media">
+                                <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 60px">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title text-bold">
+                                        ${item.name}
+                                        <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm btn btn-sm btn-outline-info"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                        ${hasPermissions(globalvars.perm, "sendCommands", varser.cfg) ? `
+                                            <button onclick="playeraction('${item.id}', '${item.name}', 'ban')" class="float-right text-sm btn btn-sm btn-outline-danger mr-1"><i class="fas fa-lock"></i></button>
+                                            <button onclick="playeraction('${item.id}', '${item.name}', 'kick')" class="float-right text-sm btn btn-sm btn-outline-danger mr-1"><i class="fa fa-times"></i></button>
+                                            <button onclick="playeraction('${item.id}', '${item.name}', 'op', '${isOP}')" class="float-right text-sm btn btn-sm btn-outline-primary mr-1">${isOP === "true" ? "<i class=\"fas fa-angle-double-down\"></i>" : "<i class=\"fas fa-angle-double-up\"></i>"}</button>
+                                        ` : ""}
+                                    </h3>
+                                    <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
+                                    <p class="text-sm m-0"><b>ID:</b> ${item.id}</p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
+                    </tr>
                 `
-                if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td style="width: 50%"></td>`
-                if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
+                //if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td style="width: 50%"></td>`
+                //if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
                 i++
             }
             $(`#playerlist`).html(playerlist)
@@ -215,7 +222,6 @@ $("#action_form").submit(() => {
                         $("#all_resp").html(data.msg)
                         $('#action').modal('hide')
                         $('.modal-backdrop').remove()
-                        $('.modal-backdrop').remove()
 
                         $("#action_sel").prop('selectedIndex',0)
                         $('#actioninfo').toggleClass('d-none', true)
@@ -227,6 +233,7 @@ $("#action_form").submit(() => {
                 }
                 catch (e) {
                     $('#action').modal('hide')
+                    $('.modal-backdrop').remove()
                 }
             })
     }
@@ -450,7 +457,6 @@ function installVersion(cfg) {
             if(data.alert !== undefined) $('#all_resp').append(data.alert);
             $('#versionpicker').modal('hide')
             $('.modal-backdrop').remove()
-            $('.modal-backdrop').remove()
         }
         catch (e) {
             console.log(e);
@@ -498,5 +504,35 @@ function installModpack(modid, fileid, server, btnid) {
                .attr("class", "btn btn-sm btn-outline-danger")
                .html(`<i class="fa fa-times"></i>`)
         }
+    })
+}
+
+/**
+ * Sende Spieleraktion an den die Serverkonsole
+ * @param {string} uuid
+ * @param {string} name
+ * @param {string} action
+ * @param {string} isop
+ */
+function playeraction(uuid, name, action, isop = "false") {
+    let command = ""
+
+    if(action === "op") {
+        command = `${isop === "false" ? "op" : "deop"} ${name}`
+    }
+    else if(action === "kick") {
+        command = `kick ${name}`
+    }
+    else if(action === "ban") {
+        command = `ban ${name}`
+    }
+
+    let postObj = {
+        "sendPlayerAction"  : true,
+        "command"           : command,
+        "server"            : vars.cfg
+    }
+    $.post('/ajax/serverCenterAny', postObj, (data) => {
+        // done
     })
 }

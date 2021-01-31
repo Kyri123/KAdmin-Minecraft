@@ -8,15 +8,28 @@
  */
 "use strict"
 
-const express           = require('express')
-const router            = express.Router()
-const globalinfos       = require('./../../../app/src/global_infos');
-const serverCommands    = require('./../../../app/src/background/server/commands');
+const express               = require('express')
+const router                = express.Router()
+const globalinfos           = require('./../../../app/src/global_infos')
+const serverCommands        = require('./../../../app/src/background/server/commands')
+const serverCommandsUtil    = require('./../../../app/src/background/server/commands_util')
 
 router.route('/')
 
     .post((req,res)=>{
         let POST        = req.body;
+
+        // Playeraction
+        if(
+            POST.sendPlayerAction !== undefined &&
+            POST.command !== undefined &&
+            userHelper.hasPermissions(req.session.uid, "sendCommands", POST.cfg)
+        ) {
+            res.render('ajax/json', {
+                data: serverCommandsUtil.sendToScreen(POST.server, escape(POST.command.toString()))
+            });
+            return true;
+        }
 
         // ModpackPicker
         if(

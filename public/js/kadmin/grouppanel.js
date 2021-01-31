@@ -89,7 +89,10 @@ function send(modal) {
             data    = JSON.parse(data)
             getGroupList()
             if(data.alert !== undefined) $('#global_resp').append(data.alert)
-            if(data.success !== undefined) $(`#${modal}`).modal('hide')
+            if(data.success !== undefined) {
+                $(`#${modal}`).modal('hide')
+                $('.modal-backdrop').remove()
+            }
         }
         catch (e) {
             console.log(e)

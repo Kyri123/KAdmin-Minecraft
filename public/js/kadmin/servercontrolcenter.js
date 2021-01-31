@@ -113,16 +113,15 @@ function submitform(id) {
                     $(`#remove${data.removed}`).modal('hide').remove()
                     $(`#${data.removed}`).remove()
                     $('.modal-backdrop').remove()
-                    $('.modal-backdrop').remove()
                 }
                 if(data.added !== undefined) {
                     $(`#addserver`).modal('hide')
                     $('.modal-backdrop').remove()
-                    $('.modal-backdrop').remove()
                 }
             }
             catch (e) {
-                $(id).modal('hide');
+                $(id).modal('hide')
+                $('.modal-backdrop').remove()
             }
         })
 }

@@ -27,14 +27,12 @@
     "changeplace"             : "Darf Mods verschieben",
     "remove"                  : "Darf Löschen",
     "add"                     : "Darf Hinzufügen",
-    "GameUserSettings"        : "Darf GameUserSettings sehen",
-    "Game"                    : "Darf Game sehen",
-    "Engine"                  : "Darf Engine sehen",
-    "kadmin-mc"                : "Darf KAdmin-Minecraft sehen",
-    "show_GameUserSettings"   : "Darf GameUserSettings bearbeiten",
-    "show_Game"               : "Darf Game bearbeiten",
-    "show_Engine"             : "Darf GameUserSettings bearbeiten",
-    "show_kadmin-mc"           : "Darf KAdmin-Minecraft bearbeiten",
-    "playin"                  : "Darf Backup einspielen"
+    "server"                  : "Darf server.properties Bearbeiten",
+    "kadmin"                  : "Darf KAdmin-Minecraft Bearbeiten",
+    "show_server"             : "Darf server.properties sehen",
+    "show_kadmin"             : "Darf KAdmin-Minecraft sehen",
+    "playin"                  : "Darf Backup einspielen",
+    "versionpicker"           : "Darf Versionen & Modpacks vom Server verändern",
+    "sendCommands"            : "Darf Befehle über die Konsole senden (und Live Spielerliste)"
   }
 }
