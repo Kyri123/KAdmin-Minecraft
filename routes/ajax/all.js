@@ -14,7 +14,7 @@ const srq               = require("sync-request")
 
 router.route('/')
 
-    .post((req,res)=>{
+    .post((req,res) => {
         let POST        = req.body
 
         // lese ein Verzeichnis aus
@@ -40,6 +40,17 @@ router.route('/')
           })
           return true
        }
+    })
+
+    .get((req,res) => {
+        let GET         = req.query
+
+        if(GET.getselfperm !== undefined) {
+            res.render('ajax/json', {
+                data: JSON.stringify(userHelper.permissions(req.session.uid))
+            })
+            return true
+        }
     })
 
 module.exports = router;

@@ -25,7 +25,7 @@ setInterval(() => {
                 if(val[1].pid !== 0 && !val[1].online)              stateColor = "primary"
                 if(val[1].pid !== 0 && val[1].online)               stateColor = "success"
 
-                if(val[1].server === undefined && hasPermissions(globalvars.perm, "show", val[0])) list +=    `    <div class="col-lg-6 col-xl-6" id="${val[0]}">
+                if(hasPermissions(globalvars.perm, "show", val[0])) list +=    `    <div class="col-lg-6 col-xl-6" id="${val[0]}">
                                     <div class="card card-widget widget-user  item-box">
                                         <div class="card bg-dark card-widget widget-user mb-0">
                                             <div class="row p-2" title="${val[1].selfname}">
