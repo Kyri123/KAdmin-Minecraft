@@ -1,0 +1,93 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%- lang[page].pagename %></h1>
+                </div>
+                <!--
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">X</a></li>
+                            <li class="breadcrumb-item active">X</li>
+                        </ol>
+                    </div>
+                -->
+            </div>
+        </div>
+    </section>
+
+
+    <section class="content">
+        <div class="container-fluid">
+            <% if(userHelper.hasPermissions(userID, "all/show_traffic")) { %>
+            <div class="container-fluid">
+                <!-- Traffic -->
+                <div class="row mb-3">
+                    <!-- CPU -->
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box mb-0 p-0" style="height: 100%">
+                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-microchip" aria-hidden="true"></i></span>
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text"><%- lang.all.cpu %></span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info"  id="cpu_perc"style="width: 0%"></div>
+                                </div>
+                                <span class="info-box-number text-sm" id="cpu">
+                                            ?<small>%</small>
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RAM -->
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box mb-0 p-0" style="height: 100%">
+                            <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-memory" aria-hidden="true"></i></span>
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text"><%- lang.all.ram %></span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" id="ram_perc" style="width: 0%"></div>
+                                </div>
+                                <span class="info-box-number text-sm" id="ram">
+                                            ?
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix hidden-md-up"></div>
+                    <!-- SPEICHER -->
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box mb-0 p-0" style="height: 100%">
+                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-hdd" aria-hidden="true"></i></span>
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text"><%- lang.all.mem %></span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" id="mem_perc" style="width: 0%"></div>
+                                </div>
+                                <span class="info-box-number text-sm" id="mem">
+                                            ?
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SERV -->
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box mb-0 p-0" style="height: 100%">
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-server" aria-hidden="true"></i></span>
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text"><%- lang.all.server %></span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" id="top_perc" style="width: 0%"></div>
+                                </div>
+                                <span class="info-box-number text-sm">
+                                            <span class="text-success" id="top_on">?</span> / <span class="text-danger" id="top_off">?</span> / <span class="text-info" id="top_proc">?</span> / <span class="text-primary" id="top_total">?</span>
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                <%- isUpdate ? alerter.rd(3001).replace("<branch>", panelBranch) : "" %>
+                <div id="global_resp"></div>

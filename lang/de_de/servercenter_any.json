@@ -1,0 +1,41 @@
+{
+  "actionFree"    : "Aktion ausführen",
+  "actionClose"   : "Gesperrt",
+  "state"         : "Server Status",
+  "player"        : "Spieler",
+  "action"        : "Aktion Status",
+  "actionsTitle"  : "Befehl an den Server senden",
+  "actionsClose"  : "Abbrechen",
+  "actionsSend"   : "Aktion ausführen",
+  "alertClose"    : "Schließen",
+  "playermodal"   : {
+    "title"       : "Aktive Spieler",
+    "true"        : "Ja",
+    "false"       : "Nein"
+  },
+  "nav"           : {
+    "home"        : "Startseite",
+    "config"      : "Konfiguration",
+    "mods"        : "Modifikation",
+    "backups"     : "Backups"
+  },
+  "versionpicker" : {
+    "title"       : "Versionen & Modpacks",
+    "pick"        : {
+      "pick"          : "Bitte wählen",
+      "release"       : "Releases",
+      "snapshot"      : "Snapshots",
+      "old_beta"      : "alte Beta",
+      "old_alpha"     : "alte Alpha",
+      "modpacks"      : "Modpacks"
+    },
+    "vpick"         : "Version auswählen",
+    "branch"        : "Wählen die Art",
+    "send"          : "Version / Modpacks Installieren",
+    "mpnotfound"    : "Modpack nicht gefunden",
+    "mpnoserver"    : "Modpack besitzt keine ServerFiles",
+    "queue"         : "Modpack ist in der Warteschlange... versuche es nach ein paar Sekunden erneut",
+    "mp_cat"        : "Kategorien",
+    "mp_lastupdate" : "Letztes Update"
+  }
+}

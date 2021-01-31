@@ -1,0 +1,15 @@
+{
+  "all"   : {
+    "save"          : "Speichern",
+    "next"          : "Zum nächsten Schritt"
+  },
+  "step1" : {
+    "pagename"      : "Installer - Schritt 1"
+  },
+  "step2" : {
+    "pagename"      : "Installer - Schritt 2"
+  },
+  "step3" : {
+    "pagename"      : "Installer - Schritt 3"
+  }
+}

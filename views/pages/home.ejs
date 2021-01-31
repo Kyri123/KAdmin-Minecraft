@@ -1,0 +1,64 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
+
+<div class="row">
+
+    <!-- CHANGELOGS -->
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header border-transparent bg-dark">
+                <h3 class="card-title"><i class="fa fa-book mr-1" aria-hidden="true"></i> KAdmin-Minecraft Versionen :: V.<%- panelVersion %></h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0">
+                        <thead>
+                            <tr>
+                                <th class="pt-2 pb-2"><%- lang[page].t_version %></th>
+                                <th class="pt-2 pb-2"><%- lang[page].t_date %></th>
+                                <th class="pt-2 pb-2"><%- lang[page].t_state %></th>
+                                <th class="pt-2 pb-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                        let currfound = false
+                        changelog.forEach((val, key) => {
+                            if(val.version === panelVersion) currfound = true
+                        %>
+                            <tr>
+                                <td>Version <%- val.version %></td>
+                                <td><%- val.datestring %></td>
+                                <td><span class="badge badge-<%- val.version === panelVersion ? "success" : currfound ? "info" : "danger" %> rounded-0"><%- val.version === panelVersion ? lang[page].curr : currfound ? lang[page].old : lang[page].new %></span></td>
+                                <td class="text-right">
+                                    <a href="/changelog#<%- val.version %>" class="btn btn-xs btn-primary rounded-0"><i class="nav-icon fa fa-book" aria-hidden="true"></i></a>
+                                    <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/tag/<%- val.version %>" target="_blank" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fab fa-github" aria-hidden="true"></i></a>
+                                    <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/download/<%- val.version %>/<%- val.version %>.zip" download="" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fa fa-download" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="card-footer clearfix">
+                <a href="https://github.com/Kyri123/KAdmin-Minecraft" target="_blank" class="btn btn-sm btn-dark float-left rounded-0"><i class="fab fa-github" aria-hidden="true"></i> Github</a>
+                <a href="/changelog" class="btn btn-sm btn-primary float-right rounded-0"><%- lang[page].readall %></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../includes/foother') -%>

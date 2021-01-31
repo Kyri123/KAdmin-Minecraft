@@ -1,0 +1,16 @@
+# IDE & Node
+.idea
+.snyk
+node_modules
+
+# APP
+app/json/serverinfo
+app/data/sha.txt
+app/json/panel/installer.json
+
+# PUBLIC
+public/json/serverInfos/auslastung.json
+public/json/serverInfos/mcVersions.json
+public/json/server
+public/json/serveraction/action_5c68f48w.json
+public/json/serveraction/action_5g28f48x.json

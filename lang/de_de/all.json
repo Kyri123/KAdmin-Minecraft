@@ -1,0 +1,13 @@
+{
+  "nav" : {
+    "userAndGroups"   : "Benutzer und Gruppen",
+    "createServer"    : "Server Erstellen"
+  },
+  "cpu"             : "CPU Traffic",
+  "ram"             : "Arbeitsspeicher",
+  "mem"             : "Festplatten Speicher",
+  "server"          : "Server",
+  "sc"              : "Server Center",
+  "createServer"    : "Server Erstellen",
+  "select_default"  : "Aktion wählen"
+}

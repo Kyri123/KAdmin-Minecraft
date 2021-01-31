@@ -1,0 +1,6 @@
+{
+  "pagename"        : "Error 401",
+  "title"           : "Ohnein! Fehlende Berechtigungen",
+  "txt"             : "Die Seite konnte nicht aufgerufen werden da du nicht die nötige Berechtigung hast ...",
+  "backToDashboard" : " Zurück zum Dashboard"
+}

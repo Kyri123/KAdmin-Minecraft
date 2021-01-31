@@ -1,0 +1,70 @@
+<%- include('../../includes/head'); -%>
+<%- include('../../includes/top') -%>
+<%- include('../../includes/nav') -%>
+<%- include('../../includes/content') -%>
+<%- include('./head'); -%>
+<div class="row">
+    <div class="col-12 mb-4">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark p-0">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse navbar-secondary" id="navbarColor03">
+                <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active btn-dark p-3" id="pills-llog-tab" data-toggle="pill" href="#pills-llog" role="tab" aria-controls="pills-llog" aria-selected="false" onclick="setdisplay('logbar', 'inline-flex');" onmouseenter="$('#llog').toggleClass('d-lg-none', false)" onmouseleave="$('#llog').toggleClass('d-lg-none', true)">
+                            <i class="nav-icon fas fa-code pr-1" aria-hidden="true"></i> <span id="llog" class="d-lg-none"><%- lang[page].actionLog %></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <hr>
+        <!-- Cards -->
+        <div class="card shadow">
+            <div class="tab-content" id="pills-tabContent">
+
+                <!-- ActionLog -->
+                <div class="tab-pane fade show active" id="pills-llog" role="tabpanel" aria-labelledby="pills-llog-tab">
+                    <table class="table table-striped mb-0" style="border: 0!important;">
+                        <tbody>
+                            <tr class="bg-dark">
+                                <th colspan="2" class="p-0" style="border: 0!important;">
+                                    <div class="list-group-item bg-dark">
+                                        <h4 class="m-0"><%- lang[page].actionLog %></h4>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- LLOG -->
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-dark" placeholder="op KAdmin" id="sendCommand">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-light bg-dark text-dark" type="button" onclick="sendCommand()" id="sendCommandBtn">Send</button>
+                        </div>
+                    </div>
+                    <div class="p-0 direct-chat-messages bg-dark p-1" style="height: 492px">
+                        <code id="actionlog"></code>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars        = {};
+    vars.cfg        = '<%- serverName %>'
+</script>
+
+<script src="/js/kadmin/servercenter_home.js" type="application/javascript"></script>
+
+<%- include('../../includes/foother'); -%>

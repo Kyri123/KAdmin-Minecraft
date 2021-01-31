@@ -1,0 +1,97 @@
+<%- include('../includes/head'); -%>
+
+<style>
+    .bg-image {
+        background: url('/img/backgrounds/bg.jpg');
+        background-size: cover;
+    }
+
+    body {
+        background: rgba(11, 19, 26, 1) url('/img/backgrounds/bg.jpg') no-repeat scroll center top;
+    }
+</style>
+
+<body class="register-page bg-image" style="min-height: 507.391px;">
+    <div class="register-box">
+        <div class="card register-logo bg-white border border-dark mb-2" style="height: 60px!important;">
+            <div class="d-flex justify-content-start social_icon pl-2">
+                <a href="https://discord.gg/uXxsqXD" target="_blank" style="font-size: 34px;padding-top: 4px;"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                <a href="https://github.com/Kyri123/KAdmin-ArkWIN" target="_blank" style="font-size: 38px;"><i class="fab fa-github-square" aria-hidden="true"></i></a>
+                <span class="pl-2">
+                    <b>K</b>Admin-<b>Minecraft</b>
+                </span>
+            </div>
+            <div class="ribbon-wrapper">
+                <div class="ribbon bg-danger">
+                    Alpha
+                </div>
+            </div>
+        </div>
+
+        <%- response %>
+
+        <div class="card border border-dark">
+
+            <div class="card-body register-card-body p-0">
+                <form action="#" method="post">
+                    <div class="p-3">
+                        <p class="login-box-msg left"><%= lang[page].info %></p>
+
+                        <div class="input-group mb-3">
+                            <input type="text" name="username" class="form-control" placeholder="<%= lang[page].input.username %>">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="<%= lang[page].input.email %>">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="password" name="pw1" class="form-control" placeholder="<%= lang[page].input.password %>">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="password" name="pw2" class="form-control" placeholder="<%= lang[page].input.password_rep %>">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="text" name="code" class="form-control" placeholder="<%= lang[page].input.code %>">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-key" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" name="register" class="btn btn-success btn-block"><%= lang[page].input.btn_create %></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <p class="p-0 m-0"><a href="/login" class="text-center btn btn-sm btn-dark" style="width: 100%;"><%= lang[page].tologin %></a></p>
+            </div>
+
+        </div>
+    </div>
+</body>

@@ -1,0 +1,26 @@
+{
+  "actions": [
+    "start",
+    "stop",
+    "backup"
+  ],
+  "parameter":[
+    {
+      "parameter": "--alwaysstart",
+      "id_js": "alwaysstart",
+      "type": 0,
+      "for": [
+        "restart",
+        "start"
+      ]
+    },
+    {
+      "parameter": "--hardstop",
+      "id_js": "hardstop",
+      "type": 0,
+      "for": [
+        "stop"
+      ]
+    }
+  ]
+}

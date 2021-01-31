@@ -1,0 +1,82 @@
+<%- include('../../includes/head'); -%>
+<%- include('../../includes/top') -%>
+<%- include('../../includes/nav') -%>
+<%- include('../../includes/content') -%>
+<%- include('./head'); -%>
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow" style="border: 0!important;">
+            <div class="tab-content" id="pills-tabContent" style="border: 0!important;">
+                <table class="table table-striped mb-0">
+                    <tbody>
+                        <tr class="bg-dark">
+                            <th colspan="2" class="p-0" style="border: 0!important;">
+                                <div class="list-group-item bg-dark">
+                                    <h4 class="m-0">Backups</h4>
+                                </div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="tab-pane fade show active" id="backupList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- removeModal -->
+<form class="modal fade" id="removeBackup" method="post">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-danger border-dark">
+                <h5 class="modal-title" id="removeTitle"></h5>
+            </div>
+
+            <div class="modal-body">
+                <%- lang[page].modal.removeText %>
+            </div>
+
+            <div class="modal-footer">
+                <input type="hidden" name="file" value="" id="fileNameRemove">
+                <input type="hidden" name="remove" value="true">
+                <input type="hidden" name="server" value="<%- serverName %>">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modal.cancel %></button>
+                <button type="button" class="btn btn-danger" onclick="removeFile()"><%- lang[page].modal.remove %></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form class="modal fade" id="playinBackup" method="post">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
+        <div class="modal-content border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><%- lang[page].modal.pititle %> <span id="filepititle"></span></h5>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" name="playin" value="true">
+                <input type="hidden" name="server" value="<%- serverName %>">
+                <input type="hidden" name="file" value="" id="filepi">
+                <%- lang[page].modal.pitxt %><span class="text-danger"><%- lang[page].modal.pired %></span>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modal.cancel %></button>
+                <button type="button" class="btn btn-primary" onclick="playthisin()"><%- lang[page].modal.playin %></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+    vars.cfg = '<%- serverName %>';
+</script>
+
+<script src="/js/kadmin/servercenter_backups.js" type="application/javascript"></script>
+
+<%- include('../../includes/foother'); -%>

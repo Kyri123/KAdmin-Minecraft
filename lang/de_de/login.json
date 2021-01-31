@@ -1,0 +1,11 @@
+{
+  "welcome"   : "Willkommen bei KAdmin-Minecraft!",
+  "pagename"  : "Willkommen bei KAdmin-Minecraft!",
+  "toreg"     : "Account Erstellen",
+  "input": {
+    "remember"      : "Eingeloggt bleiben",
+    "password"      : "Passwort",
+    "username"      : "Benutzername / E-Mail",
+    "btn_login"     : "Einloggen"
+  }
+}

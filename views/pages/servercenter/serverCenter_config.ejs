@@ -1,0 +1,158 @@
+<%- include('../../includes/head'); -%>
+<%- include('../../includes/top') -%>
+<%- include('../../includes/nav') -%>
+<%- include('../../includes/content') -%>
+<%- include('./head'); -%>
+<div class="row">
+    <div class="col-12 mb-4">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark p-0">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse navbar-secondary" id="navbarColor03">
+                <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
+                    <% if(userHelper.hasPermissions(user.id, "config/show_server")) { %>
+                        <li class="nav-item">
+                            <a class="nav-link active btn-dark p-3" id="pills-gus-tab" data-toggle="pill" href="#pills-gus" role="tab" aria-controls="pills-gus" aria-selected="false">
+                                Server.Properties
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if(userHelper.hasPermissions(user.id, "config/show_kadmin")) { %>
+                        <li class="nav-item">
+                            <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
+                                KAdmin-Minecraft
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+        <hr>
+        <!-- Cards -->
+        <div class="card shadow">
+            <div class="tab-content" id="pills-tabContent">
+
+                <% if(userHelper.hasPermissions(user.id, "config/show_server")) { %>
+                    <!-- Server.Properties -->
+                    <div class="tab-pane fade show active" id="pills-gus" role="tabpanel" aria-labelledby="pills-llog-tab">
+                        <table class="table table-striped mb-0" style="border: 0!important;">
+                            <tbody>
+                                <tr class="bg-dark">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0">Server.Properties</h4>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <textarea class="p-3 m-0" style="max-height: 500px; width: 100%; overflow-y: scroll; overflow-x: hidden; min-height: 500px" id="serverprop">Loading...</textarea>
+                        <button class="btn btn-primary" style="width: 100%" onclick="serverSave('#serverprop', '<%- serverName %>')"><%- lang[page].save %></button>
+                    </div>
+                <% } %>
+
+                <% if(userHelper.hasPermissions(user.id, "config/show_kadmin")) { %>
+                    <!-- KAdmin-ArkWIN -->
+                    <form class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
+                        <table class="table table-striped mb-0" style="border: 0!important;">
+                            <thead>
+                                <tr class="bg-dark">
+                                    <th colspan="2" class="p-0" style="border: 0!important;">
+                                        <div class="list-group-item bg-dark">
+                                            <h4 class="m-0">KAdmin-Minecraft</h4>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% Object.entries(servcfg).forEach(([key, value]) => {
+                                       let skip = [
+                                           "shouldRun",
+                                           "autoBackupNext",
+                                           "autoUpdateNext",
+                                           "autoUpdate",
+                                           "autoUpdateInterval",
+                                           "currversion",
+                                           "jar"
+                                       ]
+                                        let readonly = [
+                                            "path",
+                                            "pathLogs",
+                                            "pathBackup"
+                                        ]
+                                        let isNum = [
+                                            "autoBackupInterval",
+                                            "xmx",
+                                            "xms"
+                                        ]
+                                        let isBool = [
+                                            "autoBackup"
+                                        ]
+                                        if(!skip.includes(key)) {
+                                %>
+                                    <tr>
+                                        <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
+                                        <td class="p-2" colspan="2">
+                                            <div class="input-group mb-0">
+                                                <%  if(isBool.includes(key)) { %>
+                                                    <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
+                                                        <option value="true" <%- value.toString() === "true" ? "selected" : "" %>><%- lang[page].true %></option>
+                                                        <option value="false" <%- value.toString() === "false" ? "selected" : "" %>><%- lang[page].false %></option>
+                                                    </select>
+                                                <%  } else { %>
+                                                            <input type="<%- isNum.includes(key) ? "number" : "text" %>" class="form-control form-control-sm" name="cfgsend[<%- key %>]" value="<%- value %>" <%- readonly.includes(key) ? "readonly" : "" %>>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <%
+                                        }
+                                        else {
+                                            if(key !== "jar") {
+                                                %><input type="hidden" name="cfgsend[<%- key %>]" class="form-control form-control-sm" value="<%- value %>"><%
+                                            }
+                                        }
+                                    }) %>
+                                <tr>
+                                    <td class="p-2"><%- lang[page].cfg.jar %></td>
+                                    <td class="p-2" colspan="2">
+                                        <div class="input-group mb-0">
+                                            <select class="form-control form-control-sm" name="cfgsend[jar]">
+                                                <%  jars.forEach(item => { %>
+                                                    <option value="<%- item %>" <%- item === servcfg.jar ? "selected" : "" %>><%- item %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <input type="hidden" name="saveServer" class="form-control form-control-sm" value="true">
+                        <input type="hidden" name="cfg" class="form-control form-control-sm" value="<%- serverName %>">
+                        <button class="btn btn-primary" style="width: 100%" onclick="saveCfg()" type="button"><%- lang[page].save %></button>
+                    </form>
+
+                </div>
+            <% } %>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+    vars.cfg = '<%- serverName %>';
+</script>
+
+<script src="/js/kadmin/servercenter_config.js" type="application/javascript"></script>
+
+<%- include('../../includes/foother'); -%>

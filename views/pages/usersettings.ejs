@@ -1,0 +1,75 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
+<%
+ let user = userHelper.getinfos(userID)
+%>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow p-0" style="border-radius: 0 0 0 0 !important;border-top: 0!important;">
+            <div class="tab-content" id="pills-tabContent">
+                <form action="#save" method="post" class="tab-pane fade m-0 active show" id="pills-settings" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="list-group-item bg-dark">
+                        <h4><%- lang[page].settings %></h4>
+                        <div class="right">
+                            <input type="hidden" name="saveuser" value="true">
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush border">
+
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- lang[page].password %></span>
+                                </div>
+                                <input id="pw1" name="pw1" type="password" class="form-control" placeholder="<%- lang[page].password_info %>">
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- lang[page].password_rep %></span>
+                                </div>
+                                <input id="pw2" name="pw2" type="password" class="form-control" placeholder="<%- lang[page].password_info %>">
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- lang[page].email %></span>
+                                </div>
+                                <input id="email" name="email" type="text" class="form-control" value="<%- user.email %>">
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><%- lang[page].username %></span>
+                                </div>
+                                <input id="username" name="username" type="text" class="form-control" value="<%- user.username %>">
+                            </div>
+                        </li>
+
+                    </ul>
+                    <input type="submit" class="btn btn-primary" id="submitsettings" value="<%- lang[page].btnSave %>" style="width: 100%">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+</script>
+
+<script src="/js/kadmin/usersettings.js?time=<%- Date.now() %>" type="application/javascript"></script>
+
+<%- include('../includes/foother'); -%>

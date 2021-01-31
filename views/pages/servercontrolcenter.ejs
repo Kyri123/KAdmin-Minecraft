@@ -1,0 +1,50 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
+
+<div class="row" id="sccserverlist">
+    <a class="col-12" href="#">
+        <div class="border border-info text-info align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
+            <i class="fas fa-sync fa-spin" aria-hidden="true"></i>
+        </div>
+    </a>
+</div>
+
+<div id="modallist"></div>
+
+<% if(userHelper.hasPermissions(userID, "servercontrolcenter/create")) { %>
+    <form class="modal fade" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title"><%- lang[page].modalCreate.title %></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row mb-1">
+                        <label class="col-sm-4 col-form-label">Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="selfname" class="form-control" value="[KAdmin] MinecraftServer">
+                        </div>
+                    </div>
+                    <input name="addserver" type="hidden" value="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalCreate.cancel %></button>
+                    <button type="button" class="btn btn-success" name="add" onclick="submitform('#addserver')"><%- lang[page].modalCreate.add %></button>
+                </div>
+            </div>
+        </div>
+    </form>
+<% } %>
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+    vars.ip         = '<%- ip.address() %>';
+</script>
+
+<script src="/js/kadmin/servercontrolcenter.js?time=<%- Date.now() %>" type="application/javascript"></script>
+
+<%- include('../includes/foother'); -%>

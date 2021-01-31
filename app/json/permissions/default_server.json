@@ -1,0 +1,18 @@
+{
+  "is_server_admin"       : 0,
+  "show"                  : 0,
+  "actions"               : 0,
+  "versionpicker"         : 0,
+  "config": {
+    "show"                  : 1,
+    "server"                : 1,
+    "kadmin"                : 1,
+    "show_server"           : 0,
+    "show_kadmin"           : 0
+  },
+  "backups": {
+    "show"                  : 1,
+    "remove"                : 0,
+    "playin"                : 0
+  }
+}

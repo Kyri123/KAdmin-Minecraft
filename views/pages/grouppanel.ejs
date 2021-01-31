@@ -1,0 +1,160 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
+<%
+function createForm(perm, id_name, keys = '') {
+    let re = '';
+    for (const [key, value] of Object.entries(perm)) {
+        if(typeof value === "object") {
+            let thiskey = `${keys}[${key}]`;
+            re += `<div class="col-12 p-2 bg-${thiskey.includes('server\]\[') ? "secondary" : "dark"}">
+                                            <h5 class="text-center left d-inline pt-3 pl-0 m-0">
+                                                ${lang.permissions.main[key] !== undefined ? lang.permissions.main[key] : key}
+                                            </h5>
+                                        </div>`;
+            re += createForm(value, id_name, thiskey);
+        }
+        else if(typeof value === "number") {
+            let thisis  = `${keys}[${key}]`;
+            re += `<div class="icheck-primary col-12 pl-2 pr-2">
+                                            <input type="checkbox" id="${id_name}${thisis}" name="permissions${thisis}">
+                                            <label for="${id_name}${thisis}">
+                                                ${lang.permissions.perm[key]} - ${key}
+                                            </label>
+                                        </div>`;
+        }
+    }
+    return re;
+}
+%>
+
+<section class="content">
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class=" table-responsive">
+                <table class="table table-striped projects mb-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <%- lang[page].table_groupname %>
+                            </th>
+                            <th>
+                                <%- lang[page].table_group %>
+                            </th>
+                            <!--<th>
+                                <%- lang[page].table_from %>
+                            </th>-->
+                            <th class="project-actions text-right">
+                                <%- lang[page].table_actions %>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="grouplist"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+</section>
+
+<div id="modallist"></div>
+
+<!-- newModal -->
+<form class="modal fade" id="group" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl border-0" role="document" style="max-width: 700px">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title"><%- lang[page].modal.title %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><%- lang[page].modal.groupname %></span>
+                            </div>
+                            <input name="group_name" type="text" class="form-control" placeholder="XYZ-123" id="newname">
+                        </div>
+                    </div>
+                </div>
+                <%- createForm(userHelper.defaultPermissions(), 'new', '') %>
+            </div>
+            <div class="modal-footer input-group">
+                <input type="hidden" name="add" value="true">
+                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- lang[page].modal.cancel %>">
+                <input type="button" class="btn btn-success" onclick="send('group')" value="<%- lang[page].modal.create %>">
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- editModal -->
+<form class="modal fade" id="edit" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl border-0" role="document" style="max-width: 700px">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title"><%- lang[page].modalEdit.title %> - <b id="edittitle"></b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><%- lang[page].modal.groupname %></span>
+                            </div>
+                            <input name="group_name" type="text" class="form-control" placeholder="XYZ-123" id="editname">
+                        </div>
+                    </div>
+                </div>
+                <%- createForm(defaultPermissions, 'edit', '') %>
+            </div>
+            <div class="modal-footer input-group">
+                <input type="hidden" name="edit" value="true">
+                <input type="hidden" name="editgroupid" id="editgroupid" value="">
+                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- lang[page].modalEdit.cancel %>">
+                <input type="button" class="btn btn-success" onclick="send('edit')" value="<%- lang[page].modalEdit.edit %>">
+            </div>
+        </div>
+    </div>
+</form>
+
+<form class="modal fade" method="post" action="#" id="remove" style="display: none;">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title"><%- lang[page].modalDelete.title %> - <b id="removeNAME"></b></h5>
+            </div>
+
+            <div class="modal-body">
+                <p><%- lang[page].modalDelete.text %></p>
+                <input name="gid" value="" type="hidden" id="removeID">
+                <input name="deletegroup" value="true" type="hidden">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalDelete.cancel %></button>
+                <button type="button" class="btn btn-danger" name="del" onclick="send('remove')"><%- lang[page].modalDelete.remove %></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    var vars = {};
+</script>
+
+<script src="/js/kadmin/grouppanel.js?time=<%- Date.now() %>" type="application/javascript"></script>
+
+<%- include('../includes/foother'); -%>
