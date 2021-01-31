@@ -9,7 +9,9 @@
   "actionsSend"   : "Aktion ausführen",
   "alertClose"    : "Schließen",
   "playermodal"   : {
-    "title"       : "Aktive Spieler"
+    "title"       : "Aktive Spieler",
+    "true"        : "Ja",
+    "false"       : "Nein"
   },
   "nav"           : {
     "home"        : "Startseite",

@@ -8,7 +8,10 @@
  */
 "use strict"
 
-let joinAdress = $('#btnJoin').attr('href')
+let joinAdress  = $('#btnJoin').attr('href')
+let opList      = false
+let whiteList   = false
+let banList     = {}
 
 // Bestätige mit Enter suche
 $("#lfModPackInput").keypress((event) => {
@@ -22,7 +25,35 @@ $("#lfModPackInput").keypress((event) => {
 $(`#modpackinfo`).html(alerter(3900, "", 3, false, 0, 0, 3))
 getSCState()
 setInterval(() => {
-    getSCState()
+    // hole OP liste
+        $.get(`/serv/${vars.cfg}/whitelist.json`, (data) => {
+            try {
+                whiteList = data
+            }
+            catch (e) {}
+        })
+    // hole white liste
+        $.get(`/serv/${vars.cfg}/ops.json`, (data) => {
+            try {
+                opList = data
+            }
+            catch (e) {}
+        })
+    // hole Ban Liste
+        $.get(`/serv/${vars.cfg}/banned-players.json`, (data) => {
+            try {
+                banList.players = data
+            }
+            catch (e) {}
+        })
+        $.get(`/serv/${vars.cfg}/banned-ips.json`, (data) => {
+            try {
+                banList.ips = data
+            }
+            catch (e) {}
+        })
+    // SC STATE
+        getSCState()
 }, 1000)
 
 /**
@@ -80,8 +111,8 @@ function getSCState() {
             // Button & Anzeige
             if(stateColor === "success") {
                 $('#btnJoin').attr('href', joinAdress).toggleClass("disabled", false)
-                inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
-                //inhalt = `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                //inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
+                inhalt = `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
             }
             else {
                 $('#btnJoin').attr('href', '').toggleClass("disabled", true)
@@ -90,7 +121,33 @@ function getSCState() {
             if(player_id.html() !== inhalt) player_id.html(inhalt)
 
             // Liste
-            console.log(serverInfos)
+            let playerlist  = ""
+            let i           = 0
+            serverInfos.aplayersarr.sort((a, b) => (a.name < b.name) ? 1 : -1)
+            for(let item of serverInfos.aplayersarr) {
+                let isOP    = "false"
+                for(let op of opList)
+                    if(op.uuid === item.id) isOP = "true"
+                if(i % 2 === 0) playerlist  += `<tr>`
+                playerlist  += `
+                    <td>
+                        <div class="media">
+                            <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 40px">
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title text-bold">
+                                    ${item.name}
+                                    <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                </h3>
+                                <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
+                            </div>
+                        </div>
+                    </td>
+                `
+                if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td></td>`
+                if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
+                i++
+            }
+            $(`#playerlist`).html(playerlist)
 
 
         // Alerts
