@@ -130,7 +130,7 @@ function getSCState() {
                     if(op.uuid === item.id) isOP = "true"
                 if(i % 2 === 0) playerlist  += `<tr>`
                 playerlist  += `
-                    <td>
+                    <td style="width: 50%">
                         <div class="media">
                             <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 40px">
                             <div class="media-body">
@@ -143,7 +143,7 @@ function getSCState() {
                         </div>
                     </td>
                 `
-                if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td></td>`
+                if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td style="width: 50%"></td>`
                 if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
                 i++
             }
