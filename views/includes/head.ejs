@@ -61,9 +61,14 @@
             <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>;              <% } %>
 
             setInterval(() => {
-                $.get('/ajax/all?getselfperm', (datas) => {
-                    globalvars.perm = JSON.parse(datas)
-                })
+                try {
+                    $.get('/ajax/all?getselfperm', (datas) => {
+                        globalvars.perm = JSON.parse(datas)
+                    })
+                }
+                catch (e) {
+
+                }
             }, 2000)
         </script>
         <script src="/plugins/jquery/jquery.min.js"></script>
