@@ -8,34 +8,37 @@
  */
 "use strict"
 
-getUserList();
-getCodeList();
+getUserList()
+getCodeList()
 setInterval(() => {
-    getUserList();
-    getCodeList();
+    getUserList()
+    getCodeList()
 },2000)
 
+/**
+ * hole Benutzerliste
+ */
 function getUserList() {
     $.get('/ajax/userpanel', {
         getuserlist: true
     }, (data) => {
         try {
-            let users       = JSON.parse(data).userlist;
-            let userlist    = ``;
-            let modallist   = ``;
-            let htmUserList = $('#userlist');
+            let users       = JSON.parse(data).userlist
+            let userlist    = ``
+            let modallist   = ``
+            let htmUserList = $('#userlist')
 
             users.forEach((val, key) => {
                 let remove  = [
                     `'#removeID~val~${val.id}'`,
                     `'#removeTitle~htm~${val.username}'`
-                ];
-                let rangIDs = JSON.parse(val.rang);
+                ]
+                let rangIDs = JSON.parse(val.rang)
                 let groups = [
                     `'#userID~val~${val.id}'`,
                     `'#userTitle~htm~${val.username}'`
-                ];
-                rangIDs.forEach((val) => groups.push(`'#group${val}~checkbox~true'`));
+                ]
+                rangIDs.forEach((val) => groups.push(`'#group${val}~checkbox~true'`))
                 if(key !== 0) userlist += `<tr>
                                                 <td>
                                                     ${val.username}
@@ -67,25 +70,28 @@ function getUserList() {
                                                         ${val.ban === 0 ? globalvars.lang_arr.userpanel.banned: globalvars.lang_arr.userpanel.free}
                                                     </a>` : ''}
                                                 </td>
-                                            </tr>`;
-            });
+                                            </tr>`
+            })
 
-            if(htmUserList.html() !== userlist) htmUserList.html(userlist);
+            if(htmUserList.html() !== userlist) htmUserList.html(userlist)
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
     })
 }
 
+/**
+ * hole Codeliste
+ */
 function getCodeList() {
     $.get('/ajax/userpanel', {
         getcodelist: true
     }, (data) => {
         try {
-            let codes       = JSON.parse(data).codelist;
-            let codeList    = ``;
-            let codeListID  = $('#codes');
+            let codes       = JSON.parse(data).codelist
+            let codeList    = ``
+            let codeListID  = $('#codes')
 
             codes.forEach((val, key) => {
                 codeList += `<tr id="code${val.id}">
@@ -105,17 +111,23 @@ function getCodeList() {
                                         </span>
                                     </div>
                                 </td>
-                            </tr>`;
-            });
+                            </tr>`
+            })
 
-            if(codeListID.html() !== codeList) codeListID.html(codeList);
+            if(codeListID.html() !== codeList) codeListID.html(codeList)
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
     })
 }
 
+/**
+ * Entfernt einen Code
+ * @param {string} id (Von)
+ * @param {string} htmlID (Ausgabe Ziel)
+ * @return {boolean}
+ */
 // Entferne Code
 function removeCode(id, htmlID) {
     // führe Aktion aus
@@ -124,57 +136,63 @@ function removeCode(id, htmlID) {
         id          : id
     }, (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#global_resp').append(data.alert);
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#global_resp').append(data.alert)
             if (data.remove !== undefined) {
-                $(htmlID).remove();
+                $(htmlID).remove()
             }
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    });
-    return false;
+    })
 }
 
-// Create Code
+/**
+ * erstellt einen Code
+ */
 function createCode() {
     // führe Aktion aus
     $.post(`/ajax/userpanel`, $("#addserver").serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#global_resp').append(data.alert);
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#global_resp').append(data.alert)
             if (data.added !== undefined) {
-                getCodeList();
+                getCodeList()
             }
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    });
-    return false;
+    })
 }
 
-// Create Code
+/**
+ * Entfernt einen Benutzer
+ */
 function removeUser() {
     // führe Aktion aus
     $.post(`/ajax/userpanel`, $('#remove').serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#global_resp').append(data.alert);
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#global_resp').append(data.alert)
             if (data.remove !== undefined) {
                 $('#remove').modal('hide')
                 $('.modal-backdrop').remove()
             }
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    });
-    return false;
+    })
 }
 
-// Toggle Ban
+/**
+ * Benutzer Bannen oder entbannen
+ * @param {string} id (Von)
+ * @param {string} htmlID (Ausgabe Ziel)
+ * @return {boolean}
+ */
 function toggleUser(id, btnID) {
     // führe Aktion aus
     $.post(`/ajax/userpanel`, {
@@ -182,33 +200,33 @@ function toggleUser(id, btnID) {
         id          : id
     }, (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#global_resp').append(data.alert);
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#global_resp').append(data.alert)
             if (data.toggled !== undefined) {
-                $('#' + btnID).html(data.ban === 0 ? globalvars.lang_arr.userpanel.banned: globalvars.lang_arr.userpanel.free).toggleClass('btn-danger', data.ban === 1).toggleClass('btn-success', data.ban === 0);
+                $('#' + btnID).html(data.ban === 0 ? globalvars.lang_arr.userpanel.banned: globalvars.lang_arr.userpanel.free).toggleClass('btn-danger', data.ban === 1).toggleClass('btn-success', data.ban === 0)
             }
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    });
-    return false;
+    })
+    return false
 }
 
 function sendGroups() {
     $.post(`/ajax/userpanel`, $(`#groups`).serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#global_resp').append(data.alert);
-            getUserList();
+            data    = JSON.parse(data)
+            if(data.alert !== undefined) $('#global_resp').append(data.alert)
+            getUserList()
             if(data.success !== undefined) {
                 $(`#groups`).modal('hide')
                 $('.modal-backdrop').remove()
             }
         }
         catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    });
-    return false;
+    })
+    return false
 }

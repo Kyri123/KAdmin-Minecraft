@@ -13,7 +13,7 @@ let opList      = false
 let whiteList   = false
 let banList     = {}
 
-// Bestätige mit Enter suche
+// Bestätige mit Enter suche von Modpacks
 $("#lfModPackInput").keypress((event) => {
     if (event.key === "Enter") {
         event.preventDefault()

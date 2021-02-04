@@ -8,17 +8,21 @@
  */
 "use strict"
 
+// + am ende um neue Server hinzuzufügen
 const toEnd = `    <a class="col-lg-6 col-xl-6" data-toggle="modal" data-target="#addserver" href="#">
                         <div class="border border-success text-success align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
                             <i class="fas fa-plus" aria-hidden="true"></i>
                         </div>
-                    </a>`;
+                    </a>`
 
 setInterval(() => {
+    /**
+     * hole Server für die Anzeige
+     */
     $.get('/ajax/serverCenterAny?getglobalinfos', (datas) => {
-        let serverList  = JSON.parse(datas).servers_arr;
+        let serverList  = JSON.parse(datas).servers_arr
         if(serverList.length > 0) {
-            let list = ``;
+            let list = ``
             serverList.forEach((val) => {
                 let stateColor                                                 = "danger"
                 if(!val[1].is_installed)                            stateColor = "warning"
@@ -73,7 +77,7 @@ setInterval(() => {
                                         </div>
                                     </div>
                                 </div>
-                            `;
+                            `
 
                 if($(`#remove${val[0]}`).html() === undefined) $('#modallist').append(`<form class="modal fade" method="post" action="#" id="remove${val[0]}" tabindex="-1" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
@@ -94,20 +98,24 @@ setInterval(() => {
                                             </div>
                                         </div>
                                     </div>
-                                </form>`);
-            });
+                                </form>`)
+            })
             if(hasPermissions(globalvars.perm, "servercontrolcenter/create")) list += toEnd
-            $('#sccserverlist').html(list);
+            $('#sccserverlist').html(list)
         }
-    });
-}, 2000);
+    })
+}, 2000)
 
+/**
+ * Submit ein Formular
+ * @param {string} id
+ */
 function submitform(id) {
     $.post(`/ajax/servercontrolcenter`, $(id).serialize())
         .done(function(data) {
             try {
-                data = JSON.parse(data);
-                if(data.alert !== undefined) $('#global_resp').append(data.alert);
+                data = JSON.parse(data)
+                if(data.alert !== undefined) $('#global_resp').append(data.alert)
                 if (data.remove !== undefined) {
                     $(id).modal('hide')
                     $(`#remove${data.removed}`).modal('hide').remove()

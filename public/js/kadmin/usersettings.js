@@ -8,7 +8,9 @@
  */
 "use strict"
 
-// Sende Aktionen
+/**
+ * Speichert eingabe von neuen Daten
+ */
 $("#pills-settings").submit(() => {
     // führe Aktion aus
     $.post(`/ajax/usersettings`, $('#pills-settings').serialize())
@@ -76,4 +78,4 @@ $("#pills-settings").submit(() => {
             }
         })
     return false
-});
+})

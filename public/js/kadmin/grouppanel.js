@@ -13,6 +13,9 @@ setInterval(() => {
     getGroupList()
 },2000)
 
+/**
+ * erzeugt gruppenliste
+ */
 function getGroupList() {
     console.log(globalvars.lang_arr.userpanel)
     $.get('/ajax/grouppanel', {
@@ -67,6 +70,12 @@ function getGroupList() {
     })
 }
 
+/**
+ * setzt checkboxen für Permissions
+ * @param permission
+ * @param keys
+ * @return {string}
+ */
 function hasPermFiller(permission, keys = '') {
     let re          = ''
 
@@ -83,6 +92,11 @@ function hasPermFiller(permission, keys = '') {
     return re
 }
 
+/**
+ * sendet befehl an Server
+ * @param modal
+ * @return {boolean}
+ */
 function send(modal) {
     $.post(`/ajax/grouppanel`, $(`#${modal}`).serialize(), (data) => {
         try {

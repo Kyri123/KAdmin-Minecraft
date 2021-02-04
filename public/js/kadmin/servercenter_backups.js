@@ -12,6 +12,9 @@ setInterval(() => {
     get()
 }, 5000)
 
+/**
+ * hole Backupliste und werte aus
+ */
 function get() {
     $.get('/ajax/serverCenterAny', {
         "getserverinfos": true,
@@ -98,8 +101,15 @@ function get() {
     })
 }
 
+/**
+ * Sendet den Befehl eine Datei zu entfernen
+ */
 function removeFile() {
-    $.post('/ajax/serverCenterBackups' , $('#removeBackup').serialize(), (data) => {
+    let sert        = $('#removeBackup').serialize()
+    let sertArray   = $('#removeBackup').serializeArray()
+    // Todo: check path
+
+    if() $.post('/ajax/serverCenterBackups' , sert, (data) => {
         try {
             data    = JSON.parse(data)
             if(data.alert !== undefined) $('#all_resp').append(data.alert)
@@ -120,11 +130,12 @@ function removeFile() {
         catch (e) {
             console.log(e)
         }
-    });
-    return false
+    })
 }
 
-
+/**
+ * Spielt ein Backup ein
+ */
 function playthisin() {
     $.post('/ajax/serverCenterBackups' , $('#playinBackup').serialize(), (data) => {
         try {
@@ -136,6 +147,5 @@ function playthisin() {
         catch (e) {
             console.log(e)
         }
-    });
-    return false
+    })
 }

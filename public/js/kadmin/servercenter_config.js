@@ -16,6 +16,10 @@ if(hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/ser
     $('#serverprop').text(data);
 })
 
+/**
+ * Speicher Cfg
+ * @return {boolean}
+ */
 function saveCfg() {
     $.post('/ajax/serverCenterConfig' , $('#pills-server').serialize(), (data) => {
         try {
@@ -29,6 +33,12 @@ function saveCfg() {
     return false;
 }
 
+/**
+ * Speicher Server Konfigurationen
+ * @param {string} htmlID
+ * @param {string} cfg
+ * @return {boolean}
+ */
 function serverSave(htmlID, cfg) {
     $.post('/ajax/serverCenterConfig' , {
         iniText : $(htmlID).val(),

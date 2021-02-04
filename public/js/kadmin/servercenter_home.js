@@ -7,6 +7,9 @@
  * *******************************************************************************************
  */
 "use strict"
+/**
+ * Lade zyklisch Logs
+ */
 loadActionLog();
 setInterval(() => {
     loadActionLog()
@@ -20,6 +23,9 @@ $("#sendCommand").keypress((event) => {
    }
 })
 
+/**
+ * Lade Aktionen LOG
+ */
 function loadActionLog() {
     $.get(`/logs/${vars.cfg}/latest.log`, {
        getLogFormServer: true,
@@ -89,6 +95,9 @@ function loadActionLog() {
         });
 }
 
+/**
+ * Sende Serverbefehl
+ */
 function sendCommand() {
    let q = $('#sendCommand')
    let q2 = $('#sendCommandBtn')

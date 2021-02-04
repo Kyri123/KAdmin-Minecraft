@@ -8,7 +8,7 @@
  */
 "use strict"
 
-// hole Serverliste
+// hole Serverliste zyklisch
 getServerList()
 getTraffic()
 setInterval(() => {
@@ -16,6 +16,9 @@ setInterval(() => {
     getTraffic()
 },5000)
 
+/**
+ * Update Traffic vom Server
+ */
 function getTraffic() {
     $.get('/json/serverInfos/auslastung.json', (data) => {
         if (hasPermissions(globalvars.perm, "all/show_traffic")) {
@@ -35,6 +38,9 @@ function getTraffic() {
     })
 }
 
+/**
+ * hole Serverliste für Navigation oben
+ */
 function getServerList() {
     $.get('/ajax/serverCenterAny', {
         "getglobalinfos": true
@@ -71,7 +77,15 @@ function getServerList() {
 }
 
 
-
+/**
+ * setzt diverse eingaben in id
+ * > Format: **#id~type~val** <br>
+ * > type:
+ *   - **txt** (.text(val))
+ *   - **val** (.val(val))
+ *   - **txt** (.html(val))
+ *   - **checkbox** (.prop('checked', val === "true"))
+ */
 function setInModal() {
     Object.values(arguments).forEach((arg) => {
         let id      = arg.split('~')[0]
@@ -83,5 +97,38 @@ function setInModal() {
         if(type === "htm")      $(id).html(val)
         if(type === "checkbox") $(id).prop('checked', val === "true")
     })
+}
+
+// Füge div funktionen hinzu
+/**
+ * Replaced von einem String den 1. string
+ * @param {string[]} find Strings die ersetzt werden sollen
+ * @param {string[]} replace Strings wodurch es ersetzt wird
+ * @return {String}
+ */
+String.prototype.replaceArray = function(find, replace) {
+    let replaceString = this
+    let regex
+    for (var i = 0; i < find.length; i++) {
+        regex = new RegExp(find[i], "g")
+        replaceString = replaceString.replace(regex, replace[i])
+    }
+    return replaceString
+}
+
+/**
+ * Replaced von einem String alles
+ * @param {string[]} find Strings die ersetzt werden sollen
+ * @param {string[]} replace Strings wodurch es ersetzt wird
+ * @return {String}
+ */
+String.prototype.replaceAllArray = function(find, replace) {
+    let replaceString = this
+    let regex
+    for (var i = 0; i < find.length; i++) {
+        regex = new RegExp(find[i], "g")
+        replaceString = replaceString.replaceAll(regex, replace[i])
+    }
+    return replaceString
 }
 
