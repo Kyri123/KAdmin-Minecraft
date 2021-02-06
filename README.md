@@ -60,6 +60,12 @@ Update
 - Funktioniert automatisch
 - Manuell: `cd ~ && wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.3/updater.sh && chmod 755 ./updater.sh && ./updater.sh`
 
+Autostart einrichten
+=============
+1. Logge dich in den benutzer `kadmin` ein `su kadmin`
+2. Öffne den Crontab `crontab -e`
+3. füge folgende Zeile hinzu: `@reboot sh ~/starter.sh` **(Hierbei kann der Pfad `~/starter.sh` abweichen!)**
+
 Standart Login
 =============
 - Benutzername UND Password: `admin`
@@ -73,6 +79,13 @@ app.json
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
 | `lang`                | **wird nicht mehr verwendet** |
+
+updater.json
+=============
+| Eigenschaften         | Wert | 
+| :---                  | :--- |
+| `useBranch`           | Welche Branch soll benutzt werden **(Erlaubt: dev, master, test)** |
+| `automaticInstall`    | Sollen Updates automatisch Installiert werden oder nur gemeldet (**true** = Installer, **false** = nur melden) |
 
 main.json
 =============
