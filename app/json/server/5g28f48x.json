@@ -1,7 +1,7 @@
 {
-  "path"                    : "/home/kadmin-mc/server/5g28f48x",
-  "pathLogs"                : "/home/kadmin-mc/logs/5g28f48x",
-  "pathBackup"              : "/home/kadmin-mc/backups/5g28f48x",
+  "path"                    : "/home/kadmin/servers/server/5g28f48x",
+  "pathLogs"                : "/home/kadmin/servers/logs/5g28f48x",
+  "pathBackup"              : "/home/kadmin/servers/backups/5g28f48x",
   "autoUpdate"              : false,
   "autoUpdateInterval"      : 1800000,
   "autoUpdateNext"          : 0,

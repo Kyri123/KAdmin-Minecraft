@@ -34,6 +34,7 @@ Webbasiertes Admin Panel für Minecraft-Server
 Wichtig
 =============
 - **[Dev-Tree]** Benutzten auf eigene GEFAHR (Debugs, Tests usw.)
+- **[Test-Tree]** Benutzten auf eigene GEFAHR (Tests usw.)
 - Derzeitiger Status: **Alpha**
 - `Links`
   - Spenden? https://www.paypal.com/cgi-bin/webscr?shell=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
@@ -42,25 +43,22 @@ Wichtig
 
 Installation
 =============
-1. Erstelle einen Ordner
-2. Downloade den letzten Release
-   - MASTER: `wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.1/installer_master.sh && chmod 777 ./installer_master.sh`
-   - DEV: `wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.1/installer_dev.sh && chmod 777 ./installer_dev.sh`
-3. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese
-4. Konfiguriere:
+
+1. 1. Erstelle einen Benutzer `adduser kadmin`
+   2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip curl`
+   3. Installiere NodeJS (min 15.6.0)
+2. Log dich in den Benutzer ein `su kadmin`
+3. Downloade den letzten Release `cd ~ && wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.3/installer.sh && chmod 755 ./installer.sh && ./installer.sh`
+4. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese (Todo Automatisiertes erstellen von Tabellen)
+5. Konfiguriere:
    - `app/config/app.json`
    - `app/config/mysql.json`
-5. Starte das Programm mit 
-   - MASTER: `./starter_master.sh`
-   - DEV: `./starter_dev.sh`
+6. Starte das Programm mit `./starter.sh`
 
 Update
 =============
 - Funktioniert automatisch
-- Ansonsten:
-  - Beende das Panel
-    - MASTER: `./starter_master.sh`
-    - DEV: `./starter_dev.sh`
+- Manuell: `cd ~ && wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.3/updater.sh && chmod 755 ./updater.sh && ./updater.sh`
 
 Standart Login
 =============
@@ -74,40 +72,44 @@ app.json
 | `servRoot`            | Pfad wo die Server liegen sollen |
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
+| `lang`                | **wird nicht mehr verwendet** |
 
 main.json
 =============
 **INFO:** Hier sollte nur etwas verändert werden wenn man weis was man tut!
 
-| Eigenschaften                       | Wert | 
-| :---                                | :--- |
-| `useDebug`                          | WIP |
-| `interval > getStateFromServers`    | WIP |
-| `interval > getTraffic`             | WIP |
-| `interval > doReReadConfig`         | WIP |
-| `interval > doServerBackgrounder`   | WIP |
-| `interval > backgroundUpdater`      | WIP |
-| `interval > doJob`                  | WIP |
+| Eigenschaften                         | Wert | 
+| :---                                  | :--- |
+| `useDebug`                            | Debug modus für die Konsole (**true** = an / **false** = aus) |
+| `interval > getStateFromServers`      | Interval wo der Status der Server abgefragt wird |
+| `interval > getTraffic`               | Interval wo der Server Traffic angefragt wird |
+| `interval > doReReadConfig`           | Interval wo die Konfigurationen neu geladen werden |
+| `interval > doServerBackgrounder`     | Interval wo Server Hintergrund aktionen ausgeführt werden (sowas wie Backups) |
+| `interval > backgroundUpdater`        | Interval wo das Panel auf neue Updates prüft |
+| `interval > doJob`                    | WIP (für Cronjobs) |
+| `interval > getVersionList`           | Interval wo Die Versionsliste aktualisiert wird |
+| `interval > getChangelogList`         | Interval wo der Changelog vom Server gelesen wird |
+| `interval > getSpigotCraftbukkitList` | Interval wo Die Versionsliste **für Spigot & Craftbukkit** aktualisiert wird |
 
 # Sprache Installieren
 
 - Lade die JSON Dateien in `/lang/<lang>/` hoch 
 - WICHTIG: Es wird derzeit nur Deutsch mitgeliefert 
+- **derzeit gibt es noch keine Funktion zum wählen der Sprache! (daher überschreibt de_de)**
 
 # Benötigt
 - `Betriebssystem`
   - Linux | Getestet auf:
     - Debain 9
+    - Ubuntu Server 20
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
 - `Node.JS` 
   - Version >= 15.6.0
+    - Getestet auf:
+    - 15.8.0, 15.6.0
   - NVM (empfohlen für Versionswechsel) > https://github.com/nvm-sh/nvm
 - `MariaDB` 
   - Server   
-- `Linux`
-  - screen
-  - java-8 jenachdem welche MC server und Mods!
-  - Node.JS
   
 # Andere Projekte:
 | Projekt                     | Status            | URL | 
