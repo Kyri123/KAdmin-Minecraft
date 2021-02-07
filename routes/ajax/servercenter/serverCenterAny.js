@@ -127,6 +127,14 @@ router.route('/')
         // DEFAULT AJAX
         let GET         = req.query;
 
+        // GET Globale Infos
+        if(GET.getglobalinfos !== undefined) {
+            res.render('ajax/json', {
+                data: JSON.stringify(globalinfos.get())
+            });
+            return true;
+        }
+
         // Wenn keine Rechte zum abruf
         if(!userHelper.hasPermissions(req.session.uid, "show", GET.server)) return true;
 
@@ -135,14 +143,6 @@ router.route('/')
             let serverData  = new serverClass(GET.server);
             res.render('ajax/json', {
                 data: JSON.stringify(serverData.getServerInfos())
-            });
-            return true;
-        }
-
-        // GET Globale Infos
-        if(GET.getglobalinfos !== undefined) {
-            res.render('ajax/json', {
-                data: JSON.stringify(globalinfos.get())
             });
             return true;
         }

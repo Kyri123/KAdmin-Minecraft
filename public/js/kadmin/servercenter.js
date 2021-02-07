@@ -79,6 +79,7 @@ function getSCState() {
         // Versionserfassung
             let version
             if(stateColor === "danger" || stateColor === "warning") {
+                console.log(hasPermissions(globalvars.perm, "versionpicker", varser.cfg))
                 version = hasPermissions(globalvars.perm, "versionpicker", varser.cfg)
                    ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
                    : serverInfos.version
@@ -112,7 +113,9 @@ function getSCState() {
             if(stateColor === "success") {
                 $('#btnJoin').attr('href', joinAdress).toggleClass("disabled", false)
                 //inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
-                inhalt = `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                inhalt = hasPermissions(globalvars.perm, "showplayers", varser.cfg)
+                   ? `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                   : `${serverInfos.aplayers} / ${serverInfos.players}`
             }
             else {
                 $('#btnJoin').attr('href', '').toggleClass("disabled", true)

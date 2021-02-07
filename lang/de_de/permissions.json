@@ -33,6 +33,8 @@
     "show_kadmin"             : "Darf KAdmin-Minecraft sehen",
     "playin"                  : "Darf Backup einspielen",
     "versionpicker"           : "Darf Versionen & Modpacks vom Server verändern",
-    "sendCommands"            : "Darf Befehle über die Konsole senden (und Live Spielerliste)"
+    "sendCommands"            : "Darf Befehle über die Konsole senden (und Live Spielerliste)",
+    "showplayers"             : "Darf Spielerliste aufrufen",
+    "showalerts"              : "Darf Meldungen sehen"
   }
 }

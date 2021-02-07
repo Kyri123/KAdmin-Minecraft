@@ -16,7 +16,7 @@
                     <button style="width: 100%" class="btn btn-dark" onclick="copyToClipboard('info')" id="btnCopy"><i class="fas fa-copy" aria-hidden="true"></i></button>
                 </div>
                 <div class="p-0 flex-fill bd-highlight">
-                    <a style="width: 100%" href="steam://connect/<%- ip.address() %>:<%- servini["server-port"] %>" class="text-white btn btn-dark" id="btnJoin"><i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
+                    <a style="width: 100%" href="#" class="text-white btn btn-dark">&nbsp;</a>
                 </div>
             </div>
             <div class="card-footer pt-3">
@@ -82,15 +82,17 @@
                         <!-- RIGHT -->
                         <ul class="nav navbar-nav aa-nav ml-auto float-right" id="logbar">
 
-                            <li class="nav-item" style="cursor: pointer">
-                                <a data-toggle="modal" data-target="#alert" href="#" class="nav-link btn-info p-3" style="padding-right: 50px!important;">
-                                    <i class="fa fa-info" aria-hidden="true"></i><div class="ribbon-wrapper">
-                                        <div class="ribbon" style="background: #116b79" id="infoCounter">
-                                            0
+                            <% if(userHelper.hasPermissions(user.id, "showalerts", serverName)) { %>
+                                <li class="nav-item" style="cursor: pointer">
+                                    <a data-toggle="modal" data-target="#alert" href="#" class="nav-link btn-info p-3" style="padding-right: 50px!important;">
+                                        <i class="fa fa-info" aria-hidden="true"></i><div class="ribbon-wrapper">
+                                            <div class="ribbon" style="background: #116b79" id="infoCounter">
+                                                0
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
+                            <% } %>
 
                         </ul>
                     </div>

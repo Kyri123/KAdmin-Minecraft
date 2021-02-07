@@ -42,6 +42,7 @@ function getTraffic() {
  * hole Serverliste für Navigation oben
  */
 function getServerList() {
+    let servercount_on = 0
     $.get('/ajax/serverCenterAny', {
         "getglobalinfos": true
     }, (data) => {
@@ -52,7 +53,6 @@ function getServerList() {
             if (hasPermissions(globalvars.perm, "all/show_traffic")) {
                 // Server
                 $('#top_on').html(data.servercounter.on)
-                $('#serverbadge').html(data.servercounter.on)
                 $('#top_off').html(data.servercounter.off)
                 $('#top_proc').html(data.servercounter.proc)
                 $('#top_total').html(data.servercounter.total)
@@ -71,6 +71,9 @@ function getServerList() {
                 </a>
                 <div class="dropdown-divider"></div>
             `
+
+            if(hasPermissions(globalvars.perm, "show", val[0]) && val[1].online) servercount_on++
+            $('#serverbadge').html(servercount_on)
         })
         $('#serverlist').html(newServerList)
     })

@@ -119,6 +119,15 @@ let app         = express()
 
   // Routes
   // Main
+  app.use(function (req, res, next) {
+    if (! ('JSONResponse' in res) ) {
+      return next();
+    }
+
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.json(res.JSONResponse);
+  })
+
   app.use('/', require(Installed ? './routes/index' : './routes/installer/index'))
 
   // Error
