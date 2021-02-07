@@ -17,6 +17,7 @@ const req                   = require('request')
 const server_state          = require('./server/state')
 const serverCommands        = require('./server/commands')
 const shell                 = require('./server/shell')
+const updater               = require('./updater')
 
 
 module.exports = {
@@ -24,6 +25,8 @@ module.exports = {
      * Startet alle Intervalle
      */
     startAll: async () => {
+        updater.check()
+        updater.install(`https://github.com/Kyri123/KAdmin-Minecraft/archive/dev.zip`)
         setInterval(() => module.exports.backgroundUpdater(),           CONFIG.main.interval.backgroundUpdater)
         setInterval(() => module.exports.doReReadConfig(),              CONFIG.main.interval.doReReadConfig)
         setInterval(() => module.exports.getTraffic(),                  CONFIG.main.interval.getTraffic)
@@ -136,63 +139,7 @@ module.exports = {
      * Prüft nach neuer Panel Version
      */
     backgroundUpdater: () => {
-        (async () => {
-            global.checkIsRunning = undefined
-            var options = {
-                url: `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/branches/${panelBranch}`,
-                headers: {
-                    'User-Agent': `KAdmin-Minecraft-Server AutoUpdater :: FROM: ${ip.address()}`
-                },
-                json: true
-            }
-
-            req.get(options, (err, res, api) => {
-                if (err) {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}] Auto-Updater: \x1b[91mconnection error`)
-                } else if (res.statusCode === 200) {
-                    // Prüfe SHA mit API
-                    if(!globalUtil.safeFileExsistsSync([mainDir, '/app/data/', 'sha.txt'])) globalUtil.safeFileSaveSync([mainDir, '/app/data/', 'sha.txt'], "false")
-                    fs.readFile(pathMod.join(mainDir, '/app/data/', 'sha.txt'), 'utf8', (err, data) => {
-                        if (err === null) {
-                            if (data === api.commit.sha) {
-                                // kein Update
-                                if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}] Auto-Updater: \x1b[32mno update`)
-                            } else {
-                                // Update verfügbar
-                                if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}] Auto-Updater: \x1b[36mupdate found`)
-                                global.isUpdate = true
-                                if(checkIsRunning === undefined) {
-                                    // Prüfe ob alle Aufgaben abgeschlossen sind && ob der Server mit startedWithUpdater gestartet wurde
-                                    if(process.argv.includes("startedWithUpdater")) checkIsRunning = setInterval(() => {
-                                        let ServerInfos = globalInfos.get()
-                                        let isFree      = true
-
-                                        // gehe alle Server durch
-                                        if(ServerInfos.servers_arr.length > 0) {
-                                            ServerInfos.servers_arr.forEach((val) => {
-                                                isFree = val[1].is_free
-                                            })
-                                        }
-
-                                        // Wenn alles Frei ist beende den Server (startet durch die CMD sofort neu mit dem Updater
-                                        if(isFree) {
-                                            process.exit(2)
-                                        }
-                                    }, 5000)
-                                    globalUtil.safeFileSaveSync([mainDir, '/app/data/', 'sha.txt'], api.commit.sha)
-                                }
-                                globalUtil.safeFileSaveSync([mainDir, '/app/data/', 'sha.txt'], api.commit.sha)
-                            }
-                        } else {
-                            if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}] Auto-Updater: \x1b[91msha error`)
-                        }
-                    })
-                } else {
-                    // wenn keine verbindung zu Github-API besteht
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}] Auto-Updater: \x1b[91mconnection error`)
-                }
-            })
-        })()
+        updater.check()
     },
 
     /**

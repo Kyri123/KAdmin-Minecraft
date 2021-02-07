@@ -56,9 +56,9 @@
             // Vars die zur JS übergeben werden
             // Allgemeine Vars
             let globalvars = {}
-            <% if(typeof lang.alert !== "undefined") {%>    globalvars.alertlang    = <%- JSON.stringify(lang.alert) %>;  <% } %>
-            <% if(typeof lang !== "undefined") {%>          globalvars.lang_arr     = <%- JSON.stringify(lang) %>;        <% } %>
-            <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>;              <% } %>
+            <% if(typeof lang.alert !== "undefined") {%>    globalvars.alertlang    = <%- JSON.stringify(lang.alert) %>  <% } %>
+            <% if(typeof lang !== "undefined") {%>          globalvars.lang_arr     = <%- JSON.stringify(lang) %>        <% } %>
+            <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>        <% } %>
 
             setInterval(() => {
                 try {
