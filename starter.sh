@@ -5,7 +5,7 @@
 # @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
 # Github: https://github.com/Kyri123/KAdmin-Minecraft
 # *******************************************************************************************
- 
+  
 while true
 do
   npm i --force
