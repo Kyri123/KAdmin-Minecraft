@@ -63,6 +63,7 @@ function getServerList() {
             if(!val[1].is_installed)                  stateColor = "warning"
             if(val[1].pid !== 0 && !val[1].online)    stateColor = "primary"
             if(val[1].pid !== 0 && val[1].online)     stateColor = "success"
+            if(val[1].is_installing)                  stateColor = "info"
 
             if(val[1].server === undefined && hasPermissions(globalvars.perm, "show", val[0])) newServerList += `
                 <a href="/servercenter/${val[0]}/home" class="dropdown-item">

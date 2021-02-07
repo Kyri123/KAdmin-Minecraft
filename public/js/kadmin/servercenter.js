@@ -73,6 +73,7 @@ function getSCState() {
         if(!serverInfos.is_installed)                       stateColor = "warning"
         if(serverInfos.pid !== 0 && !serverInfos.online)    stateColor = "primary"
         if(serverInfos.pid !== 0 && serverInfos.online)     stateColor = "success"
+        if(serverInfos.is_installing)                       stateColor = "info"
 
         let stateText = varser.lang_arr.forservers.state[stateColor]
 
@@ -87,7 +88,7 @@ function getSCState() {
             else {
                 version = serverInfos.version
             }
-            if($('#version').html().trim().toUpperCase() !== version.trim().toUpperCase()) $('#version').html(version)
+            $('#version').html(version)
 
         //server IMG
             $('#serv_img').attr('class', `border-${stateColor}`)
@@ -97,7 +98,7 @@ function getSCState() {
 
         // Action Card
             let css
-            if(stateColor === "warning") {
+            if(stateColor === "warning" || stateColor === "info") {
                 inhalt = varser.lang_arr.servercenter_any.actionClose
             }
             else {
