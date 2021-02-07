@@ -1,4 +1,4 @@
 {
-  "useBranch"         : "dev",
+  "useBranch"         : "master",
   "automaticInstall"  : true
 }
