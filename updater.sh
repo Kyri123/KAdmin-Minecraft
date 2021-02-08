@@ -17,9 +17,9 @@ else
   	rm -R tmp
   	mkdir tmp
   	cd tmp
-  	wget https://github.com/Kyri123/KAdmin-Minecraft/archive/master.zip
-  	unzip master.zip
-  	rm master.zip
+  	wget https://github.com/Kyri123/KAdmin-Minecraft/archive/$BRANCH.zip
+  	unzip $BRANCH.zip
+  	rm $BRANCH.zip
   	cd KAdmin-Minecraft-master
   	rm ./app/config/app.json
   	rm ./app/config/mysql.json
