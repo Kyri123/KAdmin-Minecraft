@@ -157,7 +157,7 @@
 
   "3001": {
     "title" : "Update verfügbar",
-    "text"  : "Es ist ein neues Update verfügbar Bitte beende den Server und starte <b>start_<branch>.cmd</b>"
+    "text"  : "Es ist ein neues Panel Update verfügbar. Entweder es Installiert gerade wenn die Option aktiv ist wenn nicht: starte mir <b>./updater.sh [branch]</b>"
   },
 
   "3900": {
