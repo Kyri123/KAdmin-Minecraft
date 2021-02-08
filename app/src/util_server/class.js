@@ -101,6 +101,26 @@ module.exports = class serverClass {
     * @param {any} value Wert
     * @return {boolean}
     */
+   writeState( key, value) {
+      if(this.serverExsists()) {
+         try {
+            let file = [mainDir, "public/server", `${this.server}.json`]
+            let json = globalUtil.safeFileReadSync(file, true)
+            return json !== false ? globalUtil.safeFileSaveSync(file, JSON.stringify(json)) : false
+         }
+         catch (e) {
+            if(debug) console.log(e)
+         }
+      }
+      return false
+   }
+
+   /**
+    * Speichert einen beliebigen Key in der CFG
+    * @param {string} key Option
+    * @param {any} value Wert
+    * @return {boolean}
+    */
    writeConfig( key, value) {
       if(this.serverExsists() && typeof this.cfg[key] !== "undefined") {
          this.cfg[key] = value

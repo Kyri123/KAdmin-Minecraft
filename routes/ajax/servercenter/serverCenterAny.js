@@ -42,6 +42,7 @@ router.route('/')
             let serv        = new serverClass(POST.cfg)
 
             if(serv.serverExsists()) {
+                serv.writeState("is_installing", true)
                 let modid   = parseInt(POST.modid)
                 let succ    = versionControlerModpacks.InstallPack(modid, parseInt(POST.fileid), POST.cfg)
                 if(succ) serv.writeConfig("currversion", modid)
@@ -66,14 +67,17 @@ router.route('/')
                 let v       = POST.version.replace(".jar", "")
                 let succ
                 if(POST.type === "spigot") {
+                    serv.writeState("is_installing", true)
                     succ    = versionSpigotControler.downloadServer(POST.version, `${serv.getConfig().path}/serverSpigot.jar`)
                     if(succ) serv.writeConfig("jar", "serverSpigot.jar")
                 }
                 else if(POST.type === "craftbukkit") {
+                    serv.writeState("is_installing", true)
                     succ    = versionCraftbukkitControler.downloadServer(POST.version, `${serv.getConfig().path}/serverCraftbukkit.jar`)
                     if(succ) serv.writeConfig("jar", "serverCraftbukkit.jar")
                 }
                 else {
+                    serv.writeState("is_installing", true)
                     v       = versionVanillaControler.readList().versions[POST.version].id
                     succ    = versionVanillaControler.downloadServer(POST.version, `${serv.getConfig().path}/server.jar`)
                     if(succ) serv.writeConfig("jar", "server.jar")
