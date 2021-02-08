@@ -25,8 +25,6 @@ module.exports = {
      * Startet alle Intervalle
      */
     startAll: async () => {
-        updater.check()
-        updater.install(`https://github.com/Kyri123/KAdmin-Minecraft/archive/dev.zip`)
         setInterval(() => module.exports.backgroundUpdater(),           CONFIG.main.interval.backgroundUpdater)
         setInterval(() => module.exports.doReReadConfig(),              CONFIG.main.interval.doReReadConfig)
         setInterval(() => module.exports.getTraffic(),                  CONFIG.main.interval.getTraffic)
