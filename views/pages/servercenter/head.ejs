@@ -151,23 +151,25 @@
     </div>
 </div>
 
-<!-- MODAL ALERTS -->
-<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl" style="max-width: 700px">
-        <div class="modal-content border-0">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title"><%- lang["servercenter_any"].title_alert %></h5>
-            </div>
-            <div class="modal-body p-0" id="AlertBody">
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="actions" value="sendcommand">
-                <input type="hidden" name="cfg" value="<%- serverName %>">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+<% if(userHelper.hasPermissions(user.id, "showalerts", serverName)) { %>
+    <!-- MODAL ALERTS -->
+    <div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="max-width: 700px">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><%- lang["servercenter_any"].title_alert %></h5>
+                </div>
+                <div class="modal-body p-0" id="AlertBody">
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="actions" value="sendcommand">
+                    <input type="hidden" name="cfg" value="<%- serverName %>">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<% } %>
 
 <% if(userHelper.hasPermissions(user.id, "versionpicker", serverName)) { %>
     <!-- MODAL VERSION -->
