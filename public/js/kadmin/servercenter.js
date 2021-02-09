@@ -80,7 +80,6 @@ function getSCState() {
         // Versionserfassung
             let version
             if(stateColor === "danger" || stateColor === "warning") {
-                console.log(hasPermissions(globalvars.perm, "versionpicker", varser.cfg))
                 version = hasPermissions(globalvars.perm, "versionpicker", varser.cfg)
                    ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
                    : serverInfos.version
@@ -165,34 +164,23 @@ function getSCState() {
 
 
         // Alerts
-            /*if(serverInfos.alerts !== undefined) {
-                $.get('/json/steamAPI/mods.json', (mods) => {
-                    let modNeedUpdates      = []
-                    let rplf                = []
-                    let tplt                = []
-                    mods.response.publishedfiledetails.forEach((val) => {
-                        rplf.push(val.publishedfileid)
-                        tplt.push(`<b>[${val.publishedfileid}]</b> ${val.title}`)
-                    })
-                    let list = []
+            if(serverInfos.alerts !== undefined) {
+                let list = []
 
-                    let counter = 0
-                    serverInfos.alerts.forEach((val) => {
-                        if(!(val === "3997" && modNeedUpdates.length === 0)) {
-                            list.push(alerter(val, "", 3, false, 3, 3, 3, true))
-                            counter++
-                        }
-                    })
-
-                    $(`#infoCounter`).html(counter)
-                    if(counter === 0) list.push(alerter(4000, "", 3, false, 3, 3, 3, true))
-
-                    $(`#AlertBody`).html(list.join('<hr class="m-0">')
-                        .replace("{modu}", modNeedUpdates.join("</li><li>"))
-                        .replace("{modi}", serverInfos.notInstalledMods.join("</li><li>"))
-                        .replaceArray(rplf, tplt))
+                let counter = 0
+                serverInfos.alerts.forEach((val) => {
+                    if(!(val === "3997" && modNeedUpdates.length === 0)) {
+                        list.push(alerter(val, "", 3, false, 3, 3, 3, true))
+                        counter++
+                    }
                 })
-            }*/
+
+                $(`#infoCounter`).html(counter)
+                if(counter === 0) list.push(alerter(4000, "", 3, false, 3, 3, 3, true))
+
+                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
+                console.log(list.join('<hr class="m-0">'))
+            }
     })
 }
 

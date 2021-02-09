@@ -99,10 +99,30 @@ module.exports = {
                    ) : servCFG.currversion
 
                 // Alerts
-                data.alerts = []
+                    data.alerts = []
 
-                if(!data.is_installed)
-                   data.alerts.push("3999")
+                    // ist Server installiert
+                    if(!data.is_installed)
+                       data.alerts.push("3999")
+
+                    // ist Server am installieren
+                    if(data.is_installing)
+                        data.alerts.push("3998")
+
+                    // Soll server dauerhaft laufen
+                    if(servCFG.shouldRun)
+                        data.alerts.push("3998")
+
+                    // Eula
+                    let eula                = globalUtil.safeFileExsistsSync([serverPath, "eula.txt"]) === false
+                        ? ""
+                        : globalUtil.safeFileReadSync([serverPath, "eula.txt"])
+                    if(!eula.includes("eula=true"))
+                        data.alerts.push("4000")
+
+                    // Sind keine Meldungen vorhanden
+                    if(data.alerts.length === 0)
+                        data.alerts.push("4000")
 
                 findProcess('name', name)
                     .then(function (list) {

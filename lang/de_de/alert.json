@@ -165,39 +165,24 @@
     "text"  : "Da viele Modpacks anders installiert werden prüft bitte, ob automatisch die Richtige .jar Datei erkannt wurde. Außerdem ob dieser auch Installiert ist (einige Modpack benötigen Ausführungen von extra Befehlen oder Dateien)<hr>Die Modpack ID findet ihr auf der Modpack Seite auf Curseforge auf rechten Seite. <br><a href='https://www.curseforge.com/minecraft/modpacks/modern-skyblock-3-departed' target='_blank'>(Beispiel: Project ID 286377)</a><hr />Bei der Installation eines neuen Modpacks werden alle <b>*.jar</b> und Modpack spezifischen Ordner entfernt!"
   },
 
-  "3993": {
-    "title" : "Modidikationen Inaktiv",
-    "text"  : "Mods Sind auf dem Server Deaktiviert (Flagge Crossplay ODER EpicOnly ist aktiv)"
-  },
-
-  "3994": {
-    "title" : "Logs Inaktiv",
-    "text"  : "Flagge Logs Fehlt dadurch ist die Logs Seite deaktiviert"
-  },
-
   "3995": {
     "title" : "Allwaysstart",
-    "text"  : "Server startet bei einem Crash neu"
-  },
-
-  "3996": {
-    "title" : "Mods nicht Installiert",
-    "text"  : "Eine Mod oder mehrere sind nicht Installiert: <ul><li>{modi}</li></ul>"
+    "text"  : "Server startet bei einem Crash neu (bzw. wenn erkannt wird dass dieser Offline ist)"
   },
 
   "3997": {
-    "title" : "Mods benötigen Update",
-    "text"  : "Eine Mod oder mehrere sind nicht auf dem neusten Stand: <ul><li>{modu}</li></ul>"
+    "title" : "Eula",
+    "text"  : "Eula ist auf false oder Existiert nicht"
   },
 
   "3998": {
-    "title" : "Server benötigt Update",
-    "text"  : "Es ist ein neues Server update verfügbar"
+    "title" : "Server wird Installiert",
+    "text"  : "Serverinstallation ist im gange"
   },
 
   "3999": {
     "title" : "Server nicht Installiert",
-    "text"  : "Der Server ist noch nicht Installiert"
+    "text"  : "Der Server ist noch nicht Installiert oder die .Jar Datei konnte nicht gefunden werden"
   },
 
   "4000": {
