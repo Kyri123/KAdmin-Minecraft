@@ -76,7 +76,7 @@ module.exports = {
                 data.is_installing     = globalUtil.safeFileExsistsSync([serverPath, "installing"])
                 data.is_free           = true
                 data.selfname          = servCFG.selfname
-                data.icon              = globalUtil.existsSync([serverPath, "server-icon.png"])
+                data.icon              = globalUtil.safeFileExsistsSync([serverPath, "server-icon.png"])
                    ? `/serv/${name}/server-icon.png`
                    : "https://cdn.icon-icons.com/icons2/1381/PNG/512/minecraft_94415.png"
 
