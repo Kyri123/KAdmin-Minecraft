@@ -27,7 +27,7 @@ else
   	rm ./public/json/serverInfos/mcVersionsCraftbukkit.json
   	rm ./public/json/serverInfos/mcVersionsSpigot.json
   	rm -R ./app/json/server/5c68f48w.json
-	rm -R ./app/json/server/5g68f48x.json
+	rm -R ./app/json/server/5g28f48x.json
 	rm -R ./app/json/panel/changelog.json
   	yes | cp -rf ./ ./../../
   	cd ../../

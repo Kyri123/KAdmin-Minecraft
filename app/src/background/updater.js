@@ -32,7 +32,7 @@ module.exports = {
             "/public/json/serverInfos/mcVersionsCraftbukkit.json",
             "/public/json/serverInfos/mcVersionsSpigot.json",
             "/app/json/server/5c68f48w.json",
-            "/app/json/server/5g68f48x.json"
+            "/app/json/server/5g28f48x.json"
         ]
 
         // Erstelle tmp Ordner
