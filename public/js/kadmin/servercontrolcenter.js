@@ -20,6 +20,7 @@ setInterval(() => {
      * hole Server für die Anzeige
      */
     $.get('/ajax/serverCenterAny?getglobalinfos', (datas) => {
+
         let serverList  = JSON.parse(datas).servers_arr
         if(serverList.length > 0) {
             let list = ``
@@ -49,7 +50,7 @@ setInterval(() => {
                             </h5>-->
             
                         </div>
-                        <div class="widget-user-image" id="serv_img" style="top: 124px;z-index: 1000"><img src="https://cdn.icon-icons.com/icons2/1381/PNG/512/minecraft_94415.png" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
+                        <div class="widget-user-image" id="serv_img" style="top: 124px;z-index: 1000"><img src="${val[1].icon}" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
                         
                         <div class="d-flex bd-highlight">
                             <div class="p-0 flex-fill bd-highlight">

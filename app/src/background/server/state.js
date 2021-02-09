@@ -19,7 +19,7 @@ const findProcess   = require('find-process')
  * @param {boolean} mysql_status - Soll die Daten in der Datenbankl gespeichert werden
  * @param {array} data - Daten die gespeichert werden
  * @param {string} name - Bezeichung der gespeicherten Daten (bsp server)
- * @param {array} state - Daten zusätzlich gespeichert werden sollen (array.state)
+ * @param {{}} state - Daten zusätzlich gespeichert werden sollen (array.state)
  * @param {boolean} use_state - Soll state benutzt werden?
  */
 function save(data, name, state, use_state = true) {
@@ -56,7 +56,9 @@ module.exports = {
                 if(!globalUtil.safeFileExsistsSync([file])) globalUtil.safeFileMkdirSync([file])
                 let name               = ITEM.replace(".json", "")
                 let serverData         = new serverClass(name)
-                let data               = serverData.getServerInfos() !== false ? serverData.getServerInfos() : {}
+                let data               = serverData.getServerInfos() !== false
+                   ? serverData.getServerInfos()
+                   : {}
                 let servCFG            = serverData.getConfig()
                 let servINI            = serverData.getINI()
                 let serverPath         = servCFG.path
@@ -74,6 +76,9 @@ module.exports = {
                 data.is_installing     = globalUtil.safeFileExsistsSync([serverPath, "installing"])
                 data.is_free           = true
                 data.selfname          = servCFG.selfname
+                data.icon              = globalUtil.existsSync([serverPath, "server-icon.png"])
+                   ? `/serv/${name}/server-icon.png`
+                   : "https://cdn.icon-icons.com/icons2/1381/PNG/512/minecraft_94415.png"
 
                 // Runing infos
                 data.run               = false
@@ -93,14 +98,11 @@ module.exports = {
                      : data.version
                    ) : servCFG.currversion
 
-
                 // Alerts
                 data.alerts = []
-                if(data.is_installed) {
-                }
-                else {
-                    data.alerts.push("3999")
-                }
+
+                if(!data.is_installed)
+                   data.alerts.push("3999")
 
                 findProcess('name', name)
                     .then(function (list) {
@@ -133,15 +135,18 @@ module.exports = {
                                      data.ping           = state.ping
                                      data.usePW          = state.ping
                                      data.isVanilla      = state.raw.badrock === undefined
-                                     data.version        = data.isVanilla ? state.raw.vanilla.raw.version.name : state.raw.badrock.raw.version.name
-                                     data.protocol       = data.isVanilla ? state.raw.vanilla.raw.version.protocol : state.raw.badrock.raw.version.protocol
+                                     data.version        = data.isVanilla
+                                        ? state.raw.vanilla.raw.version.name
+                                        : state.raw.badrock.raw.version.name
+                                     data.protocol       = data.isVanilla
+                                        ? state.raw.vanilla.raw.version.protocol
+                                        : state.raw.badrock.raw.version.protocol
                                      data.type           = "vanilla"
-                                     if(data.isVanilla) {
+                                     if(data.isVanilla)
                                          if(state.raw.vanilla.raw.modinfo !== undefined) {
                                              data.type       = state.raw.vanilla.raw.modinfo.type
                                              data.modlist    = state.raw.vanilla.raw.modinfo.modList
                                          }
-                                     }
 
                                      // Speichern
                                      save(data, name, state)

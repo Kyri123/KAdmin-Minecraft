@@ -91,7 +91,9 @@ function getSCState() {
             $('#version').html(version)
 
         //server IMG
-            $('#serv_img').attr('class', `border-${stateColor}`)
+            $('#serv_img')
+               .attr('class', `border-${stateColor}`)
+               .attr('src', serverInfos.icon)
 
         // Status
             if(state_id.html() !== stateText) state_id.html(stateText).attr('class',`description-header text-${stateColor}`)
