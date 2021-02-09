@@ -1,9 +1,10 @@
-echo *******************************************************************************************
-echo @author:  Oliver Kaufmann (Kyri123)
-echo @copyright Copyright (c) 2021, Oliver Kaufmann
-echo @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE
-echo Github: https://github.com/Kyri123/KAdmin-Minecraft
-echo *******************************************************************************************
+#!/bin/bash
+echo "*******************************************************************************************"
+echo "@author:  Oliver Kaufmann (Kyri123)"
+echo "@copyright Copyright (c) 2021, Oliver Kaufmann"
+echo "@license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE"
+echo "Github: https://github.com/Kyri123/KAdmin-Minecraft"
+echo "*******************************************************************************************"
 
 BRANCH=$1
 if test -z "$BRANCH"
@@ -20,7 +21,7 @@ else
   	wget https://github.com/Kyri123/KAdmin-Minecraft/archive/$BRANCH.zip
   	unzip $BRANCH.zip
   	rm $BRANCH.zip
-  	cd KAdmin-Minecraft-master
+  	cd KAdmin-Minecraft-$BRANCH
   	rm ./app/config/app.json
   	rm ./app/config/mysql.json
   	rm ./public/json/serverInfos/mcVersionsCraftbukkit.json
