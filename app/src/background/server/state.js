@@ -118,7 +118,7 @@ module.exports = {
                         ? ""
                         : globalUtil.safeFileReadSync([serverPath, "eula.txt"])
                     if(!eula.includes("eula=true"))
-                        data.alerts.push("4000")
+                        data.alerts.push("3997")
 
                     // Sind keine Meldungen vorhanden
                     if(data.alerts.length === 0)

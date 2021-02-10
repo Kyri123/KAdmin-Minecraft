@@ -44,11 +44,9 @@ setInterval(() => {
                             </div>
                         </div>
                         <div class="widget-user-header text-white" style="background: url('/img/backgrounds/sc.jpg') center center;">
-            
                             <!--<h5 title="" class="widget-user-desc text-bold text-center border" style="background-color: rgb(66 66 66 / 58%)!important;">
                                 <a href="/cluster#4c51f09bf0330d03047f8bc634290fc8" class="text-light"></a>
                             </h5>-->
-            
                         </div>
                         <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img src="${val[1].icon}" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
                         

@@ -8,7 +8,7 @@ echo "**************************************************************************
 BRANCH=$1
 if test -z "$BRANCH"
 then
-	echo no Brach selected
+	echo no Brach selected ... master, test or dev
 else
   	echo -----------------------------------------
   	echo            Installiere Panel
