@@ -111,7 +111,7 @@ module.exports = {
 
                     // Soll server dauerhaft laufen
                     if(servCFG.shouldRun)
-                        data.alerts.push("3998")
+                        data.alerts.push("3995")
 
                     // Eula
                     let eula                = globalUtil.safeFileExsistsSync([serverPath, "eula.txt"]) === false
