@@ -165,21 +165,23 @@ function getSCState() {
 
         // Alerts
             if(serverInfos.alerts !== undefined) {
-                let list = []
-
+                let list    = []
                 let counter = 0
+                
                 serverInfos.alerts.forEach((val) => {
-                    if(!(val === "3997" && modNeedUpdates.length === 0)) {
-                        list.push(alerter(val, "", 3, false, 3, 3, 3, true))
-                        counter++
-                    }
+                    list.push(alerter(val, "", 3, false, 3, 3, 3, true))
+                    if(val !== "4000") counter++
                 })
 
                 $(`#infoCounter`).html(counter)
-                if(counter === 0) list.push(alerter(4000, "", 3, false, 3, 3, 3, true))
-
                 $(`#AlertBody`).html(list.join('<hr class="m-0">'))
-                console.log(list.join('<hr class="m-0">'))
+            }
+            else {
+                let list    = []
+                let counter = 0
+                list.push(alerter("4000", "", 3, false, 3, 3, 3, true))
+                $(`#infoCounter`).html(counter)
+                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
             }
     })
 }
