@@ -18,7 +18,8 @@
     "home"        : "Startseite",
     "config"      : "Konfiguration",
     "mods"        : "Modifikation",
-    "backups"     : "Backups"
+    "backups"     : "Backups",
+    "filebrowser" : "Filebrowser"
   },
   "versionpicker" : {
     "title"       : "Versionen & Modpacks",

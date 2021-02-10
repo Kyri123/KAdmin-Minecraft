@@ -72,7 +72,7 @@
                                 </a>
                             </li>
 
-                            <% if(userHelper.hasPermissions(user.id, "mods/config", serverName)) { %>
+                            <% if(userHelper.hasPermissions(user.id, "config/show", serverName)) { %>
                                 <li class="nav-item">
                                     <a href="/servercenter/<%- serverName %>/config" class="nav-link <%- page === "servercenter_config" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_config" ? "" : `onmouseenter="$('#config').toggleClass('d-lg-none', false)" onmouseleave="$('#config').toggleClass('d-lg-none', true)"` %>>
                                         <i class="nav-icon fas fa-edit pr-1" aria-hidden="true"></i> <span id="config" class="<%- page === "servercenter_config" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.config %></span>
@@ -80,10 +80,18 @@
                                 </li>
                             <% } %>
 
-                            <% if(userHelper.hasPermissions(user.id, "mods/backups", serverName)) { %>
+                            <% if(userHelper.hasPermissions(user.id, "backups/show", serverName)) { %>
                                 <li class="nav-item">
                                     <a href="/servercenter/<%- serverName %>/backups" class="nav-link <%- page === "servercenter_backups" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_backups" ? "" : `onmouseenter="$('#backups').toggleClass('d-lg-none', false)" onmouseleave="$('#backups').toggleClass('d-lg-none', true)"` %>>
                                         <i class="nav-icon fas fa-hdd pr-1" aria-hidden="true"></i> <span id="backups" class="<%- page === "servercenter_backups" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.backups %></span>
+                                    </a>
+                                </li>
+                            <% } %>
+
+                            <% if(userHelper.hasPermissions(user.id, "filebrowser/show", serverName)) { %>
+                                <li class="nav-item">
+                                    <a href="/servercenter/<%- serverName %>/filebrowser" class="nav-link <%- page === "servercenter_filebrowser" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_filebrowser" ? "" : `onmouseenter="$('#filebrowser').toggleClass('d-lg-none', false)" onmouseleave="$('#filebrowser').toggleClass('d-lg-none', true)"` %>>
+                                        <i class="nav-icon fas fa-folder-open pr-1" aria-hidden="true"></i> <span id="filebrowser" class="<%- page === "servercenter_filebrowser" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.filebrowser %></span>
                                     </a>
                                 </li>
                             <% } %>

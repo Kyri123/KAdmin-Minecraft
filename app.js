@@ -128,7 +128,7 @@ let app         = express()
     res.json(res.JSONResponse);
   })
 
-  app.use('/', require(Installed ? './routes/index' : './routes/installer/index'))
+  app.use(/*'/', require(Installed ? './routes/index' : './routes/installer/index')*/require('./routes/index'))
 
   // Error
   app.use(function(err, req, res, next) {

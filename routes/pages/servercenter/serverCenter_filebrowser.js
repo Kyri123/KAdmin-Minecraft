@@ -29,7 +29,7 @@ router.route('/')
       let lang          = LANG[langStr]
       let serverName    = req.baseUrl.split('/')[2]
 
-      if(!userHelper.hasPermissions(req.session.uid, "show", serverName)) {
+      if(!userHelper.hasPermissions(req.session.uid, "filebrowser/show", serverName)) {
          res.redirect("/401");
          return true;
       }
@@ -39,9 +39,9 @@ router.route('/')
       let servIni       = serverData.getINI();
 
       // Render Seite
-      res.render('pages/servercenter/serverCenter_home', {
+      res.render('pages/servercenter/serverCenter_filebrowser', {
          userID                  : req.session.uid,
-         page                    : "servercenter_home",
+         page                    : "servercenter_filebrowser",
          response                : response,
          lang                    : lang,
          perm                    : userHelper.permissions(req.session.uid),

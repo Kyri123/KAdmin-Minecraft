@@ -8,9 +8,8 @@
  */
 "use strict"
 
-const express           = require('express')
-const router            = express.Router()
-const userHelper   = require('./../../app/src/sessions/helper')
+const router            = require('express').Router()
+const userHelper        = require('./../../app/src/sessions/helper')
 
 router.route('/')
 

@@ -17,5 +17,14 @@
     "show"                  : 0,
     "remove"                : 0,
     "playin"                : 0
+  },
+  "filebrowser": {
+    "show"                  : 0,
+    "remove"                : 0,
+    "upload"                : 0,
+    "removeFolder"          : 0,
+    "createFolder"          : 0,
+    "exec"                  : 0,
+    "editFiles"             : 0
   }
 }

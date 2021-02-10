@@ -8,9 +8,8 @@
  */
 "use strict"
 
-const serverShell         = require('./../../../app/src/background/server/shell')
-const express           = require('express')
-const router            = express.Router()
+const router            = require('express').Router()
+const serverShell       = require('./../../../app/src/background/server/shell')
 const serverClass       = require('./../../../app/src/util_server/class')
 
 router.route('/')
