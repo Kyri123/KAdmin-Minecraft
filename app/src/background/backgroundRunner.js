@@ -213,7 +213,7 @@ module.exports = {
      */
     getChangelogList() {
         (async () => {
-            req("https://datamc.arkadmin2.de/changelog.json", (error, response, body) => {
+            req("https://api.minecraft.kadmin-panel.de/changelog.json", (error, response, body) => {
                 try {
                     if(!error && response.statusCode === 200)
                         globalUtil.safeFileSaveSync([mainDir, "app/json/panel", "changelog.json"], JSON.parse(JSON.stringify(body)))

@@ -8,6 +8,17 @@
  */
 "use strict"
 
+/**
+ * erstellt ein Loading
+ * @param type
+ * @return {string}
+ */
+function loading(type) {
+    let args    = Object.values(arguments)
+    if(type === "tr")
+        return `<tr><td ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-spinner fa-pulse"></i> <span class="pl-1">${globalvars.lang_arr.all.loading}</span></td></tr>`
+}
+
 // hole Serverliste zyklisch
 getServerList()
 getTraffic()
@@ -135,4 +146,3 @@ String.prototype.replaceAllArray = function(find, replace) {
     }
     return replaceString
 }
-

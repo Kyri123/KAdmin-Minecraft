@@ -16,31 +16,16 @@ const findProcess   = require('find-process')
 
 /**
  * Speichert Informationen in einer JSON oder in die MYSQL
- * @param {boolean} mysql_status - Soll die Daten in der Datenbankl gespeichert werden
  * @param {array} data - Daten die gespeichert werden
  * @param {string} name - Bezeichung der gespeicherten Daten (bsp server)
  * @param {{}} state - Daten zusätzlich gespeichert werden sollen (array.state)
  * @param {boolean} use_state - Soll state benutzt werden?
  */
 function save(data, name, state, use_state = true) {
-    // Schreibe in die Datenbank zu weiterverarbeitung
-    /*let query_lf = `SELECT * FROM \`statistiken\` WHERE \`server\` = '${name}' ORDER BY \`time\``
-    con.query(query_lf, (error, results) => {
-        if(use_state) data.state = state
-        if(!error) {
-            // Wenn mehr als 999 Datensätze bestehen Updaten
-            if(results.length > 999) {
-                var update = `UPDATE \`statistiken\` SET \`time\` = '${Math.floor(Date.now() / 1000)}', \`serverinfo_json\` = '${JSON.stringify(data)}' WHERE \`id\` = '${results[0].id}'`
-                con.query(update)
-            }
-            // Wenn mehr weniger 999 Datensätze bestehen Erstelle neue Datensätze
-            else {
-                var create = `INSERT INTO \`statistiken\` VALUES (null, '${Math.floor(Date.now() / 1000)}', '${JSON.stringify(data)}', '${name}');`
-                con.query(create)
-            }
-        }
-    });*/
-    globalUtil.safeFileSaveSync([mainDir, '/public/json/server', `${name}.json`], JSON.stringify(data))
+      // Todo X.X.X Stats
+      // > state > use_state
+      //data.push(state)
+      globalUtil.safeFileSaveSync([mainDir, '/public/json/server', `${name}.json`], JSON.stringify(data))
 }
 
 module.exports = {
