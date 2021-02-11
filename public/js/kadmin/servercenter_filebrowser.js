@@ -81,3 +81,5 @@ function getPath(path) {
         })
     }
 }
+
+$(document).ready(() => setInterval(() => $('.content-wrapper').attr("style", "min-height: 1750px")), 500)
