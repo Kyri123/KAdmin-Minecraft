@@ -27,11 +27,11 @@ function getPath(path) {
             try {
                 let fileArr     = JSON.parse(files)
                 let list        = pathbefore.includes(vars.cfg) ? [`<tr>
-                        <td><i class="fas fa-folder-open" aria-hidden="true"></i></td>
+                        <td><i class="fas fa-folder" aria-hidden="true"></i></td>
                         <td>..</td>
                         <td>
                             <a href="javascript:void(0)" onClick="getPath('${pathbefore}')" class="btn btn-sm btn-secondary">
-                                <i class="fas fa-folder" aria-hidden="true"></i>
+                                <i class="fas fa-folder-open" aria-hidden="true"></i>
                             </a>
                         </td>
                     </tr>`] : []
