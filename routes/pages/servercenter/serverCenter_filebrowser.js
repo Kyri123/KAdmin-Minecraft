@@ -50,7 +50,8 @@ router.route('/')
          servinfos               : serverData.getServerInfos(),
          servcfg                 : servCfg,
          sclass                  : serverData,
-         serverName              : serverName
+         serverName              : serverName,
+         defaultPath             : servCfg.path
       });
    })
 

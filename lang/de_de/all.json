@@ -10,5 +10,6 @@
   "sc"              : "Server Center",
   "createServer"    : "Server Erstellen",
   "select_default"  : "Aktion wählen",
-  "loading"          : "Wird geladen bitte warten..."
+  "loading"         : "Wird geladen bitte warten...",
+  "failed"          : "Aktion fehlgeschlagen..."
 }

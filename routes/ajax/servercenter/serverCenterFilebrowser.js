@@ -12,12 +12,25 @@ const router                = require('express').Router()
 
 router.route('/')
 
-    .post((req,res)=>{
-        let POST        = req.body
-    })
+   .post((req,res)=>{
+      let POST        = req.body
 
-    .get((req,res)=>{
-        let GET         = req.query
-    })
+      return false
+   })
+
+   .get((req,res)=>{
+      let GET         = req.query
+
+      if(
+         typeof GET.getList  !== "undefined" &&
+         typeof GET.server   !== "undefined" &&
+         typeof GET.path     !== "undefined"
+      ) if(userHelper.hasPermissions(req.session.uid,"filebrowser/show", GET.server)) {
+         res.render('ajax/json', {
+            data: pathMod.join(GET.path).includes(GET.server) ? JSON.stringify(globalUtil.safeFileReadDirSync([GET.path])) : false
+         })
+      }
+      return false
+   })
 
 module.exports = router;

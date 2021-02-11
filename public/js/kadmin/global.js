@@ -18,6 +18,16 @@ function loading(type) {
     if(type === "tr")
         return `<tr><td ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-spinner fa-pulse"></i> <span class="pl-1">${globalvars.lang_arr.all.loading}</span></td></tr>`
 }
+/**
+ * erstellt ein Failed
+ * @param type
+ * @return {string}
+ */
+function failed(type) {
+    let args    = Object.values(arguments)
+    if(type === "tr")
+        return `<tr><td class="text-danger" ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-times"></i> <span class="pl-1">${globalvars.lang_arr.all.failed}</span></td></tr>`
+}
 
 // hole Serverliste zyklisch
 getServerList()

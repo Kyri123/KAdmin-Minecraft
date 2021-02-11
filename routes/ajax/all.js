@@ -24,7 +24,7 @@ router.route('/')
             let dirPath     = Array.isArray(POST.dirPath) ? POST.dirPath : [POST.dirPath]
 
             res.render('ajax/json', {
-                data: JSON.stringify(globalUtil.safeFileReadDirSync(dirPath))
+                data: JSON.stringify(globalUtil.safeFileReadDirSync([dirPath]))
             })
             return true
         }
