@@ -13,6 +13,7 @@ let dirFrontend     = $('#FB_folderList')
 
 filesFrontend.html(loading("FB"))
 dirFrontend.html(loading("FB"))
+
 getPath(vars.defaultPath)
 
 function getPath(path) {
@@ -22,6 +23,7 @@ function getPath(path) {
     pathbefore      = pathbefore.join("/")
     if(path.includes(vars.cfg)) {
         filesFrontend.html(loading("FB"))
+        dirFrontend.html(loading("FB"))
         $.get("/ajax/serverCenterFilebrowser", {
             getList     : true,
             server      : vars.cfg,
