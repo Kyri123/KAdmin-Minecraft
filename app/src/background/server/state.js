@@ -63,7 +63,7 @@ module.exports = {
                 data.selfname          = servCFG.selfname
                 data.icon              = globalUtil.safeFileExsistsSync([serverPath, "server-icon.png"])
                    ? `/serv/${name}/server-icon.png`
-                   : "https://cdn.icon-icons.com/icons2/1381/PNG/512/minecraft_94415.png"
+                   : "/img/logo/logo.png"
 
                 // Runing infos
                 data.run               = false
