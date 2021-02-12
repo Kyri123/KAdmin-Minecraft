@@ -89,7 +89,7 @@
                             <% } %>
 
                             <% if(userHelper.hasPermissions(user.id, "filebrowser/show", serverName)) { %>
-                                <li class="nav-item">
+                                <li class="nav-item d-none d-md-block">
                                     <a href="/servercenter/<%- serverName %>/filebrowser" class="nav-link <%- page === "servercenter_filebrowser" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_filebrowser" ? "" : `onmouseenter="$('#filebrowser').toggleClass('d-lg-none', false)" onmouseleave="$('#filebrowser').toggleClass('d-lg-none', true)"` %>>
                                         <i class="nav-icon fas fa-folder-open pr-1" aria-hidden="true"></i> <span id="filebrowser" class="<%- page === "servercenter_filebrowser" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.filebrowser %></span>
                                     </a>
