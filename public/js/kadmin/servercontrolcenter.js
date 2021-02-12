@@ -52,7 +52,7 @@ setInterval(() => {
                         
                         <div class="d-flex bd-highlight">
                             <div class="p-0 flex-fill bd-highlight">
-                                <a href="/servercenter/${val[0]}" target="_blank" style="width: 100%" class="btn btn-dark"><i class="fas fa-server" aria-hidden="true"></i></a>
+                                <a href="/servercenter/${val[0]}" style="width: 100%" class="btn btn-dark"><i class="fas fa-server" aria-hidden="true"></i></a>
                             </div>
                             <div class="p-0 flex-fill bd-highlight">
                                 <a style="width: 100%" class="text-white btn btn-danger${hasPermissions(globalvars.perm, "servercontrolcenter/delete", val[0]) ? `" data-toggle="modal" data-target="#remove${val[0]}"` : ' disabled"'}><i class="fa fa-trash-o" aria-hidden="true"></i></a>
