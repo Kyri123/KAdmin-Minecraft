@@ -8,35 +8,40 @@
 */
 "use strict"
 
-let filesFrontend   = $('#files')
+let filesFrontend   = $('#FB_fileList')
+let dirFrontend     = $('#FB_folderList')
 
-filesFrontend.html(loading("tr", 3))
+filesFrontend.html(loading("FB"))
+dirFrontend.html(loading("FB"))
 getPath(vars.defaultPath)
 
 function getPath(path) {
+    console.log(path)
     let pathbefore  = path.split("/")
     pathbefore.pop()
     pathbefore      = pathbefore.join("/")
     if(path.includes(vars.cfg)) {
-        filesFrontend.html(loading("tr", 3))
+        filesFrontend.html(loading("FB"))
         $.get("/ajax/serverCenterFilebrowser", {
             getList     : true,
             server      : vars.cfg,
             path        : path
         }, (files) => {
             try {
-                let fileArr     = JSON.parse(files)
-                let list        = pathbefore.includes(vars.cfg) ? [`<tr>
-                        <td><i class="fas fa-folder" aria-hidden="true"></i></td>
-                        <td>..</td>
-                        <td>
-                            <a href="javascript:void(0)" onClick="getPath('${pathbefore}')" class="btn btn-sm btn-secondary">
-                                <i class="fas fa-folder-open" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                    </tr>`] : []
+                // leere Dir list und letzte Ordner
+                let pathSplit   = path.split("/")
+                $('#FB_currDir').html(pathSplit[(pathSplit.length - 1)])
+                $('#FB_totalDir').html(path)
+                $('#FB_reload').data("path", path)
 
-                console.log(fileArr)
+                let listDir     = []
+                let list        = []
+
+                // setzte .. wenn erlaubt
+                if(pathbefore.includes(vars.cfg))
+                    listDir.push(`<button type="button" onClick="getPath('${pathbefore}')" data-js="goback" class="p-1 pl-4 pr-3 list-group-item list-group-item-action"><i class="fas fa-folder" aria-hidden="true"></i> ..</button>`)
+
+                let fileArr     = JSON.parse(files)
 
                 // sotiere nach Ordner & Größe
                 fileArr.sort((a, b) => {
@@ -58,25 +63,33 @@ function getPath(path) {
                             case ".sh":
                                 return "fa fa-terminal"
                             case ".txt":
+                            case ".log":
                                 return "far fa-file-alt"
+                            case ".zip":
+                                return "fas fa-file-archive"
                             default:
                                return "fas fa-file"
                         }
                     }
 
-                    list.push(`<tr>
-                        <td><i class="${icon()}" aria-hidden="true"></i></td>
-                        <td>${file.name}</td>
-                        <td>
-                           ${file.isFile ? "" : `<a href="javascript:void(0)" onClick="getPath('${file.totalPath}')" class="btn btn-sm btn-secondary"><i class="fas fa-folder-open" aria-hidden="true"></i></a>`}
-                        </td>
-                    </tr>`)
+                    if(file.isFile)     list.push(`<div class="p-1 pl-2 pr-3 list-group-item border-left-0"><i class="${icon()}" aria-hidden="true"></i> ${file.name}</div>`)
+                    if(file.isDir)      listDir.push(`<button type="button" onClick="getPath('${file.totalPath}')" class="p-1 pl-4 pr-3 list-group-item list-group-item-action"><i class="fas fa-folder" aria-hidden="true"></i> ${file.name}</button>`)
                 }
+
+                console.log(list.length, list)
+                console.log(listDir.length, listDir)
+                if(list.length === 0)
+                    list.push(`<div class="p-1 pl-2 pr-3 list-group-item border-left-0"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noFileFound}</div>`)
+                if(listDir.length === 0 || (listDir.length === 1 && listDir[0].includes("data-js")))
+                    listDir.push(`<div class="p-1 pl-4 pr-3 list-group-item"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noDirFound}</div>`)
+
                 filesFrontend.html(list.join(""))
+                dirFrontend.html(listDir.join(""))
             }
             catch (e) {
                 console.log(e)
-                filesFrontend.html(failed("tr", 3))
+                filesFrontend.html(failed("FB"))
+                dirFrontend.html(failed("FB"))
             }
         })
     }

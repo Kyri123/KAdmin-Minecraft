@@ -7,26 +7,53 @@
     <div class="col-12 mb-4">
         <div class="tab-pane fade  active show" id="pills-Cfg2" role="tabpanel" aria-labelledby="pills-contact-tab">
             <table class="table table-striped mb-0">
-                <tbody><tr class="bg-dark">
-                    <th colspan="2" class="p-0" style="border: 0!important;">
-                        <div class="list-group-item bg-dark">
-                            <h4 class="m-0">Filebrowser</h4>
-                        </div>
-                    </th>
-                </tr>
-                </tbody></table>
-            <table class="table table-striped mb-0 border">
-                <thead>
-                <tr>
-                    <th style="width: 25px;"></th>
-                    <th>Datei</th>
-                    <th style="width: 135px;">Aktion</th>
-                </tr>
-                </thead>
-                <tbody id="files">
-
+                <tbody>
+                    <tr class="bg-dark">
+                        <th colspan="2" class="p-0" style="border: 0!important;">
+                            <div class="list-group-item bg-dark">
+                                <h4 class="m-0">Filebrowser</h4>
+                            </div>
+                        </th>
+                    </tr>
                 </tbody>
             </table>
+            <div class="card-body p-2 d-none d-md-block">
+                <div class="row">
+                    <!-- Actionlist -->
+                    <div class="col-12 bg-dark p-2">
+                        <!-- reload -->
+                        <button class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_tohome" data-path="<%- defaultPath %>"><i class="fa fa-home" aria-hidden="true"></i></button>
+                        <button class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_reload" data-path="<%- defaultPath %>"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Nav -->
+                    <div class="col-12 col-md-4 pr-md-0 pl-md-0 hidden-md-down bg-white">
+                        <div class="list-group">
+                            <button type="button" class="p-1 pl-2 pr-3 list-group-item list-group-item-action disabled active bg-secondary border-secondary">
+                                <i class="fas fa-folder" aria-hidden="true"></i> <span id="FB_currDir">???</span>
+                            </button>
+                            <div id="FB_folderList">
+                                <button type="button" class="p-1 pl-4 pr-3 list-group-item list-group-item-action">Load...</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Files -->
+                    <div class="col-12 col-md-8 pl-md-0 bg-gray-light border-left border-bottom bg-white">
+                        <div class="list-group">
+                            <button type="button" class="p-1 pl-2 pr-3 list-group-item list-group-item-action disabled active bg-secondary border-secondary" id="FB_totalDir">
+                                &nbsp;
+                            </button>
+                            <div id="FB_fileList">
+                                <div class="p-1 pl-2 pr-3 list-group-item border-left-0">Load...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-bock d-md-none p-3">Mobile not Supported</div>
         </div>
     </div>
 </div>
