@@ -10,6 +10,7 @@
 
 let filesFrontend   = $('#FB_fileList')
 let dirFrontend     = $('#FB_folderList')
+let dirArray        = {}
 
 filesFrontend.html(loading("FB"))
 dirFrontend.html(loading("FB"))
@@ -22,6 +23,9 @@ getPath(vars.defaultPath)
  */
 function getPath(path) {
     $('*[data-acceptDel="use"]').off("click")
+    dirArray        = {}
+
+    $('#FB_removeFolder').toggle(path !== vars.defaultPath)
 
     let pathbefore  = path.split("/")
     pathbefore.pop()
@@ -38,11 +42,12 @@ function getPath(path) {
             try {
                 // leere Dir list und letzte Ordner
                 let pathSplit   = path.split("/")
-                $('#FB_currDir').html(pathSplit[(pathSplit.length - 1)])
-                $('#FB_totalDir').html(`<i class="fas fa-folder-open" aria-hidden="true"></i> ${path.replace(vars.defaultPath, "") === "" ? "/" : path.replace(vars.defaultPath, "")}`)
-                $('#FB_reload').data("path", path)
-                $('#FB_removeFolderIn').data("path", path)
-                $('#FB_removeFolder').data("path", path)
+                $('#FB_currDir')        .html(pathSplit[(pathSplit.length - 1)])
+                $('#FB_totalDir')       .html(`<i class="fas fa-folder-open" aria-hidden="true"></i> ${path.replace(vars.defaultPath, "") === "" ? "/" : path.replace(vars.defaultPath, "")}`)
+                $('#FB_reload')         .attr("data-path", path).data("path", path)
+                $('#FB_removeFolderIn') .attr("data-path", path).data("path", path)
+                $('#FB_removeFolder')   .attr("data-path", path).data("path", path)
+                $('#FB_addFolder')      .attr("data-path", path).data("path", path)
 
                 let listDir     = []
                 let list        = []
@@ -101,28 +106,29 @@ function getPath(path) {
                             <div class="btn-group btn-group-sm ml-auto">
                                 <span class="pr-3 text-sm pt-1 pb-1"><b>${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"}</b></span>
                                 <button type="button" class="rounded-0 btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action
+                                    ${globalvars.lang_arr["servercenter_filebrowser"].options.actions}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> edit</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> exec</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-signature"></i> rename</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-arrows-alt"></i> move</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-info-circle"></i> info</a>
-                                    <a class="dropdown-item" href="${file.totalPath.replace(vars.defaultPath, `/serv/${vars.cfg}`)}" download=""><i class="fas fa-file-download"></i> download</a>
+                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>
+                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>
+                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>
+                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-arrows-alt"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.move}</a>
+                                    <a class="dropdown-item" href="${file.totalPath.replace(vars.defaultPath, `/serv/${vars.cfg}`)}" download=""><i class="fas fa-file-download"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.download}</a>
+                                    <a class="dropdown-item" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="far fa-eye"></i> show</a>
-                                    <a class="dropdown-item text-danger" href="javascript:void(0)" data-acceptDel="use" data-file="${file.totalPath}"><i class="far fa-trash-alt"></i> del</a>
+                                    <a class="dropdown-item text-info disabled" href="javascript:void(0)"><i class="fas fa-info-circle"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.info}</a>
+                                    <a class="dropdown-item text-danger" href="javascript:void(0)" data-acceptDel="use" data-tohome="no" data-path="${file.totalPath}"><i class="far fa-trash-alt" data-path="${file.totalPath}"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.remove}</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     `)
-                    if(file.isDir)      listDir.push(`<button type="button" onClick="getPath('${file.totalPath}')" class="p-1 pl-4 pr-3 list-group-item list-group-item-action"><i class="fas fa-folder" aria-hidden="true"></i> ${file.name}</button>`)
+                    if(file.isDir) {
+                        listDir.push(`<button type="button" onClick="getPath('${file.totalPath}')" class="p-1 pl-4 pr-3 list-group-item list-group-item-action"><i class="fas fa-folder" aria-hidden="true"></i> ${file.name}</button>`)
+                        dirArray[file.name] = file.totalPath
+                    }
                 }
 
-                console.log(list.length, list)
-                console.log(listDir.length, listDir)
                 if(list.length === 0)
                     list.push(`<div class="p-1 pl-4 pr-3 list-group-item border-left-0"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noFileFound}</div>`)
                 if(listDir.length === 0 || (listDir.length === 1 && listDir[0].includes("data-js")))
@@ -141,28 +147,56 @@ function getPath(path) {
     }
 }
 
-
-
 function reloadClickEvents() {
-    $('*[data-acceptDel="use"]').click((e) => {
-        console.log(e.target.dataset.file)
-        swalWithBootstrapButtons .fire({
-            icon: 'warning',
-            text: "You won't be able to revert this!",
-            title: '<strong>Delete?</strong>',
+    // Entfernen von Dateien
+    $('*[data-acceptDel="use"],#FB_removeFolder').click((e) => {
+        console.log(e)
+        if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
+            icon: 'info',
+            text: e.currentTarget.dataset.path,
+            title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.title}</strong>`,
             showCancelButton: true,
             confirmButtonText: `<i class="fas fa-trash"></i>`,
             cancelButtonText: `<i class="fas fa-times"></i>`,
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             let cancel = true
             if (result.isConfirmed) {
-                //swalWithBootstrapButtons.fire('Saved!', '', 'success')
+                $.post("/ajax/serverCenterFilebrowser", {
+                    server      : vars.cfg,
+                    path        : e.currentTarget.dataset.path,
+                    remove      : true
+                })
+                   .done((data) => {
+                       try {
+                           let success = JSON.parse(data).success
+                           swalWithBootstrapButtons.fire(
+                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                              success ? 'success' : 'error'
+                           )
+                           $(e.currentTarget.dataset.tohome === "no" ? '#FB_reload' : '#FB_tohome').click()
+                       }
+                       catch (e) {
+                           console.log(e)
+                           swalWithBootstrapButtons.fire(
+                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                              'error'
+                           )
+                       }
+                   })
+                   .fail(() => {
+                       swalWithBootstrapButtons.fire(
+                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                          'error'
+                       )
+                   })
                 cancel = false
             }
             if(cancel) swalWithBootstrapButtons.fire(
-               'Cancelled',
-               'Your imaginary file is safe :)',
+               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_title,
+               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
                'error'
             )
         })

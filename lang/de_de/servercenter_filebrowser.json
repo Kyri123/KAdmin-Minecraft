@@ -2,13 +2,24 @@
   "noFileFound"   : "Keine Dateien gefunden",
   "noDirFound"    : "Keine Ordner gefunden",
   "options"       : {
+    "actions"       : "Aktionen",
     "remove"        : "Entfernen",
     "edit"          : "Bearbeiten",
     "rename"        : "Umbenennen",
     "exec"          : "Ausführen",
     "move"          : "Verschieben",
     "show"          : "Ansehen",
-    "download"      : "Ansehen",
+    "download"      : "Runterladen",
     "info"          : "Informationen"
+  },
+  "sweet"         : {
+    "remove"        : {
+      "title"         : "Möchtest du diesen Pfad wirklich entfernen?",
+      "cancel_title"  : "Abgebrochen!",
+      "error_title"   : "Fehlgeschlagen!",
+      "success_title" : "Erfolgreich!",
+      "cancel_text"   : "Der Pfad wurde nicht entfernt",
+      "success_text"  : "Der Pfad wurde erfolgreich entfernt"
+    }
   }
 }
