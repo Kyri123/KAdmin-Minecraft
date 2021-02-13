@@ -33,7 +33,7 @@ setInterval(() => {
 
                 if(hasPermissions(globalvars.perm, "show", val[0])) list +=    `    <div class="col-lg-6 col-xl-6" id="${val[0]}">
                     <div class="card card-widget widget-user  item-box">
-                        <div class="card bg-dark card-widget widget-user mb-0">
+                        <div class="rounded-0 card bg-dark card-widget widget-user mb-0">
                             <div class="row p-2" title="${val[1].selfname}">
                                 <div class="col-12 text-center">
                                     <h5 class="text-center left d-inline pt-3 pl-0 m-0">
@@ -43,7 +43,7 @@ setInterval(() => {
             
                             </div>
                         </div>
-                        <div class="widget-user-header text-white" style="background: url('/img/backgrounds/sc.jpg') center center;">
+                        <div class="rounded-0 widget-user-header text-white" style="background: url('/img/backgrounds/sc.jpg') center center;">
                             <!--<h5 title="" class="widget-user-desc text-bold text-center border" style="background-color: rgb(66 66 66 / 58%)!important;">
                                 <a href="/cluster#4c51f09bf0330d03047f8bc634290fc8" class="text-light"></a>
                             </h5>-->
@@ -51,11 +51,11 @@ setInterval(() => {
                         <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img src="${val[1].icon}" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
                         
                         <div class="d-flex bd-highlight">
-                            <div class="p-0 flex-fill bd-highlight">
-                                <a href="/servercenter/${val[0]}" style="width: 100%" class="btn btn-dark"><i class="fas fa-server" aria-hidden="true"></i></a>
+                            <div class="rounded-0 p-0 flex-fill bd-highlight">
+                                <a href="/servercenter/${val[0]}" style="width: 100%" class="rounded-0 btn btn-dark"><i class="fas fa-server" aria-hidden="true"></i></a>
                             </div>
-                            <div class="p-0 flex-fill bd-highlight">
-                                <a style="width: 100%" class="text-white btn btn-danger${hasPermissions(globalvars.perm, "servercontrolcenter/delete", val[0]) ? `" data-toggle="modal" data-target="#remove${val[0]}"` : ' disabled"'}><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            <div class="rounded-0 p-0 flex-fill bd-highlight">
+                                <a style="width: 100%" class="rounded-0 text-white btn btn-danger${hasPermissions(globalvars.perm, "servercontrolcenter/delete", val[0]) ? `" data-toggle="modal" data-target="#remove${val[0]}"` : ' disabled"'}><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             </div>
                         </div>
                         

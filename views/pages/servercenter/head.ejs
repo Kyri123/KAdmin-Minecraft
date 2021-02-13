@@ -13,19 +13,19 @@
             </div>
             <div class="d-flex bd-highlight">
                 <div class="p-0 flex-fill bd-highlight">
-                    <button style="width: 100%" class="btn btn-dark" onclick="copyToClipboard('info')" id="btnCopy"><i class="fas fa-copy" aria-hidden="true"></i></button>
+                    <button style="width: 100%" class="rounded-0 btn btn-dark" onclick="copyToClipboard('info')" id="btnCopy"><i class="fas fa-copy" aria-hidden="true"></i></button>
                 </div>
 
                 <% if(userHelper.hasPermissions(user.id, "showalerts", serverName)) { %>
                     <div class="p-0 flex-fill bd-highlight">
-                        <a style="width: 100%" data-toggle="modal" data-target="#alert" href="#" class="text-white btn btn-info">
+                        <a style="width: 100%" data-toggle="modal" data-target="#alert" href="#" class="rounded-0 text-white btn btn-info">
                             <i class="fa fa-info" aria-hidden="true"></i>
                             <span class="pl-1 text-bold" id="infoCounter">0</span>
                         </a>
                     </div>
                 <% } else { %>
                     <div class="p-0 flex-fill bd-highlight">
-                        <a style="width: 100%" href="#" class="text-white btn btn-dark">&nbsp;</a>
+                        <a style="width: 100%" href="#" class="rounded-0 text-white btn btn-dark">&nbsp;</a>
                     </div>
                 <% } %>
             </div>

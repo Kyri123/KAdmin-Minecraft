@@ -116,8 +116,8 @@ module.exports = {
             if(module.exports.checkValidatePath(filePath) === true) {
                 // Datei Speichern
                 try {
-                    if(fs.existsSync(filePath)) fs.mkdirSync(filePath, {recursive: true})
-                    return true
+                    fs.mkdirSync(filePath, {recursive: true})
+                    return fs.existsSync(filePath)
                 }
                 catch (e) {
                     if(debug) console.log(e)

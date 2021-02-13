@@ -1,4 +1,14 @@
 {
   "noFileFound"   : "Keine Dateien gefunden",
-  "noDirFound"    : "Keine Ordner gefunden"
+  "noDirFound"    : "Keine Ordner gefunden",
+  "options"       : {
+    "remove"        : "Entfernen",
+    "edit"          : "Bearbeiten",
+    "rename"        : "Umbenennen",
+    "exec"          : "Ausführen",
+    "move"          : "Verschieben",
+    "show"          : "Ansehen",
+    "download"      : "Ansehen",
+    "info"          : "Informationen"
+  }
 }
