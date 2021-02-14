@@ -20,10 +20,9 @@
   },
   "filebrowser": {
     "show"                  : 0,
-    "remove"                : 0,
-    "upload"                : 0,
     "removeFolder"          : 0,
     "createFolder"          : 0,
+    "moveFolder"            : 0,
     "removeFiles"           : 0,
     "execFiles"             : 0,
     "editFiles"             : 0,

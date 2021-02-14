@@ -43,11 +43,12 @@ function getPath(path) {
                 // leere Dir list und letzte Ordner
                 let pathSplit   = path.split("/")
                 $('#FB_currDir')        .html(pathSplit[(pathSplit.length - 1)])
-                $('#FB_totalDir')       .html(`<i class="fas fa-folder-open" aria-hidden="true"></i> ${path.replace(vars.defaultPath, "") === "" ? "/" : path.replace(vars.defaultPath, "")}`)
+                $('#FB_totalDir')       .html(`<i class="fas fa-folder-open" aria-hidden="true"></i> ${path.replace(vars.defaultPath, "") === "" ? `/` : path.replace(vars.defaultPath, "")}`)
                 $('#FB_reload')         .attr("data-path", path).data("path", path)
                 $('#FB_removeFolderIn') .attr("data-path", path).data("path", path)
                 $('#FB_removeFolder')   .attr("data-path", path).data("path", path)
                 $('#FB_addFolder')      .attr("data-path", path).data("path", path)
+                $('#FB_move')           .attr("data-path", path).data("path", path)
 
                 let listDir     = []
                 let list        = []
