@@ -5,11 +5,10 @@
     "userpanel"               : "Benutzer",
     "server"                  : "Server Rechte",
     "home"                    : "Startseite",
-    "mods"                    : "Modifikationen",
     "config"                  : "Konfiguration",
     "backups"                 : "Backups",
-    "api"                     : "ArkAPI",
-    "logs"                    : "Logs"
+    "logs"                    : "Logs",
+    "filebrowser"             : "Filebrowser"
   },
   "perm": {
     "is_admin"                : "Ist Admin (Hat Rechte auf alles)",
