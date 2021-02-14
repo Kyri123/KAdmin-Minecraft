@@ -101,6 +101,11 @@ router.route('/')
             })
             return true
         }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
     .get((req,res)=>{
@@ -112,10 +117,17 @@ router.route('/')
         if(!userHelper.hasPermissions(sess.uid, "all/is_admin")) return true
 
         // Userlist
-        if(GET.getgrouplist) res.render('ajax/json', {
-            data: JSON.stringify({
-                grouplist: globalUtil.safeSendSQLSync('SELECT * FROM user_group')
+        if(GET.getgrouplist) {
+            res.render('ajax/json', {
+                data: JSON.stringify({
+                    grouplist: globalUtil.safeSendSQLSync('SELECT * FROM user_group')
+                })
             })
+            return true
+        }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
         })
         return true
     })

@@ -32,7 +32,10 @@ router.route('/')
          return true
       }
 
-      return false
+      res.render('ajax/json', {
+         data: `{"request":"failed"}`
+      })
+      return true
    })
 
    .get((req,res)=>{
@@ -50,7 +53,10 @@ router.route('/')
          return true
       }
 
-      return false
+      res.render('ajax/json', {
+         data: `{"request":"failed"}`
+      })
+      return true
    })
 
 module.exports = router;

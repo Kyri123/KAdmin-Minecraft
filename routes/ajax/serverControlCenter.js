@@ -112,6 +112,11 @@ router.route('/')
                 return true
             }
         }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
     .get((req,res)=>{
@@ -121,10 +126,9 @@ router.route('/')
         // Wenn keine Rechte zum abruf
         if(!userHelper.hasPermissions(req.session.uid, "servercontrolcenter/show")) return true
 
+
         res.render('ajax/json', {
-            data: JSON.stringify({
-                done: false
-            })
+            data: `{"request":"failed"}`
         })
         return true
     })
