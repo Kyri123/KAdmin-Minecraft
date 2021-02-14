@@ -50,6 +50,7 @@ function getPath(path) {
                 $('#FB_addFolder')      .attr("data-path", path).data("path", path)
                 $('#FB_move')           .attr("data-path", path).data("path", path)
 
+
                 let listDir     = []
                 let list        = []
 
@@ -181,7 +182,7 @@ function reloadClickEvents() {
             text: e.currentTarget.dataset.path,
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.title}</strong>`,
             showCancelButton: true,
-            confirmButtonText: `<i class="fas fa-trash"></i>`,
+            confirmButtonText: `<i class="far fa-trash-alt"></i>`,
             cancelButtonText: `<i class="fas fa-times"></i>`,
         }).then((result) => {
             let cancel = true
@@ -229,13 +230,11 @@ function reloadClickEvents() {
 
     // Entfernen von Unterordnern
     $('#FB_removeFolderIn').click((e) => {
-        console.log(dirArray)
-        console.log(e)
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
             icon: 'info',
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.titleArray}</strong>`,
             showCancelButton: true,
-            confirmButtonText: `<i class="fas fa-trash"></i>`,
+            confirmButtonText: `<i class="far fa-trash-alt"></i>`,
             cancelButtonText: `<i class="fas fa-times"></i>`,
             input: 'select',
             inputOptions: dirArray
@@ -278,6 +277,65 @@ function reloadClickEvents() {
             if(cancel) swalWithBootstrapButtons.fire(
                globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_title,
                globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+               'error'
+            )
+        })
+    })
+
+    // Create File
+    $('#FB_addFolder').click((e) => {
+        if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
+            icon: 'info',
+            title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="fas fa-save"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+            input: 'text',
+            inputValidator: (value) => {
+                let re = /^([a-zA-Z0-9][^*/><?\|:\s]*)$/
+
+                if (!value || !re.test(value))
+                    return globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.invalide
+            }
+        }).then((result) => {
+            let cancel = true
+            if (result.isConfirmed) {
+                $.post("/ajax/serverCenterFilebrowser", {
+                    server      : vars.cfg,
+                    path        : `${e.currentTarget.dataset.path}/${result.value}`,
+                    MKDir       : true
+                })
+                   .done((data) => {
+                       try {
+                           let success = JSON.parse(data).success
+                           swalWithBootstrapButtons.fire(
+                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                              success ? 'success' : 'error'
+                           )
+                           $('#FB_reload').click()
+                       }
+                       catch (e) {
+                           console.log(e)
+                           swalWithBootstrapButtons.fire(
+                              globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.error_title,
+                              globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
+                              'error'
+                           )
+                       }
+                   })
+                   .fail(() => {
+                       swalWithBootstrapButtons.fire(
+                          globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.error_title,
+                          globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
+                          'error'
+                       )
+                   })
+                cancel = false
+            }
+            if(cancel) swalWithBootstrapButtons.fire(
+               globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_title,
+               globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
                'error'
             )
         })

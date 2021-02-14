@@ -21,6 +21,15 @@
       "success_title" : "Erfolgreich!",
       "cancel_text"   : "Der Pfad wurde nicht entfernt",
       "success_text"  : "Der Pfad wurde erfolgreich entfernt"
+    },
+    "mkdir"        : {
+      "title"         : "Wie soll der Ordner heißen den du Erstellen willst?",
+      "invalide"      : "Überprüfe deinen Ordnernamen!",
+      "cancel_title"  : "Abgebrochen!",
+      "error_title"   : "Fehlgeschlagen!",
+      "success_title" : "Erfolgreich!",
+      "cancel_text"   : "Der Pfad wurde nicht erstellt",
+      "success_text"  : "Der Pfad wurde erfolgreich erstellt"
     }
   }
 }

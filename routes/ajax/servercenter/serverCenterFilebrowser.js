@@ -37,6 +37,28 @@ router.route('/')
          if(debug) console.log(e)
       }
 
+      // MKDir
+      try {
+         if(
+            typeof POST.server    !== "undefined" &&
+            typeof POST.path      !== "undefined" &&
+            typeof POST.MKDir     !== "undefined"
+         ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/createFolder`, POST.server)) {
+            let serverData  = new serverClass(POST.server)
+            res.render('ajax/json', {
+               data: JSON.stringify({
+                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getINI().path
+                     ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
+                     : false
+               })
+            })
+            return true
+         }
+      }
+      catch (e) {
+         if(debug) console.log(e)
+      }
+
       res.render('ajax/json', {
          data: `{"request":"failed"}`
       })

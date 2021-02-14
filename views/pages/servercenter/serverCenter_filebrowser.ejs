@@ -24,7 +24,7 @@
                         <div class="d-flex">
                             <div class="btn-group">
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/createFolder", serverName)) { %>
-                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
                                 <% } %>
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/uploadFiles", serverName)) { %>
                                     <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_upload" data-path="<%- defaultPath %>"><i class="fas fa-file-upload"></i></a>
