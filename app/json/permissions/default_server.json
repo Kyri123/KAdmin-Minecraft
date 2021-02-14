@@ -24,7 +24,13 @@
     "upload"                : 0,
     "removeFolder"          : 0,
     "createFolder"          : 0,
-    "exec"                  : 0,
-    "editFiles"             : 0
+    "removeFiles"           : 0,
+    "execFiles"             : 0,
+    "editFiles"             : 0,
+    "downloadFiles"         : 0,
+    "uploadFiles"           : 0,
+    "renameFiles"           : 0,
+    "moveFiles"             : 0,
+    "showFiles"             : 0
   }
 }

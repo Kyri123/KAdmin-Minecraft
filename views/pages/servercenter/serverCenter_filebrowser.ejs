@@ -23,14 +23,20 @@
                     <div class="col-12 bg-dark p-2">
                         <div class="d-flex">
                             <div class="btn-group">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger disabled" id="FB_removeFolderIn" data-path="<%- defaultPath %>"><i class="fas fa-folder-minus"></i></a>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" id="FB_removeFolder" data-path="<%- defaultPath %>"><i class="far fa-trash-alt"></i></a>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_upload" data-path="<%- defaultPath %>"><i class="fas fa-file-upload"></i></a>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-info disabled" id="FB_infoFolder"><i class="fas fa-info-circle" aria-hidden="true"></i></a>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/createFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
+                                <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/uploadFiles", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_upload" data-path="<%- defaultPath %>"><i class="fas fa-file-upload"></i></a>
+                                <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/removeFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" id="FB_removeFolder" data-path="<%- defaultPath %>"><i class="far fa-trash-alt"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger disabled" id="FB_removeFolderIn" data-path="<%- defaultPath %>"><i class="fas fa-folder-minus"></i></a>
+                                <% } %>
+                                <!--<a href="javascript:void(0)" class="btn btn-sm btn-outline-info disabled" id="FB_infoFolder"><i class="fas fa-info-circle" aria-hidden="true"></i></a>-->
                             </div>
                             <div class="btn-group btn-group-sm ml-auto">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled"><i class="fa fa-folder-open" aria-hidden="true"></i></a>
+                                <!--<a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled"><i class="fa fa-folder-open" aria-hidden="true"></i></a>-->
                                 <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_tohome" data-path="<%- defaultPath %>"><i class="fa fa-home" aria-hidden="true"></i></a>
                                 <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_reload" data-tohome="yes" data-path="<%- defaultPath %>"><i class="fa fa-refresh" aria-hidden="true"></i></a>
                             </div>

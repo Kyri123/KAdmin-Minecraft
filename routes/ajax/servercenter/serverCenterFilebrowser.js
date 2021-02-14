@@ -16,20 +16,25 @@ router.route('/')
       let POST        = req.body
 
       // Löschen
-      if(
-         typeof POST.server    !== "undefined" &&
-         typeof POST.path      !== "undefined" &&
-         typeof POST.remove    !== "undefined"
-      ) if(userHelper.hasPermissions(req.session.uid,"filebrowser/show", POST.server)) {
-         let serverData  = new serverClass(POST.server)
-         res.render('ajax/json', {
-            data: JSON.stringify({
-               "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getINI().path
-                  ? globalUtil.safeFileRmSync([POST.path])
-                  : false
+      try {
+         if(
+            typeof POST.server    !== "undefined" &&
+            typeof POST.path      !== "undefined" &&
+            typeof POST.remove    !== "undefined"
+         ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/${fs.lstatSync(pathMod.join(GET.path)).isDirectory() ? "removeFolder" : "removeFiles"}`, POST.server)) {
+            let serverData  = new serverClass(POST.server)
+            res.render('ajax/json', {
+               data: JSON.stringify({
+                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getINI().path
+                     ? globalUtil.safeFileRmSync([POST.path])
+                     : false
+               })
             })
-         })
-         return true
+            return true
+         }
+      }
+      catch (e) {
+         if(debug) console.log(e)
       }
 
       res.render('ajax/json', {
@@ -46,7 +51,7 @@ router.route('/')
          typeof GET.getList  !== "undefined" &&
          typeof GET.server   !== "undefined" &&
          typeof GET.path     !== "undefined"
-      ) if(userHelper.hasPermissions(req.session.uid,"filebrowser/show", GET.server)) {
+      ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/show`, GET.server)) {
          res.render('ajax/json', {
             data: pathMod.join(GET.path).includes(GET.server) ? JSON.stringify(globalUtil.safeFileReadDirSync([GET.path])) : false
          })

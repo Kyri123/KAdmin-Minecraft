@@ -109,15 +109,29 @@ function getPath(path) {
                                     ${globalvars.lang_arr["servercenter_filebrowser"].options.actions}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>
-                                    <a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-arrows-alt"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.move}</a>
-                                    <a class="dropdown-item" href="${file.totalPath.replace(vars.defaultPath, `/serv/${vars.cfg}`)}" download=""><i class="fas fa-file-download"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.download}</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-info disabled" href="javascript:void(0)"><i class="fas fa-info-circle"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.info}</a>
-                                    <a class="dropdown-item text-danger" href="javascript:void(0)" data-acceptDel="use" data-tohome="no" data-path="${file.totalPath}"><i class="far fa-trash-alt" data-path="${file.totalPath}"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.remove}</a>
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/execFiles", vars.cfg) && (file.FileExt.includes(".sh") || file.FileExt.includes(".jar"))
+                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>` : ""
+                                    }
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && (file.FileExt.includes(".log") || file.FileExt.includes(".properties") || file.FileExt.includes(".xml") || file.FileExt.includes(".cfg") || file.FileExt.includes(".txt"))
+                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
+                                    }
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && (file.FileExt.includes(".log") || file.FileExt.includes(".properties") || file.FileExt.includes(".xml") || file.FileExt.includes(".cfg") || file.FileExt.includes(".txt"))
+                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
+                                    }
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/renameFiles", vars.cfg)
+                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>` : ""
+                                    }
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/moveFiles", vars.cfg)
+                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-arrows-alt"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.move}</a>` : ""
+                                    }
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/downloadFiles", vars.cfg)
+                                       ? `<a class="dropdown-item" href="${file.totalPath.replace(vars.defaultPath, `/serv/${vars.cfg}`)}" download=""><i class="fas fa-file-download"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.download}</a>` : ""
+                                    }
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/removeFiles", vars.cfg)
+                                       ? `    <div class="dropdown-divider"></div>
+                                              <a class="dropdown-item text-danger" href="javascript:void(0)" data-acceptDel="use" data-tohome="no" data-path="${file.totalPath}"><i class="far fa-trash-alt" data-path="${file.totalPath}"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.remove}</a>` : ""
+                                    }
+                                    <!--<a class="dropdown-item text-info disabled" href="javascript:void(0)"><i class="fas fa-info-circle"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.info}</a>-->
                                 </div>
                             </div>
                         </div>
