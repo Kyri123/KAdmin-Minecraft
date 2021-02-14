@@ -15,6 +15,7 @@
   "sweet"         : {
     "remove"        : {
       "title"         : "Möchtest du diesen Pfad wirklich entfernen?",
+      "titleArray"    : "Welchen Ordner möchtest du löschen?",
       "cancel_title"  : "Abgebrochen!",
       "error_title"   : "Fehlgeschlagen!",
       "success_title" : "Erfolgreich!",

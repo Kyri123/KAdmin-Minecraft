@@ -151,7 +151,7 @@ function getPath(path) {
                                     </div>
                                 </div>
                             </button>`)
-                        dirArray[file.name] = file.totalPath
+                        dirArray[file.totalPath] = `${file.name} (${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"})`
                     }
                 }
 
@@ -176,7 +176,6 @@ function getPath(path) {
 function reloadClickEvents() {
     // Entfernen von Dateien
     $('*[data-acceptDel="use"],#FB_removeFolder').click((e) => {
-        console.log(e)
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
             icon: 'info',
             text: e.currentTarget.dataset.path,
@@ -201,6 +200,62 @@ function reloadClickEvents() {
                               success ? 'success' : 'error'
                            )
                            $(e.currentTarget.dataset.tohome === "no" ? '#FB_reload' : '#FB_tohome').click()
+                       }
+                       catch (e) {
+                           console.log(e)
+                           swalWithBootstrapButtons.fire(
+                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                              'error'
+                           )
+                       }
+                   })
+                   .fail(() => {
+                       swalWithBootstrapButtons.fire(
+                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                          'error'
+                       )
+                   })
+                cancel = false
+            }
+            if(cancel) swalWithBootstrapButtons.fire(
+               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_title,
+               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+               'error'
+            )
+        })
+    })
+
+    // Entfernen von Unterordnern
+    $('#FB_removeFolderIn').click((e) => {
+        console.log(dirArray)
+        console.log(e)
+        if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
+            icon: 'info',
+            title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.titleArray}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="fas fa-trash"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+            input: 'select',
+            inputOptions: dirArray
+        }).then((result) => {
+            let cancel = true
+            if (result.isConfirmed) {
+                $.post("/ajax/serverCenterFilebrowser", {
+                    server      : vars.cfg,
+                    path        : result.value,
+                    remove      : true
+                })
+                   .done((data) => {
+                       try {
+                           let success = JSON.parse(data).success
+                           swalWithBootstrapButtons.fire(
+                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
+                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
+                              success ? 'success' : 'error'
+                           )
+                           $('#FB_reload').click()
                        }
                        catch (e) {
                            console.log(e)
