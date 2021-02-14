@@ -21,7 +21,7 @@ router.route('/')
          typeof POST.path      !== "undefined" &&
          typeof POST.remove    !== "undefined"
       ) if(userHelper.hasPermissions(req.session.uid,"filebrowser/show", POST.server)) {
-         let serverData  = new serverClass(POST.cfg)
+         let serverData  = new serverClass(POST.server)
          res.render('ajax/json', {
             data: JSON.stringify({
                "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getINI().path

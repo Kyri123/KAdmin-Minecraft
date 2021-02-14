@@ -60,7 +60,7 @@ function getPath(path) {
 
                 // sotiere nach Ordner & Größe
                 fileArr.sort((a, b) => {
-                    return a.isFile - b.isFile || a.sizebit - b.sizebit
+                    return a.isFile - b.isFile || b.sizebit - a.sizebit
                 })
 
                 for(let file of fileArr) {
@@ -124,7 +124,18 @@ function getPath(path) {
                     </div>
                     `)
                     if(file.isDir) {
-                        listDir.push(`<button type="button" onClick="getPath('${file.totalPath}')" class="p-1 pl-4 pr-3 list-group-item list-group-item-action"><i class="fas fa-folder" aria-hidden="true"></i> ${file.name}</button>`)
+                        listDir.push(`
+                            <button type="button" onClick="getPath('${file.totalPath}')" class="p-0 pl-4 pr-1 list-group-item list-group-item-action">
+                                <div class="d-flex">
+                                    <div class="pt-1 pb-1">
+                                        <i class="fas fa-folder" aria-hidden="true"></i> 
+                                        ${file.name}
+                                    </div>
+                                    <div class="pt-1 pb-1 ml-auto">
+                                        <span class="text-sm"><b>${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"}</b></span>
+                                    </div>
+                                </div>
+                            </button>`)
                         dirArray[file.name] = file.totalPath
                     }
                 }
