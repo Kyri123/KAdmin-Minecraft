@@ -21,7 +21,7 @@ router.route('/')
             typeof POST.server    !== "undefined" &&
             typeof POST.path      !== "undefined" &&
             typeof POST.remove    !== "undefined"
-         ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/${fs.lstatSync(pathMod.join(GET.path)).isDirectory() ? "removeFolder" : "removeFiles"}`, POST.server)) {
+         ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/${fs.lstatSync(pathMod.join(POST.path)).isDirectory() ? "removeFolder" : "removeFiles"}`, POST.server)) {
             let serverData  = new serverClass(POST.server)
             res.render('ajax/json', {
                data: JSON.stringify({
