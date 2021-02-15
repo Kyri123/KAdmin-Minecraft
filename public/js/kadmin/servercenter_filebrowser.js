@@ -15,6 +15,21 @@ let dirArray        = {}
 filesFrontend.html(loading("FB"))
 dirFrontend.html(loading("FB"))
 
+let dirlist = []
+setInterval(() => {
+    $.get("/ajax/serverCenterFilebrowser", {
+        getDirList  : true,
+        server      : vars.cfg
+    }, (files) => {
+        dirlist = JSON.parse(files)
+        if(dirlist.length !== $('#quicklist option').length) {
+            $('#quicklist').html("")
+            for(let item of dirlist)
+                $('#quicklist').append(`<option value="${item}">${item}</option>`)
+        }
+    })
+}, 2000)
+
 getPath(vars.defaultPath)
 
 /**
@@ -26,6 +41,8 @@ function getPath(path) {
     dirArray        = {}
 
     $('#FB_removeFolder').toggle(path !== vars.defaultPath)
+    $('#FB_addFolder').toggle(path !== vars.defaultPath)
+    $('#FB_renameFolder').toggle(path !== vars.defaultPath)
 
     let pathbefore  = path.split("/")
     pathbefore.pop()
@@ -49,6 +66,7 @@ function getPath(path) {
                 $('#FB_removeFolder')   .attr("data-path", path).data("path", path)
                 $('#FB_addFolder')      .attr("data-path", path).data("path", path)
                 $('#FB_move')           .attr("data-path", path).data("path", path)
+                $('#FB_renameFolder')   .attr("data-path", path).data("path", path)
 
 
                 let listDir     = []

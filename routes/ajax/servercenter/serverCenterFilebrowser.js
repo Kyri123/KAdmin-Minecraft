@@ -25,7 +25,7 @@ router.route('/')
             let serverData  = new serverClass(POST.server)
             res.render('ajax/json', {
                data: JSON.stringify({
-                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getINI().path
+                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
                      ? globalUtil.safeFileRmSync([POST.path])
                      : false
                })
@@ -47,7 +47,68 @@ router.route('/')
             let serverData  = new serverClass(POST.server)
             res.render('ajax/json', {
                data: JSON.stringify({
-                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getINI().path
+                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
+                     ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
+                     : false
+               })
+            })
+            return true
+         }
+      }
+      catch (e) {
+         if(debug) console.log(e)
+      }
+
+      // Move
+      try {
+         if(
+            typeof POST.server    !== "undefined" &&
+            typeof POST.oldPath   !== "undefined" &&
+            typeof POST.newPath   !== "undefined" &&
+            typeof POST.action    !== "undefined" &&
+            typeof POST.MKDir     !== "undefined"
+         ) if(
+            (
+               userHelper.hasPermissions(req.session.uid,`filebrowser/renameFolder`, POST.server) ||
+               userHelper.hasPermissions(req.session.uid,`filebrowser/moveFolder`, POST.server)
+            ) && (
+               POST.action === "move" ||
+               POST.action === "rename"
+            )
+         ) {
+            let isRename   = POST.oldPath.split("/").pop() !== POST.newPath.split("/").pop()
+            let hasPerm    = isRename
+               ? userHelper.hasPermissions(req.session.uid,`filebrowser/renameFolder`, POST.server)
+               : userHelper.hasPermissions(req.session.uid,`filebrowser/moveFolder`, POST.server)
+
+            if(hasPerm) {
+               let serverData  = new serverClass(POST.server)
+               res.render('ajax/json', {
+                  data: JSON.stringify({
+                     "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
+                        ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
+                        : false
+                  })
+               })
+               return true
+            }
+         }
+      }
+      catch (e) {
+         if(debug) console.log(e)
+      }
+
+      // MKDir
+      try {
+         if(
+            typeof POST.server    !== "undefined" &&
+            typeof POST.path      !== "undefined" &&
+            typeof POST.MKDir     !== "undefined"
+         ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/createFolder`, POST.server)) {
+            let serverData  = new serverClass(POST.server)
+            res.render('ajax/json', {
+               data: JSON.stringify({
+                  "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
                      ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
                      : false
                })
@@ -76,6 +137,18 @@ router.route('/')
       ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/show`, GET.server)) {
          res.render('ajax/json', {
             data: pathMod.join(GET.path).includes(GET.server) ? JSON.stringify(globalUtil.safeFileReadDirSync([GET.path])) : false
+         })
+         return true
+      }
+
+      // Ordnerrecliste
+      if(
+         typeof GET.getDirList   !== "undefined" &&
+         typeof GET.server       !== "undefined"
+      ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/show`, GET.server)) {
+         let serverData  = new serverClass(GET.server)
+         res.render('ajax/json', {
+            data: JSON.stringify(globalUtil.safeFileReadAllDirsWithoutFilesSync([serverData.getConfig().path]))
          })
          return true
       }

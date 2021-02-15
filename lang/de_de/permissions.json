@@ -37,6 +37,7 @@
     "showalerts"              : "Darf Meldungen sehen",
     "removeFolder"            : "Darf Ordner löschen",
     "createFolder"            : "Darf Ordner erstellen",
+    "renameFolder"            : "Darf Ordner umbennnen",
     "moveFolder"              : "Darf Ordner verschieben",
     "removeFiles"             : "Darf Dateien löschen",
     "execFiles"               : "Darf Dateien ausführen",

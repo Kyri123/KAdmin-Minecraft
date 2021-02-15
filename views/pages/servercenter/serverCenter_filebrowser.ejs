@@ -26,6 +26,9 @@
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/createFolder", serverName)) { %>
                                     <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
                                 <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/renameFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_renameFolder" data-path="<%- defaultPath %>"><i class="fas fa-file-signature"></i></a>
+                                <% } %>
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/uploadFiles", serverName)) { %>
                                     <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_upload" data-path="<%- defaultPath %>"><i class="fas fa-file-upload"></i></a>
                                 <% } %>
@@ -40,6 +43,9 @@
                             </div>
                             <div class="btn-group btn-group-sm ml-auto">
                                 <!--<a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled"><i class="fa fa-folder-open" aria-hidden="true"></i></a>-->
+                                <select id="quicklist" class="form-control-sm btn btn-outline-light bg-dark" onchange="getPath(this.value)" style="max-width: 100px">
+                                    <option value="">Loading...</option>
+                                </select>
                                 <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_tohome" data-path="<%- defaultPath %>"><i class="fa fa-home" aria-hidden="true"></i></a>
                                 <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_reload" data-tohome="yes" data-path="<%- defaultPath %>"><i class="fa fa-refresh" aria-hidden="true"></i></a>
                             </div>

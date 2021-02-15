@@ -23,6 +23,7 @@
     "removeFolder"          : 0,
     "createFolder"          : 0,
     "moveFolder"            : 0,
+    "renameFolder"          : 0,
     "removeFiles"           : 0,
     "execFiles"             : 0,
     "editFiles"             : 0,
