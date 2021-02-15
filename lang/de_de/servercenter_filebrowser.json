@@ -30,6 +30,22 @@
       "success_title" : "Erfolgreich!",
       "cancel_text"   : "Der Pfad wurde nicht erstellt",
       "success_text"  : "Der Pfad wurde erfolgreich erstellt"
+    },
+    "move"        : {
+      "title"         : "Wohin soll der Ordner oder die Datei verschoben werden?",
+      "cancel_title"  : "Abgebrochen!",
+      "error_title"   : "Fehlgeschlagen!",
+      "success_title" : "Erfolgreich!",
+      "cancel_text"   : "Ordner oder Datei nicht verschoben!",
+      "success_text"  : "Ordner oder Datei wurde verschoben"
+    },
+    "rename"        : {
+      "title"         : "Wie soll die Datei oder der Ordner heißen?",
+      "cancel_title"  : "Abgebrochen!",
+      "error_title"   : "Fehlgeschlagen!",
+      "success_title" : "Erfolgreich!",
+      "cancel_text"   : "Ordner oder Datei nicht Umbenannt!",
+      "success_text"  : "Ordner oder Datei wurde Umbenannt"
     }
   }
 }

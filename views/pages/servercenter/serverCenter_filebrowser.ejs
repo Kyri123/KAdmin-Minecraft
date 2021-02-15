@@ -27,13 +27,13 @@
                                     <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
                                 <% } %>
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/renameFolder", serverName)) { %>
-                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_renameFolder" data-path="<%- defaultPath %>"><i class="fas fa-file-signature"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_renameFolder" data-isfile="no" data-path="<%- defaultPath %>"><i class="fas fa-file-signature"></i></a>
                                 <% } %>
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/uploadFiles", serverName)) { %>
                                     <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_upload" data-path="<%- defaultPath %>"><i class="fas fa-file-upload"></i></a>
                                 <% } %>
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/moveFolder", serverName)) { %>
-                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled" id="FB_move" data-path="<%- defaultPath %>"><i class="fas fa-arrows-alt"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_moveFolder" data-isfile="no" data-path="<%- defaultPath %>"><i class="fas fa-arrows-alt"></i></a>
                                 <% } %>
                                 <% if(userHelper.hasPermissions(userID, "filebrowser/removeFolder", serverName)) { %>
                                     <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" id="FB_removeFolder" data-path="<%- defaultPath %>"><i class="far fa-trash-alt"></i></a>

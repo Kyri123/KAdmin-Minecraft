@@ -59,14 +59,15 @@ router.route('/')
          if(debug) console.log(e)
       }
 
-      // Move
+      // Move & rename
       try {
          if(
-            typeof POST.server    !== "undefined" &&
-            typeof POST.oldPath   !== "undefined" &&
-            typeof POST.newPath   !== "undefined" &&
-            typeof POST.action    !== "undefined" &&
-            typeof POST.MKDir     !== "undefined"
+            typeof POST.server         !== "undefined" &&
+            typeof POST.oldPath        !== "undefined" &&
+            typeof POST.newPath        !== "undefined" &&
+            typeof POST.action         !== "undefined" &&
+            typeof POST.isFile         !== "undefined" &&
+            typeof POST.moveandrename  !== "undefined"
          ) if(
             (
                userHelper.hasPermissions(req.session.uid,`filebrowser/renameFolder`, POST.server) ||
@@ -76,18 +77,40 @@ router.route('/')
                POST.action === "rename"
             )
          ) {
-            let isRename   = POST.oldPath.split("/").pop() !== POST.newPath.split("/").pop()
-            let hasPerm    = isRename
+            let newTotalPath  = POST.newPath.split("/")
+            let isRename      = POST.oldPath.split("/").pop() !== newTotalPath.pop() || POST.action === "rename"
+
+            let hasPerm       = isRename
                ? userHelper.hasPermissions(req.session.uid,`filebrowser/renameFolder`, POST.server)
                : userHelper.hasPermissions(req.session.uid,`filebrowser/moveFolder`, POST.server)
 
+
             if(hasPerm) {
-               let serverData  = new serverClass(POST.server)
+               let validateNew
+               let success
+
+               if(POST.isFile) {
+                  validateNew = isRename
+                     ? fs.existsSync(pathMod.join(POST.oldPath)) && !fs.existsSync(pathMod.join(POST.newPath))
+                     : fs.existsSync(pathMod.join(POST.oldPath)) && !fs.existsSync(pathMod.join(POST.newPath))
+                  success     = pathMod.join(POST.oldPath).includes(POST.server) && pathMod.join(POST.newPath).includes(POST.server)
+                     ? validateNew
+                        ? globalUtil.safeFileRenameSync([POST.oldPath], [POST.newPath])
+                        : false
+                     : false
+               }
+               else {
+                  validateNew = fs.existsSync(pathMod.join(POST.oldPath)) && !fs.existsSync(pathMod.join(POST.newPath))
+                  success  = pathMod.join(POST.oldPath).includes(POST.server) && pathMod.join(POST.newPath).includes(POST.server)
+                     ? validateNew
+                        ? globalUtil.safeFileRenameSync([POST.oldPath], [POST.newPath])
+                        : false
+                     : false
+               }
+
                res.render('ajax/json', {
                   data: JSON.stringify({
-                     "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
-                        ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
-                        : false
+                     "success": success
                   })
                })
                return true
