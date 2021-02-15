@@ -137,13 +137,13 @@ function getPath(path) {
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     ${ hasPermissions(globalvars.perm, "filebrowser/execFiles", vars.cfg) && (file.FileExt.includes(".sh") || file.FileExt.includes(".jar"))
-                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>` : ""
+                                       ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && (file.FileExt.includes(".log") || file.FileExt.includes(".properties") || file.FileExt.includes(".xml") || file.FileExt.includes(".cfg") || file.FileExt.includes(".txt") || file.FileExt.includes(".json"))
-                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
+                                       ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && (file.FileExt.includes(".log") || file.FileExt.includes(".properties") || file.FileExt.includes(".xml") || file.FileExt.includes(".cfg") || file.FileExt.includes(".txt") || file.FileExt.includes(".json"))
-                                       ? `<a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
+                                       ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/renameFiles", vars.cfg)
                                        ? `<a class="dropdown-item" href="javascript:void(0)" data-rename="use" data-isfile="yes" data-path="${file.totalPath}"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>` : ""
