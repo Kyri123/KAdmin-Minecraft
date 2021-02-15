@@ -91,6 +91,22 @@ function getPath(path) {
                 })
 
                 for(let file of fileArr) {
+                    let editArray   = [
+                        ".log",
+                        ".properties",
+                        ".xml",
+                        ".cfg",
+                        ".txt",
+                        ".json",
+                        ".recipe",
+                        ".html",
+                        ".zs"
+                    ]
+                    let lfArray     = (str, arr) => {
+                        for(let string of arr)
+                            return str.includes(string)
+                        return false;
+                    }
 
                     let icon = () => {
                         if(file.FileExt === false || file.FileExt === "false") return "fas fa-folder"
@@ -102,12 +118,18 @@ function getPath(path) {
                             case ".properties":
                             case ".cfg":
                             case ".xml":
+                            case ".recipe":
+                            case ".zs":
                                 return "far fa-file-code"
+                            case ".csv":
+                                return "fas fa-file-csv"
                             case ".sh":
-                                return "fa fa-terminal"
+                                return "fas fa-file-import"
                             case ".txt":
                             case ".log":
                                 return "far fa-file-alt"
+                            case ".bak":
+                                return "fas fa-file-medical"
                             case ".zip":
                             case ".tar":
                             case ".gz":
@@ -116,8 +138,6 @@ function getPath(path) {
                             case ".gif":
                             case ".png":
                                 return "fas fa-file-image"
-                            case ".bak":
-                                return "fas fa-file-lock"
                             default:
                                return "fas fa-file"
                         }
@@ -139,10 +159,10 @@ function getPath(path) {
                                     ${ hasPermissions(globalvars.perm, "filebrowser/execFiles", vars.cfg) && (file.FileExt.includes(".sh") || file.FileExt.includes(".jar"))
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>` : ""
                                     }
-                                    ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && (file.FileExt.includes(".log") || file.FileExt.includes(".properties") || file.FileExt.includes(".xml") || file.FileExt.includes(".cfg") || file.FileExt.includes(".txt") || file.FileExt.includes(".json"))
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && lfArray(file.FileExt, editArray)
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
                                     }
-                                    ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && (file.FileExt.includes(".log") || file.FileExt.includes(".properties") || file.FileExt.includes(".xml") || file.FileExt.includes(".cfg") || file.FileExt.includes(".txt") || file.FileExt.includes(".json"))
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && lfArray(file.FileExt, editArray)
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/renameFiles", vars.cfg)
