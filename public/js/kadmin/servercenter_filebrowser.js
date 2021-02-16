@@ -102,52 +102,12 @@ function getPath(path) {
                         ".html",
                         ".zs"
                     ]
-                    let lfArray     = (str, arr) => {
-                        for(let string of arr)
-                            return str.includes(string)
-                        return false;
-                    }
-
-                    let icon = () => {
-                        if(file.FileExt === false || file.FileExt === "false") return "fas fa-folder"
-                        switch (file.FileExt) {
-                            case ".jar":
-                                return "fab fa-java"
-                            case ".yml":
-                            case ".json":
-                            case ".properties":
-                            case ".cfg":
-                            case ".xml":
-                            case ".recipe":
-                            case ".zs":
-                                return "far fa-file-code"
-                            case ".csv":
-                                return "fas fa-file-csv"
-                            case ".sh":
-                                return "fas fa-file-import"
-                            case ".txt":
-                            case ".log":
-                                return "far fa-file-alt"
-                            case ".bak":
-                                return "fas fa-file-medical"
-                            case ".zip":
-                            case ".tar":
-                            case ".gz":
-                                return "fas fa-file-archive"
-                            case ".jpg":
-                            case ".gif":
-                            case ".png":
-                                return "fas fa-file-image"
-                            default:
-                               return "fas fa-file"
-                        }
-                    }
 
                     if(file.isFile)     list.push(`
                     <div class="p-0 pl-4 list-group-item border-left-0">
                         <div class="d-flex">
                             <div class="pt-1 pb-1">
-                                <i class="${icon()}" aria-hidden="true"></i> 
+                                <i class="${icon(file.FileExt)}" aria-hidden="true"></i> 
                                 ${file.name}
                             </div>
                             <div class="btn-group btn-group-sm ml-auto">
@@ -159,10 +119,10 @@ function getPath(path) {
                                     ${ hasPermissions(globalvars.perm, "filebrowser/execFiles", vars.cfg) && (file.FileExt.includes(".sh") || file.FileExt.includes(".jar"))
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>` : ""
                                     }
-                                    ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && lfArray(file.FileExt, editArray)
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && file.FileExt.includesArray(editArray)
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
                                     }
-                                    ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && lfArray(file.FileExt, editArray)
+                                    ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && file.FileExt.includesArray(editArray)
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/renameFiles", vars.cfg)
@@ -184,12 +144,13 @@ function getPath(path) {
                         </div>
                     </div>
                     `)
+
                     if(file.isDir) {
                         listDir.push(`
                             <button type="button" onClick="getPath('${file.totalPath}')" class="p-0 pl-4 pr-1 list-group-item list-group-item-action">
                                 <div class="d-flex">
                                     <div class="pt-1 pb-1">
-                                        <i class="fas fa-folder" aria-hidden="true"></i> 
+                                        <i class="${icon(file.FileExt)}" aria-hidden="true"></i> 
                                         ${file.name}
                                     </div>
                                     <div class="pt-1 pb-1 ml-auto">
@@ -223,7 +184,7 @@ function reloadClickEvents() {
     // Entfernen von Dateien
     $('*[data-acceptDel="use"],#FB_removeFolder').click((e) => {
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
-            icon: 'info',
+            icon: 'question',
             text: e.currentTarget.dataset.path,
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.title}</strong>`,
             showCancelButton: true,
@@ -240,43 +201,27 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           swalWithBootstrapButtons.fire(
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-                              success ? 'success' : 'error'
-                           )
+                           fireModal(success ? 3 : 2, success ? 'success' : 'error')
                            $(e.currentTarget.dataset.tohome === "no" ? '#FB_reload' : '#FB_tohome').click()
                        }
                        catch (e) {
                            console.log(e)
-                           swalWithBootstrapButtons.fire(
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-                              'error'
-                           )
+                           fireModal(2, "error")
                        }
                    })
                    .fail(() => {
-                       swalWithBootstrapButtons.fire(
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-                          'error'
-                       )
+                       fireModal(2, "error")
                    })
                 cancel = false
             }
-            if(cancel) swalWithBootstrapButtons.fire(
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_title,
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-               'error'
-            )
+            if(cancel) fireModal(2, "error")
         })
     })
 
     // Entfernen von Unterordnern
     $('#FB_removeFolderIn').click((e) => {
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
-            icon: 'info',
+            icon: 'question',
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.titleArray}</strong>`,
             showCancelButton: true,
             confirmButtonText: `<i class="far fa-trash-alt"></i>`,
@@ -294,43 +239,27 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           swalWithBootstrapButtons.fire(
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-                              success ? 'success' : 'error'
-                           )
+                           fireModal(success ? 3 : 2, success ? 'success' : 'error')
                            $('#FB_reload').click()
                        }
                        catch (e) {
                            console.log(e)
-                           swalWithBootstrapButtons.fire(
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-                              'error'
-                           )
+                           fireModal(2, "error")
                        }
                    })
                    .fail(() => {
-                       swalWithBootstrapButtons.fire(
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.error_title,
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-                          'error'
-                       )
+                       fireModal(2, "error")
                    })
                 cancel = false
             }
-            if(cancel) swalWithBootstrapButtons.fire(
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_title,
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.remove.cancel_text,
-               'error'
-            )
+            if(cancel) fireModal(2, "error")
         })
     })
 
     // Create Folder
     $('#FB_addFolder').click((e) => {
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
-            icon: 'info',
+            icon: 'question',
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.title}</strong>`,
             showCancelButton: true,
             confirmButtonText: `<i class="fas fa-save"></i>`,
@@ -353,6 +282,7 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
+                           fireModal(success ? 0 : 1, success ? 'success' : 'error')
                            swalWithBootstrapButtons.fire(
                               success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.error_title,
                               success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
@@ -362,34 +292,22 @@ function reloadClickEvents() {
                        }
                        catch (e) {
                            console.log(e)
-                           swalWithBootstrapButtons.fire(
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.error_title,
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
-                              'error'
-                           )
+                           fireModal(0, 'error')
                        }
                    })
                    .fail(() => {
-                       swalWithBootstrapButtons.fire(
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.error_title,
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
-                          'error'
-                       )
+                       fireModal(0, 'error')
                    })
                 cancel = false
             }
-            if(cancel) swalWithBootstrapButtons.fire(
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_title,
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
-               'error'
-            )
+            if(cancel) fireModal(0, 'error')
         })
     })
 
     // moveFiles/Folders
     $('*[data-move="use"],#FB_moveFolder').click((e) => {
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
-            icon: 'info',
+            icon: 'question',
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.move.title}</strong>`,
             showCancelButton: true,
             confirmButtonText: `<i class="fas fa-save"></i>`,
@@ -410,44 +328,28 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           swalWithBootstrapButtons.fire(
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.move.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.move.error_title,
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.move.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.move.cancel_text,
-                              success ? 'success' : 'error'
-                           )
+                           fireModal(success ? 5 : 4, success ? 'success' : 'error')
                            if(e.currentTarget.dataset.isfile === "yes") $('#FB_reload').click()
                            if(e.currentTarget.dataset.isfile === "no") getPath(`${result.value}/${e.currentTarget.dataset.path.split("/").pop()}`)
                        }
                        catch (e) {
                            console.log(e)
-                           swalWithBootstrapButtons.fire(
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.move.error_title,
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.move.cancel_text,
-                              'error'
-                           )
+                           fireModal(4, 'error')
                        }
                    })
                    .fail(() => {
-                       swalWithBootstrapButtons.fire(
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.move.error_title,
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.move.cancel_text,
-                          'error'
-                       )
+                       fireModal(4, 'error')
                    })
                 cancel = false
             }
-            if(cancel) swalWithBootstrapButtons.fire(
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.move.cancel_title,
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.move.cancel_text,
-               'error'
-            )
+            if(cancel) fireModal(4, 'error')
         })
     })
 
     // rename
     $('*[data-rename="use"],#FB_renameFolder').click((e) => {
         if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
-            icon: 'info',
+            icon: 'question',
             title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.title}</strong>`,
             showCancelButton: true,
             confirmButtonText: `<i class="fas fa-save"></i>`,
@@ -475,37 +377,21 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           swalWithBootstrapButtons.fire(
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.error_title,
-                              success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.cancel_text,
-                              success ? 'success' : 'error'
-                           )
+                           fireModal(success ? 7 : 6, success ? 'success' : 'error')
                            if(e.currentTarget.dataset.isfile === "yes") $('#FB_reload').click()
                            if(e.currentTarget.dataset.isfile === "no") getPath(`${filePath.join("/")}/${result.value}`)
                        }
                        catch (e) {
                            console.log(e)
-                           swalWithBootstrapButtons.fire(
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.error_title,
-                              globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.cancel_text,
-                              'error'
-                           )
+                           fireModal(6, 'error')
                        }
                    })
                    .fail(() => {
-                       swalWithBootstrapButtons.fire(
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.error_title,
-                          globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.cancel_text,
-                          'error'
-                       )
+                       fireModal(6, 'error')
                    })
                 cancel = false
             }
-            if(cancel) swalWithBootstrapButtons.fire(
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.cancel_title,
-               globalvars.lang_arr["servercenter_filebrowser"].sweet.rename.cancel_text,
-               'error'
-            )
+            if(cancel) fireModal(6, 'error')
         })
     })
 }

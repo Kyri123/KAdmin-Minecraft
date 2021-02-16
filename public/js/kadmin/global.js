@@ -151,20 +151,91 @@ String.prototype.replaceArray = function(find, replace) {
  * @param {string[]} replace Strings wodurch es ersetzt wird
  * @return {String}
  */
-String.prototype.replaceAllArray = function(find, replace) {
+String.prototype.replaceAllArray = function (find, replace) {
     let replaceString = this
     let regex
-    for (var i = 0; i < find.length; i++) {
+    for (let i = 0; i < find.length; i++) {
         regex = new RegExp(find[i], "g")
         replaceString = replaceString.replaceAll(regex, replace[i])
     }
     return replaceString
 }
 
-const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-        confirmButton: 'btn btn-success m-1',
-        cancelButton: 'btn btn-danger m-1'
-    },
-    buttonsStyling: false
-})
+/**
+ * sucht im String nach (Includes) als array
+ * @param {string[]} find Strings die gesucht werden sollen
+ * @return {String}
+ */
+String.prototype.includesArray = function (find) {
+    for(let string of find)
+        if(this.includes(string)) return true
+    return false;
+}
+
+/**
+ * gibt ein Datei ICON zurück
+ * @param FileExt
+ * @return {string}
+ */
+let icon = (FileExt) => {
+    // Folder
+    if(FileExt === false || FileExt === "false")
+        return "fas fa-folder"
+
+    // Java
+    if(FileExt.includesArray([
+        ".jar"
+    ])) return "fab fa-java"
+
+    // Code
+    if(FileExt.includesArray([
+        ".yml",
+        ".json",
+        ".properties",
+        ".cfg",
+        ".xml",
+        ".recipe",
+        ".zs"
+    ])) return "far fa-file-code"
+
+    // CSV
+    if(FileExt.includesArray([
+        ".csv"
+    ])) return "fas fa-file-csv"
+
+    // SH
+    if(FileExt.includesArray([
+        ".sh",
+        ".cmd",
+        ".bat",
+        ".ps2"
+    ])) return "fas fa-file-import"
+
+    // TXT
+    if(FileExt.includesArray([
+        ".txt",
+        ".log"
+    ])) return "far fa-file-alt"
+
+    // BAK
+    if(FileExt.includesArray([
+        ".bak"
+    ])) return "fas fa-file-medical"
+
+    // ZIP
+    if(FileExt.includesArray([
+        ".zip",
+        ".tar",
+        ".gz"
+    ])) return "fas fa-file-archive"
+
+    // PIC
+    if(FileExt.includesArray([
+        ".jpg",
+        ".gif",
+        ".png"
+    ])) return "fas fa-file-image"
+
+    //default
+    return "fas fa-file"
+}

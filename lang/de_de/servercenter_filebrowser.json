@@ -15,37 +15,17 @@
   "sweet"         : {
     "remove"        : {
       "title"         : "Möchtest du diesen Pfad wirklich entfernen?",
-      "titleArray"    : "Welchen Ordner möchtest du löschen?",
-      "cancel_title"  : "Abgebrochen!",
-      "error_title"   : "Fehlgeschlagen!",
-      "success_title" : "Erfolgreich!",
-      "cancel_text"   : "Der Pfad wurde nicht entfernt",
-      "success_text"  : "Der Pfad wurde erfolgreich entfernt"
+      "titleArray"    : "Welchen Ordner möchtest du löschen?"
     },
     "mkdir"        : {
       "title"         : "Wie soll der Ordner heißen den du Erstellen willst?",
-      "invalide"      : "Überprüfe deinen Ordnernamen!",
-      "cancel_title"  : "Abgebrochen!",
-      "error_title"   : "Fehlgeschlagen!",
-      "success_title" : "Erfolgreich!",
-      "cancel_text"   : "Der Pfad wurde nicht erstellt",
-      "success_text"  : "Der Pfad wurde erfolgreich erstellt"
+      "invalide"      : "Überprüfe deinen Ordnernamen!"
     },
     "move"        : {
-      "title"         : "Wohin soll der Ordner oder die Datei verschoben werden?",
-      "cancel_title"  : "Abgebrochen!",
-      "error_title"   : "Fehlgeschlagen!",
-      "success_title" : "Erfolgreich!",
-      "cancel_text"   : "Ordner oder Datei nicht verschoben!",
-      "success_text"  : "Ordner oder Datei wurde verschoben"
+      "title"         : "Wohin soll der Ordner oder die Datei verschoben werden?"
     },
     "rename"        : {
-      "title"         : "Wie soll die Datei oder der Ordner heißen?",
-      "cancel_title"  : "Abgebrochen!",
-      "error_title"   : "Fehlgeschlagen!",
-      "success_title" : "Erfolgreich!",
-      "cancel_text"   : "Ordner oder Datei nicht Umbenannt!",
-      "success_text"  : "Ordner oder Datei wurde Umbenannt"
+      "title"         : "Wie soll die Datei oder der Ordner heißen?"
     }
   }
 }

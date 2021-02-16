@@ -70,6 +70,11 @@ module.exports = {
                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove tmp dir...`)
                 fs.rmSync(pathMod.join(mainDir, "tmp"), {recursive: true})
 
+                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater set CHMOD...`)
+                fs.chmod(pathMod.join(mainDir, "installer.sh"), 755)
+                fs.chmod(pathMod.join(mainDir, "updater.sh"), 755)
+                fs.chmod(pathMod.join(mainDir, "starter.sh"), 755)
+
                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater close panel...`)
                 process.exit()
             })
