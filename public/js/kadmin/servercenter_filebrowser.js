@@ -435,7 +435,7 @@ function reloadClickEvents() {
                     formData.append("upload", true)
                     formData.append("server", vars.cfg)
                     formData.append("path", e.currentTarget.dataset.path)
-                    fireModal(6, 'error')
+                    fireModal(6, 'info')
                     // sende
                     $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
