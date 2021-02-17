@@ -424,7 +424,6 @@ function reloadClickEvents() {
                 });
             }
         }).then((file) => {
-            let cancel = true
             if (file.isConfirmed) {
                 if (file.value) {
                     // erstelle Form
@@ -436,7 +435,7 @@ function reloadClickEvents() {
                     formData.append("upload", true)
                     formData.append("server", vars.cfg)
                     formData.append("path", e.currentTarget.dataset.path)
-
+                    fireModal(6, 'error')
                     // sende
                     $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -446,17 +445,20 @@ function reloadClickEvents() {
                         processData: false,
                         contentType: false,
                         success: function (resp) {
-                            cancel = false
                             fireModal(6)
                         },
                         error: function() {
-                            cancel = false
                             fireModal(6, 'error')
                         }
                     })
                 }
+                else {
+                    fireModal(6, 'error')
+                }
             }
-            if(cancel) fireModal(6, 'error')
+            else {
+                fireModal(6, 'error')
+            }
         })
     })
 }
