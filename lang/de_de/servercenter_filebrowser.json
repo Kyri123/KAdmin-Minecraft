@@ -1,6 +1,8 @@
 {
   "noFileFound"   : "Keine Dateien gefunden",
   "noDirFound"    : "Keine Ordner gefunden",
+  "edit_modal"    : "Datei bearbeiten",
+  "show_modal"    : "Datei anschauen",
   "options"       : {
     "actions"       : "Aktionen",
     "remove"        : "Entfernen",

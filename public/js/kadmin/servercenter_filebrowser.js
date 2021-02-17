@@ -100,7 +100,7 @@ function getPath(path) {
                         ".txt",
                         ".json",
                         ".recipe",
-                        ".html",
+                        ".csv",
                         ".zs"
                     ]
 
@@ -398,17 +398,19 @@ function reloadClickEvents() {
     })
 }
 
-function showeditmodal(onlyread, element, file) {
+async function showeditmodal(onlyread, element, file) {
     let clickedElement  = $(`#${element}`)
     let oldHTMClicked   = clickedElement.html()
     let textarea        = $(`#editshow_area`)
     let acceptBTN       = $(`#editshow_accept`)
     let modal           = $(`#editshow`)
+    let h5              = $(`#editshow_h5`)
 
     // setzte Elemente und Attribute
     acceptBTN.toggle(onlyread)
     textarea.attr("readonly", !onlyread)
     clickedElement.html('<i class="fas fa-spinner fa-pulse"></i>')
+    h5.html(globalvars.lang_arr["servercenter_filebrowser"][!onlyread ? 'show_modal' : 'edit_modal'])
 
     $.get("/ajax/serverCenterFilebrowser", {
         getFile     : true,
