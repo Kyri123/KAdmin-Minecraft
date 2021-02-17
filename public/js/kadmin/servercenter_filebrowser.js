@@ -396,6 +396,69 @@ function reloadClickEvents() {
             if(cancel) fireModal(6, 'error')
         })
     })
+
+    // upload
+    $('#FB_upload').click((e) => {
+        if(e.currentTarget.dataset.path !== undefined) swalWithBootstrapButtons .fire({
+            icon: 'question',
+            title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.upload.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="fas fa-file-upload"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+            input: 'file',
+            inputAttributes: {
+                'multiple': 'multiple'
+            },
+            inputValidator: (value) => {
+                if (value === null)
+                    return globalvars.lang_arr["servercenter_filebrowser"].sweet.upload.invalide
+            },
+            onBeforeOpen: () => {
+                $(".swal2-file").change(function () {
+                    let reader
+                    let files = $('.swal2-file')[0].files
+                    for(let i = 0; i < files.length; i++) {
+                        reader = new FileReader()
+                        reader.readAsDataURL($('.swal2-file')[0].files[i])
+                    }
+                });
+            }
+        }).then((file) => {
+            let cancel = true
+            if (file.isConfirmed) {
+                if (file.value) {
+                    // erstelle Form
+                    let formData = new FormData()
+                    let files = $('.swal2-file')[0].files
+                    for(let i = 0; i < files.length; i++) {
+                        formData.append("files[]", $('.swal2-file')[0].files[i])
+                    }
+                    formData.append("upload", true)
+                    formData.append("server", vars.cfg)
+                    formData.append("path", e.currentTarget.dataset.path)
+
+                    // sende
+                    $.ajax({
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        method: 'post',
+                        url: '/ajax/serverCenterFilebrowser',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (resp) {
+                            cancel = false
+                            fireModal(6)
+                        },
+                        error: function() {
+                            cancel = false
+                            fireModal(6, 'error')
+                        }
+                    })
+                }
+            }
+            if(cancel) fireModal(6, 'error')
+        })
+    })
 }
 
 async function showeditmodal(onlyread, element, file) {

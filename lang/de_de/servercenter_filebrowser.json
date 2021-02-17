@@ -28,6 +28,10 @@
     },
     "rename"        : {
       "title"         : "Wie soll die Datei oder der Ordner heißen?"
+    },
+    "upload"        : {
+      "title"         : "Wähle eine Datei die du hochladen möchtest",
+      "invalide"      : "Überprüfe deine Datei!"
     }
   }
 }

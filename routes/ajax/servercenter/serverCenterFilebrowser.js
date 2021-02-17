@@ -14,6 +14,8 @@ router.route('/')
 
    .post((req,res)=>{
       let POST        = req.body
+      let FILES       = req.files
+      console.log(FILES)
 
       // Löschen
       try {

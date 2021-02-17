@@ -20,6 +20,7 @@ const createError                     = require('http-errors')
 const http                            = require('http')
 const express                         = require('express')
 const session                         = require('express-session')
+const fileupload                      = require('express-fileupload')
 const bodyParser                      = require('body-parser')
 const cookieParser                    = require('cookie-parser')
 const logger                          = require('morgan')
@@ -103,6 +104,7 @@ let app         = express()
   }))
 
   // andere Konfigs
+  app.use(fileupload())
   app.use(compression())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({
