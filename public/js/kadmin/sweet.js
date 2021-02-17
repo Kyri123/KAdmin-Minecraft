@@ -70,9 +70,10 @@ function fireToast(code, type= "success") {
  * Feuert ein Modal
  * @param {string|int} code
  * @param {string} type
+ * @param {boolean} endless
  * @return {void}
  */
-function fireModal(code, type= "success") {
+function fireModal(code, type= "success", endless = false) {
    if(
       globalvars.lang_arr.sweet.modal[code] !== undefined
       && type.includesArray([
@@ -89,7 +90,7 @@ function fireModal(code, type= "success") {
          title: globalvars.lang_arr.sweet[type],
          text: globalvars.lang_arr.sweet.modal[code],
          icon: type,
-         timer: 3000,
+         timer: endless ? 300000000000 : 3000,
          didOpen: (toast) => {
             toast.addEventListener('click', Swal.close)
             toast.addEventListener('mouseenter', Swal.stopTimer)
