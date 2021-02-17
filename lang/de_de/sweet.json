@@ -15,6 +15,7 @@
     "7": "Ordner oder Datei wurde Umbenannt"
   },
   "toast": {
-    "0": "undefined"
+    "0": "Datei konnte nicht gespeichert werden",
+    "1": "Änderungen wurden gespeichert"
   }
 }

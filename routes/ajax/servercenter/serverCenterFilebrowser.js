@@ -37,6 +37,24 @@ router.route('/')
          if(debug) console.log(e)
       }
 
+      // editFile
+      if(
+         typeof POST.server      !== "undefined" &&
+         typeof POST.path        !== "undefined" &&
+         typeof POST.data        !== "undefined" &&
+         typeof POST.editfile    !== "undefined"
+      ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/editFiles`, POST.server)) {
+         let serverData  = new serverClass(POST.server)
+         res.render('ajax/json', {
+            data: JSON.stringify({
+               "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
+                  ? globalUtil.safeFileSaveSync([POST.path], POST.data)
+                  : false
+            })
+         })
+         return true
+      }
+
       // MKDir
       try {
          if(
@@ -172,6 +190,18 @@ router.route('/')
          let serverData  = new serverClass(GET.server)
          res.render('ajax/json', {
             data: JSON.stringify(globalUtil.safeFileReadAllDirsWithoutFilesSync([serverData.getConfig().path]))
+         })
+         return true
+      }
+
+      // getFile
+      if(
+         typeof GET.getFile      !== "undefined" &&
+         typeof GET.server       !== "undefined" &&
+         typeof GET.file         !== "undefined"
+      ) if((userHelper.hasPermissions(req.session.uid,`filebrowser/editFiles`, GET.server) || userHelper.hasPermissions(req.session.uid,`filebrowser/showFiles`, GET.server)) && GET.file.includes(GET.server)) {
+         res.render('ajax/json', {
+            data: globalUtil.safeFileReadSync([GET.file])
          })
          return true
       }

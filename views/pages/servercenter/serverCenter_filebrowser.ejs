@@ -84,6 +84,26 @@
     </div>
 </div>
 
+<!-- edit/show Modal -->
+<div class="modal" id="editshow" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px" method="POST">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-light text-white">
+                <h5 class="modal-title">Befehl an den Server senden</h5>
+            </div>
+            <div class="modal-body p-0">
+                    <textarea class="bg-dark p-1 m-0 codeview font" id="editshow_area" style="font-family: 'Source Code Pro', monospace;max-width: 100%;min-width: 100%;max-height: 500px; min-height: 500px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="actions" value="sendcommand">
+                <input type="hidden" name="cfg" value="5g28f48x">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                <button type="submit" class="btn btn-success" id="editshow_accept" onclick="sendedit()"><i class="fas fa-save"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
 
 <script>
     // Vars die zur JS übergeben werden

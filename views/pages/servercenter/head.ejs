@@ -107,7 +107,7 @@
 <div id="all_resp"><%- response %></div>
 <% if(userHelper.hasPermissions(user.id, "actions", serverName)) { %>
 <!-- MODAL AKTION -->
-    <div class="modal fade" id="action" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="action" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <form id="action_form" class="modal-dialog modal-xl" role="document" style="max-width: 700px" method="POST">
             <div class="modal-content border-0">
                 <div class="modal-header bg-dark text-white">
@@ -141,7 +141,7 @@
 <% } %>
 
 <!-- MODAL Players -->
-<div class="modal fade" id="playerlist_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal" id="playerlist_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl" style="max-width: 700px">
         <div class="modal-content border-0">
             <div class="modal-header bg-info text-white">
@@ -161,7 +161,7 @@
 
 <% if(userHelper.hasPermissions(user.id, "showalerts", serverName)) { %>
     <!-- MODAL ALERTS -->
-    <div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-info text-white">
@@ -181,7 +181,7 @@
 
 <% if(userHelper.hasPermissions(user.id, "versionpicker", serverName)) { %>
     <!-- MODAL VERSION -->
-    <div class="modal fade" id="versionpicker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="versionpicker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-info text-white">

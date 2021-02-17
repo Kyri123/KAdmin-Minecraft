@@ -60,7 +60,7 @@ function fireToast(code, type= "success") {
 
       toast .fire({
          icon: type,
-         text: globalvars.lang_arr.sweet[code],
+         text: globalvars.lang_arr.sweet.toast[code],
          showCancelButton: false
       })
    }

@@ -90,6 +90,7 @@ function getPath(path) {
                     //return a.isFile - b.isFile || b.sizebit - a.sizebit
                 })
 
+                let i = 0
                 for(let file of fileArr) {
                     let editArray   = [
                         ".log",
@@ -120,10 +121,10 @@ function getPath(path) {
                                        ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-file-import"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.exec}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/showFiles", vars.cfg) && file.FileExt.includesArray(editArray)
-                                       ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
+                                       ? `<a class="dropdown-item" href="javascript:void(0)" id="show_${i}" onclick="showeditmodal(false, this.id, '${file.totalPath}')"><i class="far fa-eye"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.show}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/editFiles", vars.cfg) && file.FileExt.includesArray(editArray)
-                                       ? `<a class="dropdown-item disabled" href="javascript:void(0)"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
+                                       ? `<a class="dropdown-item" href="javascript:void(0)" id="edit_${i}" onclick="showeditmodal(true, this.id, '${file.totalPath}')"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/renameFiles", vars.cfg)
                                        ? `<a class="dropdown-item" href="javascript:void(0)" data-rename="use" data-isfile="yes" data-path="${file.totalPath}"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>` : ""
@@ -160,6 +161,7 @@ function getPath(path) {
                             </button>`)
                         dirArray[file.totalPath] = `${file.name} (${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"})`
                     }
+                    i++
                 }
 
                 if(list.length === 0)
@@ -394,6 +396,69 @@ function reloadClickEvents() {
             if(cancel) fireModal(6, 'error')
         })
     })
+}
+
+function showeditmodal(onlyread, element, file) {
+    let clickedElement  = $(`#${element}`)
+    let oldHTMClicked   = clickedElement.html()
+    let textarea        = $(`#editshow_area`)
+    let acceptBTN       = $(`#editshow_accept`)
+    let modal           = $(`#editshow`)
+
+    // setzte Elemente und Attribute
+    acceptBTN.toggle(onlyread)
+    textarea.attr("readonly", !onlyread)
+    clickedElement.html('<i class="fas fa-spinner fa-pulse"></i>')
+
+    $.get("/ajax/serverCenterFilebrowser", {
+        getFile     : true,
+        server      : vars.cfg,
+        file        : file
+    }, (data) => {
+        if(data !== "false" && data !== '{"request":"failed"}') {
+            textarea.data('file', file)
+            textarea.html(data)
+            clickedElement.html(oldHTMClicked)
+            modal.modal('show')
+        }
+        else {
+            clickedElement.html(oldHTMClicked)
+        }
+    })
+}
+
+function sendedit() {
+    let textarea        = $(`#editshow_area`)
+    let acceptBTN       = $(`#editshow_accept`)
+    let oldHTMClicked   = acceptBTN.html()
+    let filePath        = textarea.data().file
+    let send            = textarea.html()
+    let modal           = $(`#editshow`)
+
+    // setzte Elemente und Attribute
+    acceptBTN.html('<i class="fas fa-spinner fa-pulse"></i>')
+
+    $.post("/ajax/serverCenterFilebrowser", {
+        server          : vars.cfg,
+        path            : filePath,
+        data            : send,
+        editfile        : true
+    })
+       .done((data) => {
+           modal.modal('toggle', false)
+           acceptBTN.html(oldHTMClicked)
+           try {
+               let success = JSON.parse(data).success
+               fireToast(success ? 1 : 0, success ? 'success' : 'error')
+               $('#FB_reload').click()
+           }
+           catch (e) {
+               fireToast(0, "error")
+           }
+       })
+       .fail(() => {
+           fireToast(0, "error")
+       })
 }
 
 $(document).ready(() => setInterval(() => $('.content-wrapper').attr("style", "min-height: 1750px")), 500)

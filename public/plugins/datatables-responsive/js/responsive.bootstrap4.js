@@ -39,7 +39,7 @@ var DataTable = $.fn.dataTable;
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;
 var _modal = $(
-	'<div class="modal fade dtr-bs-modal" role="dialog">'+
+	'<div class="modal dtr-bs-modal" role="dialog">'+
 		'<div class="modal-dialog" role="document">'+
 			'<div class="modal-content">'+
 				'<div class="modal-header">'+

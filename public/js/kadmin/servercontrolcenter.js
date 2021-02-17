@@ -79,7 +79,7 @@ setInterval(() => {
                 </div>
             `
 
-                if($(`#remove${val[0]}`).html() === undefined) $('#modallist').append(`<form class="modal fade" method="post" action="#" id="remove${val[0]}" tabindex="-1" style="display: none;" aria-hidden="true">
+                if($(`#remove${val[0]}`).html() === undefined) $('#modallist').append(`<form class="modal" method="post" action="#" id="remove${val[0]}" tabindex="-1" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
                                         <div class="modal-content border-0">
                                             <div class="modal-header bg-danger">
