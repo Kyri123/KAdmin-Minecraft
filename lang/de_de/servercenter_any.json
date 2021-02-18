@@ -8,6 +8,7 @@
   "actionsClose"  : "Abbrechen",
   "actionsSend"   : "Aktion ausführen",
   "alertClose"    : "Schließen",
+  "title_alert"   : "Benachrichtigungen",
   "playermodal"   : {
     "title"       : "Aktive Spieler",
     "true"        : "Ja",
@@ -17,7 +18,8 @@
     "home"        : "Startseite",
     "config"      : "Konfiguration",
     "mods"        : "Modifikation",
-    "backups"     : "Backups"
+    "backups"     : "Backups",
+    "filebrowser" : "Filebrowser"
   },
   "versionpicker" : {
     "title"       : "Versionen & Modpacks",

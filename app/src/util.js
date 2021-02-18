@@ -116,8 +116,8 @@ module.exports = {
             if(module.exports.checkValidatePath(filePath) === true) {
                 // Datei Speichern
                 try {
-                    if(fs.existsSync(filePath)) fs.mkdirSync(filePath, {recursive: true})
-                    return true
+                    fs.mkdirSync(filePath, {recursive: true})
+                    return fs.existsSync(filePath)
                 }
                 catch (e) {
                     if(debug) console.log(e)
@@ -203,6 +203,33 @@ module.exports = {
     },
 
     /**
+     * umbenennen/verschieben eines Ordner oder einer Datei
+     * @param {string[]} paths Pfade zur Datei
+     * @param {string[]} newpaths neue Pfade zur Datei
+     * @return {boolean}
+     */
+    safeFileRenameSync(paths, newpaths) {
+        // Prüfe Pfad
+        if(module.exports.poisonNull(paths) && module.exports.poisonNull(newpaths)) {
+            // Lege Pfad fest
+            let filePath        = pathMod.join(...paths)
+            let filePathNew     = pathMod.join(...newpaths)
+
+            if(module.exports.checkValidatePath(filePath) === true && fs.existsSync(filePath) && module.exports.checkValidatePath(filePathNew)) {
+                // Datei Speichern
+                try {
+                    fs.renameSync(filePath, filePathNew)
+                    return true
+                }
+                catch (e) {
+                    if(debug) console.log(e)
+                }
+            }
+        }
+        return false
+    },
+
+    /**
      * Liest ein Verzeichnis aus
      * @param {string[]} paths Pfade zur Datei
      * @return {boolean|array}
@@ -217,7 +244,6 @@ module.exports = {
                module.exports.checkValidatePath(filePath) === true &&
                fs.existsSync(filePath)
             ) {
-                // Datei Speichern
                 try {
                     let dir       = fs.readdirSync(filePath, {withFileTypes: true})
                     let dirArray  = []
@@ -225,16 +251,57 @@ module.exports = {
                         let fileName        = item.name
                         let fileExt         = item.isFile() ? "." + fileName.split(".")[(fileName.split(".").length - 1)] : false
                         let namePure        = item.isFile() ? fileName.replace(fileExt, "") : fileName
+                        let tPath           = pathMod.join(filePath, item.name)
                         dirArray.push({
                             "name"      : fileName,
                             "namePure"  : namePure,
                             "FileExt"   : item.isFile() ? "." + item.name.split(".")[(item.name.split(".").length - 1)] : false,
-                            "totalPath" : pathMod.join(filePath, item.name),
+                            "totalPath" : tPath,
                             "isDir"     : item.isDirectory(),
-                            "isFile"    : item.isFile()
+                            "isFile"    : item.isFile(),
+                            "size"      : module.exports.getSizeSync([tPath]),
+                            "sizebit"   : module.exports.getSizeSync([tPath], true)
                         })
                     })
                     return dirArray
+                }
+                catch (e) {
+                    if(debug) console.log(e)
+                }
+            }
+        }
+        return false
+    },
+
+    /**
+     * Liest alle Ordner aus einem Verzeichnis
+     * @param {string[]} paths Pfade zur Datei
+     * @return {boolean|array}
+     */
+    safeFileReadAllDirsWithoutFilesSync(paths) {
+        // Prüfe Pfad
+        if(module.exports.poisonNull(paths)) {
+            // Lege Pfad fest
+            let filePath        = pathMod.join(...paths)
+
+            if(
+               module.exports.checkValidatePath(filePath) === true &&
+               fs.existsSync(filePath)
+            ) {
+                try {
+                    let func        = (path, arr = []) => {
+                        let files = fs.readdirSync(path)
+
+                        files.forEach(function(file) {
+                            if (fs.statSync(path + "/" + file).isDirectory()) {
+                                arr.push(pathMod.join(path + "/" + file))
+                                func(path + "/" + file, arr)
+                            }
+                        })
+
+                        return arr
+                    }
+                    return func(filePath)
                 }
                 catch (e) {
                     if(debug) console.log(e)
@@ -265,5 +332,56 @@ module.exports = {
             if(debug) console.log(e)
         }
         return false
+    },
+
+    /**
+     * gibt die Größes einer Datei oder eines Ordners wieder
+     * @param {string[]} paths Pfade zur Datei
+     * @param {boolean} soll der return in Bit sein?
+     * @return {string}
+     */
+    getSizeSync(paths, inBit = false) {
+        // Prüfe Pfad
+        if(module.exports.poisonNull(paths)) {
+            // Lege Pfad fest
+            let filePath = pathMod.join(...paths)
+
+            if (
+               module.exports.checkValidatePath(filePath) === true &&
+               fs.existsSync(filePath)
+            ) {
+                const getAllFiles = function (dirPath, arr = []) {
+                    if (Array.isArray(arr)) {
+                        let files = fs.readdirSync(dirPath)
+
+                        files.forEach(function (file) {
+                            let path = pathMod.join(dirPath + "/" + file)
+                            if (fs.statSync(path).isDirectory()) {
+                                arr = getAllFiles(path, arr)
+                            } else {
+                                arr.push(pathMod.join(dirPath, file))
+                            }
+                        })
+
+                        return arr
+                    }
+                }
+
+                const getTotalSize = function (directoryPath) {
+                    const arrayOfFiles = getAllFiles(directoryPath)
+
+                    let totalSize = 0
+
+                    arrayOfFiles.forEach(function (filePath) {
+                        totalSize += fs.statSync(filePath).size
+                    })
+
+                    return totalSize
+                }
+
+                let bits    = fs.statSync(filePath).isFile() ? fs.statSync(filePath).size : getTotalSize(filePath)
+                return inBit ? bits : module.exports.convertBytes(bits)
+            }
+        }
     }
 }

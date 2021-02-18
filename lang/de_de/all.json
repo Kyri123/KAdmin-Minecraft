@@ -9,5 +9,10 @@
   "server"          : "Server",
   "sc"              : "Server Center",
   "createServer"    : "Server Erstellen",
-  "select_default"  : "Aktion wählen"
+  "select_default"  : "Aktion wählen",
+  "loading"         : "Wird geladen bitte warten...",
+  "failed"          : "Aktion fehlgeschlagen...",
+  "logout"          : "Ausloggen",
+  "profile"         : "Profil",
+  "welcome"         : "Willkommen, "
 }

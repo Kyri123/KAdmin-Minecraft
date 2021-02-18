@@ -1,12 +1,13 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
+
 get()
 setInterval(() => {
     get()
@@ -109,7 +110,7 @@ function removeFile() {
     let sertArray   = $('#removeBackup').serializeArray()
     // Todo: check path
 
-    if() $.post('/ajax/serverCenterBackups' , sert, (data) => {
+    $.post('/ajax/serverCenterBackups' , sert, (data) => {
         try {
             data    = JSON.parse(data)
             if(data.alert !== undefined) $('#all_resp').append(data.alert)

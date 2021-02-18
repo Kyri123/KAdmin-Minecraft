@@ -1,17 +1,16 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
-
-if(hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/serverCenterConfig' , {
-    serverInis  : true,
-    ini         : "server",
-    server      : vars.cfg
+if (hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
+    serverInis: true,
+    ini: "server",
+    server: vars.cfg
 }, (data) => {
     $('#serverprop').text(data);
 })
@@ -21,12 +20,11 @@ if(hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/ser
  * @return {boolean}
  */
 function saveCfg() {
-    $.post('/ajax/serverCenterConfig' , $('#pills-server').serialize(), (data) => {
+    $.post('/ajax/serverCenterConfig', $('#pills-server').serialize(), (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#all_resp').append(data.alert);
-        }
-        catch (e) {
+            data = JSON.parse(data);
+            if (data.alert !== undefined) $('#all_resp').append(data.alert);
+        } catch (e) {
             console.log(e);
         }
     });
@@ -40,16 +38,15 @@ function saveCfg() {
  * @return {boolean}
  */
 function serverSave(htmlID, cfg) {
-    $.post('/ajax/serverCenterConfig' , {
-        iniText : $(htmlID).val(),
-        cfg     : cfg,
-        server  : true
+    $.post('/ajax/serverCenterConfig', {
+        iniText: $(htmlID).val(),
+        cfg: cfg,
+        server: true
     }, (data) => {
         try {
-            data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#all_resp').append(data.alert);
-        }
-        catch (e) {
+            data = JSON.parse(data);
+            if (data.alert !== undefined) $('#all_resp').append(data.alert);
+        } catch (e) {
             console.log(e);
         }
     });

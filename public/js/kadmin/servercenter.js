@@ -1,11 +1,11 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
 
 let joinAdress  = $('#btnJoin').attr('href')
@@ -73,6 +73,7 @@ function getSCState() {
         if(!serverInfos.is_installed)                       stateColor = "warning"
         if(serverInfos.pid !== 0 && !serverInfos.online)    stateColor = "primary"
         if(serverInfos.pid !== 0 && serverInfos.online)     stateColor = "success"
+        if(serverInfos.is_installing)                       stateColor = "info"
 
         let stateText = varser.lang_arr.forservers.state[stateColor]
 
@@ -86,17 +87,19 @@ function getSCState() {
             else {
                 version = serverInfos.version
             }
-            if($('#version').html().trim().toUpperCase() !== version.trim().toUpperCase()) $('#version').html(version)
+            $('#version').html(version)
 
         //server IMG
-            $('#serv_img').attr('class', `border-${stateColor}`)
+            $('#serv_img')
+               .attr('class', `border-${stateColor}`)
+               .attr('src', serverInfos.icon)
 
         // Status
             if(state_id.html() !== stateText) state_id.html(stateText).attr('class',`description-header text-${stateColor}`)
 
         // Action Card
             let css
-            if(stateColor === "warning") {
+            if(stateColor === "warning" || stateColor === "info") {
                 inhalt = varser.lang_arr.servercenter_any.actionClose
             }
             else {
@@ -112,7 +115,9 @@ function getSCState() {
             if(stateColor === "success") {
                 $('#btnJoin').attr('href', joinAdress).toggleClass("disabled", false)
                 //inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
-                inhalt = `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                inhalt = hasPermissions(globalvars.perm, "showplayers", varser.cfg)
+                   ? `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                   : `${serverInfos.aplayers} / ${serverInfos.players}`
             }
             else {
                 $('#btnJoin').attr('href', '').toggleClass("disabled", true)
@@ -159,34 +164,25 @@ function getSCState() {
 
 
         // Alerts
-            /*if(serverInfos.alerts !== undefined) {
-                $.get('/json/steamAPI/mods.json', (mods) => {
-                    let modNeedUpdates      = []
-                    let rplf                = []
-                    let tplt                = []
-                    mods.response.publishedfiledetails.forEach((val) => {
-                        rplf.push(val.publishedfileid)
-                        tplt.push(`<b>[${val.publishedfileid}]</b> ${val.title}`)
-                    })
-                    let list = []
+            if(serverInfos.alerts !== undefined) {
+                let list    = []
+                let counter = 0
 
-                    let counter = 0
-                    serverInfos.alerts.forEach((val) => {
-                        if(!(val === "3997" && modNeedUpdates.length === 0)) {
-                            list.push(alerter(val, "", 3, false, 3, 3, 3, true))
-                            counter++
-                        }
-                    })
-
-                    $(`#infoCounter`).html(counter)
-                    if(counter === 0) list.push(alerter(4000, "", 3, false, 3, 3, 3, true))
-
-                    $(`#AlertBody`).html(list.join('<hr class="m-0">')
-                        .replace("{modu}", modNeedUpdates.join("</li><li>"))
-                        .replace("{modi}", serverInfos.notInstalledMods.join("</li><li>"))
-                        .replaceArray(rplf, tplt))
+                serverInfos.alerts.forEach((val) => {
+                    list.push(alerter(val, "", 3, false, 3, 3, 3, true))
+                    if(val !== "4000") counter++
                 })
-            }*/
+
+                $(`#infoCounter`).html(counter)
+                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
+            }
+            else {
+                let list    = []
+                let counter = 0
+                list.push(alerter("4000", "", 3, false, 3, 3, 3, true))
+                $(`#infoCounter`).html(counter)
+                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
+            }
     })
 }
 

@@ -98,14 +98,14 @@ module.exports = class versionSpigotControler {
    downloadServer(version, path) {
       (async () => {
          path = pathMod.join(path)
-         globalUtil.safeFileSaveSync([path.replace("spigot.jar", "installing")], "true")
+         globalUtil.safeFileSaveSync([path.replace("serverSpigot.jar", "installing")], "true")
 
          globalUtil.safeFileRmSync([path])
          download(this.downloadUrlRaw + version.replace("Spigot", "spigot"))
             .pipe(fs.createWriteStream(path))
             .on("close", () => {
-               globalUtil.safeFileRmSync([path.replace("spigot.jar", "installing")])
-               globalUtil.safeFileSaveSync([path.replace("spigot.jar", "eula.txt")], "eula=true")
+               globalUtil.safeFileRmSync([path.replace("serverSpigot.jar", "installing")])
+               globalUtil.safeFileSaveSync([path.replace("serverSpigot.jar", "eula.txt")], "eula=true")
             })
       })()
       return true

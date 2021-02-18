@@ -5,11 +5,10 @@
     "userpanel"               : "Benutzer",
     "server"                  : "Server Rechte",
     "home"                    : "Startseite",
-    "mods"                    : "Modifikationen",
     "config"                  : "Konfiguration",
     "backups"                 : "Backups",
-    "api"                     : "ArkAPI",
-    "logs"                    : "Logs"
+    "logs"                    : "Logs",
+    "filebrowser"             : "Filebrowser"
   },
   "perm": {
     "is_admin"                : "Ist Admin (Hat Rechte auf alles)",
@@ -33,6 +32,20 @@
     "show_kadmin"             : "Darf KAdmin-Minecraft sehen",
     "playin"                  : "Darf Backup einspielen",
     "versionpicker"           : "Darf Versionen & Modpacks vom Server verändern",
-    "sendCommands"            : "Darf Befehle über die Konsole senden (und Live Spielerliste)"
+    "sendCommands"            : "Darf Befehle über die Konsole senden (und Live Spielerliste)",
+    "showplayers"             : "Darf Spielerliste aufrufen",
+    "showalerts"              : "Darf Meldungen sehen",
+    "removeFolder"            : "Darf Ordner löschen",
+    "createFolder"            : "Darf Ordner erstellen",
+    "renameFolder"            : "Darf Ordner umbennnen",
+    "moveFolder"              : "Darf Ordner verschieben",
+    "removeFiles"             : "Darf Dateien löschen",
+    "execFiles"               : "Darf Dateien ausführen",
+    "editFiles"               : "Darf Dateien bearbeiten",
+    "downloadFiles"           : "Darf Dateien runterladen",
+    "uploadFiles"             : "Darf Dateien hochladen",
+    "renameFiles"             : "Darf Dateien umbenennen",
+    "moveFiles"               : "Darf Dateien verschieben",
+    "showFiles"               : "Darf Dateien ansehen"
   }
 }

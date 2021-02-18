@@ -4,16 +4,32 @@
   "actions"               : 0,
   "versionpicker"         : 0,
   "sendCommands"          : 0,
+  "showplayers"           : 0,
+  "showalerts"            : 0,
   "config": {
-    "show"                  : 1,
-    "server"                : 1,
-    "kadmin"                : 1,
+    "show"                  : 0,
+    "server"                : 0,
+    "kadmin"                : 0,
     "show_server"           : 0,
     "show_kadmin"           : 0
   },
   "backups": {
-    "show"                  : 1,
+    "show"                  : 0,
     "remove"                : 0,
     "playin"                : 0
+  },
+  "filebrowser": {
+    "show"                  : 0,
+    "removeFolder"          : 0,
+    "createFolder"          : 0,
+    "moveFolder"            : 0,
+    "renameFolder"          : 0,
+    "removeFiles"           : 0,
+    "editFiles"             : 0,
+    "downloadFiles"         : 0,
+    "uploadFiles"           : 0,
+    "renameFiles"           : 0,
+    "moveFiles"             : 0,
+    "showFiles"             : 0
   }
 }

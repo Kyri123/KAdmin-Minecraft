@@ -1,0 +1,25 @@
+{
+  "success"       : "Erfolgreich",
+  "error"         : "Abgebrochen",
+  "warning"       : "Achtung",
+  "info"          : "Information",
+  "question"      : "Frage",
+  "modal": {
+    "0"   : ""
+  },
+  "toast": {
+    "0"   : "Datei konnte nicht gespeichert werden",
+    "1"   : "Änderungen wurden gespeichert",
+    "2"   : "Dateien konnten nicht hochgeladen werden",
+    "3"   : "Upload war Erfolgreich",
+    "4"   : "Der Pfad wurde nicht entfernt",
+    "5"   : "Der Pfad wurde erfolgreich entfernt",
+    "6"   : "Der Pfad wurde nicht erstellt",
+    "7"   : "Der Pfad wurde erfolgreich erstellt",
+    "8"   : "Ordner oder Datei wurde nicht verschoben",
+    "9"   : "Ordner oder Datei wurde verschoben",
+    "10"  : "Ordner oder Datei wurde nicht Umbenannt",
+    "11"  : "Ordner oder Datei wurde Umbenannt",
+    "12"  : "Dateien werden hochgeladen bitte warten..."
+  }
+}
