@@ -8,8 +8,7 @@
  */
 "use strict"
 
-const express               = require('express')
-const router                = express.Router()
+const router                = require('express').Router()
 const globalinfos           = require('./../../../app/src/global_infos')
 const serverCommands        = require('./../../../app/src/background/server/commands')
 const serverCommandsUtil    = require('./../../../app/src/background/server/commands_util')
@@ -30,6 +29,11 @@ router.route('/')
             });
             return true;
         }
+
+       res.render('ajax/json', {
+          data: `{"request":"failed"}`
+       })
+       return true
     })
 
     .get((req,res)=>{
@@ -47,6 +51,11 @@ router.route('/')
             });
             return true;
         }
+
+       res.render('ajax/json', {
+          data: `{"request":"failed"}`
+       })
+       return true
     })
 
 module.exports = router;

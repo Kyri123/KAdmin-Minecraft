@@ -8,8 +8,7 @@
  */
 "use strict"
 
-const express               = require('express')
-const router                = express.Router()
+const router                = require('express').Router()
 const globalinfos           = require('./../../../app/src/global_infos')
 const serverCommands        = require('./../../../app/src/background/server/commands')
 const serverCommandsUtil    = require('./../../../app/src/background/server/commands_util')
@@ -28,7 +27,7 @@ router.route('/')
             res.render('ajax/json', {
                 data: serverCommandsUtil.sendToScreen(POST.server, escape(POST.command.toString()))
             });
-            return true;
+            return true
         }
 
         // ModpackPicker
@@ -42,6 +41,7 @@ router.route('/')
             let serv        = new serverClass(POST.cfg)
 
             if(serv.serverExsists()) {
+                serv.writeState("is_installing", true)
                 let modid   = parseInt(POST.modid)
                 let succ    = versionControlerModpacks.InstallPack(modid, parseInt(POST.fileid), POST.cfg)
                 if(succ) serv.writeConfig("currversion", modid)
@@ -51,7 +51,7 @@ router.route('/')
                         success: succ
                     })
                 });
-                return true;
+                return true
             }
         }
 
@@ -66,14 +66,17 @@ router.route('/')
                 let v       = POST.version.replace(".jar", "")
                 let succ
                 if(POST.type === "spigot") {
+                    serv.writeState("is_installing", true)
                     succ    = versionSpigotControler.downloadServer(POST.version, `${serv.getConfig().path}/serverSpigot.jar`)
                     if(succ) serv.writeConfig("jar", "serverSpigot.jar")
                 }
                 else if(POST.type === "craftbukkit") {
+                    serv.writeState("is_installing", true)
                     succ    = versionCraftbukkitControler.downloadServer(POST.version, `${serv.getConfig().path}/serverCraftbukkit.jar`)
                     if(succ) serv.writeConfig("jar", "serverCraftbukkit.jar")
                 }
                 else {
+                    serv.writeState("is_installing", true)
                     v       = versionVanillaControler.readList().versions[POST.version].id
                     succ    = versionVanillaControler.downloadServer(POST.version, `${serv.getConfig().path}/server.jar`)
                     if(succ) serv.writeConfig("jar", "server.jar")
@@ -85,7 +88,7 @@ router.route('/')
                         alert: alerter.rd(succ ? 1018 : 3).replace("{v}", v)
                     })
                 });
-                return true;
+                return true
             }
         }
 
@@ -121,11 +124,24 @@ router.route('/')
                 });
             }
         }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
     .get((req,res)=>{
         // DEFAULT AJAX
         let GET         = req.query;
+
+        // GET Globale Infos
+        if(GET.getglobalinfos !== undefined) {
+            res.render('ajax/json', {
+                data: JSON.stringify(globalinfos.get())
+            });
+            return true;
+        }
 
         // Wenn keine Rechte zum abruf
         if(!userHelper.hasPermissions(req.session.uid, "show", GET.server)) return true;
@@ -139,13 +155,10 @@ router.route('/')
             return true;
         }
 
-        // GET Globale Infos
-        if(GET.getglobalinfos !== undefined) {
-            res.render('ajax/json', {
-                data: JSON.stringify(globalinfos.get())
-            });
-            return true;
-        }
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
 module.exports = router;

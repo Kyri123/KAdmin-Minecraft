@@ -18,8 +18,10 @@ if(process.platform === "win32") {
 
 const createError                     = require('http-errors')
 const http                            = require('http')
+const cors                            = require('cors')
 const express                         = require('express')
 const session                         = require('express-session')
+const fileupload                      = require('express-fileupload')
 const bodyParser                      = require('body-parser')
 const cookieParser                    = require('cookie-parser')
 const logger                          = require('morgan')
@@ -103,6 +105,10 @@ let app         = express()
   }))
 
   // andere Konfigs
+  app.use(fileupload({
+    createParentPath: true
+  }))
+  app.use(cors())
   app.use(compression())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({
@@ -119,7 +125,16 @@ let app         = express()
 
   // Routes
   // Main
-  app.use('/', require(Installed ? './routes/index' : './routes/installer/index'))
+  app.use(function (req, res, next) {
+    if (! ('JSONResponse' in res) ) {
+      return next();
+    }
+
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.json(res.JSONResponse);
+  })
+
+  app.use(/*'/', require(Installed ? './routes/index' : './routes/installer/index')*/require('./routes/index'))
 
   // Error
   app.use(function(err, req, res, next) {

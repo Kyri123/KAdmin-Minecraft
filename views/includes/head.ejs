@@ -10,11 +10,16 @@
         <meta name="description" content="Arkserver Panel (Windows)">
         <meta name="author" content="Oliver Kaufmann">
 
+        <!-- favicon -->
+        <link rel="icon" href="/img/logo/logo.png" type="image/x-icon">
+
         <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200&display=swap">
 
         <!-- Extern CSS -->
 
@@ -27,13 +32,15 @@
         <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
         <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
         <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+        <link rel="stylesheet" href="/plugins/sweetalert2/sweetalert2.min.css">
         <link rel="stylesheet" href="/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
         <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+        <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
 
         <style type="text/css">
-            * {
+            /** {
                 border-radius: 0px !important;
-            }
+            }*/
             body {
                 background: url('/img/backgrounds/bg.jpg');
                 background-position: bottom center;
@@ -56,9 +63,9 @@
             // Vars die zur JS übergeben werden
             // Allgemeine Vars
             let globalvars = {}
-            <% if(typeof lang.alert !== "undefined") {%>    globalvars.alertlang    = <%- JSON.stringify(lang.alert) %>;  <% } %>
-            <% if(typeof lang !== "undefined") {%>          globalvars.lang_arr     = <%- JSON.stringify(lang) %>;        <% } %>
-            <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>;              <% } %>
+            <% if(typeof lang.alert !== "undefined") {%>    globalvars.alertlang    = <%- JSON.stringify(lang.alert) %>  <% } %>
+            <% if(typeof lang !== "undefined") {%>          globalvars.lang_arr     = <%- JSON.stringify(lang) %>        <% } %>
+            <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>        <% } %>
 
             setInterval(() => {
                 try {
@@ -74,6 +81,8 @@
         <script src="/plugins/jquery/jquery.min.js"></script>
         <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
+        <script src="/plugins/toastr/toastr.min.js"></script>
         <script src="/js/kadmin/kadmin.js?time=<%- Date.now() %>"></script>
         <script src="/js/kadmin/global.js?time=<%- Date.now() %>"></script>
+        <script src="/js/kadmin/modalsandtoast.js?time=<%- Date.now() %>"></script>
     </head>

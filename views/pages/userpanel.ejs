@@ -40,7 +40,7 @@
 
 <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
     <!-- Remove Modal -->
-    <form class="modal fade" method="post" action="#" id="groups" tabindex="-1" style="display: none;" aria-hidden="true">
+    <form class="modal" method="post" action="#" id="groups" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-info">
@@ -71,7 +71,7 @@
 
 <% if(userHelper.hasPermissions(userID, "userpanel/delete_user")) { %>
     <!-- Remove Modal -->
-    <form class="modal fade" method="post" action="#" id="remove" tabindex="-1" style="display: none;" aria-hidden="true">
+    <form class="modal" method="post" action="#" id="remove" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-danger">
@@ -95,7 +95,7 @@
 
 <% if(userHelper.hasPermissions(userID, "userpanel/show_codes")) { %>
     <!-- CodeMODAL -->
-    <form class="modal fade" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
+    <form class="modal" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-success">

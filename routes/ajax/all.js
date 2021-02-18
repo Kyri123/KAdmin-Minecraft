@@ -8,8 +8,7 @@
  */
 "use strict"
 
-const express           = require('express')
-const router            = express.Router()
+const router            = require('express').Router()
 const srq               = require("sync-request")
 
 router.route('/')
@@ -25,7 +24,7 @@ router.route('/')
             let dirPath     = Array.isArray(POST.dirPath) ? POST.dirPath : [POST.dirPath]
 
             res.render('ajax/json', {
-                data: JSON.stringify(globalUtil.safeFileReadDirSync(dirPath))
+                data: JSON.stringify(globalUtil.safeFileReadDirSync([dirPath]))
             })
             return true
         }
@@ -40,6 +39,11 @@ router.route('/')
           })
           return true
        }
+
+       res.render('ajax/json', {
+          data: `{"request":"failed"}`
+       })
+       return true
     })
 
     .get((req,res) => {
@@ -51,6 +55,11 @@ router.route('/')
             })
             return true
         }
+
+       res.render('ajax/json', {
+          data: `{"request":"failed"}`
+       })
+       return true
     })
 
 module.exports = router;

@@ -48,7 +48,8 @@ Installation
    2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip curl`
    3. Installiere NodeJS (min 15.6.0)
 2. Log dich in den Benutzer ein `su kadmin`
-3. Downloade den letzten Release `cd ~ && wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.3/installer.sh && chmod 755 ./installer.sh && ./installer.sh`
+3. Downloade den letzten Release `cd ~ && wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.3/installer.sh && chmod 755 ./installer.sh && ./installer.sh master`
+   1. Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
 4. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese (Todo Automatisiertes erstellen von Tabellen)
 5. Konfiguriere:
    - `app/config/app.json`
@@ -58,7 +59,14 @@ Installation
 Update
 =============
 - Funktioniert automatisch
-- Manuell: `cd ~ && wget https://github.com/Kyri123/KAdmin-Minecraft/releases/download/0.0.3/updater.sh && chmod 755 ./updater.sh && ./updater.sh`
+- Manuell: `chmod 755 ./updater.sh && ./updater.sh master`
+  - Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
+
+Autostart einrichten
+=============
+1. Logge dich in den benutzer `kadmin` ein `su kadmin`
+2. Öffne den Crontab `crontab -e`
+3. füge folgende Zeile hinzu: `@reboot sh ~/starter.sh` **(Hierbei kann der Pfad `~/starter.sh` abweichen!)**
 
 Standart Login
 =============
@@ -73,6 +81,13 @@ app.json
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
 | `lang`                | **wird nicht mehr verwendet** |
+
+updater.json
+=============
+| Eigenschaften         | Wert | 
+| :---                  | :--- |
+| `useBranch`           | Welche Branch soll benutzt werden **(Erlaubt: dev, master, test)** |
+| `automaticInstall`    | Sollen Updates automatisch Installiert werden oder nur gemeldet (**true** = Installer, **false** = nur melden) |
 
 main.json
 =============

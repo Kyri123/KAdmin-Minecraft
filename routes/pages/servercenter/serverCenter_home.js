@@ -8,8 +8,7 @@
  */
 "use strict"
 
-const express           = require('express')
-const router            = express.Router()
+const router            = require('express').Router()
 const globalinfos       = require('./../../../app/src/global_infos');
 const serverClass       = require('./../../../app/src/util_server/class');
 
