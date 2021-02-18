@@ -127,7 +127,7 @@ function getPath(path) {
                                        ? `<a class="dropdown-item" href="javascript:void(0)" id="edit_${i}" onclick="showeditmodal(true, this.id, '${file.totalPath}')"><i class="fas fa-edit"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.edit}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/renameFiles", vars.cfg)
-                                       ? `<a class="dropdown-item" href="javascript:void(0)" data-rename="use" data-isfile="yes" data-path="${file.totalPath}"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>` : ""
+                                       ? `<a class="dropdown-item" href="javascript:void(0)" data-rename="use" data-filename="${file.name}" data-isfile="yes" data-path="${file.totalPath}"><i class="fas fa-file-signature"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.rename}</a>` : ""
                                     }
                                     ${ hasPermissions(globalvars.perm, "filebrowser/moveFiles", vars.cfg)
                                        ? `<a class="dropdown-item" href="javascript:void(0)" data-move="use" data-isfile="yes" data-path="${file.totalPath}"><i class="fas fa-arrows-alt"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.move}</a>` : ""
@@ -203,20 +203,20 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           fireModal(success ? 3 : 2, success ? 'success' : 'error')
+                           fireToast(success ? 5 : 4, success ? 'success' : 'error')
                            $(e.currentTarget.dataset.tohome === "no" ? '#FB_reload' : '#FB_tohome').click()
                        }
                        catch (e) {
                            console.log(e)
-                           fireModal(2, "error")
+                           fireToast(4, "error")
                        }
                    })
                    .fail(() => {
-                       fireModal(2, "error")
+                       fireToast(4, "error")
                    })
                 cancel = false
             }
-            if(cancel) fireModal(2, "error")
+            if(cancel) fireToast(4, "error")
         })
     })
 
@@ -241,20 +241,20 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           fireModal(success ? 3 : 2, success ? 'success' : 'error')
+                           fireToast(success ? 5 : 4, success ? 'success' : 'error')
                            $('#FB_reload').click()
                        }
                        catch (e) {
                            console.log(e)
-                           fireModal(2, "error")
+                           fireToast(4, "error")
                        }
                    })
                    .fail(() => {
-                       fireModal(2, "error")
+                       fireToast(4, "error")
                    })
                 cancel = false
             }
-            if(cancel) fireModal(2, "error")
+            if(cancel) fireToast(4, "error")
         })
     })
 
@@ -284,7 +284,7 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           fireModal(success ? 0 : 1, success ? 'success' : 'error')
+                           fireToast(success ? 7 : 6, success ? 'success' : 'error')
                            swalWithBootstrapButtons.fire(
                               success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.success_title : globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.error_title,
                               success ? globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.success_text  : globalvars.lang_arr["servercenter_filebrowser"].sweet.mkdir.cancel_text,
@@ -294,15 +294,15 @@ function reloadClickEvents() {
                        }
                        catch (e) {
                            console.log(e)
-                           fireModal(0, 'error')
+                           fireToast(6, 'error')
                        }
                    })
                    .fail(() => {
-                       fireModal(0, 'error')
+                       fireToast(6, 'error')
                    })
                 cancel = false
             }
-            if(cancel) fireModal(0, 'error')
+            if(cancel) fireToast(6, 'error')
         })
     })
 
@@ -330,21 +330,21 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           fireModal(success ? 5 : 4, success ? 'success' : 'error')
+                           fireToast(success ? 9 : 8, success ? 'success' : 'error')
                            if(e.currentTarget.dataset.isfile === "yes") $('#FB_reload').click()
                            if(e.currentTarget.dataset.isfile === "no") getPath(`${result.value}/${e.currentTarget.dataset.path.split("/").pop()}`)
                        }
                        catch (e) {
                            console.log(e)
-                           fireModal(4, 'error')
+                           fireToast(8, 'error')
                        }
                    })
                    .fail(() => {
-                       fireModal(4, 'error')
+                       fireToast(8, 'error')
                    })
                 cancel = false
             }
-            if(cancel) fireModal(4, 'error')
+            if(cancel) fireToast(8, 'error')
         })
     })
 
@@ -357,6 +357,7 @@ function reloadClickEvents() {
             confirmButtonText: `<i class="fas fa-save"></i>`,
             cancelButtonText: `<i class="fas fa-times"></i>`,
             input: 'text',
+            inputValue: e.currentTarget.dataset.filename,
             inputValidator: (value) => {
                 let re = /^([a-zA-Z0-9][^*/><?\|:\s]*)$/
 
@@ -379,21 +380,21 @@ function reloadClickEvents() {
                    .done((data) => {
                        try {
                            let success = JSON.parse(data).success
-                           fireModal(success ? 7 : 6, success ? 'success' : 'error')
+                           fireToast(success ? 11 : 10, success ? 'success' : 'error')
                            if(e.currentTarget.dataset.isfile === "yes") $('#FB_reload').click()
                            if(e.currentTarget.dataset.isfile === "no") getPath(`${filePath.join("/")}/${result.value}`)
                        }
                        catch (e) {
                            console.log(e)
-                           fireModal(6, 'error')
+                           fireToast(11, 'error')
                        }
                    })
                    .fail(() => {
-                       fireModal(6, 'error')
+                       fireToast(11, 'error')
                    })
                 cancel = false
             }
-            if(cancel) fireModal(6, 'error')
+            if(cancel) fireToast(11, 'error')
         })
     })
 
@@ -435,7 +436,7 @@ function reloadClickEvents() {
                     formData.append("upload", true)
                     formData.append("server", vars.cfg)
                     formData.append("path", e.currentTarget.dataset.path)
-                    fireModal(6, 'info')
+                    fireToast(12, 'info')
                     // sende
                     $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -445,19 +446,23 @@ function reloadClickEvents() {
                         processData: false,
                         contentType: false,
                         success: function (resp) {
-                            fireModal(6)
+                            console.log("suc")
+                            fireToast(3)
+                            $('#FB_reload').click()
                         },
                         error: function() {
-                            fireModal(6, 'error')
+                            console.log("err")
+                            fireToast(2, 'error')
+                            $('#FB_reload').click()
                         }
                     })
                 }
                 else {
-                    fireModal(6, 'error')
+                    fireToast(2, 'error')
                 }
             }
             else {
-                fireModal(6, 'error')
+                fireToast(2, 'error')
             }
         })
     })

@@ -15,7 +15,52 @@ router.route('/')
    .post((req,res)=>{
       let POST        = req.body
       let FILES       = req.files
-      console.log(FILES)
+
+      // Löschen
+      try {
+         if(
+            typeof POST.server    !== "undefined" &&
+            typeof POST.path      !== "undefined" &&
+            typeof POST.upload    !== "undefined" &&
+            FILES
+         ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/uploadFiles`, POST.server)) {
+            let serverData    = new serverClass(POST.server)
+            let success       = true
+            let FileArray     = FILES['files[]']
+
+            // lade Datei hoch
+            try {
+               if (FileArray.length !== undefined) {
+                  for (let file of FileArray) {
+                     let path = pathMod.join(POST.path, file.name)
+                     globalUtil.safeFileRmSync([path])
+                     file.mv(path)
+                  }
+               } else {
+                  let path    = pathMod.join(POST.path, FileArray.name)
+                  globalUtil.safeFileRmSync([path])
+                  FileArray.mv(pathMod.join(path))
+               }
+            }
+            catch (e) {
+               if(debug) console.log(e)
+               success = false
+            }
+
+            if( pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path) {
+               console.log(FILES)
+               res.render('ajax/json', {
+                  data: JSON.stringify({
+                     "success": success
+                  })
+               })
+               return true
+            }
+         }
+      }
+      catch (e) {
+         if(debug) console.log(e)
+      }
 
       // Löschen
       try {

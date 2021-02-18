@@ -18,6 +18,7 @@ if(process.platform === "win32") {
 
 const createError                     = require('http-errors')
 const http                            = require('http')
+const cors                            = require('cors')
 const express                         = require('express')
 const session                         = require('express-session')
 const fileupload                      = require('express-fileupload')
@@ -104,7 +105,10 @@ let app         = express()
   }))
 
   // andere Konfigs
-  app.use(fileupload())
+  app.use(fileupload({
+    createParentPath: true
+  }))
+  app.use(cors())
   app.use(compression())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({

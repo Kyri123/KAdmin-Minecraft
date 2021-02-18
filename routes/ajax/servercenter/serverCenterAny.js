@@ -27,7 +27,7 @@ router.route('/')
             res.render('ajax/json', {
                 data: serverCommandsUtil.sendToScreen(POST.server, escape(POST.command.toString()))
             });
-            return true;
+            return true
         }
 
         // ModpackPicker
@@ -51,7 +51,7 @@ router.route('/')
                         success: succ
                     })
                 });
-                return true;
+                return true
             }
         }
 
@@ -88,7 +88,7 @@ router.route('/')
                         alert: alerter.rd(succ ? 1018 : 3).replace("{v}", v)
                     })
                 });
-                return true;
+                return true
             }
         }
 

@@ -45,24 +45,25 @@ function fireToast(code, type= "success") {
          "question"
       ])
    ) {
-      let toast = Swal.mixin({
-         toast: true,
-         position: 'top-end',
-         showConfirmButton: false,
-         timer: 3000,
-         timerProgressBar: true,
-         didOpen: (toast) => {
-            toast.addEventListener('click', Swal.close)
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-         }
-      })
+      toastr[type](globalvars.lang_arr.modalsandtoast.toast[code])
 
-      toast .fire({
-         icon: type,
-         text: globalvars.lang_arr.sweet.toast[code],
-         showCancelButton: false
-      })
+      toastr.options = {
+         "closeButton": false,
+         "debug": false,
+         "newestOnTop": true,
+         "progressBar": true,
+         "positionClass": "toast-top-right",
+         "preventDuplicates": false,
+         "onclick": null,
+         "showDuration": "300",
+         "hideDuration": "1000",
+         "timeOut": "3000",
+         "extendedTimeOut": "1000",
+         "showEasing": "swing",
+         "hideEasing": "linear",
+         "showMethod": "fadeIn",
+         "hideMethod": "fadeOut"
+      }
    }
 }
 
@@ -75,7 +76,7 @@ function fireToast(code, type= "success") {
  */
 function fireModal(code, type= "success", endless = false) {
    if(
-      globalvars.lang_arr.sweet.modal[code] !== undefined
+      globalvars.lang_arr.modalsandtoast.modal[code] !== undefined
       && type.includesArray([
          "success",
          "error",

@@ -25,7 +25,6 @@
     "moveFolder"            : 0,
     "renameFolder"          : 0,
     "removeFiles"           : 0,
-    "execFiles"             : 0,
     "editFiles"             : 0,
     "downloadFiles"         : 0,
     "uploadFiles"           : 0,
