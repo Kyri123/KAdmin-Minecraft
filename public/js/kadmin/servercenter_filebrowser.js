@@ -72,7 +72,9 @@ function getPath(path) {
                 $('#FB_removeFolder')   .attr("data-path", path).data("path", path)
                 $('#FB_addFolder')      .attr("data-path", path).data("path", path)
                 $('#FB_moveFolder')     .attr("data-path", path).data("path", path)
-                $('#FB_renameFolder')   .attr("data-path", path).data("path", path)
+                $('#FB_renameFolder')
+                   .attr("data-path", path).data("path", path)
+                   .attr("data-filename", pathSplit[(pathSplit.length - 1)]).data("path", pathSplit[(pathSplit.length - 1)])
 
 
                 let listDir     = []
