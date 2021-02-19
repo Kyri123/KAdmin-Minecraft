@@ -110,7 +110,8 @@ function getPath(path) {
                         ".json",
                         ".recipe",
                         ".csv",
-                        ".zs"
+                        ".zs",
+                        ".yml"
                     ]
 
                     if(file.isFile)     list.push(`
