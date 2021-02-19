@@ -6,17 +6,6 @@
 <div class="row">
     <div class="col-12 mb-4">
         <div class="tab-pane fade  active show" id="pills-Cfg2" role="tabpanel" aria-labelledby="pills-contact-tab">
-            <table class="table table-striped mb-0">
-                <tbody>
-                    <tr class="bg-dark">
-                        <th colspan="2" class="p-0" style="border: 0!important;">
-                            <div class="list-group-item bg-dark">
-                                <h4 class="m-0">Filebrowser</h4>
-                            </div>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
             <div class="card-body p-2 d-none d-md-block">
                 <div class="row">
                     <!-- Actionlist -->
@@ -55,19 +44,19 @@
 
                 <div class="row">
                     <!-- Nav -->
-                    <div class="col-12 col-md-4 pr-md-0 pl-md-0 hidden-md-down bg-white">
+                    <div class="col-12 col-md-4 pr-md-0 pl-md-0 hidden-md-down bg-dark">
                         <div class="list-group">
                             <button type="button" class="rounded-0 p-1 pl-2 pr-3 list-group-item list-group-item-action disabled active bg-secondary border-secondary">
                                 <i class="fas fa-folder-open" aria-hidden="true"></i> <span id="FB_currDir">???</span>
                             </button>
                             <div id="FB_folderList">
-                                <button type="button" class="rounded-0 p-1 pl-4 pr-3 list-group-item list-group-item-action">Load...</button>
+                                <div type="button" class="rounded-0 p-1 pl-4 pr-3 list-group-item bg-dark">Load...</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Files -->
-                    <div class="col-12 col-md-8 pl-md-0 pr-md-0 bg-gray-light border-left border-bottom bg-white">
+                    <div class="col-12 col-md-8 pl-md-0 pr-md-0 bg-gray-light border-left bg-dark">
                         <div class="list-group">
                             <button type="button" class="rounded-0 p-1 pl-2 pr-3 list-group-item list-group-item-action disabled active bg-secondary border-secondary" id="FB_totalDir">
                                 &nbsp;...
@@ -92,7 +81,7 @@
                 <h5 class="modal-title" id="editshow_h5">Befehl an den Server senden</h5>
             </div>
             <div class="modal-body p-0">
-                    <textarea class="bg-dark p-1 m-0 codeview font" id="editshow_area" style="font-family: 'Source Code Pro', monospace;max-width: 100%;min-width: 100%;max-height: 500px; min-height: 500px"></textarea>
+                <textarea class="bg-dark p-1 m-0 codeview font" id="editshow_area" style="font-family: 'Source Code Pro', monospace;max-width: 100%;min-width: 100%;max-height: 500px; min-height: 500px"></textarea>
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="actions" value="sendcommand">

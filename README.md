@@ -15,6 +15,11 @@ Webbasiertes Admin Panel für Minecraft-Server
   - Automatische Backups
   - Konfiguration von KAdmin & Server.properties
   - Restart beim Crash vom Server
+  - Filebrowser
+    - Verwaltung von Ordnern und Dateien
+    - Bearbeiten von Dateien
+    - Upload und Download
+    - MORE WIP
   - Versions auswahl von
     - Vanilla Release (+ Snapshots)
     - Spigot
@@ -23,13 +28,7 @@ Webbasiertes Admin Panel für Minecraft-Server
 
 **Geplante Features**
 
-- ServerCenter
-  - Spieler verwaltung und Anzeige wer ist Online
-  - Filebrowser für Konfigs von Mods & Plugins
-    - Löschen von Dateien
-    - Hochladen von Dateien
-  - uvm.
-- Ideen gerne gesehen!
+- Ziehe Trello :*
 
 Wichtig
 =============
