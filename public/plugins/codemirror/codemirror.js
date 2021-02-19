@@ -32,7 +32,7 @@
   var mac_geMountainLion = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(userAgent);
   var phantom = /PhantomJS/.test(userAgent);
 
-  var ios = !edge && /AppleWebKit/.test(userAgent) && /Mobile\/\w+/.test(userAgent);
+  var ios = safari && (/Mobile\/\w+/.test(userAgent) || navigator.maxTouchPoints > 2);
   var android = /Android/.test(userAgent);
   // This is woefully incomplete. Suggestions for alternative methods welcome.
   var mobile = ios || android || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(userAgent);
@@ -43,7 +43,7 @@
   var presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
   if (presto_version) { presto_version = Number(presto_version[1]); }
   if (presto_version && presto_version >= 15) { presto = false; webkit = true; }
-  // Some browsers use the wrong event properties to signal shell/ctrl on OS X
+  // Some browsers use the wrong event properties to signal cmd/ctrl on OS X
   var flipCtrlCmd = mac && (qtwebkit || presto && (presto_version == null || presto_version < 12.11));
   var captureRightClick = gecko || (ie && ie_version >= 9);
 
@@ -5115,7 +5115,7 @@
       (cmp(sel.primary().head, doc.sel.primary().head) < 0 ? -1 : 1);
     setSelectionInner(doc, skipAtomicInSelection(doc, sel, bias, true));
 
-    if (!(options && options.scroll === false) && doc.cm)
+    if (!(options && options.scroll === false) && doc.cm && doc.cm.getOption("readOnly") != "nocursor")
       { ensureCursorVisible(doc.cm); }
   }
 
@@ -6706,10 +6706,10 @@
   function normalizeKeyName(name) {
     var parts = name.split(/-(?!$)/);
     name = parts[parts.length - 1];
-    var alt, ctrl, shift, shell;
+    var alt, ctrl, shift, cmd;
     for (var i = 0; i < parts.length - 1; i++) {
       var mod = parts[i];
-      if (/^(shell|meta|m)$/i.test(mod)) { shell = true; }
+      if (/^(cmd|meta|m)$/i.test(mod)) { cmd = true; }
       else if (/^a(lt)?$/i.test(mod)) { alt = true; }
       else if (/^(c|ctrl|control)$/i.test(mod)) { ctrl = true; }
       else if (/^s(hift)?$/i.test(mod)) { shift = true; }
@@ -6717,7 +6717,7 @@
     }
     if (alt) { name = "Alt-" + name; }
     if (ctrl) { name = "Ctrl-" + name; }
-    if (shell) { name = "Cmd-" + name; }
+    if (cmd) { name = "Cmd-" + name; }
     if (shift) { name = "Shift-" + name; }
     return name
   }
@@ -8451,9 +8451,9 @@
       triggerOnKeyUp: onKeyUp,
       triggerOnMouseDown: methodOp(onMouseDown),
 
-      execCommand: function(shell) {
-        if (commands.hasOwnProperty(shell))
-          { return commands[shell].call(null, this) }
+      execCommand: function(cmd) {
+        if (commands.hasOwnProperty(cmd))
+          { return commands[cmd].call(null, this) }
       },
 
       triggerElectric: methodOp(function(text) { triggerElectric(this, text); }),
@@ -8675,10 +8675,13 @@
     function moveOnce(boundToLine) {
       var next;
       if (unit == "codepoint") {
-        var ch = lineObj.text.charCodeAt(pos.ch + (unit > 0 ? 0 : -1));
-        if (isNaN(ch)) { next = null; }
-        else { next = new Pos(pos.line, Math.max(0, Math.min(lineObj.text.length, pos.ch + dir * (ch >= 0xD800 && ch < 0xDC00 ? 2 : 1))),
-                            -dir); }
+        var ch = lineObj.text.charCodeAt(pos.ch + (dir > 0 ? 0 : -1));
+        if (isNaN(ch)) {
+          next = null;
+        } else {
+          var astral = dir > 0 ? ch >= 0xD800 && ch < 0xDC00 : ch >= 0xDC00 && ch < 0xDFFF;
+          next = new Pos(pos.line, Math.max(0, Math.min(lineObj.text.length, pos.ch + dir * (astral ? 2 : 1))), -dir);
+        }
       } else if (visually) {
         next = moveVisually(doc.cm, lineObj, pos, dir);
       } else {
@@ -9790,7 +9793,7 @@
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.58.3";
+  CodeMirror.version = "5.59.2";
 
   return CodeMirror;
 
