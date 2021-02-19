@@ -7,6 +7,13 @@
 * *******************************************************************************************
 */
 "use strict"
+let editor = CodeMirror.fromTextArea(document.getElementById("editshow_area"), {
+    lineNumbers: true,
+    mode: "javascript",
+    ext: ["json", "map"],
+    theme: "material"
+})
+
 
 let filesFrontend   = $('#FB_fileList')
 let dirFrontend     = $('#FB_folderList')
@@ -82,7 +89,7 @@ function getPath(path) {
 
                 // setzte .. wenn erlaubt
                 if(pathbefore.includes(vars.cfg))
-                    listDir.push(`<button type="button" onClick="getPath('${pathbefore}')" data-js="goback" class="p-1 pl-4 pr-3 list-group-item list-group-item-action"><i class="fas fa-folder" aria-hidden="true"></i> ..</button>`)
+                    listDir.push(`<div type="button" onClick="getPath('${pathbefore}')" data-js="goback" class="p-1 pl-4 pr-3 list-group-item bg-dark"><i class="fas fa-folder" aria-hidden="true"></i> ..</div>`)
 
                 let fileArr     = JSON.parse(files)
 
@@ -107,7 +114,7 @@ function getPath(path) {
                     ]
 
                     if(file.isFile)     list.push(`
-                    <div class="p-0 pl-4 list-group-item border-left-0">
+                    <div class="p-0 pl-4 list-group-item border-left-0 bg-dark">
                         <div class="d-flex">
                             <div class="pt-1 pb-1">
                                 <i class="${icon(file.FileExt)}" aria-hidden="true"></i> 
@@ -115,7 +122,7 @@ function getPath(path) {
                             </div>
                             <div class="btn-group btn-group-sm ml-auto">
                                 <span class="pr-3 text-sm pt-1 pb-1"><b>${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"}</b></span>
-                                <button type="button" class="rounded-0 btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="rounded-0 btn btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     ${globalvars.lang_arr["servercenter_filebrowser"].options.actions}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -150,7 +157,7 @@ function getPath(path) {
 
                     if(file.isDir) {
                         listDir.push(`
-                            <button type="button" onClick="getPath('${file.totalPath}')" class="p-0 pl-4 pr-1 list-group-item list-group-item-action">
+                            <div type="button" onClick="getPath('${file.totalPath}')" class="p-0 pl-4 pr-1 list-group-item bg-dark">
                                 <div class="d-flex">
                                     <div class="pt-1 pb-1">
                                         <i class="${icon(file.FileExt)}" aria-hidden="true"></i> 
@@ -160,16 +167,16 @@ function getPath(path) {
                                         <span class="text-sm"><b>${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"}</b></span>
                                     </div>
                                 </div>
-                            </button>`)
+                            </div>`)
                         dirArray[file.totalPath] = `${file.name} (${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"})`
                     }
                     i++
                 }
 
                 if(list.length === 0)
-                    list.push(`<div class="p-1 pl-4 pr-3 list-group-item border-left-0"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noFileFound}</div>`)
+                    list.push(`<div class="p-1 pl-4 pr-3 list-group-item border-left-0 bg-dark"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noFileFound}</div>`)
                 if(listDir.length === 0 || (listDir.length === 1 && listDir[0].includes("data-js")))
-                    listDir.push(`<div class="p-1 pl-4 pr-3 list-group-item"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noDirFound}</div>`)
+                    listDir.push(`<div class="p-1 pl-4 pr-3 list-group-item bg-dark"><i class="fas fa-exclamation"></i> ${globalvars.lang_arr["servercenter_filebrowser"].noDirFound}</div>`)
 
                 filesFrontend.html(list.join(""))
                 dirFrontend.html(listDir.join(""))
@@ -479,8 +486,8 @@ async function showeditmodal(onlyread, element, file) {
     let h5              = $(`#editshow_h5`)
 
     // setzte Elemente und Attribute
+    editor.setOption('readOnly', !onlyread)
     acceptBTN.toggle(onlyread)
-    textarea.attr("readonly", !onlyread)
     clickedElement.html('<i class="fas fa-spinner fa-pulse"></i>')
     h5.html(globalvars.lang_arr["servercenter_filebrowser"][!onlyread ? 'show_modal' : 'edit_modal'])
 
@@ -491,9 +498,9 @@ async function showeditmodal(onlyread, element, file) {
     }, (data) => {
         if(data !== "false" && data !== '{"request":"failed"}') {
             textarea.data('file', file)
-            textarea.html(data)
             clickedElement.html(oldHTMClicked)
             modal.modal('show')
+            editor.setValue(data)
         }
         else {
             clickedElement.html(oldHTMClicked)
@@ -502,11 +509,10 @@ async function showeditmodal(onlyread, element, file) {
 }
 
 function sendedit() {
-    let textarea        = $(`#editshow_area`)
     let acceptBTN       = $(`#editshow_accept`)
     let oldHTMClicked   = acceptBTN.html()
-    let filePath        = textarea.data().file
-    let send            = textarea.html()
+    let filePath        = $(`#editshow_area`).data().file
+    let send            = editor.getValue()
     let modal           = $(`#editshow`)
 
     // setzte Elemente und Attribute

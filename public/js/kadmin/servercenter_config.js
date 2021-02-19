@@ -7,12 +7,18 @@
 * *******************************************************************************************
 */
 "use strict"
+let editor = CodeMirror.fromTextArea(document.getElementById("serverprop"), {
+    lineNumbers: true,
+    mode: "javascript",
+    theme: "material"
+})
+
 if (hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
     serverInis: true,
     ini: "server",
     server: vars.cfg
 }, (data) => {
-    $('#serverprop').text(data);
+    editor.setValue(data)
 })
 
 /**
@@ -39,7 +45,7 @@ function saveCfg() {
  */
 function serverSave(htmlID, cfg) {
     $.post('/ajax/serverCenterConfig', {
-        iniText: $(htmlID).val(),
+        iniText: editor[htmlID].getValue(),
         cfg: cfg,
         server: true
     }, (data) => {
@@ -49,8 +55,8 @@ function serverSave(htmlID, cfg) {
         } catch (e) {
             console.log(e);
         }
-    });
-    return false;
+    })
+    return false
 }
 
 /*
