@@ -8,9 +8,8 @@
  */
 "use strict"
 
-const serverShell         = require('./../../../app/src/background/server/shell')
-const express           = require('express')
-const router            = express.Router()
+const router            = require('express').Router()
+const serverShell       = require('./../../../app/src/background/server/shell')
 const serverClass       = require('./../../../app/src/util_server/class')
 
 router.route('/')
@@ -65,6 +64,10 @@ router.route('/')
         }
 
 
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
     .get((req,res)=>{
@@ -86,6 +89,11 @@ router.route('/')
                 return true
             }
         }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
 module.exports = router;

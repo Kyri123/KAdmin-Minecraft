@@ -9,15 +9,25 @@
                 </div>
             </div>
             <div class="widget-user-image" style="z-index: 1000">
-                <img id="serv_img" src="https://cdn.icon-icons.com/icons2/1381/PNG/512/minecraft_94415.png" style="border-radius: 25rem !important;border-top-width: 3px!important;height: 100px;width: 100px;background-color: #001f3f" class="border-dark">
+                <img id="serv_img" src="/img/logo/logo.png" style="border-radius: 0rem !important;border-top-width: 3px!important;height: 100px;width: 100px;background-color: #001f3f" class="border-dark">
             </div>
             <div class="d-flex bd-highlight">
                 <div class="p-0 flex-fill bd-highlight">
-                    <button style="width: 100%" class="btn btn-dark" onclick="copyToClipboard('info')" id="btnCopy"><i class="fas fa-copy" aria-hidden="true"></i></button>
+                    <button style="width: 100%" class="rounded-0 btn btn-dark" onclick="copyToClipboard('info')" id="btnCopy"><i class="fas fa-copy" aria-hidden="true"></i></button>
                 </div>
-                <div class="p-0 flex-fill bd-highlight">
-                    <a style="width: 100%" href="steam://connect/<%- ip.address() %>:<%- servini["server-port"] %>" class="text-white btn btn-dark" id="btnJoin"><i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
-                </div>
+
+                <% if(userHelper.hasPermissions(user.id, "showalerts", serverName)) { %>
+                    <div class="p-0 flex-fill bd-highlight">
+                        <a style="width: 100%" data-toggle="modal" data-target="#alert" href="#" class="rounded-0 text-white btn btn-info">
+                            <i class="fa fa-info" aria-hidden="true"></i>
+                            <span class="pl-1 text-bold" id="infoCounter">0</span>
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="p-0 flex-fill bd-highlight">
+                        <a style="width: 100%" href="#" class="rounded-0 text-white btn btn-dark">&nbsp;</a>
+                    </div>
+                <% } %>
             </div>
             <div class="card-footer pt-3">
                 <div class="row">
@@ -62,7 +72,7 @@
                                 </a>
                             </li>
 
-                            <% if(userHelper.hasPermissions(user.id, "mods/config", serverName)) { %>
+                            <% if(userHelper.hasPermissions(user.id, "config/show", serverName)) { %>
                                 <li class="nav-item">
                                     <a href="/servercenter/<%- serverName %>/config" class="nav-link <%- page === "servercenter_config" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_config" ? "" : `onmouseenter="$('#config').toggleClass('d-lg-none', false)" onmouseleave="$('#config').toggleClass('d-lg-none', true)"` %>>
                                         <i class="nav-icon fas fa-edit pr-1" aria-hidden="true"></i> <span id="config" class="<%- page === "servercenter_config" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.config %></span>
@@ -70,28 +80,21 @@
                                 </li>
                             <% } %>
 
-                            <% if(userHelper.hasPermissions(user.id, "mods/backups", serverName)) { %>
+                            <% if(userHelper.hasPermissions(user.id, "backups/show", serverName)) { %>
                                 <li class="nav-item">
                                     <a href="/servercenter/<%- serverName %>/backups" class="nav-link <%- page === "servercenter_backups" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_backups" ? "" : `onmouseenter="$('#backups').toggleClass('d-lg-none', false)" onmouseleave="$('#backups').toggleClass('d-lg-none', true)"` %>>
                                         <i class="nav-icon fas fa-hdd pr-1" aria-hidden="true"></i> <span id="backups" class="<%- page === "servercenter_backups" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.backups %></span>
                                     </a>
                                 </li>
                             <% } %>
-                        </ul>
 
-                        <!-- RIGHT -->
-                        <ul class="nav navbar-nav aa-nav ml-auto float-right" id="logbar">
-
-                            <li class="nav-item" style="cursor: pointer">
-                                <a data-toggle="modal" data-target="#alert" href="#" class="nav-link btn-info p-3" style="padding-right: 50px!important;">
-                                    <i class="fa fa-info" aria-hidden="true"></i><div class="ribbon-wrapper">
-                                        <div class="ribbon" style="background: #116b79" id="infoCounter">
-                                            0
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-
+                            <% if(userHelper.hasPermissions(user.id, "filebrowser/show", serverName)) { %>
+                                <li class="nav-item d-none d-md-block">
+                                    <a href="/servercenter/<%- serverName %>/filebrowser" class="nav-link <%- page === "servercenter_filebrowser" ? "active" : "" %> btn-dark p-3" <%- page === "servercenter_filebrowser" ? "" : `onmouseenter="$('#filebrowser').toggleClass('d-lg-none', false)" onmouseleave="$('#filebrowser').toggleClass('d-lg-none', true)"` %>>
+                                        <i class="nav-icon fas fa-folder-open pr-1" aria-hidden="true"></i> <span id="filebrowser" class="<%- page === "servercenter_filebrowser" ? "" : "d-lg-none" %>"><%- lang["servercenter_any"].nav.filebrowser %></span>
+                                    </a>
+                                </li>
+                            <% } %>
                         </ul>
                     </div>
                 </nav>
@@ -104,7 +107,7 @@
 <div id="all_resp"><%- response %></div>
 <% if(userHelper.hasPermissions(user.id, "actions", serverName)) { %>
 <!-- MODAL AKTION -->
-    <div class="modal fade" id="action" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="action" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <form id="action_form" class="modal-dialog modal-xl" role="document" style="max-width: 700px" method="POST">
             <div class="modal-content border-0">
                 <div class="modal-header bg-dark text-white">
@@ -138,13 +141,13 @@
 <% } %>
 
 <!-- MODAL Players -->
-<div class="modal fade" id="playerlist_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal" id="playerlist_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl" style="max-width: 700px">
         <div class="modal-content border-0">
             <div class="modal-header bg-info text-white">
                 <h5 class="modal-title"><%- lang["servercenter_any"].playermodal.title %></h5>
             </div>
-            <div class="modal-body p-0" id="AlertBody">
+            <div class="modal-body p-0">
                 <table class="table m-0">
                     <tbody id="playerlist"></tbody>
                 </table>
@@ -156,27 +159,29 @@
     </div>
 </div>
 
-<!-- MODAL ALERTS -->
-<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl" style="max-width: 700px">
-        <div class="modal-content border-0">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title">PLACEHOLDER</h5>
-            </div>
-            <div class="modal-body p-0" id="AlertBody">
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="actions" value="sendcommand">
-                <input type="hidden" name="cfg" value="<%- serverName %>">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+<% if(userHelper.hasPermissions(user.id, "showalerts", serverName)) { %>
+    <!-- MODAL ALERTS -->
+    <div class="modal" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="max-width: 700px">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><%- lang["servercenter_any"].title_alert %></h5>
+                </div>
+                <div class="modal-body p-0" id="AlertBody">
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="actions" value="sendcommand">
+                    <input type="hidden" name="cfg" value="<%- serverName %>">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<% } %>
 
 <% if(userHelper.hasPermissions(user.id, "versionpicker", serverName)) { %>
     <!-- MODAL VERSION -->
-    <div class="modal fade" id="versionpicker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="versionpicker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl" style="max-width: 700px">
             <div class="modal-content border-0">
                 <div class="modal-header bg-info text-white">

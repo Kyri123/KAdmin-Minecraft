@@ -2,16 +2,15 @@
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
  * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-ArkWIN/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-ArkWIN
+ * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+ * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
  */
 "use strict"
 
-const express       = require('express')
-const router        = express.Router()
+const router        = require('express').Router()
 const globalinfos   = require('./../../app/src/global_infos');
-const userHelper   = require('./../../app/src/sessions/helper');
+const userHelper    = require('./../../app/src/sessions/helper');
 
 router.route('/')
 

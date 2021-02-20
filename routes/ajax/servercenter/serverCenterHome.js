@@ -8,11 +8,10 @@
  */
 "use strict"
 
-const express               = require('express')
-const router                = express.Router()
-const globalinfos           = require('./../../../app/src/global_infos');
-const serverCommands        = require('./../../../app/src/background/server/commands');
-const serverCommandsUtil    = require('./../../../app/src/background/server/commands_util');
+const router                = require('express').Router()
+const globalinfos           = require('./../../../app/src/global_infos')
+const serverCommands        = require('./../../../app/src/background/server/commands')
+const serverCommandsUtil    = require('./../../../app/src/background/server/commands_util')
 
 router.route('/')
 
@@ -20,12 +19,21 @@ router.route('/')
         let POST        = req.body
 
         // GET serverInfos
-        if(POST.sendCommandToServer !== undefined && POST.server !== undefined) {
+        if(
+            POST.sendCommandToServer !== undefined &&
+            POST.server !== undefined &&
+            userHelper.hasPermissions(req.session.uid, "sendCommands", POST.cfg)
+        ) {
             res.render('ajax/json', {
                 data: serverCommandsUtil.sendToScreen(POST.server, escape(POST.command.toString()))
             });
             return true;
         }
+
+       res.render('ajax/json', {
+          data: `{"request":"failed"}`
+       })
+       return true
     })
 
     .get((req,res)=>{
@@ -43,6 +51,11 @@ router.route('/')
             });
             return true;
         }
+
+       res.render('ajax/json', {
+          data: `{"request":"failed"}`
+       })
+       return true
     })
 
 module.exports = router;

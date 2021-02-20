@@ -1,6 +1,7 @@
 <body class="hold-transition sidebar-mini layout-boxed">
+    <script>$('body').toggleClass('dark-mode', ((document.cookie.match('(^|;)\\s*darkmode\\s*=\\s*([^;]+)')?.pop() || 'false') === 'true'))</script>
     <div class="wrapper">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -10,17 +11,65 @@
             <% if(typeof topBtn !== "undefined") { %>
                 <div class="d-sm-inline-block"><%- topBtn %></div>
             <% } %>
+            <div class="navbar-custom-menu ml-auto">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" role="button" onclick="$('body').toggleClass('dark-mode'); document.cookie = `darkmode=${$('body').hasClass('dark-mode')}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;"><i class="far fa-lightbulb"></i></a>
+                    </li>
 
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fa fa-server"></i>
-                        <span class="badge badge-success navbar-badge" id="serverbadge">X</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <div id="serverlist"></div>
-                        <a href="#" class="dropdown-item dropdown-footer"><%- lang.all.nav.createServer %></a>
-                    </div>
-                </li>
-            </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fa fa-server"></i>
+                            <span class="badge badge-success navbar-badge" id="serverbadge">X</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <div id="serverlist"></div>
+                            <a href="/servercontrolcenter" class="dropdown-item dropdown-footer"><%- lang.all.nav.createServer %></a>
+                        </div>
+                    </li>
+
+                    <!-- user -->
+                    <li class="dropdown user user-menu open">
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            <img src="/img/logo/logo.png" class="user-image border" style="border-width: 3px!important; border-radius: 25rem!important;" alt="User Image">
+                            <span class="d-none d-sm-inline"><%- userHelper.getinfos(userID) !== false ? userHelper.getinfos(userID).username : "???" %></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="user-header">
+                                <img src="/img/logo/logo.png" class="img-circle border" style="border-width: 3px!important; border-radius: 25rem!important;" alt="User Image">
+
+                                <p>
+                                    <%- lang.all.welcome %><b><%- userHelper.getinfos(userID) !== false ? userHelper.getinfos(userID).username : "???" %></b>
+                                    <small class="text-<%- userHelper.hasPermissions(userID, "all/is_admin") ? "danger" : "success" %>"><%- userHelper.hasPermissions(userID, "all/is_admin") ? "Admin" : "User" %></small>
+                                </p>
+                            </li>
+
+                            <!--<li class="user-body">
+                                <div class="row">
+                                    <div class="col-4 text-center">
+                                        <a href="#">???</a>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <a href="#">???</a>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <a href="#">???</a>
+                                    </div>
+                                </div>
+                            </li>-->
+
+                            <li class="user-footer">
+                                <div class="row">
+                                    <div class="col-6 text-left">
+                                        <a href="/usersettings" class="btn btn-sm btn-outline-info"><%- lang.all.profile %></a>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <a href="/logout" class="btn btn-sm btn-outline-danger"><%- lang.all.logout %></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </nav>

@@ -14,7 +14,8 @@
     "danger"        : "Offline",
     "warning"       : "Nicht installiert",
     "success"       : "Online",
-    "primary"       : "Startet"
+    "primary"       : "Startet",
+    "info"          : "Installiert"
   },
   "timers": {
     "stopCountDown": {

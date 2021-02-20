@@ -8,8 +8,7 @@
  */
 "use strict"
 
-const express           = require('express')
-const router            = express.Router()
+const router            = require('express').Router()
 
 router.route('/')
 
@@ -78,6 +77,21 @@ router.route('/')
                 return true
             }
         }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
+
+   .get((req,res)=>{
+       // DEFAULT AJAX
+       let GET         = req.query
+
+       res.render('ajax/json', {
+           data: `{"request":"failed"}`
+       })
+       return true
+   })
 
 module.exports = router;

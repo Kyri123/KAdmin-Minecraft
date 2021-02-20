@@ -74,7 +74,8 @@ module.exports = {
       let serv       = new serverClass(server)
       if(serv.serverExsists()) {
          let servCFG = serv.getConfig()
-         return serverShell.runSHELL(`${!globalUtil.safeFileExsistsSync([servCFG.pathBackup]) ? `mkdir ${servCFG.pathBackup} && ` : ""}tar -cvzpf ${servCFG.pathBackup}/${Date.now()}.tar.gz ${servCFG.path}/*`)
+         globalUtil.safeFileMkdirSync([servCFG.pathBackup])
+         return serverShell.runSHELL(`tar -cvzpf ${servCFG.pathBackup}/${Date.now()}.tar.gz ${servCFG.path}`)
       }
    }
 }

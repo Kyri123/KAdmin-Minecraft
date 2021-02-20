@@ -1,12 +1,15 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
+/**
+* Lade zyklisch Logs
+*/
 loadActionLog();
 setInterval(() => {
     loadActionLog()
@@ -20,6 +23,9 @@ $("#sendCommand").keypress((event) => {
    }
 })
 
+/**
+ * Lade Aktionen LOG
+ */
 function loadActionLog() {
     $.get(`/logs/${vars.cfg}/latest.log`, {
        getLogFormServer: true,
@@ -47,10 +53,13 @@ function loadActionLog() {
                                  : "green"
 
                      item = JSON.stringify(item)
+                     if(item[1] === ">")
+                        item = item.replace("> ", "")
+
+                     item = item
                         .replaceAll(`"`, "")
                         .replaceAll(`\\u001b`, "")
                         .replaceAll(`\\b`, "")
-                        .replaceAll(`> `, "")
                         .replaceAll(`[39;0m`, "")
                         .replaceAll(`[33;1m`, "")
                         .replaceAll(`[K`, "")
@@ -66,6 +75,9 @@ function loadActionLog() {
                         .replaceAll(`[?1h=`, "")
                         .replaceAll(`[?1l>`, "")
                         .replaceAll(`[?2004h`, "")
+                        .replaceAll(`[?1l>>`, "")
+                        .replaceAll(`<`, "&lt;")
+                        .replaceAll(`>`, "&gt;")
 
                      if(item.trim() !== "" && item.trim() !== ">") {
                         log.push(`<span class="text-${color}">${item}</span>`)
@@ -83,6 +95,9 @@ function loadActionLog() {
         });
 }
 
+/**
+ * Sende Serverbefehl
+ */
 function sendCommand() {
    let q = $('#sendCommand')
    let q2 = $('#sendCommandBtn')

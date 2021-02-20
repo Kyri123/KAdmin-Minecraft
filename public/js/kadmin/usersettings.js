@@ -1,14 +1,16 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
 
-// Sende Aktionen
+/**
+ * Speichert eingabe von neuen Daten
+ */
 $("#pills-settings").submit(() => {
     // führe Aktion aus
     $.post(`/ajax/usersettings`, $('#pills-settings').serialize())
@@ -76,4 +78,4 @@ $("#pills-settings").submit(() => {
             }
         })
     return false
-});
+})

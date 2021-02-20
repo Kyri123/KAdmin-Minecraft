@@ -1,11 +1,11 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
 
 let joinAdress  = $('#btnJoin').attr('href')
@@ -13,7 +13,7 @@ let opList      = false
 let whiteList   = false
 let banList     = {}
 
-// Bestätige mit Enter suche
+// Bestätige mit Enter suche von Modpacks
 $("#lfModPackInput").keypress((event) => {
     if (event.key === "Enter") {
         event.preventDefault()
@@ -73,6 +73,7 @@ function getSCState() {
         if(!serverInfos.is_installed)                       stateColor = "warning"
         if(serverInfos.pid !== 0 && !serverInfos.online)    stateColor = "primary"
         if(serverInfos.pid !== 0 && serverInfos.online)     stateColor = "success"
+        if(serverInfos.is_installing)                       stateColor = "info"
 
         let stateText = varser.lang_arr.forservers.state[stateColor]
 
@@ -86,17 +87,19 @@ function getSCState() {
             else {
                 version = serverInfos.version
             }
-            if($('#version').html().trim().toUpperCase() !== version.trim().toUpperCase()) $('#version').html(version)
+            $('#version').html(version)
 
         //server IMG
-            $('#serv_img').attr('class', `border-${stateColor}`)
+            $('#serv_img')
+               .attr('class', `border-${stateColor}`)
+               .attr('src', serverInfos.icon)
 
         // Status
             if(state_id.html() !== stateText) state_id.html(stateText).attr('class',`description-header text-${stateColor}`)
 
         // Action Card
             let css
-            if(stateColor === "warning") {
+            if(stateColor === "warning" || stateColor === "info") {
                 inhalt = varser.lang_arr.servercenter_any.actionClose
             }
             else {
@@ -112,7 +115,9 @@ function getSCState() {
             if(stateColor === "success") {
                 $('#btnJoin').attr('href', joinAdress).toggleClass("disabled", false)
                 //inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
-                inhalt = `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                inhalt = hasPermissions(globalvars.perm, "showplayers", varser.cfg)
+                   ? `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
+                   : `${serverInfos.aplayers} / ${serverInfos.players}`
             }
             else {
                 $('#btnJoin').attr('href', '').toggleClass("disabled", true)
@@ -128,57 +133,56 @@ function getSCState() {
                 let isOP    = "false"
                 for(let op of opList)
                     if(op.uuid === item.id) isOP = "true"
-                if(i % 2 === 0) playerlist  += `<tr>`
+                //if(i % 2 === 0) playerlist  += `<tr>`
                 playerlist  += `
-                    <td style="width: 50%">
-                        <div class="media">
-                            <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 40px">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title text-bold">
-                                    ${item.name}
-                                    <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                </h3>
-                                <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
+                        <tr>
+                        <td style="width: 50%">
+                            <div class="media">
+                                <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 60px">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title text-bold">
+                                        ${item.name}
+                                        <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm btn btn-sm btn-outline-info"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                        ${hasPermissions(globalvars.perm, "sendCommands", varser.cfg) ? `
+                                            <button onclick="playeraction('${item.id}', '${item.name}', 'ban')" class="float-right text-sm btn btn-sm btn-outline-danger mr-1"><i class="fas fa-lock"></i></button>
+                                            <button onclick="playeraction('${item.id}', '${item.name}', 'kick')" class="float-right text-sm btn btn-sm btn-outline-danger mr-1"><i class="fa fa-times"></i></button>
+                                            <button onclick="playeraction('${item.id}', '${item.name}', 'op', '${isOP}')" class="float-right text-sm btn btn-sm btn-outline-primary mr-1">${isOP === "true" ? "<i class=\"fas fa-angle-double-down\"></i>" : "<i class=\"fas fa-angle-double-up\"></i>"}</button>
+                                        ` : ""}
+                                    </h3>
+                                    <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
+                                    <p class="text-sm m-0"><b>ID:</b> ${item.id}</p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
+                    </tr>
                 `
-                if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td style="width: 50%"></td>`
-                if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
+                //if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td style="width: 50%"></td>`
+                //if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
                 i++
             }
             $(`#playerlist`).html(playerlist)
 
 
         // Alerts
-            /*if(serverInfos.alerts !== undefined) {
-                $.get('/json/steamAPI/mods.json', (mods) => {
-                    let modNeedUpdates      = []
-                    let rplf                = []
-                    let tplt                = []
-                    mods.response.publishedfiledetails.forEach((val) => {
-                        rplf.push(val.publishedfileid)
-                        tplt.push(`<b>[${val.publishedfileid}]</b> ${val.title}`)
-                    })
-                    let list = []
+            if(serverInfos.alerts !== undefined) {
+                let list    = []
+                let counter = 0
 
-                    let counter = 0
-                    serverInfos.alerts.forEach((val) => {
-                        if(!(val === "3997" && modNeedUpdates.length === 0)) {
-                            list.push(alerter(val, "", 3, false, 3, 3, 3, true))
-                            counter++
-                        }
-                    })
-
-                    $(`#infoCounter`).html(counter)
-                    if(counter === 0) list.push(alerter(4000, "", 3, false, 3, 3, 3, true))
-
-                    $(`#AlertBody`).html(list.join('<hr class="m-0">')
-                        .replace("{modu}", modNeedUpdates.join("</li><li>"))
-                        .replace("{modi}", serverInfos.notInstalledMods.join("</li><li>"))
-                        .replaceArray(rplf, tplt))
+                serverInfos.alerts.forEach((val) => {
+                    list.push(alerter(val, "", 3, false, 3, 3, 3, true))
+                    if(val !== "4000") counter++
                 })
-            }*/
+
+                $(`#infoCounter`).html(counter)
+                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
+            }
+            else {
+                let list    = []
+                let counter = 0
+                list.push(alerter("4000", "", 3, false, 3, 3, 3, true))
+                $(`#infoCounter`).html(counter)
+                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
+            }
     })
 }
 
@@ -214,7 +218,6 @@ $("#action_form").submit(() => {
                         $("#all_resp").html(data.msg)
                         $('#action').modal('hide')
                         $('.modal-backdrop').remove()
-                        $('.modal-backdrop').remove()
 
                         $("#action_sel").prop('selectedIndex',0)
                         $('#actioninfo').toggleClass('d-none', true)
@@ -226,6 +229,7 @@ $("#action_form").submit(() => {
                 }
                 catch (e) {
                     $('#action').modal('hide')
+                    $('.modal-backdrop').remove()
                 }
             })
     }
@@ -449,7 +453,6 @@ function installVersion(cfg) {
             if(data.alert !== undefined) $('#all_resp').append(data.alert);
             $('#versionpicker').modal('hide')
             $('.modal-backdrop').remove()
-            $('.modal-backdrop').remove()
         }
         catch (e) {
             console.log(e);
@@ -497,5 +500,35 @@ function installModpack(modid, fileid, server, btnid) {
                .attr("class", "btn btn-sm btn-outline-danger")
                .html(`<i class="fa fa-times"></i>`)
         }
+    })
+}
+
+/**
+ * Sende Spieleraktion an den die Serverkonsole
+ * @param {string} uuid
+ * @param {string} name
+ * @param {string} action
+ * @param {string} isop
+ */
+function playeraction(uuid, name, action, isop = "false") {
+    let command = ""
+
+    if(action === "op") {
+        command = `${isop === "false" ? "op" : "deop"} ${name}`
+    }
+    else if(action === "kick") {
+        command = `kick ${name}`
+    }
+    else if(action === "ban") {
+        command = `ban ${name}`
+    }
+
+    let postObj = {
+        "sendPlayerAction"  : true,
+        "command"           : command,
+        "server"            : vars.cfg
+    }
+    $.post('/ajax/serverCenterAny', postObj, (data) => {
+        // done
     })
 }

@@ -8,8 +8,7 @@
  */
 "use strict"
 
-const express           = require('express')
-const router            = express.Router()
+const router            = require('express').Router()
 
 router.route('/')
 
@@ -26,6 +25,7 @@ router.route('/')
 
             if(POST.group_name !== '') {
                 let groupTest   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `name`=?', POST.group_name)
+                let perm        = JSON.stringify(POST.permissions) !== undefined ? JSON.stringify(POST.permissions) : "{}"
 
                 if(groupTest !== false) alertcode   = 2
                 if(groupTest !== false) if(groupTest.length === 0) {
@@ -34,7 +34,7 @@ router.route('/')
                         POST.group_name,
                         sess.uid,
                         Date.now(),
-                        JSON.stringify(POST.permissions).replaceAll('"on"', "1")
+                       perm.replaceAll('"on"', "1")
                     ) !== false ? 1014 : 2
                 }
                 else {
@@ -80,15 +80,15 @@ router.route('/')
             // Superadmin darf nicht verändert werden
             if(parseInt(POST.gid) !== 1) {
                 let groupTest   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', POST.editgroupid)
+                let perm        = JSON.stringify(POST.permissions) !== undefined ? JSON.stringify(POST.permissions) : "{}"
 
-                if(groupTest !== false) alertcode   = 2
-                debug = true
+                if(groupTest !== false)                             alertcode   = 2
                 if(groupTest !== false) if(groupTest.length !== 0)  alertcode   = globalUtil.safeSendSQLSync(
                         'UPDATE `user_group` SET `name`=?,`editform`=?, `time`=?, `permissions`=? WHERE `id`=?' ,
                         POST.group_name,
                         sess.uid,
                         Date.now(),
-                        JSON.stringify(POST.permissions).replaceAll('"on"', "1"),
+                        perm.replaceAll('"on"', "1"),
                         POST.editgroupid
                     ) !== false ? 1016 : 2
             }
@@ -101,6 +101,11 @@ router.route('/')
             })
             return true
         }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
+        })
+        return true
     })
 
     .get((req,res)=>{
@@ -112,10 +117,17 @@ router.route('/')
         if(!userHelper.hasPermissions(sess.uid, "all/is_admin")) return true
 
         // Userlist
-        if(GET.getgrouplist) res.render('ajax/json', {
-            data: JSON.stringify({
-                grouplist: globalUtil.safeSendSQLSync('SELECT * FROM user_group')
+        if(GET.getgrouplist) {
+            res.render('ajax/json', {
+                data: JSON.stringify({
+                    grouplist: globalUtil.safeSendSQLSync('SELECT * FROM user_group')
+                })
             })
+            return true
+        }
+
+        res.render('ajax/json', {
+            data: `{"request":"failed"}`
         })
         return true
     })

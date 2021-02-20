@@ -1,0 +1,107 @@
+<%- include('../../includes/head'); -%>
+<%- include('../../includes/top') -%>
+<%- include('../../includes/nav') -%>
+<%- include('../../includes/content') -%>
+<%- include('./head'); -%>
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="tab-pane fade  active show" id="pills-Cfg2" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="card-body p-2 d-none d-md-block">
+                <div class="row">
+                    <!-- Actionlist -->
+                    <div class="col-12 bg-dark p-2">
+                        <div class="d-flex">
+                            <div class="btn-group">
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/createFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_addFolder" data-path="<%- defaultPath %>"><i class="fas fa-folder-plus"></i></a>
+                                <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/renameFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_renameFolder" data-isfile="no" data-path="<%- defaultPath %>"><i class="fas fa-file-signature"></i></a>
+                                <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/uploadFiles", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_upload" data-path="<%- defaultPath %>"><i class="fas fa-file-upload"></i></a>
+                                <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/moveFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_moveFolder" data-isfile="no" data-path="<%- defaultPath %>"><i class="fas fa-arrows-alt"></i></a>
+                                <% } %>
+                                <% if(userHelper.hasPermissions(userID, "filebrowser/removeFolder", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" id="FB_removeFolder" data-path="<%- defaultPath %>"><i class="far fa-trash-alt"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger" id="FB_removeFolderIn" data-path="<%- defaultPath %>"><i class="fas fa-folder-minus"></i></a>
+                                <% } %>
+                                <!--<a href="javascript:void(0)" class="btn btn-sm btn-outline-info disabled" id="FB_infoFolder"><i class="fas fa-info-circle" aria-hidden="true"></i></a>-->
+                            </div>
+                            <div class="btn-group btn-group-sm ml-auto">
+                                <!--<a href="javascript:void(0)" class="btn btn-sm btn-outline-light disabled"><i class="fa fa-folder-open" aria-hidden="true"></i></a>-->
+                                <select id="quicklist" class="form-control-sm btn btn-outline-light bg-dark" onchange="getPath(this.value)" style="max-width: 100px">
+                                    <option value="">Loading...</option>
+                                </select>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_tohome" data-path="<%- defaultPath %>"><i class="fa fa-home" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="getPath($(`#${this.id}`).data('path'))" id="FB_reload" data-tohome="yes" data-path="<%- defaultPath %>"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Nav -->
+                    <div class="col-12 col-md-4 pr-md-0 pl-md-0 hidden-md-down bg-dark">
+                        <div class="list-group">
+                            <button type="button" class="rounded-0 p-1 pl-2 pr-3 list-group-item list-group-item-action disabled active bg-secondary border-secondary">
+                                <i class="fas fa-folder-open" aria-hidden="true"></i> <span id="FB_currDir">???</span>
+                            </button>
+                            <div id="FB_folderList">
+                                <div type="button" class="rounded-0 p-1 pl-4 pr-3 list-group-item bg-dark">Load...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Files -->
+                    <div class="col-12 col-md-8 pl-md-0 pr-md-0 bg-gray-light border-left bg-dark">
+                        <div class="list-group">
+                            <button type="button" class="rounded-0 p-1 pl-2 pr-3 list-group-item list-group-item-action disabled active bg-secondary border-secondary" id="FB_totalDir">
+                                &nbsp;...
+                            </button>
+                            <div id="FB_fileList">
+                                <div class="p-1 pl-2 pr-3 list-group-item border-left-0">Load...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-bock d-md-none p-3">Mobile not Supported</div>
+        </div>
+    </div>
+</div>
+
+<!-- edit/show Modal -->
+<div class="modal" id="editshow" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px" method="POST">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-light text-white">
+                <h5 class="modal-title" id="editshow_h5">Befehl an den Server senden</h5>
+            </div>
+            <div class="modal-body p-0">
+                <textarea class="bg-dark p-1 m-0 codeview font" id="editshow_area" style="font-family: 'Source Code Pro', monospace;max-width: 100%;min-width: 100%;max-height: 500px; min-height: 500px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="actions" value="sendcommand">
+                <input type="hidden" name="cfg" value="5g28f48x">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                <button type="submit" class="btn btn-success" id="editshow_accept" onclick="sendedit()"><i class="fas fa-save"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    // Vars die zur JS übergeben werden
+    // Allgemeine Vars
+    let vars            = {};
+    vars.cfg            = '<%- serverName %>'
+    vars.defaultPath    = '<%- defaultPath %>'
+</script>
+
+<script src="/js/kadmin/servercenter_filebrowser.js" type="application/javascript"></script>
+
+<%- include('../../includes/foother'); -%>

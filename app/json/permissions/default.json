@@ -1,15 +1,15 @@
 {
   "all": {
     "is_admin"          : 0,
-    "show_traffic"      : 1
+    "show_traffic"      : 0
   },
   "servercontrolcenter": {
-    "show"              : 1,
+    "show"              : 0,
     "create"            : 0,
     "delete"            : 0
   },
   "userpanel": {
-    "show"              : 1,
+    "show"              : 0,
     "show_codes"        : 0,
     "create_code"       : 0,
     "delete_code"       : 0,

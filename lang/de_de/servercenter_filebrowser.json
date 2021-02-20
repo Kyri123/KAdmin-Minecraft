@@ -1,0 +1,38 @@
+{
+  "pagename"      : "ServerCenter > Filebrowser",
+  "noFileFound"   : "Keine Dateien gefunden",
+  "noDirFound"    : "Keine Ordner gefunden",
+  "edit_modal"    : "Datei bearbeiten",
+  "show_modal"    : "Datei anschauen",
+  "options"       : {
+    "actions"       : "Aktionen",
+    "remove"        : "Entfernen",
+    "edit"          : "Bearbeiten",
+    "rename"        : "Umbenennen",
+    "exec"          : "Ausführen",
+    "move"          : "Verschieben",
+    "show"          : "Ansehen",
+    "download"      : "Runterladen",
+    "info"          : "Informationen"
+  },
+  "sweet"         : {
+    "remove"        : {
+      "title"         : "Möchtest du diesen Pfad wirklich entfernen?",
+      "titleArray"    : "Welchen Ordner möchtest du löschen?"
+    },
+    "mkdir"        : {
+      "title"         : "Wie soll der Ordner heißen den du Erstellen willst?",
+      "invalide"      : "Überprüfe deinen Ordnernamen!"
+    },
+    "move"        : {
+      "title"         : "Wohin soll der Ordner oder die Datei verschoben werden?"
+    },
+    "rename"        : {
+      "title"         : "Wie soll die Datei oder der Ordner heißen?"
+    },
+    "upload"        : {
+      "title"         : "Wähle eine Datei die du hochladen möchtest",
+      "invalide"      : "Überprüfe deine Datei!"
+    }
+  }
+}

@@ -1,11 +1,11 @@
 /*
- * *******************************************************************************************
- * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2019-2020, Oliver Kaufmann
- * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
- * Github: https://github.com/Kyri123/KAdmin-Minecraft
- * *******************************************************************************************
- */
+* *******************************************************************************************
+* @author:  Oliver Kaufmann (Kyri123)
+* @copyright Copyright (c) 2019-2020, Oliver Kaufmann
+* @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
+* Github: https://github.com/Kyri123/KAdmin-Minecraft
+* *******************************************************************************************
+*/
 "use strict"
 
 getGroupList()
@@ -13,6 +13,9 @@ setInterval(() => {
     getGroupList()
 },2000)
 
+/**
+ * erzeugt gruppenliste
+ */
 function getGroupList() {
     console.log(globalvars.lang_arr.userpanel)
     $.get('/ajax/grouppanel', {
@@ -67,6 +70,12 @@ function getGroupList() {
     })
 }
 
+/**
+ * setzt checkboxen für Permissions
+ * @param permission
+ * @param keys
+ * @return {string}
+ */
 function hasPermFiller(permission, keys = '') {
     let re          = ''
 
@@ -83,13 +92,21 @@ function hasPermFiller(permission, keys = '') {
     return re
 }
 
+/**
+ * sendet befehl an Server
+ * @param modal
+ * @return {boolean}
+ */
 function send(modal) {
     $.post(`/ajax/grouppanel`, $(`#${modal}`).serialize(), (data) => {
         try {
             data    = JSON.parse(data)
             getGroupList()
             if(data.alert !== undefined) $('#global_resp').append(data.alert)
-            if(data.success !== undefined) $(`#${modal}`).modal('hide')
+            if(data.success !== undefined) {
+                $(`#${modal}`).modal('hide')
+                $('.modal-backdrop').remove()
+            }
         }
         catch (e) {
             console.log(e)

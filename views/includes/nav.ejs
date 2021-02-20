@@ -11,15 +11,6 @@
     </a>
 
     <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex" onclick="window.location='/usersettings'">
-            <div class="image text-white" style="font-size: 23px">
-                <i class="nav-icon fa fa-user" class="img-circle elevation-2"></i>
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Hey, <b><%- userHelper.getinfos(userID) !== false ? userHelper.getinfos(userID).username : "???" %></b></a>
-            </div>
-        </div>
-
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
