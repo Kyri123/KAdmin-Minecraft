@@ -100,5 +100,3 @@ function fireModal(code, type= "success", endless = false) {
       })
    }
 }
-
-setInterval(() => fireToast(1), 500)
