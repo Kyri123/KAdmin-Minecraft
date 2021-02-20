@@ -8,6 +8,12 @@
     "0"   : ""
   },
   "toast": {
+    "danger"        : "Server {server} ist nun OFFLINE",
+    "warning"       : "Server {server} ist nicht mehr Installiert",
+    "success"       : "Server {server} ist nun ONLINE",
+    "primary"       : "Server {server} wird nun gestartet",
+    "info"          : "Bei dem Server {server} läuft nun eine Installation",
+
     "0"   : "Datei konnte nicht gespeichert werden",
     "1"   : "Änderungen wurden gespeichert",
     "2"   : "Dateien konnten nicht hochgeladen werden",
@@ -20,6 +26,14 @@
     "9"   : "Ordner oder Datei wurde verschoben",
     "10"  : "Ordner oder Datei wurde nicht Umbenannt",
     "11"  : "Ordner oder Datei wurde Umbenannt",
-    "12"  : "Dateien werden hochgeladen bitte warten..."
+    "12"  : "Dateien werden hochgeladen bitte warten...",
+    "13"  : "Modpack wird Installiert",
+    "14"  : "Modpack konnte nicht Installiert werden",
+    "15"  : "Befehl wurde gesendet",
+    "16"  : "Befehl konnte nicht gesendet werden",
+    "17"  : "Version wird Installiert",
+    "18"  : "Version konnte nicht Installiert werden",
+    "19"  : "Änderungen konnten nicht gespeichert werden",
+    "20"  : "Neue Meldungen wurden erzeugt"
   }
 }

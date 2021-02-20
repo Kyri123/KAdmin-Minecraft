@@ -10,7 +10,7 @@ Webbasiertes Admin Panel für Minecraft-Server
   - Erstellen sowie Löschen von Server
   - Übersicht aller Aktiven Server
 - ServerCenter
-  - Echzeit Konsole mit Befehleingabe
+  - Echtzeit Konsole mit Befehlseingabe
   - Verwaltung und einspielen von Backups
   - Automatische Backups
   - Konfiguration von KAdmin & Server.properties
@@ -28,7 +28,7 @@ Webbasiertes Admin Panel für Minecraft-Server
 
 **Geplante Features**
 
-- Ziehe Trello :*
+- Ziehe Trello https://trello.com/b/qJfbqaoq
 
 Wichtig
 =============

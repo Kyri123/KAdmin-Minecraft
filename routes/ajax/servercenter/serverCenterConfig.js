@@ -39,10 +39,10 @@ router.route('/')
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(serverData.saveConfig(POST.cfgsend) ? 1009 : 3).replace("{ini}", "KAdmin-Minecraft")
+                    success: serverData.saveConfig(POST.cfgsend)
                 })
-            });
-            return true;
+            })
+            return true
         }
 
         // Server.Properties
@@ -52,10 +52,10 @@ router.route('/')
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(serverData.saveINI(POST.iniText) ? 1009 : 3).replace("{ini}", "Server.Properties")
+                    success: serverData.saveINI(POST.iniText)
                 })
-            });
-            return true;
+            })
+            return true
         }
 
         res.render('ajax/json', {

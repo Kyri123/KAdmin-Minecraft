@@ -197,7 +197,6 @@ module.exports = {
 
                         // soll der Server laufen?
                         if(cfg.shouldRun && val[1].pid === 0) {
-                            console.log(val[0])
                             if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > doServerBackgrounder > Start > ${val[0]}`)
                             serverCommands.doStart(val[0], [])
                         }

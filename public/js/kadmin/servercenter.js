@@ -12,6 +12,7 @@ let joinAdress  = $('#btnJoin').attr('href')
 let opList      = false
 let whiteList   = false
 let banList     = {}
+let old_alerts  = undefined
 
 // Bestätige mit Enter suche von Modpacks
 $("#lfModPackInput").keypress((event) => {
@@ -54,7 +55,7 @@ setInterval(() => {
         })
     // SC STATE
         getSCState()
-}, 1000)
+}, 2000)
 
 /**
  * Erstellt Informationen über den Server und trägt die Daten ins Frontend ein
@@ -164,7 +165,14 @@ function getSCState() {
 
 
         // Alerts
+        console.log(serverInfos.alerts)
             if(serverInfos.alerts !== undefined) {
+                if(old_alerts === undefined) old_alerts = serverInfos.alerts
+                if(JSON.stringify(old_alerts) != JSON.stringify(serverInfos.alerts)) {
+                    fireToast(20, "info")
+                    old_alerts = serverInfos.alerts
+                }
+
                 let list    = []
                 let counter = 0
 
@@ -177,6 +185,12 @@ function getSCState() {
                 $(`#AlertBody`).html(list.join('<hr class="m-0">'))
             }
             else {
+                if(old_alerts === undefined) old_alerts = []
+                if(!old_alerts.equals(serverInfos.alerts)) {
+                    fireToast(20, "info")
+                    old_alerts = []
+                }
+
                 let list    = []
                 let counter = 0
                 list.push(alerter("4000", "", 3, false, 3, 3, 3, true))
@@ -221,6 +235,7 @@ $("#action_form").submit(() => {
 
                         $("#action_sel").prop('selectedIndex',0)
                         $('#actioninfo').toggleClass('d-none', true)
+                        fireToast(15)
                         if(varser.expert) {
                             $('#custom_command').val('')
                             $("#forcethis").prop('checked', false)
@@ -228,6 +243,7 @@ $("#action_form").submit(() => {
                     }
                 }
                 catch (e) {
+                    fireToast(16, "error")
                     $('#action').modal('hide')
                     $('.modal-backdrop').remove()
                 }
@@ -450,11 +466,13 @@ function installVersion(cfg) {
     }, (data) => {
         try {
             data    = JSON.parse(data);
-            if(data.alert !== undefined) $('#all_resp').append(data.alert);
+            if(data.alert !== undefined) $('#all_resp').append(data.alert)
+            fireToast(17)
             $('#versionpicker').modal('hide')
             $('.modal-backdrop').remove()
         }
         catch (e) {
+            fireToast(18, "error")
             console.log(e);
         }
     })
@@ -484,17 +502,20 @@ function installModpack(modid, fileid, server, btnid) {
         try {
             let info    = JSON.parse(data)
             if(info.success) {
+                fireToast(13)
                 btn
                    .attr("class", "btn btn-sm btn-outline-success")
                    .html(`<i class="fas fa-check"></i>`)
             }
             else {
+                fireToast(14, "error")
                 btn
                    .attr("class", "btn btn-sm btn-outline-danger")
                    .html(`<i class="fas fa-times"></i>`)
             }
         }
         catch (e) {
+            fireToast(14, "error")
             console.log(e)
             btn
                .attr("class", "btn btn-sm btn-outline-danger")
@@ -529,6 +550,23 @@ function playeraction(uuid, name, action, isop = "false") {
         "server"            : vars.cfg
     }
     $.post('/ajax/serverCenterAny', postObj, (data) => {
+        try {
+            let info = JSON.parse(data)
+            if (info.success) {
+                fireToast(15)
+            }
+            else {
+                fireToast(16, "error")
+            }
+        }
+        catch (e) {
+            fireToast(16, "error")
+            console.log(e)
+            btn
+                .attr("class", "btn btn-sm btn-outline-danger")
+                .html(`<i class="fa fa-times"></i>`)
+        }
+        fireToast(13)
         // done
     })
 }

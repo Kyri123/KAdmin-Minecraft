@@ -32,9 +32,11 @@ const sweetToast = Swal.mixin({
  * Feuert ein Toast
  * @param {string|int} code
  * @param {string} type
+ * @param {{}} options
+ * @param {int} timer
  * @return {void}
  */
-function fireToast(code, type= "success") {
+function fireToast(code, type= "success", timer = 10000, options = {}) {
    if(
       globalvars.lang_arr.modalsandtoast.toast[code] !== undefined
       && type.includesArray([
@@ -45,7 +47,9 @@ function fireToast(code, type= "success") {
          "question"
       ])
    ) {
-      toastr[type](globalvars.lang_arr.modalsandtoast.toast[code])
+      let text = globalvars.lang_arr.modalsandtoast.toast[code]
+      if(options.replace !== undefined) if(Array.isArray(options.replace)) text = text.replaceArray(options.replace[0], options.replace[1])
+      toastr[type](text)
 
       toastr.options = {
          "closeButton": false,
@@ -57,7 +61,7 @@ function fireToast(code, type= "success") {
          "onclick": null,
          "showDuration": "300",
          "hideDuration": "1000",
-         "timeOut": "3000",
+         "timeOut": `${timer}`,
          "extendedTimeOut": "1000",
          "showEasing": "swing",
          "hideEasing": "linear",
@@ -71,10 +75,11 @@ function fireToast(code, type= "success") {
  * Feuert ein Modal
  * @param {string|int} code
  * @param {string} type
- * @param {boolean} endless
+ * @param {int} timer
+ * @param {{}} options
  * @return {void}
  */
-function fireModal(code, type= "success", endless = false) {
+function fireModal(code, type= "success", timer = 10000, options = {}) {
    if(
       globalvars.lang_arr.modalsandtoast.modal[code] !== undefined
       && type.includesArray([
@@ -85,13 +90,16 @@ function fireModal(code, type= "success", endless = false) {
          "question"
       ])
    ) {
+      let text = globalvars.lang_arr.modalsandtoast.modal[code]
+      if(options.replace !== undefined) if(Array.isArray(options.replace)) text = text.replaceArray(options.replace[0], options.replace[1])
+
       swalWithBootstrapButtons.fire({
          showCancelButton: false,
          showConfirmButton: false,
          title: globalvars.lang_arr.modalsandtoast[type],
-         text: globalvars.lang_arr.modalsandtoast.modal[code],
+         text: text,
          icon: type,
-         timer: endless ? 300000000000 : 3000,
+         timer: timer,
          didOpen: (toast) => {
             toast.addEventListener('click', Swal.close)
             toast.addEventListener('mouseenter', Swal.stopTimer)

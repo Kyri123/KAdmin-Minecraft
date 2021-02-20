@@ -41,7 +41,17 @@ module.exports = {
         let serverData  = new serverClass(server)
         if(serverData.serverExsists()) {
             let info            = serverData.getServerInfos()
-            return info.pid !== 0 ? shell.runSHELL(`screen -S kadmin-${server} -p 0 -X stuff "${command.replaceAll("%20", " ")}^M"`) : false
+            command             = command
+                .replaceAll("%20", " ")
+                .replaceAll("%E4", "ä")
+                .replaceAll("%F6", "ö")
+                .replaceAll("%FC", "ü")
+                .replaceAll("%C4", "Ä")
+                .replaceAll("%D6", "Ö")
+                .replaceAll("%DC", "Ü")
+                .replaceAll("%C3", "{")
+                .replaceAll("%3E", "}")
+            return info.pid !== 0 ? shell.runSHELL(`screen -S kadmin-${server} -p 0 -X stuff "${command}^M"`) : false
         }
         return false
     },

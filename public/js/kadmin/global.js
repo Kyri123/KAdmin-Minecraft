@@ -7,6 +7,7 @@
  * *******************************************************************************************
  */
 "use strict"
+let old_state = {}
 
 /**
  * erstellt ein Loading
@@ -39,7 +40,7 @@ getTraffic()
 setInterval(() => {
     getServerList()
     getTraffic()
-},5000)
+},2000)
 
 /**
  * Update Traffic vom Server
@@ -89,6 +90,17 @@ function getServerList() {
             if(val[1].pid !== 0 && !val[1].online)    stateColor = "primary"
             if(val[1].pid !== 0 && val[1].online)     stateColor = "success"
             if(val[1].is_installing)                  stateColor = "info"
+
+            if(old_state[val[0]] === undefined) old_state[val[0]] = stateColor
+            if(old_state[val[0]] !== stateColor) {
+                fireToast(stateColor, "info", 10000, {
+                    replace: [
+                        ["{server}"],
+                        [val[1].selfname]
+                    ]
+                })
+                old_state[val[0]] = stateColor
+            }
 
             if(val[1].server === undefined && hasPermissions(globalvars.perm, "show", val[0])) newServerList += `
                 <a href="/servercenter/${val[0]}/home" class="dropdown-item">
