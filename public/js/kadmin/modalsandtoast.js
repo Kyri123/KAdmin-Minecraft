@@ -36,7 +36,7 @@ const sweetToast = Swal.mixin({
  */
 function fireToast(code, type= "success") {
    if(
-      globalvars.lang_arr.sweet.toast[code] !== undefined
+      globalvars.lang_arr.modalsandtoast.toast[code] !== undefined
       && type.includesArray([
          "success",
          "error",
@@ -88,8 +88,8 @@ function fireModal(code, type= "success", endless = false) {
       swalWithBootstrapButtons.fire({
          showCancelButton: false,
          showConfirmButton: false,
-         title: globalvars.lang_arr.sweet[type],
-         text: globalvars.lang_arr.sweet.modal[code],
+         title: globalvars.lang_arr.modalsandtoast[type],
+         text: globalvars.lang_arr.modalsandtoast.modal[code],
          icon: type,
          timer: endless ? 300000000000 : 3000,
          didOpen: (toast) => {
@@ -100,3 +100,5 @@ function fireModal(code, type= "success", endless = false) {
       })
    }
 }
+
+setInterval(() => fireToast(1), 500)
