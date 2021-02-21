@@ -25,8 +25,12 @@ router.route('/')
             delete POST.cfg;
 
             // Wandel string in
+            if(POST.cfgsend.autoBackupPara === undefined) POST.cfgsend.autoBackupPara = []
             Object.keys(POST.cfgsend).forEach((key) => {
-                if(!isNaN(POST.cfgsend[key])){
+                if(Array.isArray(POST.cfgsend[key])){
+                    // skip
+                }
+                else if(!isNaN(POST.cfgsend[key])){
                     POST.cfgsend[key] = parseInt(POST.cfgsend[key], 10);
                 }
                 else if(POST.cfgsend[key] === 'false'){

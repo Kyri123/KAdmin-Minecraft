@@ -143,10 +143,8 @@ module.exports = class serverClass {
       let config  = this.cfg
       if(this.serverExsists()) {
          try {
-            let saveData    = array_replace_recursive(config, cfg)
-            if(cfg.mods     !== undefined)  saveData.mods   = cfg.mods
-            if(cfg.opt      !== undefined)  saveData.opt    = cfg.opt
-            if(cfg.flags    !== undefined)  saveData.flags  = cfg.flags
+            let saveData               = array_replace_recursive(config, cfg)
+            saveData.autoBackupPara    = cfg.autoBackupPara
             return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(saveData))
          }
          catch (e) {

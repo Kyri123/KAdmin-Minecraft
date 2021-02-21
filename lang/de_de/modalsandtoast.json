@@ -11,8 +11,8 @@
     "danger"        : "Server {server} ist nun OFFLINE",
     "warning"       : "Server {server} ist nicht mehr Installiert",
     "success"       : "Server {server} ist nun ONLINE",
-    "primary"       : "Server {server} wird nun gestartet",
-    "info"          : "Bei dem Server {server} läuft nun eine Aktion oder dieser Startet",
+    "primary"       : "Bei dem Server {server} läuft nun eine Aktion oder dieser Startet",
+    "info"          : "Bei dem Server {server} läuft eine Installation",
 
     "0"   : "Datei konnte nicht gespeichert werden",
     "1"   : "Änderungen wurden gespeichert",
