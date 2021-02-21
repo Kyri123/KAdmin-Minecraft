@@ -40,9 +40,6 @@ function get() {
                         let time        = convertTime(parseInt(timeStamp))
                         let cktime      = time.split(" ")[0]
 
-                        console.log(cktime)
-                        console.log(ktime)
-
                         if(cktime !== ktime) {
                             ktime           = cktime
                             ktimes          = timeStamp
@@ -87,8 +84,6 @@ function get() {
                                 </div>
                             </div>
                         </div>`)
-
-                        let size    = file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"
                     }
                 }
                 getSection(latestSection)
