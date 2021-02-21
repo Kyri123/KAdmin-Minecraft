@@ -189,7 +189,7 @@ module.exports = {
                         // Auto Backup system
                         if(cfg.autoBackup) {
                             if(Date.now() > cfg.autoBackupNext) {
-                                serverCommands.doBackup(val[0], []);
+                                serverCommands.doBackup(val[0], cfg.autoBackupPara);
                                 serv.writeConfig("autoBackupNext", (Date.now() + cfg.autoBackupInterval))
                                 if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m run > doServerBackgrounder > autoBackup > ${val[0]}`)
                             }

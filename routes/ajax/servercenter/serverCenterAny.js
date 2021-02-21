@@ -87,7 +87,7 @@ router.route('/')
                     data: JSON.stringify({
                         alert: alerter.rd(succ ? 1018 : 3).replace("{v}", v)
                     })
-                });
+                })
                 return true
             }
         }
@@ -115,13 +115,15 @@ router.route('/')
                 if(done) {
                     res.render('ajax/json', {
                         data: `{"code":"1", "txt": "Install running"}`
-                    });
-                    return true;
+                    })
+                    stop = true
+                    return true
                 }
 
                 if(!stop) res.render('ajax/json', {
                     data: `{"code":"404"}`
-                });
+                })
+                return true
             }
         }
 

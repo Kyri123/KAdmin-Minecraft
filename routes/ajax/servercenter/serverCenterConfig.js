@@ -35,7 +35,7 @@ router.route('/')
                 else if(POST.cfgsend[key] === 'true'){
                     POST.cfgsend[key] = true;
                 }
-            });
+            })
 
             res.render('ajax/json', {
                 data: JSON.stringify({

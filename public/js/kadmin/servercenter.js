@@ -165,7 +165,6 @@ function getSCState() {
 
 
         // Alerts
-        console.log(serverInfos.alerts)
             if(serverInfos.alerts !== undefined) {
                 if(old_alerts === undefined) old_alerts = serverInfos.alerts
                 if(JSON.stringify(old_alerts) != JSON.stringify(serverInfos.alerts)) {

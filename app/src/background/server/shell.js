@@ -14,18 +14,23 @@ const exec = util.promisify(require('child_process').exec)
 /**
  * Führt einen Befehl aus
  * @param command
- * @return {void}
+ * @return {boolean}
  */
 async function execShell(command) {
     try {
         const { stdout, stderr } = await exec(command)
         if(debug) {
-            if(stdout) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stdout)
-            if(stderr) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stderr)
+            if(stdout && debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stdout)
+            if(stderr) {
+                if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command} >`, stderr)
+                return false
+            }
+            return true
         }
     }
     catch(e) {
         if(debug) console.log(e)
+        return false
     }
 }
 
@@ -37,7 +42,6 @@ module.exports  = {
      */
     runSHELL: (command) => {
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m runCMD > ${command}`)
-        execShell(command)
-        return true
+        return execShell(command)
     },
 }

@@ -44,7 +44,7 @@ Installation
 =============
 
 1. 1. Erstelle einen Benutzer `adduser kadmin`
-   2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip curl`
+   2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip zip curl`
    3. Installiere NodeJS (min 15.6.0)
 2. Log dich in den Benutzer ein `su kadmin`
 3. Downloade den letzten Release `cd ~ && wget https://api.minecraft.kadmin-panel.de/sh/installer.sh && chmod 755 ./installer.sh && ./installer.sh master`

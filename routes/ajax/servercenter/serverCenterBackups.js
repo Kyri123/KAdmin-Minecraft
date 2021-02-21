@@ -84,7 +84,7 @@ router.route('/')
             let CFG         = serverData.getConfig()
             if(globalUtil.safeFileExsistsSync([CFG.pathBackup]) && serverData.serverExsists()) {
                 res.render('ajax/json', {
-                    data: JSON.stringify(fs.readdirSync(pathMod.join(CFG.pathBackup)))
+                    data: JSON.stringify(globalUtil.safeFileReadDirSync([CFG.pathBackup]))
                 })
                 return true
             }

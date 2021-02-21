@@ -19,7 +19,7 @@ function loading(type) {
     if(type === "tr")
         return `<tr><td ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-spinner fa-pulse"></i> <span class="pl-1">${globalvars.lang_arr.all.loading}</span></td></tr>`
     if(type === "FB")
-        return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 bg-dark"><i class="fas fa-spinner fa-pulse" aria-hidden="true"></i> ${globalvars.lang_arr.all.loading}</div>`
+        return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 bg-${typeof args[1] !== "undefined" ? args[1] : "dark"}"><i class="fas fa-spinner fa-pulse" aria-hidden="true"></i> ${globalvars.lang_arr.all.loading}</div>`
 }
 /**
  * erstellt ein Failed
@@ -31,7 +31,7 @@ function failed(type) {
     if(type === "tr")
         return `<tr><td class="text-danger" ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-times"></i> <span class="pl-1">${globalvars.lang_arr.all.failed}</span></td></tr>`
     if(type === "FB")
-        return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 text-danger bg-dark"><i class="fas fa-times" aria-hidden="true"></i> ${globalvars.lang_arr.all.failed}</div>`
+        return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 text-danger bg-${typeof args[1] !== "undefined" ? args[1] : "dark"}"><i class="fas fa-times" aria-hidden="true"></i> ${globalvars.lang_arr.all.failed}</div>`
 }
 
 // hole Serverliste zyklisch
@@ -93,7 +93,7 @@ function getServerList() {
 
             if(old_state[val[0]] === undefined) old_state[val[0]] = stateColor
             if(old_state[val[0]] !== stateColor) {
-                fireToast(stateColor, "info", 10000, {
+                fireToast(stateColor, "info", {
                     replace: [
                         ["{server}"],
                         [val[1].selfname]

@@ -78,7 +78,8 @@
                                            "autoUpdate",
                                            "autoUpdateInterval",
                                            "currversion",
-                                           "jar"
+                                           "jar",
+                                           "autoBackupPara"
                                        ]
                                         let readonly = [
                                             "path",
@@ -93,11 +94,11 @@
                                         let isBool = [
                                             "autoBackup"
                                         ]
-                                        if(!skip.includes(key)) {
+                                        if(!skip.includes(key) && key !== "autoBackup") {
                                 %>
                                     <tr>
                                         <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
-                                        <td class="p-2" colspan="2">
+                                        <td class="p-2" colspan="2" style="max-width: 400px!important;">
                                             <div class="input-group mb-0">
                                                 <%  if(isBool.includes(key)) { %>
                                                     <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
@@ -112,15 +113,46 @@
                                     </tr>
                                 <%
                                         }
+                                        else if(key === "autoBackup") { %>
+                                    <tr>
+                                        <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
+                                        <td class="p-2" colspan="2" style="max-width: 400px!important;">
+                                            <div class="input-group mb-0">
+                                                <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
+                                                    <option value="true" <%- value.toString() === "true" ? "selected" : "" %>><%- lang[page].true %></option>
+                                                    <option value="false" <%- value.toString() === "false" ? "selected" : "" %>><%- lang[page].false %></option>
+                                                </select>
+                                                <div class="icheck-primary mb-3">
+                                                    <input type="checkbox" <%- servcfg.autoBackupPara.includes("--onlyworld") ? "checked" : "" %> name="cfgsend[autoBackupPara][]" value="--onlyworld" id="KONF_onlyworld">
+                                                    <label for="KONF_onlyworld">
+                                                        <%- lang.forservers.parameter.onlyworld %>
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-primary mb-3">
+                                                    <input type="checkbox" <%- servcfg.autoBackupPara.includes("--withmods") ? "checked" : "" %> name="cfgsend[autoBackupPara][]" value="--withmods" id="KONF_withmods">
+                                                    <label for="KONF_withmods">
+                                                        <%- lang.forservers.parameter.withmods %>
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-primary mb-3">
+                                                    <input type="checkbox" <%- servcfg.autoBackupPara.includes("--witplugins") ? "checked" : "" %> name="cfgsend[autoBackupPara][]" value="--witplugins" id="KONF_witplugins">
+                                                    <label for="KONF_witplugins">
+                                                        <%- lang.forservers.parameter.witplugins %>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                        <% }
                                         else {
-                                            if(key !== "jar") {
+                                            if(key !== "jar" && key !== "autoBackupPara") {
                                                 %><input type="hidden" name="cfgsend[<%- key %>]" class="form-control form-control-sm" value="<%- value %>"><%
                                             }
                                         }
                                     }) %>
                                 <tr>
                                     <td class="p-2"><%- lang[page].cfg.jar %></td>
-                                    <td class="p-2" colspan="2">
+                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
                                         <div class="input-group mb-0">
                                             <select class="form-control form-control-sm" name="cfgsend[jar]">
                                                 <%  jars.forEach(item => { %>

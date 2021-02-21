@@ -33,10 +33,9 @@ const sweetToast = Swal.mixin({
  * @param {string|int} code
  * @param {string} type
  * @param {{}} options
- * @param {int} timer
  * @return {void}
  */
-function fireToast(code, type= "success", timer = 10000, options = {}) {
+function fireToast(code, type= "success", options = {}) {
    if(
       globalvars.lang_arr.modalsandtoast.toast[code] !== undefined
       && type.includesArray([
@@ -49,9 +48,8 @@ function fireToast(code, type= "success", timer = 10000, options = {}) {
    ) {
       let text = globalvars.lang_arr.modalsandtoast.toast[code]
       if(options.replace !== undefined) if(Array.isArray(options.replace)) text = text.replaceArray(options.replace[0], options.replace[1])
-      toastr[type](text)
 
-      toastr.options = {
+      let toastrOPT = {
          "closeButton": false,
          "debug": false,
          "newestOnTop": true,
@@ -61,13 +59,22 @@ function fireToast(code, type= "success", timer = 10000, options = {}) {
          "onclick": null,
          "showDuration": "300",
          "hideDuration": "1000",
-         "timeOut": `${timer}`,
+         "timeOut": "10000",
          "extendedTimeOut": "1000",
          "showEasing": "swing",
          "hideEasing": "linear",
          "showMethod": "fadeIn",
          "hideMethod": "fadeOut"
       }
+
+      for (const [key, value] of Object.entries(options)) {
+         if(key !== "replace") {
+            toastrOPT[key] = value
+         }
+      }
+
+      toastr.options = toastrOPT
+      toastr[type](text)
    }
 }
 
@@ -75,11 +82,10 @@ function fireToast(code, type= "success", timer = 10000, options = {}) {
  * Feuert ein Modal
  * @param {string|int} code
  * @param {string} type
- * @param {int} timer
  * @param {{}} options
  * @return {void}
  */
-function fireModal(code, type= "success", timer = 10000, options = {}) {
+function fireModal(code, type= "success", options = {}) {
    if(
       globalvars.lang_arr.modalsandtoast.modal[code] !== undefined
       && type.includesArray([
@@ -93,18 +99,26 @@ function fireModal(code, type= "success", timer = 10000, options = {}) {
       let text = globalvars.lang_arr.modalsandtoast.modal[code]
       if(options.replace !== undefined) if(Array.isArray(options.replace)) text = text.replaceArray(options.replace[0], options.replace[1])
 
-      swalWithBootstrapButtons.fire({
+      let swalOPT = {
          showCancelButton: false,
          showConfirmButton: false,
          title: globalvars.lang_arr.modalsandtoast[type],
          text: text,
          icon: type,
-         timer: timer,
+         timer: 10000,
          didOpen: (toast) => {
             toast.addEventListener('click', Swal.close)
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
          }
-      })
+      }
+
+      for (const [key, value] of Object.entries(options)) {
+         if(key !== "replace") {
+            swalOPT[key] = value
+         }
+      }
+
+      swalWithBootstrapButtons.fire(swalOPT)
    }
 }

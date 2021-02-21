@@ -3,6 +3,48 @@
 <%- include('../../includes/nav') -%>
 <%- include('../../includes/content') -%>
 <%- include('./head'); -%>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="tab-pane fade  active show" id="pills-Cfg2" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="card-body p-2 d-none d-md-block">
+                <div class="row">
+                    <!-- Actionlist -->
+                    <div class="col-12 bg-dark p-2">
+                        <div class="d-flex">
+                            <div class="btn-group"></div>
+                            <div class="btn-group btn-group-sm ml-auto">
+                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="get()" id="FB_reload"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Nav -->
+                    <div class="col-12 col-md-4 pr-md-0 pl-md-0 hidden-md-down bg-dark">
+                        <div class="list-group">
+                            <div id="BAK_folderList">
+                                <div type="button" class="rounded-0 p-1 pl-4 pr-3 list-group-item bg-secondary">Load...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Files -->
+                    <div class="col-12 col-md-8 pl-md-0 pr-md-0 bg-gray-light border-left bg-dark">
+                        <div class="list-group">
+                            <div id="BAK_fileList">
+                                <div class="p-1 pl-2 pr-3 list-group-item border-left-0 bg-dark">Load...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-bock d-md-none p-3">Mobile not Supported</div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12 mb-4">
         <div class="card shadow" style="border: 0!important;">
@@ -12,51 +54,6 @@
         </div>
     </div>
 </div>
-
-<!-- removeModal -->
-<form class="modal" id="removeBackup" method="post">
-    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
-        <div class="modal-content border-0">
-            <div class="modal-header bg-danger border-dark">
-                <h5 class="modal-title" id="removeTitle"></h5>
-            </div>
-
-            <div class="modal-body">
-                <%- lang[page].modal.removeText %>
-            </div>
-
-            <div class="modal-footer">
-                <input type="hidden" name="file" value="" id="fileNameRemove">
-                <input type="hidden" name="remove" value="true">
-                <input type="hidden" name="server" value="<%- serverName %>">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modal.cancel %></button>
-                <button type="button" class="btn btn-danger" onclick="removeFile()"><%- lang[page].modal.remove %></button>
-            </div>
-        </div>
-    </div>
-</form>
-
-<form class="modal" id="playinBackup" method="post">
-    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
-        <div class="modal-content border-0">
-            <div class="modal-header">
-                <h5 class="modal-title"><%- lang[page].modal.pititle %> <span id="filepititle"></span></h5>
-            </div>
-
-            <div class="modal-body">
-                <input type="hidden" name="playin" value="true">
-                <input type="hidden" name="server" value="<%- serverName %>">
-                <input type="hidden" name="file" value="" id="filepi">
-                <%- lang[page].modal.pitxt %><span class="text-danger"><%- lang[page].modal.pired %></span>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modal.cancel %></button>
-                <button type="button" class="btn btn-primary" onclick="playthisin()"><%- lang[page].modal.playin %></button>
-            </div>
-        </div>
-    </div>
-</form>
 
 
 <script>
