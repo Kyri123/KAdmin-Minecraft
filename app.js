@@ -10,6 +10,15 @@
 
 global.dateFormat                     = require('dateformat')
 global.panelBranch                    = process.argv.includes("dev") ? "dev" : "master"
+
+// Prüfe NodeJS version
+if(parseInt(process.version.replaceAll(".", "").replaceAll("v", "")) < 1560) {
+  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m NodeJS Version not supported (min 15.6.0)`)
+  console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
+  process.exit(1)
+}
+
+// Prüfe OS
 if(process.platform === "win32") {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m OS is Windows or not supported`)
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
