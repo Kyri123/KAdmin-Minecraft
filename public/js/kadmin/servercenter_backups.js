@@ -87,80 +87,6 @@ function get() {
                     }
                 }
                 getSection(latestSection)
-
-                // Löschen von Dateien
-                $('*[data-acceptDel="use"]').click((e) => {
-                    if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
-                        icon: 'question',
-                        text: e.currentTarget.dataset.file,
-                        title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.remove.title}</strong>`,
-                        showCancelButton: true,
-                        confirmButtonText: `<i class="far fa-trash-alt"></i>`,
-                        cancelButtonText: `<i class="fas fa-times"></i>`,
-                    }).then((result) => {
-                        let cancel = true
-                        if (result.isConfirmed) {
-                            $.post("/ajax/serverCenterBackups", {
-                                server      : vars.cfg,
-                                file        : e.currentTarget.dataset.file,
-                                remove      : true
-                            })
-                                .done((data) => {
-                                    try {
-                                        let success = JSON.parse(data).success
-                                        fireToast(success ? 22 : 21, success ? 'success' : 'error')
-                                        $('#FB_reload').click()
-                                    }
-                                    catch (e) {
-                                        console.log(e)
-                                        fireToast(21, "error")
-                                    }
-                                })
-                                .fail(() => {
-                                    fireToast(21, "error")
-                                })
-                            cancel = false
-                        }
-                        if(cancel) fireToast(21, "error")
-                    })
-                })
-
-                // Einspielen von Backup
-                $('*[data-playin="use"]').click((e) => {
-                    console.log(e)
-                    if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
-                        icon: 'question',
-                        text: e.currentTarget.dataset.file,
-                        title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.playin.title}</strong>`,
-                        showCancelButton: true,
-                        confirmButtonText: `<i class="far fa-upload"></i>`,
-                        cancelButtonText: `<i class="fas fa-times"></i>`,
-                    }).then((result) => {
-                        let cancel = true
-                        if (result.isConfirmed) {
-                            $.post("/ajax/serverCenterBackups", {
-                                server      : vars.cfg,
-                                file        : e.currentTarget.dataset.file,
-                                playin      : true
-                            })
-                                .done((data) => {
-                                    try {
-                                        let success = JSON.parse(data).success
-                                        fireToast(success ? 24 : 23, success ? 'success' : 'error')
-                                    }
-                                    catch (e) {
-                                        console.log(e)
-                                        fireToast(23, "error")
-                                    }
-                                })
-                                .fail(() => {
-                                    fireToast(23, "error")
-                                })
-                            cancel = false
-                        }
-                        if(cancel) fireToast(23, "error")
-                    })
-                })
             }
             catch (e) {
                 console.log(e)
@@ -173,6 +99,80 @@ function get() {
 
 function getSection(section) {
     filesFrontend.html(curFiles[section])
+
+    // Löschen von Dateien
+    $('*[data-acceptDel="use"]').click((e) => {
+        if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
+            icon: 'question',
+            text: e.currentTarget.dataset.file,
+            title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.remove.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="far fa-trash-alt"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+        }).then((result) => {
+            let cancel = true
+            if (result.isConfirmed) {
+                $.post("/ajax/serverCenterBackups", {
+                    server      : vars.cfg,
+                    file        : e.currentTarget.dataset.file,
+                    remove      : true
+                })
+                    .done((data) => {
+                        try {
+                            let success = JSON.parse(data).success
+                            fireToast(success ? 22 : 21, success ? 'success' : 'error')
+                            $('#FB_reload').click()
+                        }
+                        catch (e) {
+                            console.log(e)
+                            fireToast(21, "error")
+                        }
+                    })
+                    .fail(() => {
+                        fireToast(21, "error")
+                    })
+                cancel = false
+            }
+            if(cancel) fireToast(21, "error")
+        })
+    })
+
+    // Einspielen von Backup
+    $('*[data-playin="use"]').click((e) => {
+        console.log(e)
+        if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
+            icon: 'question',
+            text: e.currentTarget.dataset.file,
+            title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.playin.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="fas fa-upload"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+        }).then((result) => {
+            let cancel = true
+            if (result.isConfirmed) {
+                $.post("/ajax/serverCenterBackups", {
+                    server      : vars.cfg,
+                    file        : e.currentTarget.dataset.file,
+                    playin      : true
+                })
+                    .done((data) => {
+                        try {
+                            let success = JSON.parse(data).success
+                            fireToast(success ? 24 : 23, success ? 'success' : 'error')
+                        }
+                        catch (e) {
+                            console.log(e)
+                            fireToast(23, "error")
+                        }
+                    })
+                    .fail(() => {
+                        fireToast(23, "error")
+                    })
+                cancel = false
+            }
+            if(cancel) fireToast(23, "error")
+        })
+    })
 }
 
 get()
