@@ -85,7 +85,7 @@ function getServerList() {
                 $('#top_perc').css('width', `${data.servercounter.on / data.servercounter.total * 100}%`)
             }
 
-            let stateColor                                                   stateColor  = "danger"
+            let                                                              stateColor  = "danger"
             if(!val[1].is_installed)                                         stateColor  = "warning"
             if(val[1].pid !== 0 && val[1].online)                            stateColor  = "success"
             if((val[1].pid !== 0 && !val[1].online) || val[1].isAction)      stateColor  = "primary"
