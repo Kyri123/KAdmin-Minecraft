@@ -229,7 +229,7 @@ router.route('/')
          return true
       }
 
-      // Ordnerrecliste
+      // getDirList
       if(
          typeof GET.getDirList   !== "undefined" &&
          typeof GET.server       !== "undefined"
