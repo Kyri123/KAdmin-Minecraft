@@ -39,7 +39,7 @@ module.exports = {
      */
     sendToScreen(server, command) {
         let serverData  = new serverClass(server)
-        if(serverData.serverExsists()) {
+        if(serverData.serverExsists() && shell.runSyncSHELL('screen -list').toString().includes(`.kadmin-${server}`)) {
             let info            = serverData.getServerInfos()
             command             = command
                 .replaceAll("%20", " ")
