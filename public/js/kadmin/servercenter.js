@@ -127,14 +127,14 @@ function getSCState() {
             if(player_id.html() !== inhalt) player_id.html(inhalt)
 
             // Liste
-            let playerlist  = ""
+            let playerlist
             let i           = 0
             serverInfos.aplayersarr.sort((a, b) => (a.name < b.name) ? 1 : -1)
             for(let item of serverInfos.aplayersarr) {
                 let isOP    = "false"
                 for(let op of opList)
                     if(op.uuid === item.id) isOP = "true"
-                //if(i % 2 === 0) playerlist  += `<tr>`
+
                 playerlist  += `
                         <tr>
                         <td style="width: 50%">
@@ -157,17 +157,16 @@ function getSCState() {
                         </td>
                     </tr>
                 `
-                //if(i % 2 !== 1 && i === (serverInfos.aplayersarr.length - 1)) playerlist  += `<td style="width: 50%"></td>`
-                //if(i % 2 === 1 || i === (serverInfos.aplayersarr.length - 1)) playerlist  += `</tr>`
                 i++
             }
-            $(`#playerlist`).html(playerlist)
+
+            $(`#playerlist`).html(playerlist ? playerlist : alerter(2000, "", 3, false, 3, 3, 3, true))
 
 
         // Alerts
             if(serverInfos.alerts !== undefined) {
                 if(old_alerts === undefined) old_alerts = serverInfos.alerts
-                if(JSON.stringify(old_alerts) != JSON.stringify(serverInfos.alerts)) {
+                if(JSON.stringify(old_alerts) !== JSON.stringify(serverInfos.alerts)) {
                     fireToast(20, "info")
                     old_alerts = serverInfos.alerts
                 }
