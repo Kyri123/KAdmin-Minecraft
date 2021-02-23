@@ -70,11 +70,11 @@ function getSCState() {
         let player_id       = $('#player')
         let inhalt
 
-        let stateColor                                                 = "danger"
-        if(!serverInfos.is_installed)                       stateColor = "warning"
-        if(serverInfos.pid !== 0 && !serverInfos.online)    stateColor = "primary"
-        if(serverInfos.pid !== 0 && serverInfos.online)     stateColor = "success"
-        if(serverInfos.is_installing)                       stateColor = "info"
+        let stateColor                                                                              = "danger"
+        if(!serverInfos.is_installed)                                                   stateColor  = "warning"
+        if(serverInfos.pid !== 0 && serverInfos.online)                                 stateColor  = "success"
+        if((serverInfos.pid !== 0 && !serverInfos.online) || serverInfos.isAction)      stateColor  = "primary"
+        if(serverInfos.is_installing)                                                   stateColor  = "info"
 
         let stateText = varser.lang_arr.forservers.state[stateColor]
 

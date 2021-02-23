@@ -77,6 +77,16 @@ module.exports = class serverClass {
 
 
    /**
+    * gibt aus ob dieser Server läuft ist
+    * @return {boolean}
+    */
+   isrun() {
+      if(this.serverExsists())
+         return this.getServerInfos() !== false ? this.getServerInfos().pid !== 0 : false
+      return false
+   }
+
+   /**
     * gibt die Konfiguration aus
     * @return {object}
     */

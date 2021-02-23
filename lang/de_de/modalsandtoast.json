@@ -38,6 +38,6 @@
     "21"  : "Das Backup wurde nicht entfernt",
     "22"  : "Das Backup wurde erfolgreich entfernt",
     "23"  : "Das Backup wurde nicht Eingespielt",
-    "24"  : "Das Backup wird Eingespielt"
+    "24"  : "Das Backup wird Eingespielt (Abgebrochen, Fehlgeschlagen oder Server Online/Running)"
   }
 }

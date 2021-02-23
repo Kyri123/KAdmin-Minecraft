@@ -90,7 +90,6 @@ function get() {
 
                 // Löschen von Dateien
                 $('*[data-acceptDel="use"]').click((e) => {
-                    console.log(e.currentTarget.dataset)
                     if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
                         icon: 'question',
                         text: e.currentTarget.dataset.file,
@@ -128,13 +127,13 @@ function get() {
 
                 // Einspielen von Backup
                 $('*[data-playin="use"]').click((e) => {
-                    console.log(e.currentTarget.dataset)
+                    console.log(e)
                     if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
                         icon: 'question',
                         text: e.currentTarget.dataset.file,
-                        title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.remove.title}</strong>`,
+                        title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.playin.title}</strong>`,
                         showCancelButton: true,
-                        confirmButtonText: `<i class="far fa-trash-alt"></i>`,
+                        confirmButtonText: `<i class="far fa-upload"></i>`,
                         cancelButtonText: `<i class="fas fa-times"></i>`,
                     }).then((result) => {
                         let cancel = true
@@ -142,7 +141,7 @@ function get() {
                             $.post("/ajax/serverCenterBackups", {
                                 server      : vars.cfg,
                                 file        : e.currentTarget.dataset.file,
-                                remove      : true
+                                playin      : true
                             })
                                 .done((data) => {
                                     try {

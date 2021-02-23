@@ -9,8 +9,8 @@
 "use strict"
 
 const router            = require('express').Router()
-const serverShell       = require('./../../../app/src/background/server/shell')
 const serverClass       = require('./../../../app/src/util_server/class')
+const unzip             = require("unzipper")
 
 router.route('/')
 
@@ -18,9 +18,9 @@ router.route('/')
         let POST            = req.body
 
         if(
-            POST.server !== undefined &&
-            POST.file !== undefined &&
-            POST.remove !== undefined
+            POST.server     !== undefined &&
+            POST.file       !== undefined &&
+            POST.remove     !== undefined
         ) if(userHelper.hasPermissions(req.session.uid, "backups/remove", POST.server)) {
             let serverData  = new serverClass(POST.server)
             let serverCFG   = serverData.getConfig()
@@ -41,29 +41,44 @@ router.route('/')
             })
         }
 
-        if(POST.playin !== undefined && userHelper.hasPermissions(req.session.uid, "backups/playin", POST.server)) {
-            let success     = false
+        // Playin
+        if(
+            POST.server     !== undefined &&
+            POST.file       !== undefined &&
+            POST.playin     !== undefined
+        ) if(userHelper.hasPermissions(req.session.uid, "backups/playin", POST.server)) {
             let serverData  = new serverClass(POST.server)
             let serverCFG   = serverData.getConfig()
-            let serverINFO  = serverData.getServerInfos()
+            let success     = false
+            try {
+                if(globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/") && !serverData.isrun()) {
+                    if(globalUtil.safeFileMkdirSync([serverCFG.path, "tmp"]) && globalUtil.safeFileCreateSync([serverCFG.path, "isplayin"])) {
+                        fs.createReadStream(pathMod.join(serverCFG.pathBackup, POST.file))
+                            .pipe(unzip.Extract({path: pathMod.join(serverCFG.path, "tmp")}))
+                            .on("close", () => {
+                                let dirRead = fs.readdirSync(pathMod.join(serverCFG.path, "tmp"))
 
-            if(serverData.serverExsists() && serverINFO.pid === 0) {
-                let backupPath  = pathMod.join(serverCFG.pathBackup, POST.file)
-                let savePath    = pathMod.join(serverCFG.path)
+                                for(let file of dirRead) {
+                                    globalUtil.safeFileRmSync([serverCFG.path, file])
+                                    globalUtil.safeFileRenameSync([serverCFG.path, "tmp", file], [serverCFG.path, file])
+                                }
 
-                if(globalUtil.safeFileExsistsSync([backupPath]))
-                    if(globalUtil.safeFileRmSync([savePath])) {
-                        serverShell.runSHELL(`mkdir ${savePath} && tar -xzvf ${backupPath} -C ${savePath} && mv ${savePath}${savePath}/* ${savePath} && rm -R ${pathMod.join(savePath, savePath.split("/")[1])}`)
+                                globalUtil.safeFileRmSync([serverCFG.path, "tmp"])
+                                globalUtil.safeFileRmSync([serverCFG.path, "isplayin"])
+                            })
                         success = true
                     }
+                }
+            }
+            catch (e) {
+                if(debug) console.log(e)
             }
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(success ? 1013 : 3).replace("{file}", POST.file)
+                    success: success
                 })
             })
-            return true
         }
 
 
