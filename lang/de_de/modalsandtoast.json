@@ -34,6 +34,10 @@
     "17"  : "Version wird Installiert",
     "18"  : "Version konnte nicht Installiert werden",
     "19"  : "Änderungen konnten nicht gespeichert werden",
-    "20"  : "Neue Meldungen wurden erzeugt"
+    "20"  : "Neue Meldungen wurden erzeugt",
+    "21"  : "Das Backup wurde nicht entfernt",
+    "22"  : "Das Backup wurde erfolgreich entfernt",
+    "23"  : "Das Backup wurde nicht Eingespielt",
+    "24"  : "Das Backup wird Eingespielt"
   }
 }

@@ -17,14 +17,17 @@ router.route('/')
     .post((req,res)=>{
         let POST            = req.body
 
-        if(POST.remove !== undefined && userHelper.hasPermissions(req.session.uid, "backups/remove", POST.server)) {
+        if(
+            POST.server !== undefined &&
+            POST.file !== undefined &&
+            POST.remove !== undefined
+        ) if(userHelper.hasPermissions(req.session.uid, "backups/remove", POST.server)) {
             let serverData  = new serverClass(POST.server)
             let serverCFG   = serverData.getConfig()
             let success     = false
             try {
-                if(globalUtil.poisonNull(POST.file)) {
-                    globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
-                    success = true
+                if(globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
+                    success = globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
                 }
             }
             catch (e) {
@@ -33,7 +36,7 @@ router.route('/')
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(success ? 1012 : 3).replace("{file}", POST.file)
+                    success: success
                 })
             })
         }
