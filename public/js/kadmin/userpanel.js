@@ -56,12 +56,12 @@ function getUserList() {
                                                     val.lastlogin
                                                 </td>-->
                                                 <td class="project-actions text-right">
-                                                    ${hasPermissions(globalvars.perm, "all/is_admin") ? `<a id="banbtn${val.id}" class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#groups" onclick="$('#groups').trigger('reset');setInModal(${groups.join(',')})">
+                                                    ${hasPermissions(globalvars.perm, "all/is_admin") ? `<a id="btn${val.id}" class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#groups" onclick="$('#groups').trigger('reset');setInModal(${groups.join(',')})">
                                                         <i class="fas fa-edit" aria-hidden="true"></i>                                                         
                                                         <!--${globalvars.lang_arr.userpanel.perm}-->
                                                     </a>` : ''}
                                                     
-                                                    ${hasPermissions(globalvars.perm, "userpanel/delete_user") ? `<a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#remove" onclick="setInModal(${remove.join(',')})">
+                                                    ${hasPermissions(globalvars.perm, "userpanel/delete_user") ? `<a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#remove" onclick="removeUser('${val.username}', '${val.id}')">
                                                         <i class="fas fa-trash" aria-hidden="true"></i> 
                                                         <!--${globalvars.lang_arr.userpanel.remove}-->
                                                     </a>` : ''}
@@ -94,9 +94,17 @@ function getCodeList() {
             let codeListID  = $('#codes')
 
             codes.forEach((val, key) => {
-                codeList += `<tr id="code${val.id}">
+                if(val.groupinfo !== undefined) {
+                    let groupinfos = val.groupinfo
+                    let groupPerm = JSON.parse(groupinfos.permissions)
+                    let isAdmin = false
+                    if (groupPerm.all !== undefined)
+                        if (groupPerm.all.is_admin === 1)
+                            isAdmin = true
+
+                    codeList += `<tr id="code${val.id}">
                                 <td style="width:5%">
-                                    <span class="text-${val.rang === 1 ? "danger" : "success"}">${val.rang === 1 ? globalvars.lang_arr.userpanel.modal.admin: globalvars.lang_arr.userpanel.modal.user}</span>
+                                    <span class="text-${isAdmin ? "danger" : "success"}">${groupinfos.name}</span>
                                 </td>
                                 <td style="width:80%">
                                     <div class="input-group">
@@ -112,6 +120,7 @@ function getCodeList() {
                                     </div>
                                 </td>
                             </tr>`
+                }
             })
 
             if(codeListID.html() !== codeList) codeListID.html(codeList)
@@ -138,11 +147,13 @@ function removeCode(id, htmlID) {
         try {
             data    = JSON.parse(data)
             if(data.alert !== undefined) $('#global_resp').append(data.alert)
-            if (data.remove !== undefined) {
+            if (data.remove) {
                 $(htmlID).remove()
             }
+            fireToast(data.remove ? 31 : 32, data.remove ? "success" : "error")
         }
         catch (e) {
+            fireToast(32, "error")
             console.log(e)
         }
     })
@@ -156,12 +167,12 @@ function createCode() {
     $.post(`/ajax/userpanel`, $("#addserver").serialize(), (data) => {
         try {
             data    = JSON.parse(data)
-            if(data.alert !== undefined) $('#global_resp').append(data.alert)
-            if (data.added !== undefined) {
+            fireToast(data.success ? 25 : 26, data.success ? "success" : "error")
+            if (data.success)
                 getCodeList()
-            }
         }
         catch (e) {
+            fireToast(26, "error")
             console.log(e)
         }
     })
@@ -170,20 +181,38 @@ function createCode() {
 /**
  * Entfernt einen Benutzer
  */
-function removeUser() {
-    // führe Aktion aus
-    $.post(`/ajax/userpanel`, $('#remove').serialize(), (data) => {
-        try {
-            data    = JSON.parse(data)
-            if(data.alert !== undefined) $('#global_resp').append(data.alert)
-            if (data.remove !== undefined) {
-                $('#remove').modal('hide')
-                $('.modal-backdrop').remove()
-            }
+function removeUser(name, id) {
+    swalWithBootstrapButtons .fire({
+        icon: 'question',
+        text: name,
+        title: `<strong>${globalvars.lang_arr.userpanel.modalDelete.text}</strong>`,
+        showCancelButton: true,
+        confirmButtonText: `<i class="far fa-trash-alt"></i>`,
+        cancelButtonText: `<i class="fas fa-times"></i>`,
+    }).then((result) => {
+        let cancel = true
+        if (result.isConfirmed) {
+            $.post("/ajax/userpanel", {
+                "deleteuser"    : true,
+                "uid"           : id
+            })
+                .done((data) => {
+                    try {
+                        let success = JSON.parse(data).success
+                        fireToast(success ? 29 : 30, success ? 'success' : 'error')
+                        getUserList()
+                    }
+                    catch (e) {
+                        console.log(e)
+                        fireToast(30, "error")
+                    }
+                })
+                .fail(() => {
+                    fireToast(30, "error")
+                })
+            cancel = false
         }
-        catch (e) {
-            console.log(e)
-        }
+        if(cancel) fireToast(30, "error")
     })
 }
 
@@ -195,36 +224,25 @@ function removeUser() {
  */
 function toggleUser(id, btnID) {
     // führe Aktion aus
+    $(`#${btnID}`).html('<i class="fas fa-spinner fa-pulse"></i>')
     $.post(`/ajax/userpanel`, {
         toggleUser  : true,
         id          : id
-    }, (data) => {
-        try {
-            data    = JSON.parse(data)
-            if(data.alert !== undefined) $('#global_resp').append(data.alert)
-            if (data.toggled !== undefined) {
-                $('#' + btnID).html(data.ban === 0 ? globalvars.lang_arr.userpanel.banned: globalvars.lang_arr.userpanel.free).toggleClass('btn-danger', data.ban === 1).toggleClass('btn-success', data.ban === 0)
-            }
-        }
-        catch (e) {
-            console.log(e)
-        }
-    })
-    return false
+    }, () => getUserList())
 }
 
 function sendGroups() {
     $.post(`/ajax/userpanel`, $(`#groups`).serialize(), (data) => {
         try {
             data    = JSON.parse(data)
-            if(data.alert !== undefined) $('#global_resp').append(data.alert)
+            fireToast(data.success ? 27 : 28, data.success ? "success" : "error")
             getUserList()
-            if(data.success !== undefined) {
-                $(`#groups`).modal('hide')
-                $('.modal-backdrop').remove()
-            }
+
+            $(`#groups`).modal('hide')
+            $('.modal-backdrop').remove()
         }
         catch (e) {
+            fireToast(27, "error")
             console.log(e)
         }
     })

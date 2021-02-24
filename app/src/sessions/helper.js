@@ -172,7 +172,7 @@ module.exports = {
     createCode: (rank) => {
         rank = parseInt(rank)
         let rnd         = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
-        let result      = globalUtil.safeSendSQLSync('INSERT INTO reg_code (code, used, rang) VALUES (?, 0, ?)', rnd, rank === 1 ? 1 : 0)
+        let result      = globalUtil.safeSendSQLSync('INSERT INTO reg_code (code, used, rang) VALUES (?, 0, ?)', rnd, rank)
         return result !== false ? rnd : false
     },
 

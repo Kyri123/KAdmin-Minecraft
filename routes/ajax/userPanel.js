@@ -36,14 +36,9 @@ router.route('/')
 
         // Benutzer Löschen
         if(POST.deleteuser !== undefined && userHelper.hasPermissions(req.session.uid, "userpanel/delete_user")) {
-            let userInfos = userHelper.getinfos(POST.uid)
-            userHelper.removeUser(POST.uid)
-
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    remove: true,
-                    ban: userInfos.ban === 1 ? 0 : 1,
-                    alert: alerter.rd(1006).replace("{user}", userInfos.username)
+                    success: userHelper.removeUser(POST.uid)
                 })
             })
             return true
@@ -51,11 +46,9 @@ router.route('/')
 
         // Code Löschen
         if(POST.removeCode !== undefined && userHelper.hasPermissions(req.session.uid, "userpanel/delete_code")) {
-            userHelper.removeCode(POST.id)
-
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    remove: true,
+                    remove: userHelper.removeCode(POST.id) !== false,
                     alert: alerter.rd(1007)
                 })
             })
@@ -65,11 +58,11 @@ router.route('/')
         // Code Erzeugen
         if(POST.addCode !== undefined && userHelper.hasPermissions(req.session.uid, "userpanel/create_code")) {
             let code = userHelper.createCode(POST.rank)
+            console.log(code)
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    added: true,
-                    alert: alerter.rd(1008).replace("{code}", code)
+                    success: code !== false
                 })
             })
             return true
@@ -77,19 +70,13 @@ router.route('/')
 
         // Gruppen zuweisen
         if(POST.setGroups !== undefined && userHelper.hasPermissions(req.session.uid, "all/is_admin")) {
-            let alertcode   = 8
             let userInfos   = userHelper.getinfos(POST.uid)
             let groups      = POST.groups === undefined ? [] : Array.isArray(POST.groups) ? POST.groups : []
             groups.forEach((value, index) => groups[index] = parseInt(value))
 
-            if(userInfos !== false) {
-                alertcode   = userHelper.writeinfos(userInfos.id, "rang", JSON.stringify(groups)) !== false ? 1017 : alertcode
-            }
-
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    alert: alerter.rd(alertcode),
-                    success: true
+                    success: userHelper.writeinfos(userInfos.id, "rang", JSON.stringify(groups)) !== false
                 })
             })
             return true
@@ -120,9 +107,21 @@ router.route('/')
 
         // Codelist
         if(GET.getcodelist) {
+            let codeList = globalUtil.safeSendSQLSync(`SELECT * FROM \`reg_code\` WHERE \`used\`=0${!userHelper.hasPermissions(req.session.uid, "all/is_admin") ? ' AND `rang`!=1' : ''}`)
+            let endList  = []
+
+            for(let code of codeList) {
+                let groupinfo   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', code.rang)
+                let item        = code
+                item.groupinfo  = false
+                if(groupinfo !== false)
+                    item.groupinfo = groupinfo[0]
+                    endList.push(item)
+            }
+
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    codelist: globalUtil.safeSendSQLSync(`SELECT * FROM \`reg_code\` WHERE \`used\`=0${!userHelper.hasPermissions(req.session.uid, "all/is_admin") ? ' AND `rang`=0' : ''}`)
+                    codelist: codeList
                 })
             })
             return true

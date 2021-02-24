@@ -38,6 +38,14 @@
     "21"  : "Das Backup wurde nicht entfernt",
     "22"  : "Das Backup wurde erfolgreich entfernt",
     "23"  : "Das Backup wurde nicht Eingespielt",
-    "24"  : "Das Backup wird Eingespielt (Abgebrochen, Fehlgeschlagen oder Server Online/Running)"
+    "24"  : "Das Backup wird Eingespielt (Abgebrochen, Fehlgeschlagen oder Server Online/Running)",
+    "25"  : "Code wurde erfolgreich erstellt",
+    "26"  : "Code konnte nicht erstellt werden",
+    "27"  : "Benutzergruppe(n) zugewiesen",
+    "28"  : "Benutzergruppe(n) NICHT zugewiesen",
+    "29"  : "Benutzer entfernt",
+    "30"  : "Benutzer NICHT entfernt",
+    "31"  : "Code entfernt",
+    "32"  : "Code NICHT entfernt"
   }
 }
