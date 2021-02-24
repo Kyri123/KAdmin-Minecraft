@@ -17,7 +17,8 @@
     "show"                  : 0,
     "remove"                : 0,
     "playin"                : 0,
-    "download"              : 0
+    "download"              : 0,
+    "upload"                : 0
   },
   "filebrowser": {
     "show"                  : 0,

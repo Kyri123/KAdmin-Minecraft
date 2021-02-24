@@ -226,4 +226,80 @@ function playthisin() {
     })
 }
 
-$(document).ready(() => setInterval(() => $('.content-wrapper').attr("style", "min-height: 1750px")), 500)
+$(document).ready(() => {
+    setInterval(() => $('.content-wrapper').attr("style", "min-height: 1750px"), 500)
+
+    if(hasPermissions(globalvars.perm, "backups/upload", vars.cfg)) $('#FB_upload').click((e) => {
+        swalWithBootstrapButtons.fire({
+            icon: 'question',
+            title: `<strong>${globalvars.lang_arr["servercenter_filebrowser"].sweet.upload.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="fas fa-file-upload"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+            input: 'file',
+            inputAttributes: {},
+            inputValidator: (value) => {
+                if (value === null)
+                    return globalvars.lang_arr["servercenter_filebrowser"].sweet.upload.invalide
+                if(!value.name.includes(".zip"))
+                    return globalvars.lang_arr["servercenter_filebrowser"].sweet.upload.invalide
+                if(!/^[0-9]+$/.test(value.name.replaceAll(".zip", "")))
+                    return globalvars.lang_arr["servercenter_filebrowser"].sweet.upload.invalide
+            },
+            onBeforeOpen: () => {
+                $(".swal2-file").change(function () {
+                    let reader
+                    let files = $('.swal2-file')[0].files
+                    for(let i = 0; i < files.length; i++) {
+                        reader = new FileReader()
+                        reader.readAsDataURL($('.swal2-file')[0].files[i])
+                    }
+                });
+            }
+        }).then((file) => {
+            if (file.isConfirmed) {
+                if (file.value) {
+                    // erstelle Form
+                    let formData = new FormData()
+                    let files = $('.swal2-file')[0].files
+                    for(let i = 0; i < files.length; i++) {
+                        formData.append("files[]", $('.swal2-file')[0].files[i])
+                    }
+                    formData.append("upload", true)
+                    formData.append("server", vars.cfg)
+                    fireToast(12, 'info')
+                    // sende
+                    $.ajax({
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        method: 'post',
+                        url: '/ajax/serverCenterBackups',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (resp) {
+                            try {
+                                let isSuccess = JSON.parse(resp).success
+                                fireToast(isSuccess ? 3 : 2, isSuccess ? "success" : "error")
+                                if(isSuccess) $('#FB_reload').click()
+                            }
+                            catch (e) {
+                                fireToast(2, "error")
+                                console.log(resp)
+                            }
+                        },
+                        error: function() {
+                            fireToast(2, 'error')
+                            $('#FB_reload').click()
+                        }
+                    })
+                }
+                else {
+                    fireToast(2, 'error')
+                }
+            }
+            else {
+                fireToast(2, 'error')
+            }
+        })
+    })
+})

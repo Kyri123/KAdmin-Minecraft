@@ -457,12 +457,17 @@ function reloadClickEvents() {
                         processData: false,
                         contentType: false,
                         success: function (resp) {
-                            console.log("suc")
-                            fireToast(3)
-                            $('#FB_reload').click()
+                            try {
+                                let isSuccess = JSON.parse(resp).success
+                                fireToast(isSuccess ? 3 : 2, isSuccess ? "success" : "error")
+                                if(isSuccess) $('#FB_reload').click()
+                            }
+                            catch (e) {
+                                fireToast(2, "error")
+                                console.log(resp)
+                            }
                         },
                         error: function() {
-                            console.log("err")
                             fireToast(2, 'error')
                             $('#FB_reload').click()
                         }

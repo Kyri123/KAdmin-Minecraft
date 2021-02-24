@@ -16,6 +16,46 @@ router.route('/')
 
     .post((req,res)=>{
         let POST            = req.body
+        let FILES           = req.files
+
+        // Upload
+        try {
+            if(
+                typeof POST.server    !== "undefined" &&
+                typeof POST.upload    !== "undefined" &&
+                FILES
+            ) if(userHelper.hasPermissions(req.session.uid,`backups/upload`, POST.server)) {
+                let serverData      = new serverClass(POST.server)
+                let serverCFG       = serverData.getConfig()
+                let success         = true
+                let file            = FILES['files[]']
+
+                // lade Datei hoch
+                try {
+                    if(file.name.includes(".zip") && /^[0-9]+$/.test(file.name.replaceAll(".zip", ""))) {
+                        let path = pathMod.join(serverCFG.pathBackup, file.name)
+                        console.log(path)
+                        globalUtil.safeFileRmSync([path])
+                        file.mv(pathMod.join(path))
+                        success = true
+                    }
+                }
+                catch (e) {
+                    if(debug) console.log(e)
+                    success = false
+                }
+
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        "success": success
+                    })
+                })
+                return true
+            }
+        }
+        catch (e) {
+            if(debug) console.log(e)
+        }
 
         if(
             POST.server     !== undefined &&

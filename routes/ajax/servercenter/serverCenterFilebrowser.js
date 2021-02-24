@@ -16,7 +16,7 @@ router.route('/')
       let POST        = req.body
       let FILES       = req.files
 
-      // Löschen
+      // Upload
       try {
          if(
             typeof POST.server    !== "undefined" &&

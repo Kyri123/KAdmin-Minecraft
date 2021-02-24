@@ -12,9 +12,17 @@
                     <!-- Actionlist -->
                     <div class="col-12 bg-dark p-2">
                         <div class="d-flex">
-                            <div class="btn-group"></div>
+                            <div class="btn-group">
+                                <% if(userHelper.hasPermissions(userID, "backups/upload", serverName)) { %>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" id="FB_upload">
+                                        <i class="fas fa-file-upload"></i>
+                                    </a>
+                                <% } %>
+                            </div>
                             <div class="btn-group btn-group-sm ml-auto">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="get()" id="FB_reload"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-outline-light" onclick="get()" id="FB_reload">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
