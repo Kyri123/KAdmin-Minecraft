@@ -97,9 +97,26 @@ router.route('/')
 
         // Userlist
         if(GET.getuserlist) {
+            let userList = globalUtil.safeSendSQLSync('SELECT `id`, `username`, `email`, `lastlogin`, `registerdate`, `rang`, `ban` FROM users')
+            let endList  = []
+
+            for(let user of userList) {
+                let ranks       = JSON.parse(user.rang)
+                let item        = user
+                item.groupinfo  = []
+
+                for(let rank of ranks){
+                    let groupinfo   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', rank)
+                    if(groupinfo !== false)
+                        item.groupinfo.push(groupinfo[0])
+                }
+
+                endList.push(item)
+            }
+
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    userlist: globalUtil.safeSendSQLSync('SELECT `id`, `username`, `email`, `lastlogin`, `registerdate`, `rang`, `ban` FROM users')
+                    userlist: endList
                 })
             })
             return true

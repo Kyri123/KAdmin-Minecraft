@@ -25,26 +25,35 @@ function getUserList() {
         try {
             let users       = JSON.parse(data).userlist
             let userlist    = ``
-            let modallist   = ``
             let htmUserList = $('#userlist')
 
             users.forEach((val, key) => {
-                let remove  = [
-                    `'#removeID~val~${val.id}'`,
-                    `'#removeTitle~htm~${val.username}'`
-                ]
                 let rangIDs = JSON.parse(val.rang)
                 let groups = [
                     `'#userID~val~${val.id}'`,
                     `'#userTitle~htm~${val.username}'`
                 ]
                 rangIDs.forEach((val) => groups.push(`'#group${val}~checkbox~true'`))
+
+                let groupArr    = val.groupinfo
+                let groupNames  = []
+                for(let groupItem of groupArr) {
+                    if(groupItem !== null) {
+                        let groupPerm = JSON.parse(groupItem.permissions)
+                        let isAdmin = false
+                        if (groupPerm.all !== undefined)
+                            if (groupPerm.all.is_admin === 1)
+                                isAdmin = true
+                        groupNames.push(`<span class="text-${isAdmin ? "danger" : "success"}">${groupItem.name}</span>`)
+                    }
+                }
+
                 if(key !== 0) userlist += `<tr>
                                                 <td>
                                                     ${val.username}
                                                 </td>
                                                 <td>
-                                                    <span class="text-${rangIDs.includes(1) ? "danger" : "success"}">${rangIDs.includes(1) ? globalvars.lang_arr.userpanel.modal.admin: globalvars.lang_arr.userpanel.modal.user}</span>
+                                                    ${groupNames.join(" | ")}
                                                 </td>
                                                 <td>
                                                     ${val.email}
