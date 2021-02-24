@@ -564,7 +564,6 @@ function playeraction(uuid, name, action, isop = "false") {
                 .attr("class", "btn btn-sm btn-outline-danger")
                 .html(`<i class="fa fa-times"></i>`)
         }
-        fireToast(13)
         // done
     })
 }
