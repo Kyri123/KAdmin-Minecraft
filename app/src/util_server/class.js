@@ -77,6 +77,16 @@ module.exports = class serverClass {
 
 
    /**
+    * gibt aus ob dieser Server läuft ist
+    * @return {boolean}
+    */
+   isrun() {
+      if(this.serverExsists())
+         return this.getServerInfos() !== false ? this.getServerInfos().pid !== 0 : false
+      return false
+   }
+
+   /**
     * gibt die Konfiguration aus
     * @return {object}
     */
@@ -143,10 +153,8 @@ module.exports = class serverClass {
       let config  = this.cfg
       if(this.serverExsists()) {
          try {
-            let saveData    = array_replace_recursive(config, cfg)
-            if(cfg.mods     !== undefined)  saveData.mods   = cfg.mods
-            if(cfg.opt      !== undefined)  saveData.opt    = cfg.opt
-            if(cfg.flags    !== undefined)  saveData.flags  = cfg.flags
+            let saveData               = array_replace_recursive(config, cfg)
+            saveData.autoBackupPara    = cfg.autoBackupPara
             return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(saveData))
          }
          catch (e) {

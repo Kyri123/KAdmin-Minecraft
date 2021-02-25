@@ -76,7 +76,7 @@ router.route('/')
                         sql             = 'SELECT * FROM reg_code WHERE `used`=0 AND `code`=?'
                         let code_result = globalUtil.safeSendSQLSync(sql, POST.code)
                         if(code_result.length > 0) {
-                            sql             = `INSERT INTO users (\`username\`, \`email\`, \`password\`, \`ban\`, \`registerdate\` ,\`rang\`) VALUES (?, ?, ?, '0', '${Date.now()}', '${code_result[0].rang === "0" ? "[]" : "[1]"}')`
+                            sql             = `INSERT INTO users (\`username\`, \`email\`, \`password\`, \`ban\`, \`registerdate\` ,\`rang\`) VALUES (?, ?, ?, '0', '${Date.now()}', '[${code_result[0].rang}]')`
                             if(globalUtil.safeSendSQLSync(sql, POST.username, POST.email, POST.pw1) !== false) {
                                 sql         = 'UPDATE reg_code SET `used`=1 WHERE `code`=?'
                                 result      = globalUtil.safeSendSQLSync(sql, POST.code)

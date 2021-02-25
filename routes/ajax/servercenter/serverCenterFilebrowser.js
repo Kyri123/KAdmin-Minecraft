@@ -16,7 +16,7 @@ router.route('/')
       let POST        = req.body
       let FILES       = req.files
 
-      // Löschen
+      // Upload
       try {
          if(
             typeof POST.server    !== "undefined" &&
@@ -229,7 +229,7 @@ router.route('/')
          return true
       }
 
-      // Ordnerrecliste
+      // getDirList
       if(
          typeof GET.getDirList   !== "undefined" &&
          typeof GET.server       !== "undefined"

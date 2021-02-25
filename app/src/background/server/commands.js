@@ -68,14 +68,52 @@ module.exports = {
     * @param para {array} Parameters
     * <br>
     * - **Derzeit keine Parameter**
-    * @return {boolean}
     */
-   doBackup: (server, para) => {
+   doBackup: function(server, para) {
       let serv       = new serverClass(server)
       if(serv.serverExsists()) {
-         let servCFG = serv.getConfig()
+         let servCFG          = serv.getConfig()
+         let servINI          = serv.getINI()
+         let zipPath          = pathMod.join(servCFG.pathBackup, `${Date.now()}.zip`)
+         let backuprun        = pathMod.join(servCFG.pathBackup, `backuprun`)
+         let paths            = []
          globalUtil.safeFileMkdirSync([servCFG.pathBackup])
-         return serverShell.runSHELL(`tar -cvzpf ${servCFG.pathBackup}/${Date.now()}.tar.gz ${servCFG.path}`)
+
+         if(!para.includes('--onlyworld'))
+            if(globalUtil.safeFileExsistsSync([servCFG.path]))
+               paths.push("./")
+
+         if(para.includes('--onlyworld')) {
+            if(globalUtil.safeFileExsistsSync([servCFG.path, servINI['level-name']]))
+               paths.push(`./${servINI['level-name']}`)
+            if(globalUtil.safeFileExsistsSync([servCFG.path, servINI['level-name'] + "_nether"]))
+               paths.push(`./${servINI['level-name']}_nether`)
+            if(globalUtil.safeFileExsistsSync([servCFG.path, servINI['level-name'] + "_the_end"]))
+               paths.push(`./${servINI['level-name']}_the_end`)
+         }
+
+         if(para.includes('--onlyworld') && para.includes('--withmods')) {
+            if (globalUtil.safeFileExsistsSync([servCFG.path, "mods"]))
+               paths.push("./mods")
+            if (globalUtil.safeFileExsistsSync([servCFG.path, "config"]))
+               paths.push("./config")
+         }
+
+         if(para.includes('--onlyworld') && para.includes('--witplugins'))
+            if(globalUtil.safeFileExsistsSync([servCFG.path, "plugins"]))
+               paths.push("./plugins")
+
+         if(
+            !globalUtil.checkValidatePath(servCFG.path) ||
+            !globalUtil.checkValidatePath(servCFG.pathBackup)
+         ) return false
+
+         if(globalUtil.safeFileCreateSync([backuprun]) && paths.length !== 0) {
+            serverShell.runSHELL(`cd ${servCFG.path} && zip -9 -r ${zipPath} ${paths.join(" ")} && rm ${backuprun}`)
+            return true
+         }
+
+         return false
       }
    }
 }

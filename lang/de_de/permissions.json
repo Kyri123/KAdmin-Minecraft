@@ -46,6 +46,8 @@
     "uploadFiles"             : "Darf Dateien hochladen",
     "renameFiles"             : "Darf Dateien umbenennen",
     "moveFiles"               : "Darf Dateien verschieben",
-    "showFiles"               : "Darf Dateien ansehen"
+    "showFiles"               : "Darf Dateien ansehen",
+    "upload"                  : "Darf Backups hochladen",
+    "download"                : "Darf Backups runterladen"
   }
 }

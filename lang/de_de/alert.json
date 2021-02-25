@@ -150,6 +150,13 @@
 
 
 
+  "2000": {
+    "title" : "Kein Spieler online",
+    "text"  : "Derzeit ist kein Spieler auf dem Server oder der Server ist Offline"
+  },
+
+
+
   "3000": {
     "title" : "Keine Änderungen",
     "text"  : "Es wurden keine Änderungen vorgenommen"

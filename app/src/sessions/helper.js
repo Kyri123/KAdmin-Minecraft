@@ -123,6 +123,8 @@ module.exports = {
             try {
                 let permarr = server !== false ? userperm.server[server] !== undefined ? userperm.server[server] : false : userperm
                 if(permarr === false) return false
+                if(server !== false) if(permarr["is_server_admin"] === 1) return true
+                if(userperm.all["is_admin"] === 1) return true
 
                 let bool = false
                 let needPerm    = perm.includes("/") ? perm.split('/') : [perm]
@@ -132,9 +134,6 @@ module.exports = {
                         if(typeof permarr !== "object" && typeof permarr === "number") bool = parseInt(permarr) === 1
                     }
                 })
-
-                if(server !== false) if(permarr.is_server_admin === 1) bool = true
-                if(userperm.all.is_admin === 1) bool = true
 
                 return bool
             }
@@ -173,7 +172,7 @@ module.exports = {
     createCode: (rank) => {
         rank = parseInt(rank)
         let rnd         = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
-        let result      = globalUtil.safeSendSQLSync('INSERT INTO reg_code (code, used, rang) VALUES (?, 0, ?)', rnd, rank === 1 ? 1 : 0)
+        let result      = globalUtil.safeSendSQLSync('INSERT INTO reg_code (code, used, rang) VALUES (?, 0, ?)', rnd, rank)
         return result !== false ? rnd : false
     },
 

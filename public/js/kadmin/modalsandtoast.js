@@ -32,11 +32,12 @@ const sweetToast = Swal.mixin({
  * Feuert ein Toast
  * @param {string|int} code
  * @param {string} type
+ * @param {{}} options
  * @return {void}
  */
-function fireToast(code, type= "success") {
+function fireToast(code, type= "success", options = {}) {
    if(
-      globalvars.lang_arr.sweet.toast[code] !== undefined
+      globalvars.lang_arr.modalsandtoast.toast[code] !== undefined
       && type.includesArray([
          "success",
          "error",
@@ -45,9 +46,10 @@ function fireToast(code, type= "success") {
          "question"
       ])
    ) {
-      toastr[type](globalvars.lang_arr.modalsandtoast.toast[code])
+      let text = globalvars.lang_arr.modalsandtoast.toast[code]
+      if(options.replace !== undefined) if(Array.isArray(options.replace)) text = text.replaceArray(options.replace[0], options.replace[1])
 
-      toastr.options = {
+      let toastrOPT = {
          "closeButton": false,
          "debug": false,
          "newestOnTop": true,
@@ -57,13 +59,22 @@ function fireToast(code, type= "success") {
          "onclick": null,
          "showDuration": "300",
          "hideDuration": "1000",
-         "timeOut": "3000",
+         "timeOut": "10000",
          "extendedTimeOut": "1000",
          "showEasing": "swing",
          "hideEasing": "linear",
          "showMethod": "fadeIn",
          "hideMethod": "fadeOut"
       }
+
+      for (const [key, value] of Object.entries(options)) {
+         if(key !== "replace") {
+            toastrOPT[key] = value
+         }
+      }
+
+      toastr.options = toastrOPT
+      toastr[type](text)
    }
 }
 
@@ -71,10 +82,10 @@ function fireToast(code, type= "success") {
  * Feuert ein Modal
  * @param {string|int} code
  * @param {string} type
- * @param {boolean} endless
+ * @param {{}} options
  * @return {void}
  */
-function fireModal(code, type= "success", endless = false) {
+function fireModal(code, type= "success", options = {}) {
    if(
       globalvars.lang_arr.modalsandtoast.modal[code] !== undefined
       && type.includesArray([
@@ -85,18 +96,29 @@ function fireModal(code, type= "success", endless = false) {
          "question"
       ])
    ) {
-      swalWithBootstrapButtons.fire({
+      let text = globalvars.lang_arr.modalsandtoast.modal[code]
+      if(options.replace !== undefined) if(Array.isArray(options.replace)) text = text.replaceArray(options.replace[0], options.replace[1])
+
+      let swalOPT = {
          showCancelButton: false,
          showConfirmButton: false,
-         title: globalvars.lang_arr.sweet[type],
-         text: globalvars.lang_arr.sweet.modal[code],
+         title: globalvars.lang_arr.modalsandtoast[type],
+         text: text,
          icon: type,
-         timer: endless ? 300000000000 : 3000,
+         timer: 10000,
          didOpen: (toast) => {
             toast.addEventListener('click', Swal.close)
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
          }
-      })
+      }
+
+      for (const [key, value] of Object.entries(options)) {
+         if(key !== "replace") {
+            swalOPT[key] = value
+         }
+      }
+
+      swalWithBootstrapButtons.fire(swalOPT)
    }
 }

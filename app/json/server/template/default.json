@@ -6,6 +6,7 @@
   "autoUpdateInterval"      : 1800000,
   "autoUpdateNext"          : 0,
   "autoBackup"              : false,
+  "autoBackupPara"          : [],
   "autoBackupInterval"      : 1800000,
   "autoBackupNext"          : 0,
   "shouldRun"               : false,

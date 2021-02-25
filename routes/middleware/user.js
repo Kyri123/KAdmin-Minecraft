@@ -21,6 +21,9 @@ module.exports = {
             // Prüfe ob dieser gebannt ist
             let sql    = 'SELECT * FROM `users` WHERE `id`=?'
             let result = globalUtil.safeSendSQLSync(sql, sess.uid)
+            if(result.length === 0) {
+                module.exports.logout(req, res)
+            }
             if(result[0].ban === 0) {
                 next()
             }

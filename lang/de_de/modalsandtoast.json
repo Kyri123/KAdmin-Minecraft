@@ -8,6 +8,12 @@
     "0"   : ""
   },
   "toast": {
+    "danger"        : "Server {server} ist nun OFFLINE",
+    "warning"       : "Server {server} ist nicht mehr Installiert",
+    "success"       : "Server {server} ist nun ONLINE",
+    "primary"       : "Bei dem Server {server} läuft nun eine Aktion oder dieser Startet",
+    "info"          : "Bei dem Server {server} läuft eine Installation",
+
     "0"   : "Datei konnte nicht gespeichert werden",
     "1"   : "Änderungen wurden gespeichert",
     "2"   : "Dateien konnten nicht hochgeladen werden",
@@ -20,6 +26,26 @@
     "9"   : "Ordner oder Datei wurde verschoben",
     "10"  : "Ordner oder Datei wurde nicht Umbenannt",
     "11"  : "Ordner oder Datei wurde Umbenannt",
-    "12"  : "Dateien werden hochgeladen bitte warten..."
+    "12"  : "Dateien werden hochgeladen bitte warten...",
+    "13"  : "Modpack wird Installiert",
+    "14"  : "Modpack konnte nicht Installiert werden",
+    "15"  : "Befehl wurde gesendet",
+    "16"  : "Befehl konnte nicht gesendet werden",
+    "17"  : "Version wird Installiert",
+    "18"  : "Version konnte nicht Installiert werden",
+    "19"  : "Änderungen konnten nicht gespeichert werden",
+    "20"  : "Neue Meldungen wurden erzeugt",
+    "21"  : "Das Backup wurde nicht entfernt",
+    "22"  : "Das Backup wurde erfolgreich entfernt",
+    "23"  : "Das Backup wurde nicht Eingespielt",
+    "24"  : "Das Backup wird Eingespielt (Abgebrochen, Fehlgeschlagen oder Server Online/Running)",
+    "25"  : "Code wurde erfolgreich erstellt",
+    "26"  : "Code konnte nicht erstellt werden",
+    "27"  : "Benutzergruppe(n) zugewiesen",
+    "28"  : "Benutzergruppe(n) NICHT zugewiesen",
+    "29"  : "Benutzer entfernt",
+    "30"  : "Benutzer NICHT entfernt",
+    "31"  : "Code entfernt",
+    "32"  : "Code NICHT entfernt"
   }
 }

@@ -9,8 +9,6 @@
 "use strict"
 
 const router                = require('express').Router()
-const globalinfos           = require('./../../../app/src/global_infos')
-const serverCommands        = require('./../../../app/src/background/server/commands')
 const serverCommandsUtil    = require('./../../../app/src/background/server/commands_util')
 
 router.route('/')
@@ -21,9 +19,8 @@ router.route('/')
         // GET serverInfos
         if(
             POST.sendCommandToServer !== undefined &&
-            POST.server !== undefined &&
-            userHelper.hasPermissions(req.session.uid, "sendCommands", POST.cfg)
-        ) {
+            POST.server !== undefined
+        ) if(userHelper.hasPermissions(req.session.uid, "sendCommands", POST.server)) {
             res.render('ajax/json', {
                 data: serverCommandsUtil.sendToScreen(POST.server, escape(POST.command.toString()))
             });

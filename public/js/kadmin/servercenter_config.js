@@ -7,18 +7,20 @@
 * *******************************************************************************************
 */
 "use strict"
-let editor = CodeMirror.fromTextArea(document.getElementById("serverprop"), {
-    lineNumbers: true,
-    mode: "javascript",
-    theme: "material"
-})
+let editor = {
+    "#serverprop": CodeMirror.fromTextArea(document.getElementById("serverprop"), {
+        lineNumbers: true,
+        mode: "javascript",
+        theme: "material"
+    })
+}
 
 if (hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
     serverInis: true,
     ini: "server",
     server: vars.cfg
 }, (data) => {
-    editor.setValue(data)
+    editor["#serverprop"].setValue(data)
 })
 
 /**
@@ -28,10 +30,11 @@ if (hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/se
 function saveCfg() {
     $.post('/ajax/serverCenterConfig', $('#pills-server').serialize(), (data) => {
         try {
-            data = JSON.parse(data);
-            if (data.alert !== undefined) $('#all_resp').append(data.alert);
+            data = JSON.parse(data)
+            fireToast(data.success ? 1 : 19, data.success ? "success" : "error")
         } catch (e) {
-            console.log(e);
+            console.log(e)
+            fireToast(19, "error")
         }
     });
     return false;
@@ -50,10 +53,11 @@ function serverSave(htmlID, cfg) {
         server: true
     }, (data) => {
         try {
-            data = JSON.parse(data);
-            if (data.alert !== undefined) $('#all_resp').append(data.alert);
+            data = JSON.parse(data)
+            fireToast(data.success ? 1 : 19, data.success ? "success" : "error")
         } catch (e) {
-            console.log(e);
+            console.log(e)
+            fireToast(19, "error")
         }
     })
     return false
