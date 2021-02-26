@@ -7,12 +7,49 @@
  * *******************************************************************************************
  */
 "use strict"
-
+global.fs                             = require('fs')
+global.pathMod                        = require('path')
+global.util                           = require('util')
 global.dateFormat                     = require('dateformat')
-global.panelBranch                    = process.argv.includes("dev") ? "dev" : "master"
+
+// überschreibe console.log
+let logDir          = pathMod.join(__dirname, "logs")
+let logFile         = pathMod.join(logDir, "current.log")
+let logRenamedFile  = pathMod.join(logDir, `${Date.now()}.log`)
+
+// erstelle Log ordner & file (Überschreibe Console.log())
+if(!fs.existsSync(logDir)) fs.mkdirSync(logDir)
+
+if(!fs.existsSync(logFile)) {
+  fs.writeFileSync(logFile, "")
+} else {
+  fs.renameSync(logFile, logRenamedFile)
+  fs.writeFileSync(logFile, "")
+}
+
+let logStream = fs.createWriteStream(logFile, {flags : 'w'});
+let logStdout = process.stdout;
+
+console.log = function(d) {
+  logStdout.write(util.format(...arguments) + '\n')
+
+  for(let i in arguments) {
+    arguments[i] = arguments[i]
+       .replaceAll('%s\x1b[0m', '')
+       .replaceAll('\x1b[30m', '')
+       .replaceAll('\x1b[31m', '')
+       .replaceAll('\x1b[32m', '')
+       .replaceAll('\x1b[33m', '')
+       .replaceAll('\x1b[34m', '')
+       .replaceAll('\x1b[35m', '')
+       .replaceAll('\x1b[36m', '')
+  }
+
+  logStream.write(util.format(...arguments) + '\n')
+}
 
 // Prüfe NodeJS version
-if(parseInt(process.version.replaceAll(".", "").replaceAll("v", "")) < 1560) {
+if(parseInt(process.version.replaceAll(/[^0-9]/g, '')) < 1560) {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m NodeJS Version not supported (min 15.6.0)`)
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
   process.exit(1)
@@ -44,8 +81,6 @@ global.ip                             = require('ip')
 global.md5                            = require('md5')
 global.htmlspecialchars               = require('htmlspecialchars')
 global.mysql                          = require('mysql')
-global.pathMod                        = require('path')
-global.fs                             = require('fs')
 //global.mode                         = "dev"
 global.panelVersion                   = "0.0.5"
 global.buildID                        = "00005.00001"
