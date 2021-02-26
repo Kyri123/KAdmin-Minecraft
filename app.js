@@ -13,24 +13,19 @@ global.util                           = require('util')
 global.dateFormat                     = require('dateformat')
 
 // überschreibe console.log
-let logDir          = pathMod.join(__dirname, "logs")
+let logDir          = pathMod.join(__dirname, "latest_logs")
 let logFile         = pathMod.join(logDir, "current.log")
 let logRenamedFile  = pathMod.join(logDir, `${Date.now()}.log`)
 
 // erstelle Log ordner & file (Überschreibe Console.log())
-if(!fs.existsSync(logDir)) fs.mkdirSync(logDir)
-
-if(!fs.existsSync(logFile)) {
-  fs.writeFileSync(logFile, "")
-} else {
-  fs.renameSync(logFile, logRenamedFile)
-  fs.writeFileSync(logFile, "")
-}
+if(fs.existsSync(logDir)) fs.rmSync(logDir, {recursive: true})
+fs.mkdirSync(logDir)
+fs.writeFileSync(logFile, "")
 
 let logStream = fs.createWriteStream(logFile, {flags : 'w'});
 let logStdout = process.stdout;
 
-console.log = function(d) {
+console.log = function() {
   logStdout.write(util.format(...arguments) + '\n')
 
   for(let i in arguments) {
@@ -45,8 +40,20 @@ console.log = function(d) {
        .replaceAll('\x1b[36m', '')
   }
 
-  logStream.write(util.format(...arguments) + '\n')
+  logStream.write(util.format(...arguments) + '\n', () => logStream.emit("write"))
 }
+
+logStream
+   .on("write", () => {
+     let size = fs.statSync(logFile).size
+     if(size > 2e+6) {
+       let newLogFileName = `${dateFormat(new Date(), "dd_mm_yyyy_HH_MM_ss")}.log`
+       let newLogFile     = pathMod.join(logDir, newLogFileName)
+
+       fs.writeFileSync(newLogFile, fs.readFileSync(logFile, "utf-8"))
+       fs.writeFileSync(logFile, `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Log RESET > logfile: ${newLogFileName}`)
+     }
+   })
 
 // Prüfe NodeJS version
 if(parseInt(process.version.replaceAll(/[^0-9]/g, '')) < 1560) {
@@ -137,6 +144,7 @@ let app         = express()
   app.use('/serv', express.static(pathMod.join(CONFIG.app.servRoot)))
   app.use('/logs', express.static(pathMod.join(CONFIG.app.logRoot)))
   app.use('/backup', express.static(pathMod.join(CONFIG.app.pathBackup)))
+  app.use('/nodejs_logs', express.static(logDir))
 
   // Session
   app.use(session({
