@@ -70,6 +70,7 @@ function getSCState() {
         let player_id       = $('#player')
         let inhalt
 
+        // Serverstatus (Farbe)
         let                                                                             stateColor  = "danger"
         if(!serverInfos.is_installed)                                                   stateColor  = "warning"
         if(serverInfos.pid !== 0 && serverInfos.online)                                 stateColor  = "success"
@@ -79,15 +80,10 @@ function getSCState() {
         let stateText = varser.lang_arr.forservers.state[stateColor]
 
         // Versionserfassung
-            let version
-            if(stateColor === "danger" || stateColor === "warning") {
-                version = hasPermissions(globalvars.perm, "versionpicker", varser.cfg)
-                   ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
-                   : serverInfos.version
-            }
-            else {
-                version = serverInfos.version
-            }
+            let version     = serverInfos.version
+            if((stateColor === "danger" || stateColor === "warning") && hasPermissions(globalvars.perm, "versionpicker", varser.cfg))
+                version     = `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
+
             $('#version').html(version)
 
         //server IMG
@@ -99,17 +95,17 @@ function getSCState() {
             if(state_id.html() !== stateText) state_id.html(stateText).attr('class',`description-header text-${stateColor}`)
 
         // Action Card
-            let css
-            if(stateColor === "warning" || stateColor === "info") {
-                inhalt = varser.lang_arr.servercenter_any.actionClose
+            let css = 'success'
+            inhalt          = varser.lang_arr.servercenter_any.actionClose
+
+            if(!(stateColor === "warning" || stateColor === "info") && hasPermissions(globalvars.perm, "actions", varser.cfg)) {
+                inhalt      = `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#action">${varser.lang_arr.servercenter_any.actionFree}</a>`
+                css         = "success"
             }
-            else {
-                inhalt = hasPermissions(globalvars.perm, "actions", varser.cfg)
-                    ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#action">${varser.lang_arr.servercenter_any.actionFree}</a>`
-                    : varser.lang_arr.servercenter_any.actionClose
-            }
-            css = 'success'
-            if($('#actions').html() !== inhalt) $('#actions').html(inhalt).attr('class',`description-header text-${css}`);// Action Card -> Select
+
+            if($('#actions').html() !== inhalt)
+                $('#actions').html(inhalt).attr('class',`description-header text-${css}`);
+            inhalt = undefined
 
         // Spielerliste
             // Button & Anzeige
