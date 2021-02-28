@@ -89,5 +89,5 @@
                 </div>
                 <% } %>
 
-                <%- isUpdate ? alerter.rd(3001).replace("<branch>", panelBranch) : "" %>
+                <%- isUpdate ? alerter.rd(3001).replace("<branch>", CONFIG.updater.useBranch) : "" %>
                 <div id="global_resp"></div>
