@@ -43,7 +43,7 @@ console.log = function() {
   logStream.write(util.format(...arguments) + '\n', () => logStream.emit("write"))
 }
 
-logStream
+/*logStream
    .on("write", () => {
      let size = fs.statSync(logFile).size
      if(size > 2e+6) {
@@ -53,7 +53,7 @@ logStream
        fs.writeFileSync(newLogFile, fs.readFileSync(logFile, "utf-8"))
        fs.writeFileSync(logFile, `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Log RESET > logfile: ${newLogFileName}`)
      }
-   })
+   })*/
 
 // Prüfe NodeJS version
 if(parseInt(process.version.replaceAll(/[^0-9]/g, '')) < 1560) {
