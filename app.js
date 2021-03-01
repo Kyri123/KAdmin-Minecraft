@@ -28,7 +28,7 @@ console.log = function() {
   logStdout.write(util.format(...arguments) + '\n')
 
   for(let i in arguments) {
-    if(isString(arguments[i])) arguments[i] = arguments[i]
+    if(typeof arguments[i] === "string") arguments[i] = arguments[i]
        .replaceAll('%s\x1b[0m', '')
        .replaceAll('\x1b[30m', '')
        .replaceAll('\x1b[31m', '')
