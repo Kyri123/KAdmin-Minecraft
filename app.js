@@ -15,7 +15,6 @@ global.dateFormat                     = require('dateformat')
 // überschreibe console.log
 let logDir          = pathMod.join(__dirname, "latest_logs")
 let logFile         = pathMod.join(logDir, "current.log")
-let logRenamedFile  = pathMod.join(logDir, `${Date.now()}.log`)
 
 // erstelle Log ordner & file (Überschreibe Console.log())
 if(fs.existsSync(logDir)) fs.rmSync(logDir, {recursive: true})
@@ -29,7 +28,7 @@ console.log = function() {
   logStdout.write(util.format(...arguments) + '\n')
 
   for(let i in arguments) {
-    arguments[i] = arguments[i]
+    if(isString(arguments[i])) arguments[i] = arguments[i]
        .replaceAll('%s\x1b[0m', '')
        .replaceAll('\x1b[30m', '')
        .replaceAll('\x1b[31m', '')
@@ -42,18 +41,6 @@ console.log = function() {
 
   logStream.write(util.format(...arguments) + '\n', () => logStream.emit("write"))
 }
-
-/*logStream
-   .on("write", () => {
-     let size = fs.statSync(logFile).size
-     if(size > 2e+6) {
-       let newLogFileName = `${dateFormat(new Date(), "dd_mm_yyyy_HH_MM_ss")}.log`
-       let newLogFile     = pathMod.join(logDir, newLogFileName)
-
-       fs.writeFileSync(newLogFile, fs.readFileSync(logFile, "utf-8"))
-       fs.writeFileSync(logFile, `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Log RESET > logfile: ${newLogFileName}`)
-     }
-   })*/
 
 // Prüfe NodeJS version
 if(parseInt(process.version.replaceAll(/[^0-9]/g, '')) < 1560) {
@@ -109,7 +96,7 @@ global.versionControlerModpacks       = new versionControlerModpacks()
 // Modulealerter
 require('./app/main/mainLoader.js')
 global.alerter                        = require('./app/src/alert.js')
-global.debug                          = CONFIG.main.useDebug
+global.debug                          = CONFIG.app.useDebug || false
 
 globalUtil.safeFileMkdirSync([CONFIG.app.servRoot])
 globalUtil.safeFileMkdirSync([CONFIG.app.logRoot])

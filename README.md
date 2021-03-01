@@ -80,6 +80,7 @@ app.json
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
 | `lang`                | **wird nicht mehr verwendet** |
+| `useDebug`            | Debug modus für die Konsole (**true** = an / **false** = aus) |
 
 updater.json
 =============
@@ -94,7 +95,6 @@ main.json
 
 | Eigenschaften                         | Wert | 
 | :---                                  | :--- |
-| `useDebug`                            | Debug modus für die Konsole (**true** = an / **false** = aus) |
 | `interval > getStateFromServers`      | Interval wo der Status der Server abgefragt wird |
 | `interval > getTraffic`               | Interval wo der Server Traffic angefragt wird |
 | `interval > doReReadConfig`           | Interval wo die Konfigurationen neu geladen werden |

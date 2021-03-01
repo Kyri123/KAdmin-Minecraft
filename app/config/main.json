@@ -1,5 +1,4 @@
 {
-  "useDebug"          : true,
   "interval": {
     "getStateFromServers"       : 5000,
     "getTraffic"                : 15000,
