@@ -1,4 +1,4 @@
-KAdmin-Minecraft
+KAdmin-Minecraft 
 =============
 Webbasiertes Admin Panel für Minecraft-Server
 
@@ -10,7 +10,7 @@ Webbasiertes Admin Panel für Minecraft-Server
   - Erstellen sowie Löschen von Server
   - Übersicht aller Aktiven Server
 - ServerCenter
-  - Echzeit Konsole mit Befehleingabe
+  - Echtzeit Konsole mit Befehlseingabe
   - Verwaltung und einspielen von Backups
   - Automatische Backups
   - Konfiguration von KAdmin & Server.properties
@@ -28,7 +28,7 @@ Webbasiertes Admin Panel für Minecraft-Server
 
 **Geplante Features**
 
-- Ziehe Trello :*
+- Ziehe Trello https://trello.com/b/qJfbqaoq
 
 Wichtig
 =============
@@ -44,15 +44,15 @@ Installation
 =============
 
 1. 1. Erstelle einen Benutzer `adduser kadmin`
-2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip curl`
-3. Installiere NodeJS (min 15.6.0)
+   2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip zip curl`
+   3. Installiere NodeJS (min 15.6.0)
 2. Log dich in den Benutzer ein `su kadmin`
 3. Downloade den letzten Release `cd ~ && wget https://api.minecraft.kadmin-panel.de/sh/installer.sh && chmod 755 ./installer.sh && ./installer.sh master`
-  1. Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
+   1. Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
 4. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese (Todo Automatisiertes erstellen von Tabellen)
 5. Konfiguriere:
-  - `app/config/app.json`
-  - `app/config/mysql.json`
+   - `app/config/app.json`
+   - `app/config/mysql.json`
 6. Starte das Programm mit `./starter.sh`
 
 Update
@@ -107,8 +107,8 @@ main.json
 
 # Sprache Installieren
 
-- Lade die JSON Dateien in `/lang/<lang>/` hoch
-- WICHTIG: Es wird derzeit nur Deutsch mitgeliefert
+- Lade die JSON Dateien in `/lang/<lang>/` hoch 
+- WICHTIG: Es wird derzeit nur Deutsch mitgeliefert 
 - **derzeit gibt es noch keine Funktion zum wählen der Sprache! (daher überschreibt de_de)**
 
 # Benötigt
@@ -117,14 +117,14 @@ main.json
     - Debain 9
     - Ubuntu Server 20
   - Administrator Rechte bzw genügend Rechte, um Daten in den jeweiligen Ordner zu lesen, & zu Schreiben sowie Auslastung lesen zu dürfen
-- `Node.JS`
+- `Node.JS` 
   - Version >= 15.6.0
     - Getestet auf:
     - 15.8.0, 15.6.0
   - NVM (empfohlen für Versionswechsel) > https://github.com/nvm-sh/nvm
-- `MariaDB`
-  - Server
-
+- `MariaDB` 
+  - Server   
+  
 # Andere Projekte:
 | Projekt                     | Status            | URL | 
 | :---                        | :---              | :--- |
@@ -138,5 +138,5 @@ main.json
 - Sowie allen Testern und jeden gemeldeten BUG!
 
 # Links
-
+ 
 - Frontend by **AdminLTE 3.1** (https://github.com/ColorlibHQ/AdminLTE)

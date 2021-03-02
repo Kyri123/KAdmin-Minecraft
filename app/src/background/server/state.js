@@ -64,6 +64,10 @@ module.exports = {
                 data.icon              = globalUtil.safeFileExsistsSync([serverPath, "server-icon.png"])
                    ? `/serv/${name}/server-icon.png`
                    : "/img/logo/logo.png"
+                data.isAction          = (
+                    globalUtil.safeFileExsistsSync([serverPath, "backuprun"]) ||
+                    globalUtil.safeFileExsistsSync([serverPath, "isplayin"])
+                )
 
                 // Runing infos
                 data.run               = false

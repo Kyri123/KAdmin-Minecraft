@@ -69,30 +69,6 @@
     </form>
 <% } %>
 
-<% if(userHelper.hasPermissions(userID, "userpanel/delete_user")) { %>
-    <!-- Remove Modal -->
-    <form class="modal" method="post" action="#" id="remove" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
-            <div class="modal-content border-0">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title" id="removeTitle"></h5>
-                </div>
-
-                <div class="modal-body">
-                    <p><%- lang[page].modalDelete.text %></p>
-                    <input name="uid" value="" type="hidden" id="removeID">
-                    <input name="deleteuser" value="true" type="hidden">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalDelete.cancel %></button>
-                    <button type="button" class="btn btn-danger" name="del" onclick="removeUser()"><%- lang[page].modalDelete.remove %></button>
-                </div>
-            </div>
-        </div>
-    </form>
-<% } %>
-
 <% if(userHelper.hasPermissions(userID, "userpanel/show_codes")) { %>
     <!-- CodeMODAL -->
     <form class="modal" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
@@ -123,11 +99,10 @@
                 <div class="modal-footer input-group">
                     <input type="button" class="btn btn-secondary" data-dismiss="modal" value="<%- lang[page].modal.cancel %>">
                     <% if(userHelper.hasPermissions(userID, "userpanel/create_code")) { %>
-                        <select class="form-control m-1" name="rank" required="">
-                            <option value="0"><%- lang[page].modal.user %></option>
-                            <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
-                                <option value="1"><%- lang[page].modal.admin %></option>
-                            <% } %>
+                        <select class="form-control m-1" name="rank" required="" id="grouplist">
+                            <% if(groups !== false) groups.forEach((val) => { if(userHelper.hasPermissions(userID, "all/is_admin") || parseInt(val.id) !== 1) { %>
+                                <option value="<%- val.id %>"><%- val.name %></option>
+                            <% }}) %>
                         </select>
                         <input type="hidden" name="addCode" value="true">
                         <input type="button" class="btn btn-success" onclick="createCode()" value="<%- lang[page].modal.create %>">

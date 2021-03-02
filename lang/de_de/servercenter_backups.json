@@ -8,5 +8,13 @@
     "pitxt"         : "Möchtest du dieses Backup einspielen? <br />",
     "pired"         : "<b>ACHTUNG:</b> Alle Karten, Konfigurationen (ausgenommen der von KAdmin-Minecraft) und Spieler Dateien werden gelöscht und mit dem Backup überschrieben",
     "playin"        : "Einspielen"
+  },
+  "sweet"         : {
+    "remove"        : {
+      "title"         : "Möchtest du dieses Backups wirklich entfernen?"
+    },
+    "playin"        : {
+      "title"         : "Möchtest du dieses Backups wirklich einspielen?"
+    }
   }
 }

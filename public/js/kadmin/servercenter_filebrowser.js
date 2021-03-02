@@ -79,6 +79,7 @@ function getPath(path) {
                 $('#FB_removeFolder')   .attr("data-path", path).data("path", path)
                 $('#FB_addFolder')      .attr("data-path", path).data("path", path)
                 $('#FB_moveFolder')     .attr("data-path", path).data("path", path)
+                $('#FB_upload')         .attr("data-path", path).data("path", path)
                 $('#FB_renameFolder')
                    .attr("data-path", path).data("path", path)
                    .attr("data-filename", pathSplit[(pathSplit.length - 1)]).data("path", pathSplit[(pathSplit.length - 1)])
@@ -456,12 +457,17 @@ function reloadClickEvents() {
                         processData: false,
                         contentType: false,
                         success: function (resp) {
-                            console.log("suc")
-                            fireToast(3)
-                            $('#FB_reload').click()
+                            try {
+                                let isSuccess = JSON.parse(resp).success
+                                fireToast(isSuccess ? 3 : 2, isSuccess ? "success" : "error")
+                                if(isSuccess) $('#FB_reload').click()
+                            }
+                            catch (e) {
+                                fireToast(2, "error")
+                                console.log(resp)
+                            }
                         },
                         error: function() {
-                            console.log("err")
                             fireToast(2, 'error')
                             $('#FB_reload').click()
                         }

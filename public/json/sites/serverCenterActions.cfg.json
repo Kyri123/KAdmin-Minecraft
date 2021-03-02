@@ -21,6 +21,30 @@
       "for": [
         "stop"
       ]
+    },
+    {
+      "parameter": "--onlyworld",
+      "id_js": "onlyworld",
+      "type": 0,
+      "for": [
+        "backup"
+      ]
+    },
+    {
+      "parameter": "--withmods",
+      "id_js": "withmods",
+      "type": 0,
+      "for": [
+        "backup"
+      ]
+    },
+    {
+      "parameter": "--witplugins",
+      "id_js": "witplugins",
+      "type": 0,
+      "for": [
+        "backup"
+      ]
     }
   ]
 }

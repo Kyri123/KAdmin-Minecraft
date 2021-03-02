@@ -6,15 +6,17 @@
   },
   "parameter": {
     "warn"                : "Spieler auf dem Server warnen (benötigt RCON)",
-    "saveworld"           : "Welt Speichern bevor dieser gestoppt wird (benötigt RCON)",
     "alwaysstart"         : "Server beim Crash wieder starten (startet den Server auch sofort wenn das Panel an ist und der Server aus bsp.: Root neustart)",
-    "hardstop"            : "Beende Server mit Kill Befehl"
+    "hardstop"            : "Beende Server mit Kill Befehl",
+    "onlyworld"           : "Backup nur von der welt (Aktuell gewählte aus der Properties) - ist dies nicht gewählt wird vom kompletten Server ein Backup erstellt",
+    "withmods"            : "[nur wenn 1. Aktiv ist] mit Mods & Config Ordner",
+    "witplugins"          : "[nur wenn 1. Aktiv ist] mit Plugins Ordner"
   },
   "state": {
     "danger"        : "Offline",
     "warning"       : "Nicht installiert",
     "success"       : "Online",
-    "primary"       : "Startet",
+    "primary"       : "Aktion läuft oder Server startet",
     "info"          : "Installiert"
   },
   "timers": {

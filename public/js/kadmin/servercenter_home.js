@@ -99,31 +99,61 @@ function loadActionLog() {
  * Sende Serverbefehl
  */
 function sendCommand() {
-   let q = $('#sendCommand')
-   let q2 = $('#sendCommandBtn')
-   $.post(`/ajax/ServerCenterHome`, {
-      sendCommandToServer: true,
-      server: vars.cfg,
-      command: q.val()
-   })
-      .done(function(data) {
-         q.val('')
-         if(data === "true") {
-            q.toggleClass("is-valid", true)
-               .toggleClass("is-invalid", false)
-            q2
-               .toggleClass("btn-outline-light", false)
-               .toggleClass("btn-outline-danger", false)
-               .toggleClass("btn-outline-success", true)
-         }
-         else {
+    let q           = $('#sendCommand')
+    let q2          = $('#sendCommandBtn')
+    q2.html('<i class="fas fa-spinner fa-pulse"></i>')
+
+    // prüfe ob Befehl im gang ist
+    if(q2.data("isloading") === undefined || q2.data("isloading") !== "true") {
+        q2.data("isloading", "true")
+
+        if (q.val() !== "") {
+            $.post(`/ajax/ServerCenterHome`, {
+                sendCommandToServer: true,
+                server: vars.cfg,
+                command: q.val()
+            })
+                .done(function (data) {
+                    q.val('')
+                    if (data === "true") {
+                        q.toggleClass("is-valid", true)
+                            .toggleClass("is-invalid", false)
+                        q2
+                            .html('<i class="fas fa-terminal"></i>')
+                            .toggleClass("btn-outline-light", false)
+                            .toggleClass("btn-outline-danger", false)
+                            .toggleClass("btn-outline-success", true)
+                        fireToast(15)
+                    } else {
+                        q
+                            .toggleClass("is-valid", false)
+                            .toggleClass("is-invalid", true)
+                        q2
+                            .html('<i class="fas fa-terminal"></i>')
+                            .toggleClass("btn-outline-light", false)
+                            .toggleClass("btn-outline-danger", true)
+                            .toggleClass("btn-outline-success", false)
+                        fireToast(16, "error")
+                    }
+                    q2.data("isloading", "false")
+                })
+                .fail(() => {
+                    fireToast(16, "error")
+                    q2.html('<i class="fas fa-terminal"></i>')
+                    q2.data("isloading", "false")
+                })
+        }
+        else {
             q
-               .toggleClass("is-valid", false)
-               .toggleClass("is-invalid", true)
+                .toggleClass("is-valid", false)
+                .toggleClass("is-invalid", true)
             q2
-               .toggleClass("btn-outline-light", false)
-               .toggleClass("btn-outline-danger", true)
-               .toggleClass("btn-outline-success", false)
-         }
-      })
+                .html('<i class="fas fa-terminal"></i>')
+                .toggleClass("btn-outline-light", false)
+                .toggleClass("btn-outline-danger", true)
+                .toggleClass("btn-outline-success", false)
+            fireToast(16, "error")
+            q2.data("isloading", "false")
+        }
+    }
 }
