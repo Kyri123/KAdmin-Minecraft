@@ -80,6 +80,7 @@ module.exports = {
             fs.readdirSync(pathConfigDir).forEach(item => {
                 if(item.includes(".json")) {
                     try {
+                        if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathMod.join(pathConfigDir, item)}`)
                         CONFIG[item.replace(".json", "")]   = JSON.parse(fs.readFileSync(pathMod.join(pathConfigDir, item), 'utf8'))
                     }
                     catch (e) {
@@ -100,6 +101,7 @@ module.exports = {
                     fs.readdirSync(langPath).forEach(file => {
                         if(file.includes(".json")) {
                             try {
+                                if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${langPath}/${file}`)
                                 LANG[item][file.replace(".json", "")]   = JSON.parse(fs.readFileSync(pathMod.join(langPath, file), 'utf8'))
                             }
                             catch (e) {
@@ -114,7 +116,7 @@ module.exports = {
             if(Installed) {
                 let pathFile    = pathMod.join(mainDir, '/app/json/panel/', 'changelog.json')
                 try {
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathFile}`)
+                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathFile}`)
                     global.changelog                    = globalUtil.safeFileReadSync([pathFile], true)
                     if(typeof changelog === "boolean") {
                         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
