@@ -56,6 +56,13 @@ router.route('/')
             return true
         }
 
+        if(GET.getisupdate !== undefined) {
+            res.render('ajax/json', {
+                data: JSON.stringify({"is_update": isUpdate})
+            })
+            return true
+        }
+
        res.render('ajax/json', {
           data: `{"request":"failed"}`
        })

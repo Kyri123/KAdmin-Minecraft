@@ -7,33 +7,35 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-desktop"></i>
-                        <span class="badge badge-info navbar-badge">_show-if-update</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-                        <a href="javascript:void(0)" class="dropdown-item text-info">
-                            <i class="fas fa-download mr-2"></i> _install-update _show-if-update _WIP
+                <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
+                    <li class="nav-item dropdown" id="panel_menue">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fas fa-desktop"></i>
+                            <span class="badge badge-info navbar-badge" v-if="is_update">_show-if-update</span>
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="javascript:void(0)" class="dropdown-item">
-                            <i class="fas fa-clipboard-list mr-2"></i> _log _WIP
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="javascript:void(0)" class="dropdown-item">
-                            <i class="fas fa-file-code mr-2"></i> _konfig _WIP
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="javascript:void(0)" class="dropdown-item">
-                            <i class="fas fa-sync mr-2"></i> _force-check-update _WIP
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="javascript:void(0)" class="dropdown-item text-danger">
-                            <i class="fas fa-power-off mr-2"></i> _shutdown-restart _WIP
-                        </a>
-                    </div>
-                </li>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
+                            <a href="javascript:void(0)" class="dropdown-item text-info" v-if="is_update">
+                                <i class="fas fa-download mr-2"></i> _install-update _show-if-update _WIP
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="javascript:void(0)" class="dropdown-item">
+                                <i class="fas fa-clipboard-list mr-2"></i> _log _WIP
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="javascript:void(0)" class="dropdown-item">
+                                <i class="fas fa-file-code mr-2"></i> _konfig _WIP
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="javascript:void(0)" class="dropdown-item">
+                                <i class="fas fa-sync mr-2"></i> _force-check-update _WIP
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="javascript:void(0)" class="dropdown-item text-danger">
+                                <i class="fas fa-power-off mr-2"></i> _shutdown-restart _WIP
+                            </a>
+                        </div>
+                    </li>
+                <% } %>
             </ul>
 
             <% if(typeof topBtn !== "undefined") { %>
@@ -45,13 +47,21 @@
                         <a class="nav-link" href="javascript:void(0)" role="button" onclick="$('body').toggleClass('dark-mode'); document.cookie = `darkmode=${$('body').hasClass('dark-mode')}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;"><i class="far fa-lightbulb"></i></a>
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" id="serverlist">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fa fa-server"></i>
-                            <span class="badge badge-success navbar-badge" id="serverbadge">X</span>
+                            <span class="badge badge-success navbar-badge" id="serverbadge">{{ serverOn }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <div id="serverlist"></div>
+                            <!-- Serverliste -->
+                            <span v-for="server in serverlist">
+                                <a v-bind:href="server.url" class="dropdown-item">
+                                    <i class="fas fa-server mr-2"></i> {{ server.selfname }}
+                                    <span v-bind:class="server.class"><b>{{ server.playerCountIS }}</b>/<b>{{ server.playerCountMAX }}</b></span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            </span>
+
                             <a href="/servercontrolcenter" class="dropdown-item dropdown-footer text-success"><i class="fas fa-plus mr-2"></i> <%- lang.all.nav.createServer %></a>
                         </div>
                     </li>

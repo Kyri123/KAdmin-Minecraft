@@ -9,30 +9,15 @@
 "use strict"
 let old_state = {}
 
-/**
- * erstellt ein Loading
- * @param type
- * @return {string}
- */
-function loading(type) {
-    let args    = Object.values(arguments)
-    if(type === "tr")
-        return `<tr><td ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-spinner fa-pulse"></i> <span class="pl-1">${globalvars.lang_arr.all.loading}</span></td></tr>`
-    if(type === "FB")
-        return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 bg-${typeof args[1] !== "undefined" ? args[1] : "dark"}"><i class="fas fa-spinner fa-pulse" aria-hidden="true"></i> ${globalvars.lang_arr.all.loading}</div>`
-}
-/**
- * erstellt ein Failed
- * @param type
- * @return {string}
- */
-function failed(type) {
-    let args    = Object.values(arguments)
-    if(type === "tr")
-        return `<tr><td class="text-danger" ${typeof args[1] !== "undefined" ? `colspan="${args[1]}"` : ""}><i class="fas fa-times"></i> <span class="pl-1">${globalvars.lang_arr.all.failed}</span></td></tr>`
-    if(type === "FB")
-        return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 text-danger bg-${typeof args[1] !== "undefined" ? args[1] : "dark"}"><i class="fas fa-times" aria-hidden="true"></i> ${globalvars.lang_arr.all.failed}</div>`
-}
+// Panel Menü
+const VUE_panelMenue = new Vue({
+    el          : "#panel_menue",
+    data        : {
+        is_update : globalvars.isUpdate,
+    }
+})
+
+setInterval(() => {VUE_panelMenue.is_update = globalvars.isUpdate}, 1000)
 
 // hole Serverliste zyklisch
 getServerList()
@@ -45,24 +30,51 @@ setInterval(() => {
 /**
  * Update Traffic vom Server
  */
+// Traffic
+const VUE_traffic = new Vue({
+    el          : "#traffics",
+    data        : {
+        cpu         : "",
+        cpu_perc    : `0%`,
+        ram         : "",
+        ram_perc    : `0%`,
+        mem         : "",
+        mem_perc    : `0%`,
+        serv_perc   : `0%`,
+        serv_on     : "0",
+        serv_off    : "0",
+        serv_proc   : "0",
+        serv_total  : "0"
+    }
+})
+
 function getTraffic() {
     $.get('/json/serverInfos/auslastung.json', (data) => {
         if (hasPermissions(globalvars.perm, "all/show_traffic")) {
 
             // CPU
-            $('#cpu').html(`${data.cpu} <small>%</small>`)
-            $('#cpu_perc').css('width', `${data.cpu}%`)
+            VUE_traffic.cpu         = `${data.cpu}`
+            VUE_traffic.cpu_perc    = `${data.cpu}%`
 
             // Speicher
-            $('#mem').html(`${data.mem_availble} / ${data.mem_total}`)
-            $('#mem_perc').css('width', `${data.mem}%`)
+            VUE_traffic.mem         = `${data.mem_availble} / ${data.mem_total}`
+            VUE_traffic.mem_perc    = `${data.mem}%`
 
             // RAM
-            $('#ram').html(`${data.ram_availble} / ${data.ram_total}`)
-            $('#ram_perc').css('width', `${data.ram}%`)
+            VUE_traffic.ram         = `${data.ram_availble} / ${data.ram_total}`
+            VUE_traffic.ram_perc    = `${data.ram}%`
         }
     })
 }
+
+// Vue Serverlist
+const VUE_serverlist = new Vue({
+    el      : '#serverlist',
+    data    : {
+        serverlist  : [],
+        serverOn    : 0
+    }
+})
 
 /**
  * hole Serverliste für Navigation oben
@@ -72,17 +84,18 @@ function getServerList() {
     $.get('/ajax/serverCenterAny', {
         "getglobalinfos": true
     }, (data) => {
-        let newServerList = ``
+        let newServerList = []
         data = JSON.parse(data)
 
         data.servers_arr.forEach((val, key) => {
+            let server = {}
             if (hasPermissions(globalvars.perm, "all/show_traffic")) {
                 // Server
-                $('#top_on').html(data.servercounter.on)
-                $('#top_off').html(data.servercounter.off)
-                $('#top_proc').html(data.servercounter.proc)
-                $('#top_total').html(data.servercounter.total)
-                $('#top_perc').css('width', `${data.servercounter.on / data.servercounter.total * 100}%`)
+                VUE_traffic.serv_on     = data.servercounter.on
+                VUE_traffic.serv_off    = data.servercounter.off
+                VUE_traffic.serv_proc   = data.servercounter.proc
+                VUE_traffic.serv_total  = data.servercounter.total
+                VUE_traffic.serv_perc   = `${data.servercounter.on / data.servercounter.total * 100}%`
             }
 
             let                                                              stateColor  = "danger"
@@ -102,18 +115,30 @@ function getServerList() {
                 old_state[val[0]] = stateColor
             }
 
-            if(val[1].server === undefined && hasPermissions(globalvars.perm, "show", val[0])) newServerList += `
+            server.name             = val[0]
+            server.url              = `/servercenter/${val[0]}/home`
+            server.class            = `float-right text-sm text-${stateColor}`
+            server.selfname         = `${val[1].selfname.substring(0,22)}${val[1].selfname.length > 22 ? "..." : ""}`
+            server.playerCountIS    = val[1].aplayers
+            server.playerCountMAX   = val[1].players
+
+            newServerList.push(server)
+
+            /*if(val[1].server === undefined && hasPermissions(globalvars.perm, "show", val[0])) newServerList += `
+            <span>
                 <a href="/servercenter/${val[0]}/home" class="dropdown-item">
                     <i class="fas fa-server mr-2"></i> ${val[1].selfname.substring(0,22)}${val[1].selfname.length > 22 ? "..." : ""}
                     <span class="float-right text-sm text-${stateColor}"><b>${val[1].aplayers}</b>/<b>${val[1].players}</b></span>
                 </a>
                 <div class="dropdown-divider"></div>
-            `
+            </span>
+            `*/
 
             if(hasPermissions(globalvars.perm, "show", val[0]) && val[1].online) servercount_on++
-            $('#serverbadge').html(servercount_on)
         })
-        $('#serverlist').html(newServerList)
+        VUE_serverlist.serverlist   = newServerList
+        VUE_serverlist.serverOn     = servercount_on
+        //$('#serverlist').html(newServerList)
     })
 }
 
