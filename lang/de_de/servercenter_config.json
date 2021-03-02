@@ -13,6 +13,8 @@
     "xmx"                   : "Maximale RAM zuweisung (in MB)",
     "xms"                   : "Minimale RAM zuweisung (in MB)",
     "extrajava"             : "Java Parameters",
-    "jar"                   : ".Jar Datei die als Server verwendet werden soll"
+    "jar"                   : ".Jar Datei die als Server verwendet werden soll",
+    "autoBackupMaxCount"    : "Maximale Anzahl an Backups (0 = unendlich; die ältesten backups werden gelöscht)",
+    "autoBackupMaxDirSize"  : "Maximale Größe des Backup Ordners (0 = unendlich; die ältesten backups werden gelöscht)"
   }
 }
