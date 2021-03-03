@@ -46,6 +46,11 @@
     "29"  : "Benutzer entfernt",
     "30"  : "Benutzer NICHT entfernt",
     "31"  : "Code entfernt",
-    "32"  : "Code NICHT entfernt"
+    "32"  : "Code NICHT entfernt",
+    "33"  : "Aktion konnte nicht ausgeführt werden",
+    "34"  : "Das Panel wird auf Updates geprüft sollte eins verfügbar wird dies in kürze Angezeigt (im Log wird der Status außerdem ausgegeben)",
+    "35"  : "Update wird gestartet und Installiert",
+    "36"  : "wird Runtergefahren oder Neugestartet",
+    "37"  : "kann nicht Runtergefahren werden (Update läuft)"
   }
 }

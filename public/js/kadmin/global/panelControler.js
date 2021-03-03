@@ -52,3 +52,22 @@ setInterval(() => {
          VUE_panelControlerModals.logArray = array
       })
 },500)
+
+/**
+ * sendet eine PanelAktion an den Server bzw an das Panel
+ * @param action
+ */
+function forceAction(action) {
+    fireToast(15, "info")
+    $.post(`/ajax/all`, {
+      "adminAction": action
+    }, (datas) => {
+        try {
+            let toastData   = JSON.parse(datas)
+            fireToast(toastData.code, toastData.type)
+        }
+        catch (e) {
+            fireToast(33, "error")
+        }
+    })
+}

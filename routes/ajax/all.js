@@ -9,12 +9,56 @@
 "use strict"
 
 const router            = require('express').Router()
-const srq               = require("sync-request")
+const updater           = require("./../../app/src/background/updater")
 
 router.route('/')
 
     .post((req,res) => {
         let POST        = req.body
+        let sess        = req.session
+
+        //Panel Menü
+        if(
+            POST.adminAction     !== undefined &&
+            userHelper.hasPermissions(sess.uid, "all/is_admin")
+        ) {
+            // checkUpdate
+            if(POST.adminAction === "checkUpdate") {
+                updater.check()
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        code    : 34,
+                        type    : "success"
+                    })
+                })
+                return
+            }
+
+            // shutdown
+            if(POST.adminAction === "shutdown") {
+                updater.check()
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        code    : !isUpdating ? 36 : 37,
+                        type    : !isUpdating ? "success" : "danger"
+                    })
+                })
+                if(!isUpdating) setTimeout(() => process.exit(), 3000)
+                return
+            }
+
+            // forceUpdate
+            if(POST.adminAction === "shutdown" && isUpdate) {
+                updater.install(updateURL)
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        code    : 35,
+                        type    : "success"
+                    })
+                })
+                return
+            }
+        }
 
         // lese ein Verzeichnis aus
         if(
@@ -58,7 +102,11 @@ router.route('/')
 
         if(GET.getisupdate !== undefined) {
             res.render('ajax/json', {
-                data: JSON.stringify({"is_update": isUpdate})
+                data: JSON.stringify({
+                    "is_update"     : isUpdate,
+                    "isUpdating"    : isUpdating,
+                    "needRestart"   : needRestart
+                })
             })
             return true
         }

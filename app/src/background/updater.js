@@ -18,7 +18,7 @@ module.exports = {
     /**
      * Installiert Update
      * @param {string} url
-     * @returns {Promise<void>}
+     * @returns {void}
      */
     install: async (url) => {
         global.isUpdating   = true
@@ -122,7 +122,8 @@ module.exports = {
                             } else {
                                 // Update verfügbar
                                 console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdate found`)
-                                global.isUpdate = true
+                                global.isUpdate     = true
+                                global.updateURL    = `https://github.com/Kyri123/KAdmin-Minecraft/archive/${branch}.zip`
                                 if(checkIsRunning === undefined) {
                                     // Prüfe ob alle Aufgaben abgeschlossen sind && ob der Server mit startedWithUpdater gestartet wurde
                                     if(automaticInstall) global.checkIsRunning = setInterval(() => {
@@ -138,7 +139,7 @@ module.exports = {
 
                                         // Wenn alles Frei ist starte die Installation und beende Interval
                                         if(isFree) {
-                                            module.exports.install(`https://github.com/Kyri123/KAdmin-Minecraft/archive/${branch}.zip`)
+                                            module.exports.install(updateURL)
                                             clearInterval(checkIsRunning)
                                         }
                                     }, 5000)

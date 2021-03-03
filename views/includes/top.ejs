@@ -14,7 +14,7 @@
                             <span class="badge badge-info navbar-badge" v-if="is_update"><%- lang.all.panelControler.isUpdate %></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-                            <a href="javascript:void(0)" class="dropdown-item text-info" v-if="!is_updating && is_update">
+                            <a v-on:click="forceAction('forceUpdate')" href="javascript:void(0)" class="dropdown-item text-info" v-if="!is_updating && is_update">
                                 <i class="fas fa-download mr-2"></i> <%- lang.all.panelControler.updateNow %>
                             </a>
                             <div class="dropdown-divider"></div>
@@ -22,15 +22,15 @@
                                 <i class="fas fa-clipboard-list mr-2"></i> <%- lang.all.panelControler.log %>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item">
+                            <a href="javascript:void(0)" class="dropdown-item disabled">
                                 <i class="fas fa-file-code mr-2"></i> <%- lang.all.panelControler.config %>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item" v-if="!is_update">
+                            <a v-on:click="forceAction('checkUpdate')" href="javascript:void(0)" class="dropdown-item" v-if="!is_update">
                                 <i class="fas fa-sync mr-2"></i> <%- lang.all.panelControler.checkUpdate %>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item text-danger" v-if="!is_updating">
+                            <a v-on:click="forceAction('shutdown')" href="javascript:void(0)" class="dropdown-item text-danger" v-if="!is_updating">
                                 <i class="fas fa-power-off mr-2"></i> <%- lang.all.panelControler.shutdown %>
                             </a>
                         </div>
