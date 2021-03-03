@@ -92,5 +92,5 @@
                 </div>
                 <% } %>
 
-                <%- isUpdate ? alerter.rd(3001).replace("<branch>", CONFIG.updater.useBranch) : "" %>
+                <div id="updateAlert" v-html="alert"></div>
                 <div id="global_resp"></div>

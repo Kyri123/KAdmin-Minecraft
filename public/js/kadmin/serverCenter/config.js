@@ -62,19 +62,3 @@ function serverSave(htmlID, cfg) {
     })
     return false
 }
-
-/*
-function addToForm(type) {
-    let rndID   = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 50);
-    let toAdd   = `<tr id="${rndID}">
-                        <td class="p-2" colspan="2">
-                            <div class="input-group mb-0">
-                                <input type="text" name="${type}[]" class="form-control form-control-sm">
-                                <div class="input-group-append">
-                                    <span onclick="$('#${rndID}').remove()" style="cursor:pointer" class="input-group-btn btn-danger pr-2 pl-2 pt-1 " id="basic-addon2"><i class="fa fa-times" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>`;
-    $(`#${type}`).after(toAdd);
-}*/

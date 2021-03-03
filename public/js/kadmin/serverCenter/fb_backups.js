@@ -227,7 +227,7 @@ function playthisin() {
 }
 
 $(document).ready(() => {
-    setInterval(() => $('.content-wrapper').attr("style", "min-height: 1750px"), 500)
+    setTimeout(() => $('.content-wrapper').attr("style", "min-height: 1750px"), 2000)
 
     if(hasPermissions(globalvars.perm, "backups/upload", vars.cfg)) $('#FB_upload').click((e) => {
         swalWithBootstrapButtons.fire({

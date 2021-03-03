@@ -12,10 +12,26 @@
             <aside class="control-sidebar control-sidebar-dark">
             </aside>
         </div>
-        <script src="/js/kadmin/global.js?time=<%- Date.now() %>"></script>
+        <script src="/js/kadmin/global/panelControler.js?time=<%- Date.now() %>"></script>
+        <script src="/js/kadmin/global/traffic.js?time=<%- Date.now() %>"></script>
+        <script src="/js/kadmin/global/serverList.js?time=<%- Date.now() %>"></script>
         <script src="/plugins/jquery/jquery.min.js"></script>
         <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
         <script src="/js/adminLTE/adminlte.min.js"></script>
+
+        <script>
+           const updateAlert = new Vue({
+              el: "#updateAlert",
+              data: {
+                 alert: globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin") ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>') : ""
+              }
+           })
+           setInterval(() =>
+              updateAlert.alert = globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin")
+                 ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>')
+                 : ""
+           , 2000)
+        </script>
     </body>
 </html>
