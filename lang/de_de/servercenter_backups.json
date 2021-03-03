@@ -1,5 +1,5 @@
 {
-  "pagename"        : "ServerCenter > Backups",
+  "pagename"        : "ServerCenter",
   "modal": {
     "removeText"    : "Möchtest du wirklich dieses Backup löschen?",
     "remove"        : "Backup Löschen",

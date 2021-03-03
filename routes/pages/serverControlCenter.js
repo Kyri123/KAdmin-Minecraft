@@ -31,12 +31,15 @@ router.route('/')
         }
 
         res.render('pages/servercontrolcenter', {
-           userID        : req.session.uid,
-           page          : "servercontrolcenter",
-           response      : response,
-           lang          : lang,
-           perm          : userHelper.permissions(req.session.uid),
-           sinfos        : globalinfos.get()
+            userID          : req.session.uid,
+            page            : "servercontrolcenter",
+            response        : response,
+            lang            : lang,
+            perm            : userHelper.permissions(req.session.uid),
+            sinfos          : globalinfos.get(),
+            breadcrumb      : [
+                lang.breadcrumb["servercontrolcenter"]
+            ]
         });
     })
 

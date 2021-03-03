@@ -42,14 +42,17 @@ router.route('/')
            </div>`
 
       res.render('pages/userpanel', {
-         lang            : lang,
-         page            : "userpanel",
-         userID          : req.session.uid,
-         perm            : userHelper.permissions(req.session.uid),
-         response        : response,
-         sinfos          : globalinfos.get(),
-         topBtn          : topBtn,
-         groups          : globalUtil.safeSendSQLSync('SELECT * FROM `user_group` ORDER BY `id`')
+            lang            : lang,
+             page            : "userpanel",
+            userID          : req.session.uid,
+            perm            : userHelper.permissions(req.session.uid),
+            response        : response,
+            sinfos          : globalinfos.get(),
+            topBtn          : topBtn,
+            groups          : globalUtil.safeSendSQLSync('SELECT * FROM `user_group` ORDER BY `id`'),
+            breadcrumb      : [
+                lang.breadcrumb["userpanel"]
+            ]
       })
    })
 

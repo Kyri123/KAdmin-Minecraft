@@ -47,7 +47,10 @@ router.route('/')
             response             : response,
             sinfos               : globalinfos.get(),
             topBtn               : topBtn,
-            defaultPermissions   : userHelper.defaultPermissions()
+            defaultPermissions   : userHelper.defaultPermissions(),
+            breadcrumb           : [
+                lang.breadcrumb["grouppanel"]
+            ]
         })
     })
 

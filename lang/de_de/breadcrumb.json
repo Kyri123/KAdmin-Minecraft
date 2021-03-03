@@ -1,0 +1,13 @@
+{
+  "changelog"                 : "Changelogs",
+  "grouppanel"                : "Benutzergruppen",
+  "home"                      : "Dashboard",
+  "servercontrolcenter"       : "ServerControlCenter",
+  "userpanel"                 : "Benutzer",
+  "usersettings"              : "Benutzereinstellungen",
+  "servercenter"              : "ServerCenter",
+  "servercenter_backups"      : "Backups",
+  "servercenter_config"       : "Konfiguration",
+  "servercenter_filebrowser"  : "Filebrowser",
+  "servercenter_home"         : "Startseite"
+}

@@ -32,6 +32,9 @@ router.route('/')
             page            : "usersettings",
             response        : response,
             sinfos          : globalinfos.get(),
+            breadcrumb      : [
+                lang.breadcrumb["usersettings"]
+            ]
         })
     })
 

@@ -40,17 +40,22 @@ router.route('/')
 
       // Render Seite
       res.render('pages/servercenter/serverCenter_home', {
-         userID                  : req.session.uid,
-         page                    : "servercenter_home",
-         response                : response,
-         lang                    : lang,
-         perm                    : userHelper.permissions(req.session.uid),
-         sinfos                  : globalinfos.get(),
-         servini                 : servIni,
-         servinfos               : serverData.getServerInfos(),
-         servcfg                 : servCfg,
-         sclass                  : serverData,
-         serverName              : serverName
+          userID                  : req.session.uid,
+          page                    : "servercenter_home",
+          response                : response,
+          lang                    : lang,
+          perm                    : userHelper.permissions(req.session.uid),
+          sinfos                  : globalinfos.get(),
+          servini                 : servIni,
+          servinfos               : serverData.getServerInfos(),
+          servcfg                 : servCfg,
+          sclass                  : serverData,
+          serverName              : serverName,
+          breadcrumb      : [
+              lang.breadcrumb["servercenter"],
+              serverName,
+              lang.breadcrumb["servercenter_home"],
+          ]
       });
    })
 

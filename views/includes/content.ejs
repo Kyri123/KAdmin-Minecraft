@@ -1,23 +1,14 @@
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><%- lang[page].pagename %></h1>
-                </div>
-                <!--
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">X</a></li>
-                            <li class="breadcrumb-item active">X</li>
-                        </ol>
-                    </div>
-                -->
-            </div>
-        </div>
-    </section>
+    <nav class="navbar navbar-light navbar-expand border-dark elevation-2 m-0 mb-4 pl-4">
+        <span class="navbar-brand" href="#"><!--<i class="fa fa-edit" aria-hidden="true"></i> --><%- lang[page].pagename %></span>
 
+        <ol class="breadcrumb ml-auto m-0 bg-light d-none d-md-flex">
+            <li class="breadcrumb-item">KAdmin-Minecraft</li>
+            <% for(let item of breadcrumb) { %>
+                <li class="breadcrumb-item"><%- item %></li>
+            <% } %>
+        </ol>
+    </nav>
 
     <section class="content">
         <div class="container-fluid">
