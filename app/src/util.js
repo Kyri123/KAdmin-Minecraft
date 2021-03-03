@@ -96,7 +96,7 @@ module.exports = {
                 return true
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
         }
         return false
@@ -120,7 +120,7 @@ module.exports = {
                     return fs.existsSync(filePath)
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -148,7 +148,7 @@ module.exports = {
                     return true
                 }
                 catch (e) {
-                    if(debug) console.log(e); console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -195,7 +195,7 @@ module.exports = {
                     return json ? JSON.parse(fs.readFileSync(filePath, codierung)) : fs.readFileSync(filePath, codierung)
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -222,7 +222,7 @@ module.exports = {
                     return true
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -266,7 +266,7 @@ module.exports = {
                     return dirArray
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -304,7 +304,7 @@ module.exports = {
                     return func(filePath)
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -329,7 +329,7 @@ module.exports = {
             return synccon.query(sql)
         }
         catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
         }
         return false
     },

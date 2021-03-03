@@ -8,30 +8,30 @@
                 </li>
 
                 <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
-                    <li class="nav-item dropdown" id="panel_menue">
+                    <li class="nav-item dropdown" id="panelControler">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fas fa-desktop"></i>
-                            <span class="badge badge-info navbar-badge" v-if="is_update">_show-if-update</span>
+                            <span class="badge badge-info navbar-badge" v-if="is_update"><%- lang.all.panelControler.isUpdate %></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-                            <a href="javascript:void(0)" class="dropdown-item text-info" v-if="is_update">
-                                <i class="fas fa-download mr-2"></i> _install-update _show-if-update _WIP
+                            <a href="javascript:void(0)" class="dropdown-item text-info" v-if="!is_updating && is_update">
+                                <i class="fas fa-download mr-2"></i> <%- lang.all.panelControler.updateNow %>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#panelControlerLogs">
+                                <i class="fas fa-clipboard-list mr-2"></i> <%- lang.all.panelControler.log %>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="javascript:void(0)" class="dropdown-item">
-                                <i class="fas fa-clipboard-list mr-2"></i> _log _WIP
+                                <i class="fas fa-file-code mr-2"></i> <%- lang.all.panelControler.config %>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item">
-                                <i class="fas fa-file-code mr-2"></i> _konfig _WIP
+                            <a href="javascript:void(0)" class="dropdown-item" v-if="!is_update">
+                                <i class="fas fa-sync mr-2"></i> <%- lang.all.panelControler.checkUpdate %>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item">
-                                <i class="fas fa-sync mr-2"></i> _force-check-update _WIP
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item text-danger">
-                                <i class="fas fa-power-off mr-2"></i> _shutdown-restart _WIP
+                            <a href="javascript:void(0)" class="dropdown-item text-danger" v-if="!is_updating">
+                                <i class="fas fa-power-off mr-2"></i> <%- lang.all.panelControler.shutdown %>
                             </a>
                         </div>
                     </li>

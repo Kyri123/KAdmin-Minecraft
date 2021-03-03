@@ -41,7 +41,7 @@ router.route('/')
                     }
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                     success = false
                 }
 
@@ -54,7 +54,7 @@ router.route('/')
             }
         }
         catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
         }
 
         if(
@@ -71,7 +71,7 @@ router.route('/')
                 }
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
 
             res.render('ajax/json', {
@@ -111,7 +111,7 @@ router.route('/')
                 }
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
 
             res.render('ajax/json', {

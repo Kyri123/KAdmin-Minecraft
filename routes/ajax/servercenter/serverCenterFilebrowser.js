@@ -43,7 +43,7 @@ router.route('/')
                }
             }
             catch (e) {
-               if(debug) console.log(e)
+               if(debug) console.log('[DEBUG_FAILED]', e)
                success = false
             }
 
@@ -59,7 +59,7 @@ router.route('/')
          }
       }
       catch (e) {
-         if(debug) console.log(e)
+         if(debug) console.log('[DEBUG_FAILED]', e)
       }
 
       // Löschen
@@ -81,7 +81,7 @@ router.route('/')
          }
       }
       catch (e) {
-         if(debug) console.log(e)
+         if(debug) console.log('[DEBUG_FAILED]', e)
       }
 
       // editFile
@@ -121,7 +121,7 @@ router.route('/')
          }
       }
       catch (e) {
-         if(debug) console.log(e)
+         if(debug) console.log('[DEBUG_FAILED]', e)
       }
 
       // Move & rename
@@ -183,7 +183,7 @@ router.route('/')
          }
       }
       catch (e) {
-         if(debug) console.log(e)
+         if(debug) console.log('[DEBUG_FAILED]', e)
       }
 
       // MKDir
@@ -205,7 +205,7 @@ router.route('/')
          }
       }
       catch (e) {
-         if(debug) console.log(e)
+         if(debug) console.log('[DEBUG_FAILED]', e)
       }
 
       res.render('ajax/json', {

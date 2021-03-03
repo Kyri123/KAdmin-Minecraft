@@ -48,7 +48,7 @@ module.exports = class versionControlerModpacks {
             resp           = JSON.stringify(resp)
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return resp
@@ -70,7 +70,7 @@ module.exports = class versionControlerModpacks {
             resp = srq('GET', `${this.baseUrl}/addon/${modpackID}/file/${packID}/download-url`).getBody()
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return resp

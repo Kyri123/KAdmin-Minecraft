@@ -21,6 +21,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     install: async (url) => {
+        global.isUpdating   = true
         let tmpPath         = pathMod.join(mainDir, "tmp")
         let updateZipPath   = pathMod.join(tmpPath, "update.zip")
         let branch          = CONFIG.updater.useBranch
@@ -46,38 +47,49 @@ module.exports = {
 
         // Lade runter
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater download...`)
-        fs.writeFileSync(updateZipPath, await download(url))
+        try {
+            fs.writeFileSync(updateZipPath, await download(url))
 
-        // Entpacke Zip
-        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater unzip...`)
-        fs.createReadStream(updateZipPath)
-            .pipe(unzip.Extract({ path: tmpPath}))
-            .on("close", () => {
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove download...`)
-                fs.rmSync(updateZipPath)
+            // Entpacke Zip
+            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater unzip...`)
+            fs.createReadStream(updateZipPath)
+                .pipe(unzip.Extract({ path: tmpPath}))
+                .on("close", () => {
+                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove download...`)
+                    fs.rmSync(updateZipPath)
 
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove files...`)
-                for(let file of removeFileArray) {
-                    let filePath    = pathMod.join(mainDir, "tmp", `KAdmin-Minecraft-${branch}`, file)
-                    if(fs.existsSync(filePath)) fs.rmSync(filePath, {recursive: true})
-                }
+                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove files...`)
+                    for(let file of removeFileArray) {
+                        let filePath    = pathMod.join(mainDir, "tmp", `KAdmin-Minecraft-${branch}`, file)
+                        if(fs.existsSync(filePath)) fs.rmSync(filePath, {recursive: true})
+                    }
 
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater copy update...`)
-                fse.copySync(pathMod.join(mainDir, "tmp", `KAdmin-Minecraft-${branch}`), mainDir,{ overwrite: true }, (err) => {
-                        if(debug && err) console.error(err)
-                });
+                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater copy update...`)
+                    fse.copySync(pathMod.join(mainDir, "tmp", `KAdmin-Minecraft-${branch}`), mainDir,{ overwrite: true }, (err) => {
+                            if(debug && err) console.error(err)
+                    });
 
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove tmp dir...`)
-                fs.rmSync(pathMod.join(mainDir, "tmp"), {recursive: true})
+                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove tmp dir...`)
+                    fs.rmSync(pathMod.join(mainDir, "tmp"), {recursive: true})
 
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater set CHMOD...`)
-                fs.chmod(pathMod.join(mainDir, "installer.sh"), 755)
-                fs.chmod(pathMod.join(mainDir, "updater.sh"), 755)
-                fs.chmod(pathMod.join(mainDir, "starter.sh"), 755)
+                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater set CHMOD...`)
+                    fs.chmod(pathMod.join(mainDir, "installer.sh"), 755)
+                    fs.chmod(pathMod.join(mainDir, "updater.sh"), 755)
+                    fs.chmod(pathMod.join(mainDir, "starter.sh"), 755)
 
-                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater close panel...`)
-                process.exit()
-            })
+                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater close panel...`)
+                    global.isUpdating   = false
+                    global.needRestart  = true
+                    process.exit()
+                })
+               .on("error", () => {
+                   global.isUpdating   = false
+               })
+        }
+        catch (e) {
+            global.isUpdating   = false
+            console.log('[DEBUG_FAILED]', e)
+        }
     },
 
     /**

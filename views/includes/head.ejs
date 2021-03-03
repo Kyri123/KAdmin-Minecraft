@@ -66,10 +66,12 @@
             // Vars die zur JS übergeben werden
             // Allgemeine Vars
             let globalvars = {}
-            <% if(typeof lang.alert !== "undefined") {%>    globalvars.alertlang    = <%- JSON.stringify(lang.alert) %>  <% } %>
-            <% if(typeof lang !== "undefined") {%>          globalvars.lang_arr     = <%- JSON.stringify(lang) %>        <% } %>
-            <% if(typeof perm !== "undefined") {%>          globalvars.perm         = <%- JSON.stringify(perm) %>        <% } %>
-            <% if(typeof isUpdate !== "undefined") {%>      globalvars.isUpdate         = <%- isUpdate %>        <% } %>
+            globalvars.alertlang    = <%- lang.alert !== undefined ? JSON.stringify(lang.alert) : {} %>
+            globalvars.lang_arr     = <%- lang !== undefined ? JSON.stringify(lang) : {} %>
+            globalvars.perm         = <%- perm !== undefined ? JSON.stringify(perm) : {} %>
+            globalvars.isUpdate     = <%- isUpdate %>
+            globalvars.isUpdating   = <%- isUpdating %>
+            globalvars.needRestart  = <%- needRestart %>
 
             setInterval(() => {
                 try {
@@ -77,7 +79,10 @@
                         globalvars.perm = JSON.parse(datas)
                     })
                     $.get('/ajax/all?getisupdate', (datas) => {
-                        globalvars.isUpdate = JSON.parse(datas).is_update
+                       let obj                  = JSON.parse(datas)
+                       globalvars.isUpdate      = obj.is_update
+                       globalvars.isUpdating    = obj.isUpdating
+                       globalvars.needRestart   = obj.needRestart
                     })
                 } catch (e) {}
             }, 2000)

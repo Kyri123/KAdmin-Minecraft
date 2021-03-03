@@ -35,7 +35,7 @@ module.exports = class versionControler {
                globalUtil.safeFileSaveSync(this.localUrl, JSON.parse(JSON.stringify(body)))
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       })
       return false
@@ -71,7 +71,7 @@ module.exports = class versionControler {
             }
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return false
@@ -91,7 +91,7 @@ module.exports = class versionControler {
             return JSON.parse(response.getBody()).downloads.server.url
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return false

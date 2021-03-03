@@ -9,6 +9,26 @@
                 <strong>Framework by <a target="_blank" href="https://adminlte.io">AdminLTE.io</a> | (c) by <a target="_blank" href="https://github.com/Kyri123">Kyri123</a></strong>
             </footer>
 
+            <span id="panelControlerModals" v-if="isAdmin">
+
+                <!-- Log -->
+                <div class="modal" id="panelControlerLogs">
+                    <div class="modal-dialog modal-xl" style="max-width: 700px">
+                        <div class="modal-content border-0">
+                            <div class="modal-body p-0 direct-chat-messages bg-dark p-1" style="height: 700px">
+                                <code>
+                                    <p class="p-0 m-0 text-info" v-for="line in logArray" v-bind:class="line.class">{{ line.text }}</p>
+                                </code>
+                            </div>
+                            <div class="modal-footer bg-dark">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </span>
+
             <aside class="control-sidebar control-sidebar-dark">
             </aside>
         </div>
@@ -24,14 +44,14 @@
            const updateAlert = new Vue({
               el: "#updateAlert",
               data: {
-                 alert: globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin") ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>') : ""
+                 alert: ""
               }
            })
            setInterval(() =>
               updateAlert.alert = globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin")
-                 ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>')
+                 ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>').replace("~", '<%- mainDir %>')
                  : ""
-           , 2000)
+           , 50)
         </script>
     </body>
 </html>

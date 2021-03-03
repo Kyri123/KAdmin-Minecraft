@@ -110,7 +110,7 @@ function hasPermissions(permission ,perm, server = false) {
             return bool
         }
         catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
         }
     }
     return false

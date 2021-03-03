@@ -74,7 +74,7 @@ if(Installed) {
         changelog.reverse()
     }
     catch (e) {
-        if(debug) console.log(e)
+        if(debug) console.log('[DEBUG_FAILED]', e)
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
         process.exit(1)

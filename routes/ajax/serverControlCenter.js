@@ -53,7 +53,7 @@ router.route('/')
                     return true
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                     res.render('ajax/json', {
                         data: JSON.stringify({
                             done: false,
@@ -64,7 +64,7 @@ router.route('/')
                 }
             }
             else {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
                 res.render('ajax/json', {
                     data: JSON.stringify({
                         done: false,
@@ -102,7 +102,7 @@ router.route('/')
                 return true
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
                 res.render('ajax/json', {
                     data: JSON.stringify({
                         done: false,
