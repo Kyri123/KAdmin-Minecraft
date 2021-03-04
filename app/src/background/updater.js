@@ -13,6 +13,7 @@ const req                   = require('request')
 const download              = require("download")
 const unzip                 = require("unzipper")
 const fse                   = require('fs-extra')
+const syncRequest           = require('sync-request')
 
 module.exports = {
     /**
@@ -95,76 +96,50 @@ module.exports = {
     /**
      * Prüft auf Updates
      */
-    check: async () => {
+    check: () => {
+        let branch              = CONFIG.updater.useBranch
+        let automaticInstall    = CONFIG.updater.automaticInstall
 
-
-        console.log(buildID, new Buffer(JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/app.js?ref=${CONFIG.updater.useBranch}`, {
-            headers: {
-                'user-agent': 'KAdmin-Minecraft',
-            },
-        }).getBody().toString()).content, 'base64').toString('utf-8'))
-
-
-        if(global.checkIsRunning === undefined) {
-            global.checkIsRunning   = undefined
-            let branch              = CONFIG.updater.useBranch
-            let automaticInstall    = CONFIG.updater.automaticInstall
-            let options             = {
-                url: `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/branches/${branch}`,
+        // prüfe BranchBuild
+        try {
+            global.buildIDBranch = Buffer.from(JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/build?ref=${branch}`, {
                 headers: {
-                    'User-Agent': `KAdmin-Minecraft-Server AutoUpdater :: FROM: ${ip.address()}`
+                    'user-agent': 'KAdmin-Minecraft-Server AutoUpdater :: FROM: ${ip.address()}',
                 },
-                json: true
-            }
-
-            req.get(options, (err, res, api) => {
-                if (err) {
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[91mconnection error`)
-                } else if (res.statusCode === 200) {
-                    // Prüfe SHA mit API
-                    if(!globalUtil.safeFileExsistsSync([mainDir, '/app/data/', 'sha.txt'])) globalUtil.safeFileSaveSync([mainDir, '/app/data/', 'sha.txt'], "false")
-                    fs.readFile(pathMod.join(mainDir, '/app/data/', 'sha.txt'), 'utf8', (err, data) => {
-                        if (err === null) {
-                            if (data === api.commit.sha) {
-                                // kein Update
-                                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mno update`)
-                            } else {
-                                // Update verfügbar
-                                console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdate found`)
-                                global.isUpdate     = true
-                                global.updateURL    = `https://github.com/Kyri123/KAdmin-Minecraft/archive/${branch}.zip`
-                                if(checkIsRunning === undefined) {
-                                    // Prüfe ob alle Aufgaben abgeschlossen sind && ob der Server mit startedWithUpdater gestartet wurde
-                                    if(automaticInstall) global.checkIsRunning = setInterval(() => {
-                                        let ServerInfos = globalInfos.get()
-                                        let isFree      = true
-
-                                        // gehe alle Server durch
-                                        if(ServerInfos.servers_arr.length > 0) {
-                                            ServerInfos.servers_arr.forEach((val) => {
-                                                if(val[1].is_installing) isFree = false
-                                            })
-                                        }
-
-                                        // Wenn alles Frei ist starte die Installation und beende Interval
-                                        if(isFree) {
-                                            module.exports.install(updateURL)
-                                            clearInterval(checkIsRunning)
-                                        }
-                                    }, 5000)
-                                    globalUtil.safeFileSaveSync([mainDir, '/app/data/', 'sha.txt'], api.commit.sha)
-                                }
-                                globalUtil.safeFileSaveSync([mainDir, '/app/data/', 'sha.txt'], api.commit.sha)
-                            }
-                        } else {
-                            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[91msha error`)
-                        }
-                    })
-                } else {
-                    // wenn keine verbindung zu Github-API besteht
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[91mconnection error`)
-                }
-            })
+            }).getBody().toString()).content, 'base64').toString('utf-8')
+        } catch (e) {
+            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[91mconnection error`)
+            global.buildIDBranch    = false
         }
+        global.isUpdate         = buildID !== buildIDBranch
+
+        if(!isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mno update`)
+        if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mupdate found`)
+
+        if(global.checkIsRunning === undefined && isUpdate && automaticInstall) {
+            global.checkIsRunning   = setInterval(() => {
+                if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mcheck for can Install`)
+                let ServerInfos = globalInfos.get()
+                let isFree      = true
+
+                // gehe alle Server durch
+                if(ServerInfos.servers_arr.length > 0) {
+                    ServerInfos.servers_arr.forEach((val) => {
+                        if(val[1].is_installing) isFree = false
+                    })
+                }
+
+                // Wenn alles Frei ist starte die Installation und beende Interval
+                if(isFree) {
+                    module.exports.install(updateURL)
+                    if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mstart Installing`)
+                    clearInterval(checkIsRunning)
+                }
+                else {
+                    if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mserver is blocked`)
+                }
+            }, 5000)
+        }
+        return isUpdate
     }
 }

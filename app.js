@@ -77,7 +77,7 @@ global.md5                            = require('md5')
 global.htmlspecialchars               = require('htmlspecialchars')
 global.mysql                          = require('mysql')
 //global.mode                         = "dev"
-global.buildID                        = fs.readFileSync(pathMod.join(mainDir, "build"))
+global.buildID                        = fs.readFileSync(pathMod.join(mainDir, "build"), 'utf-8')
 global.panelVersion                   = "0.0.5"
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = true
@@ -112,7 +112,6 @@ try {
 } catch (e) {
   global.buildIDBranch = false
 }
-console.log(buildIDBranch)
 global.isUpdate                       = buildID !== buildIDBranch
 global.isUpdating                     = false
 global.needRestart                    = false
