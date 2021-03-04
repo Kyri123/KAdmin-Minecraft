@@ -49,13 +49,13 @@ router.route('/')
 
             // forceUpdate
             if(POST.adminAction === "forceUpdate" && isUpdate) {
-                updater.install(updateURL)
                 res.render('ajax/json', {
                     data: JSON.stringify({
                         code    : 35,
                         type    : "success"
                     })
                 })
+                updater.install(updateURL)
                 return
             }
         }
