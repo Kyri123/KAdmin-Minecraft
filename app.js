@@ -69,6 +69,7 @@ const uuid                            = require('uuid')
 const helmet                          = require("helmet")
 const compression                     = require("compression")
 const backgroundRunner                = require('./app/src/background/backgroundRunner')
+const syncRequest                     = require('sync-request')
 global.userHelper                     = require('./app/src/sessions/helper')
 global.mainDir                        = __dirname
 global.ip                             = require('ip')
@@ -76,11 +77,8 @@ global.md5                            = require('md5')
 global.htmlspecialchars               = require('htmlspecialchars')
 global.mysql                          = require('mysql')
 //global.mode                         = "dev"
+global.buildID                        = fs.readFileSync(pathMod.join(mainDir, "build"))
 global.panelVersion                   = "0.0.5"
-global.buildID                        = "00005.00429"
-global.isUpdate                       = false
-global.isUpdating                     = false
-global.needRestart                    = false
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = true
 global.serverClass                    = require('./app/src/util_server/class')
@@ -104,6 +102,20 @@ globalUtil.safeFileMkdirSync([CONFIG.app.servRoot])
 globalUtil.safeFileMkdirSync([CONFIG.app.logRoot])
 globalUtil.safeFileMkdirSync([CONFIG.app.pathBackup])
 
+global.buildIDBranch                  = false
+try {
+  global.buildIDBranch = Buffer.from(JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/build?ref=${CONFIG.updater.useBranch}`, {
+    headers: {
+      'user-agent': 'KAdmin-Minecraft',
+    },
+  }).getBody().toString()).content, 'base64').toString('utf-8')
+} catch (e) {
+  global.buildIDBranch = false
+}
+console.log(buildIDBranch)
+global.isUpdate                       = buildID !== buildIDBranch
+global.isUpdating                     = false
+global.needRestart                    = false
 
 // Checking Installed
 /*

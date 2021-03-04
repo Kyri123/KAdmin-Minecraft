@@ -48,7 +48,7 @@ router.route('/')
             }
 
             // forceUpdate
-            if(POST.adminAction === "shutdown" && isUpdate) {
+            if(POST.adminAction === "forceUpdate" && isUpdate) {
                 updater.install(updateURL)
                 res.render('ajax/json', {
                     data: JSON.stringify({

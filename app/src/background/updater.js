@@ -96,6 +96,15 @@ module.exports = {
      * Prüft auf Updates
      */
     check: async () => {
+
+
+        console.log(buildID, new Buffer(JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/app.js?ref=${CONFIG.updater.useBranch}`, {
+            headers: {
+                'user-agent': 'KAdmin-Minecraft',
+            },
+        }).getBody().toString()).content, 'base64').toString('utf-8'))
+
+
         if(global.checkIsRunning === undefined) {
             global.checkIsRunning   = undefined
             let branch              = CONFIG.updater.useBranch
