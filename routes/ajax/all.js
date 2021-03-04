@@ -55,7 +55,7 @@ router.route('/')
                         type    : "success"
                     })
                 })
-                updater.install(updateURL)
+                updater.install()
                 return
             }
         }

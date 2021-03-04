@@ -18,10 +18,9 @@ const syncRequest           = require('sync-request')
 module.exports = {
     /**
      * Installiert Update
-     * @param {string} url
      * @returns {void}
      */
-    install: async (url) => {
+    install: async () => {
         global.isUpdating   = true
         let tmpPath         = pathMod.join(mainDir, "tmp")
         let updateZipPath   = pathMod.join(tmpPath, "update.zip")
@@ -49,7 +48,7 @@ module.exports = {
         // Lade runter
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater download...`)
         try {
-            fs.writeFileSync(updateZipPath, await download(url))
+            fs.writeFileSync(updateZipPath, await download(`https://github.com/Kyri123/KAdmin-Minecraft/archive/${CONFIG.updater.useBranch}.zip`))
 
             // Entpacke Zip
             console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater unzip...`)
@@ -68,7 +67,7 @@ module.exports = {
                     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater copy update...`)
                     fse.copySync(pathMod.join(mainDir, "tmp", `KAdmin-Minecraft-${branch}`), mainDir,{ overwrite: true }, (err) => {
                             if(debug && err) console.error(err)
-                    });
+                    })
 
                     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[36mupdater remove tmp dir...`)
                     fs.rmSync(pathMod.join(mainDir, "tmp"), {recursive: true})
@@ -112,7 +111,6 @@ module.exports = {
             global.buildIDBranch    = false
         }
         global.isUpdate     = buildID !== buildIDBranch
-        global.updateURL    = `https://github.com/Kyri123/KAdmin-Minecraft/archive/${branch}.zip`
 
         if(!isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mno update`)
         if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mupdate found`)
@@ -132,7 +130,7 @@ module.exports = {
 
                 // Wenn alles Frei ist starte die Installation und beende Interval
                 if(isFree) {
-                    module.exports.install(updateURL)
+                    module.exports.install()
                     if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mstart Installing`)
                     clearInterval(checkIsRunning)
                 }
