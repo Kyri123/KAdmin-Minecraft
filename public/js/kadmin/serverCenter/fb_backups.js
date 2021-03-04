@@ -12,19 +12,36 @@ let filesFrontend   = $('#BAK_fileList')
 let dirFrontend     = $('#BAK_folderList')
 let curFiles        = {}
 
+let load            = {
+    text        : "Load ...",
+    timeFrom    : "",
+    date        : "01.01.1900",
+    timeTo      : ""
+}
+
+const VUE_fileBrowserBrackups = new Vue({
+    el      : '#fileBrowserBrackups',
+    data    : {
+        folders         : [load],
+        files           : [],
+        isLoading       : true,
+        showSelected    : false
+    }
+})
+
 /**
  * hole Backupliste und werte aus
  */
 function get() {
-    filesFrontend.html(loading("FB"))
-    dirFrontend.html(loading("FB", "secondary"))
     $.get('/ajax/serverCenterAny', {
         "getserverinfos": true,
         "server": varser.cfg
     }, (server) => {
+        VUE_fileBrowserBrackups.files       = []
+        VUE_fileBrowserBrackups.folders     = [load]
+        VUE_fileBrowserBrackups.isLoading   = true
         let ktime           = ``
         let ktimes          = ``
-        let serverInfos     = JSON.parse(server)
         $.get('/ajax/serverCenterBackups', {
             getDir          : true,
             server          : vars.cfg
@@ -34,6 +51,11 @@ function get() {
                 curFiles        = {}
                 dirFrontend.html('')
                 let latestSection = ''
+
+                VUE_fileBrowserBrackups.files       = []
+                VUE_fileBrowserBrackups.folders     = []
+                VUE_fileBrowserBrackups.isLoading   = false
+
                 for(let file of fileDate) {
                     if(file.FileExt === ".zip") {
                         let timeStamp   = file.namePure
@@ -45,45 +67,21 @@ function get() {
                             ktimes          = timeStamp
                             latestSection   = cktime
 
-                            dirFrontend.append(`<div type="button" onClick="getSection('${cktime}')" class="p-0 pl-2 pr-1 list-group-item bg-secondary">
-                                <div class="d-flex">
-                                    <div class="pt-1 pb-1">
-                                        <i class="fas fa-folder" aria-hidden="true"></i> 
-                                        ${cktime}
-                                    </div>
-                                </div>
-                            </div>`)
+                            VUE_fileBrowserBrackups.folders.push({
+                               text        : cktime,
+                               timeFrom    : 0,
+                               date        : cktime,
+                               timeTo      : 0
+                           })
                         }
 
-                        if(curFiles[ktime] === undefined) curFiles[ktime] = []
-                        curFiles[ktime].push(`
-                        <div class="p-0 pl-4 list-group-item border-left-0 bg-dark">
-                            <div class="d-flex">
-                                <div class="pt-1 pb-1">
-                                    <i class="${icon(file.FileExt)}" aria-hidden="true"></i> 
-                                    ${convertTime(parseInt(file.namePure))}
-                                </div>
-                                <div class="btn-group btn-group-sm ml-auto">
-                                    <span class="pr-3 text-sm pt-1 pb-1"><b>${file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB"}</b></span>
-                                    <button type="button" class="rounded-0 btn btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        ${globalvars.lang_arr["servercenter_filebrowser"].options.actions}
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        ${ hasPermissions(globalvars.perm, "backups/download", vars.cfg)
-                                           ? `<a class="dropdown-item" href="/backup/${vars.cfg}/${file.name}" download><i class="fas fa-download"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.download}</a>` : ""
-                                        }
-                                        ${ hasPermissions(globalvars.perm, "backups/playin", vars.cfg)
-                                           ? `<a class="dropdown-item" href="javascript:void(0)" data-playin="use" data-file="${file.name}"><i class="fas fa-upload"></i> ${globalvars.lang_arr["servercenter_backups"].modal.playin}</a>` : ""
-                                        }
-                                        ${ hasPermissions(globalvars.perm, "backups/remove", vars.cfg)
-                                            ? `    <div class="dropdown-divider"></div>
-                                                   <a class="dropdown-item text-danger" href="javascript:void(0)" data-acceptDel="use" data-file="${file.name}"><i class="far fa-trash-alt"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.remove}</a>` : ""
-                                        }
-                                        <!--<a class="dropdown-item text-info disabled" href="javascript:void(0)"><i class="fas fa-info-circle"></i> ${globalvars.lang_arr["servercenter_filebrowser"].options.info}</a>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`)
+                        curFiles[cktime] = curFiles[cktime] === undefined ? [] : curFiles[cktime]
+                        curFiles[cktime].push({
+                            name        : file.name,
+                            pureName    : convertTime(parseInt(file.namePure)),
+                            sizeText    : file.size !== "n/a" ? file.size.includes("Bytes") ? "~1 KB" : file.size : "~1 KB",
+                            icon        : icon(file.FileExt)
+                        })
                     }
                 }
                 getSection(latestSection)
@@ -98,49 +96,15 @@ function get() {
 }
 
 function getSection(section) {
-    filesFrontend.html(curFiles[section])
+    toggleAll(false)
+    VUE_fileBrowserBrackups.files = curFiles[section]
+}
+get()
 
-    // Löschen von Dateien
-    $('*[data-acceptDel="use"]').click((e) => {
-        if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
-            icon: 'question',
-            text: e.currentTarget.dataset.file,
-            title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.remove.title}</strong>`,
-            showCancelButton: true,
-            confirmButtonText: `<i class="far fa-trash-alt"></i>`,
-            cancelButtonText: `<i class="fas fa-times"></i>`,
-        }).then((result) => {
-            let cancel = true
-            if (result.isConfirmed) {
-                $.post("/ajax/serverCenterBackups", {
-                    server      : vars.cfg,
-                    file        : e.currentTarget.dataset.file,
-                    remove      : true
-                })
-                    .done((data) => {
-                        try {
-                            let success = JSON.parse(data).success
-                            fireToast(success ? 22 : 21, success ? 'success' : 'error')
-                            $('#FB_reload').click()
-                        }
-                        catch (e) {
-                            console.log(e)
-                            fireToast(21, "error")
-                        }
-                    })
-                    .fail(() => {
-                        fireToast(21, "error")
-                    })
-                cancel = false
-            }
-            if(cancel) fireToast(21, "error")
-        })
-    })
 
-    // Einspielen von Backup
-    $('*[data-playin="use"]').click((e) => {
-        console.log(e)
-        if(e.currentTarget.dataset.file !== undefined) swalWithBootstrapButtons .fire({
+function playInBackup(file = undefined) {
+    if(file !== undefined)
+        swalWithBootstrapButtons .fire({
             icon: 'question',
             text: e.currentTarget.dataset.file,
             title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.playin.title}</strong>`,
@@ -155,75 +119,61 @@ function getSection(section) {
                     file        : e.currentTarget.dataset.file,
                     playin      : true
                 })
-                    .done((data) => {
-                        try {
-                            let success = JSON.parse(data).success
-                            fireToast(success ? 24 : 23, success ? 'success' : 'error')
-                        }
-                        catch (e) {
-                            console.log(e)
-                            fireToast(23, "error")
-                        }
-                    })
-                    .fail(() => {
-                        fireToast(23, "error")
-                    })
+                   .done((data) => {
+                       try {
+                           let success = JSON.parse(data).success
+                           fireToast(success ? 24 : 23, success ? 'success' : 'error')
+                       }
+                       catch (e) {
+                           console.log(e)
+                           fireToast(23, "error")
+                       }
+                   })
+                   .fail(() => {
+                       fireToast(23, "error")
+                   })
                 cancel = false
             }
             if(cancel) fireToast(23, "error")
         })
-    })
 }
 
-get()
 
-/**
- * Sendet den Befehl eine Datei zu entfernen
- */
-function removeFile() {
-    let sert        = $('#removeBackup').serialize()
-    let sertArray   = $('#removeBackup').serializeArray()
-    // Todo: check path
-
-    $.post('/ajax/serverCenterBackups' , sert, (data) => {
-        try {
-            data    = JSON.parse(data)
-            if(data.alert !== undefined) $('#all_resp').append(data.alert)
-            $('#removeBackup').modal('hide')
-            $('.modal-backdrop').remove()
-
-
-            let id = $('#fileNameRemove').val().replace('.tar.gz', '')
-
-            $(`#${id}`).remove()
-            if($(`#lc${id} li`).length === 0) {
-                $(`#lcm${id}`).remove()
-                $(`#lc${id}`).remove()
+function removeFile(file = undefined) {
+    if(file !== undefined)
+        swalWithBootstrapButtons .fire({
+            icon: 'question',
+            text: file,
+            title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.remove.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="far fa-trash-alt"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+        }).then((result) => {
+            let cancel = true
+            if (result.isConfirmed) {
+                $.post("/ajax/serverCenterBackups", {
+                    server      : vars.cfg,
+                    file        : file,
+                    remove      : true
+                })
+                   .done((data) => {
+                       try {
+                           let success = JSON.parse(data).success
+                           fireToast(success ? 22 : 21, success ? 'success' : 'error')
+                           $('#FB_reload').click()
+                       }
+                       catch (e) {
+                           console.log(e)
+                           fireToast(21, "error")
+                       }
+                   })
+                   .fail(() => {
+                       fireToast(21, "error")
+                   })
+                cancel = false
             }
-            if($(`#lcc${id}`) !== undefined) $(`#lcc${id}`).html($(`#lc${id} li`).length)
-            get()
-        }
-        catch (e) {
-            console.log(e)
-        }
-    })
-}
-
-/**
- * Spielt ein Backup ein
- */
-function playthisin() {
-    $.post('/ajax/serverCenterBackups' , $('#playinBackup').serialize(), (data) => {
-        try {
-            data    = JSON.parse(data)
-            if(data.alert !== undefined) $('#all_resp').append(data.alert)
-            $('#playinBackup').modal('hide')
-            $('.modal-backdrop').remove()
-        }
-        catch (e) {
-            console.log(e)
-        }
-    })
+            if(cancel) fireToast(21, "error")
+        })
 }
 
 $(document).ready(() => {
@@ -303,3 +253,93 @@ $(document).ready(() => {
         })
     })
 })
+
+/**
+ * Prüft alle Selektierten Dateien
+ */
+function checkSelects() {
+    VUE_fileBrowserBrackups.showSelected = false
+    $('*[data-picker="files"]').each(function() {
+        if($(this).prop("checked")) VUE_fileBrowserBrackups.showSelected = true
+    })
+}
+
+/**
+ * Toggelt alle Selektierten Dateien
+ */
+function toggleAll(to) {
+    $('*[data-picker="files"]').each(function() {
+        $(this).prop("checked", to)
+    })
+    checkSelects()
+}
+
+/**
+ * Download mehrere Dateien
+ */
+function multiDownload() {
+    let tdl = document.createElement("a");
+    tdl.style.display = 'none';
+    document.body.appendChild(tdl)
+
+    $('*[data-picker="files"]').each(function() {
+        let self    = $(this)
+        if(self.prop("checked")) {
+            self.prop("checked", false)
+            tdl.setAttribute( 'href', `/backup/${vars.cfg}/${self.data("file")}` )
+            tdl.setAttribute( 'download', self.data("file"))
+            tdl.setAttribute( 'target', '_blank')
+            tdl.click()
+        }
+    })
+
+    document.body.removeChild( tdl )
+}
+
+/**
+ * Entfernt gewählte Dateien
+ * @param file
+ */
+function removeAll() {
+    let files = []
+    $('*[data-picker="files"]').each(function() {
+        let self    = $(this)
+        if(self.prop("checked")) {
+            files.push(self.data("file"))
+        }
+    })
+    if(files.length !== 0)
+        swalWithBootstrapButtons .fire({
+            icon: 'question',
+            text: `${files.join(" ; ")}`,
+            title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.remove.title}</strong>`,
+            showCancelButton: true,
+            confirmButtonText: `<i class="far fa-trash-alt"></i>`,
+            cancelButtonText: `<i class="fas fa-times"></i>`,
+        }).then((result) => {
+            let cancel = true
+            if (result.isConfirmed) {
+                console.log(files)
+                $.post("/ajax/serverCenterBackups", {
+                    server: vars.cfg,
+                    file: files,
+                    remove: true
+                })
+                   .done((data) => {
+                       try {
+                           let success = JSON.parse(data).success
+                           fireToast(success ? 39 : 38, success ? 'success' : 'error')
+                           $('#FB_reload').click()
+                       } catch (e) {
+                           console.log(e)
+                           fireToast(38, "error")
+                       }
+                   })
+                   .fail(() => {
+                       fireToast(38, "error")
+                   })
+                cancel = false
+            }
+            if(cancel) fireToast(38, "error")
+        })
+}

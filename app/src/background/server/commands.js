@@ -109,8 +109,48 @@ module.exports = {
          ) return false
 
          if(globalUtil.safeFileCreateSync([backuprun]) && paths.length !== 0) {
-            serverShell.runSHELL(`cd ${servCFG.path} && zip -9 -r ${zipPath} ${paths.join(" ")} && rm ${backuprun}`)
-            return true
+            // prüfe backupverzeichnis
+            let checkBackupPath = function () {
+            let haveRm          = false
+
+            let maxSize   = servCFG.autoBackupMaxDirSize
+            let maxCount  = servCFG.autoBackupMaxCount
+            if(maxCount !== 0 || maxSize !== 0) {
+               let backupDirInfos   = globalUtil.safeFileReadDirSync([servCFG.pathBackup])
+               let totalSize        = 0
+               let totalCount       = 0
+               let oldestFile       = false
+               for(let file of backupDirInfos) {
+                  if(file.FileExt === ".zip") {
+                     let backupTime = parseInt(file.namePure, 10)
+                     // finde Ältestes Backup
+                     if (backupTime < oldestFile || oldestFile === false)
+                        oldestFile = backupTime
+                     // zähle Backups
+                     totalCount++
+                     // erfasse TotalSize
+                     totalSize += file.sizebit
+                  }
+               }
+
+               if(oldestFile !== false)
+                  if(
+                     (maxCount !== 0 && maxCount <= totalCount) ||
+                     (maxSize !== 0 && maxSize <= totalSize)
+                  ) {
+                     globalUtil.safeFileRmSync([servCFG.pathBackup, `${oldestFile}.zip`])
+                     haveRm = true
+                  }
+               }
+
+               if(haveRm) checkBackupPath()
+               return true
+            }
+
+            if(checkBackupPath()) {
+               serverShell.runSHELL(`cd ${servCFG.path} && zip -9 -r ${zipPath} ${paths.join(" ")} && rm ${backuprun}`)
+               return true
+            }
          }
 
          return false

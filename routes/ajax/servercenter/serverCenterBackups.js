@@ -66,8 +66,28 @@ router.route('/')
             let serverCFG   = serverData.getConfig()
             let success     = false
             try {
-                if(globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
-                    success = globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
+                if(Array.isArray(POST.file)) {
+                    let tmpSuccess = true
+                    for(let file of POST.file) {
+                        if(!file.includes("/")) {
+                            if (globalUtil.poisonNull(file) && !file.includes("..")) {
+                                if (!globalUtil.safeFileRmSync([serverCFG.pathBackup, file]))
+                                    tmpSuccess = false
+                            }
+                            else {
+                                tmpSuccess = false
+                            }
+                        }
+                        else {
+                            tmpSuccess = false
+                        }
+                    }
+                    success = tmpSuccess
+                }
+                else {
+                    if (globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
+                        success = globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
+                    }
                 }
             }
             catch (e) {
@@ -79,6 +99,7 @@ router.route('/')
                     success: success
                 })
             })
+            return
         }
 
         // Playin
@@ -119,6 +140,7 @@ router.route('/')
                     success: success
                 })
             })
+            return
         }
 
 
