@@ -112,6 +112,7 @@ module.exports = {
             global.buildIDBranch    = false
         }
         global.isUpdate         = buildID !== buildIDBranch
+        global.updateURL    = `https://github.com/Kyri123/KAdmin-Minecraft/archive/${branch}.zip`
 
         if(!isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mno update`)
         if(isUpdate) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}] Auto-Updater: \x1b[32mupdate found`)
