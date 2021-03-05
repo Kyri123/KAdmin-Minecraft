@@ -312,6 +312,60 @@ module.exports = {
     },
 
     /**
+     * convertiert Values in Types (Array vom POST)
+     * @param {Array} obj Post Array
+     * @return {Array}
+     */
+    convertArray(array) {
+        if(Array.isArray(array))
+            array.forEach((key) => {
+                if(Array.isArray(array[key])) {
+                    array[key] = module.exports.convertArray(array[key])
+                }
+                else if(typeof array[key] === "object") {
+                    array[key] = module.exports.convertArray(array[key])
+                }
+                else if(!isNaN(array[key])) {
+                    array[key] = parseInt(array[key], 10)
+                }
+                else if(array[key] === 'false') {
+                    array[key] = false
+                }
+                else if(array[key] === 'true') {
+                    array[key] = true
+                }
+            })
+        return array
+    },
+
+    /**
+     * convertiert Values in Types (Object vom POST)
+     * @param {Object} obj Post Array
+     * @return {Object}
+     */
+    convertObject(obj) {
+        if(typeof obj === "object")
+            Object.keys(obj).forEach((key) => {
+                if(Array.isArray(obj[key])) {
+                    obj[key] = module.exports.convertArray(obj[key])
+                }
+                else if(typeof obj[key] === "object") {
+                    obj[key] = module.exports.convertObject(obj[key])
+                }
+                else if(!isNaN(obj[key])) {
+                    obj[key] = parseInt(obj[key], 10)
+                }
+                else if(obj[key] === 'false') {
+                    obj[key] = false
+                }
+                else if(obj[key] === 'true') {
+                    obj[key] = true
+                }
+            })
+        return obj
+    },
+
+    /**
      * Speichert sicher eine Datei
      * @param {string} sql SQL abfrage
      * @return {boolean|array}

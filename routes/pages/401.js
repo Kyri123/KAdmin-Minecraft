@@ -24,6 +24,7 @@ router.route('/')
 
       res.render('pages/401', {
          page        : "401",
+         perm        : userHelper.permissions(req.session.uid),
          response    : "",
          lang        : lang
       })

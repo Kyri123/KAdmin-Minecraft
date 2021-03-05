@@ -9,5 +9,6 @@
   "servercenter_backups"      : "Backups",
   "servercenter_config"       : "Konfiguration",
   "servercenter_filebrowser"  : "Filebrowser",
-  "servercenter_home"         : "Startseite"
+  "servercenter_home"         : "Startseite",
+  "config"                    : "Panel Konfiguration"
 }

@@ -24,7 +24,6 @@
         <!-- Extern CSS -->
 
         <!-- Intern CSS -->
-        <link rel="stylesheet" href="/css/adminlte/adminlte.min.css?time=<% Date.now() %>">
         <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
 
         <!-- Include all Plugins -->
@@ -39,17 +38,13 @@
         <link rel="stylesheet" href="/plugins/codemirror/codemirror.css">
         <link rel="stylesheet" href="/plugins/codemirror/theme/material.css">
 
+        <!-- Intern CSS _self hight prio -->
+        <link rel="stylesheet" href="/css/kadmin.css?time=<% Date.now() %>">
+
         <style type="text/css">
             /** {
                 border-radius: 0px !important;
             }*/
-            body {
-                background: url('/img/backgrounds/bg.jpg');
-                background-position: bottom center;
-                background-repeat: no-repeat;
-                background-size:cover;
-                background-attachment:fixed;
-            }
         </style>
 
         <!-- Extern JS -->
@@ -72,6 +67,7 @@
             globalvars.isUpdate     = <%- isUpdate %>
             globalvars.isUpdating   = <%- isUpdating %>
             globalvars.needRestart  = <%- needRestart %>
+            globalvars.branch       = '<%- CONFIG.updater.useBranch %>'
 
             setInterval(() => {
                 try {

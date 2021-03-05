@@ -34,6 +34,17 @@
                 <% } %>
 
                 <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
+                    <li class="nav-item">
+                        <a href="/config" class="nav-link <%- page === "config" ? " active" : "" %>">
+                            <i class="nav-icon fas fa-file-code" aria-hidden="true"></i>
+                            <p>
+                                <%- lang.all.panelControler.config %>
+                            </p>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link<%- page === "grouppanel" || page === "userpanel" ? " active" : "" %>">
                             <i class="nav-icon fas fa-users-cog" aria-hidden="true"></i>

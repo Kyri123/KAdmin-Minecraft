@@ -8,7 +8,9 @@
  */
 "use strict"
 
-const router            = require('express').Router()
+const router        = require('express').Router()
+const globalinfos   = require('./../../app/src/global_infos')
+const userHelper    = require('./../../app/src/sessions/helper')
 
 router.route('/')
 
@@ -17,16 +19,22 @@ router.route('/')
        let POST        = req.body
        let response    = ""
        let cookies     = req.cookies
-       let lang         = LANG[(cookies.lang !== undefined) ?
+       let langStr     = (cookies.lang !== undefined) ?
           fs.existsSync(pathMod.join(mainDir, "lang", cookies.lang)) ?
              cookies.lang : "de_de"
-          : "de_de"]
+          : "de_de"
+       let lang         = LANG[langStr]
 
-       res.render('pages/404', {
-          page        : "404",
-          perm        : userHelper.permissions(req.session.uid),
-          response    : "",
-          lang        : lang
+       res.render('pages/config', {
+            userID        : req.session.uid,
+            page          : "config",
+            response      : response,
+            lang          : lang,
+            perm          : userHelper.permissions(req.session.uid),
+            sinfos        : globalinfos.get(),
+            breadcrumb           : [
+               lang.breadcrumb["config"]
+            ]
        })
     })
 

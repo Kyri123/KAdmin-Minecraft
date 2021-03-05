@@ -1,0 +1,12 @@
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #2a2a2f !important;
+    color: #fff !important;
+}
+
+body {
+    background: url('/img/backgrounds/bg.jpg');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment:fixed;
+}

@@ -26,20 +26,7 @@ router.route('/')
 
             // Wandel string in
             if(POST.cfgsend.autoBackupPara === undefined) POST.cfgsend.autoBackupPara = []
-            Object.keys(POST.cfgsend).forEach((key) => {
-                if(Array.isArray(POST.cfgsend[key])){
-                    // skip
-                }
-                else if(!isNaN(POST.cfgsend[key])){
-                    POST.cfgsend[key] = parseInt(POST.cfgsend[key], 10);
-                }
-                else if(POST.cfgsend[key] === 'false'){
-                    POST.cfgsend[key] = false;
-                }
-                else if(POST.cfgsend[key] === 'true'){
-                    POST.cfgsend[key] = true;
-                }
-            })
+            POST.cfgsend = globalUtil.convertObject(POST.cfgsend)
 
             res.render('ajax/json', {
                 data: JSON.stringify({

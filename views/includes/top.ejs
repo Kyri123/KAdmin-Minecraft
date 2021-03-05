@@ -10,7 +10,7 @@
                 <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
                     <li class="nav-item dropdown" id="panelControler">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="fas fa-desktop"></i>
+                            <i class="fas fa-desktop pr-1"></i> Panel
                             <span class="badge badge-info navbar-badge" v-if="is_update"><%- lang.all.panelControler.isUpdate %></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
@@ -22,7 +22,7 @@
                                 <i class="fas fa-clipboard-list mr-2"></i> <%- lang.all.panelControler.log %>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0)" class="dropdown-item disabled">
+                            <a href="/config" class="dropdown-item">
                                 <i class="fas fa-file-code mr-2"></i> <%- lang.all.panelControler.config %>
                             </a>
                             <div class="dropdown-divider"></div>

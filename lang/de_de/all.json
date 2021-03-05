@@ -7,7 +7,7 @@
     "isUpdate"        : "UPDATE",
     "updateNow"       : "Update starten",
     "log"             : "Aktuellen Log anzeigen",
-    "config"          : "Konfiguration",
+    "config"          : "Panel Konfiguration",
     "checkUpdate"     : "Prüfe auf Update",
     "shutdown"        : "Panel Ausschalten / Neustarten "
   },

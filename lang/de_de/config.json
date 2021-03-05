@@ -1,0 +1,17 @@
+{
+  "pagename"        : "Panel Konfiguration",
+  "save"            : "Speichern",
+  "options"         : {
+    "app.json"        : {
+      "servRoot"          : "Verzeichnis wo die Server liegen sollen (ACHTUNG: Änderungen hieran ändert auch den Pfad aller Server was notwendig für Steuern etc. ist!!)",
+      "logRoot"           : "Verzeichnis wo die Logs liegen (ACHTUNG: Änderungen hieran \"entfernt\" alle Logs!!)",
+      "pathBackup"        : "Verzeichnis wo die Backups liegen (ACHTUNG: Änderungen hieran \"entfernt\" alle Backups!!)",
+      "port"              : "Port der für das Panel bestimmt ist",
+      "useDebug"          : "Sollen Debugs im Log angezeigt werden"
+    },
+    "updater.json"    : {
+      "useBranch"         : "Welche Branch soll für Updates verwendet werden",
+      "automaticInstall"  : "Sollen Update nach dem Erkennen von Selbst installiert werden"
+    }
+  }
+}

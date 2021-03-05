@@ -47,11 +47,15 @@
                  alert: ""
               }
            })
-           setInterval(() =>
-              updateAlert.alert = globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin")
+           setInterval(() => {
+              updateAlert.alert = ''
+              updateAlert.alert += globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin")
                  ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>').replace("~", '<%- mainDir %>')
                  : ""
-           , 50)
+              updateAlert.alert += globalvars.needRestart && hasPermissions(globalvars.perm, "all/is_admin")
+                 ? alerter(3002, "", 3, false)
+                 : ""
+           }, 50)
         </script>
     </body>
 </html>
