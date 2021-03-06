@@ -13,7 +13,7 @@
 
             <div class="collapse navbar-collapse navbar-secondary" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
-                    <% if(userHelper.hasPermissions(user.id, "config/show_server")) { %>
+                    <% if(userHelper.hasPermissions(userID, "config/show_server")) { %>
                         <li class="nav-item">
                             <a class="nav-link active btn-dark p-3" id="pills-gus-tab" data-toggle="pill" href="#pills-gus" role="tab" aria-controls="pills-gus" aria-selected="false">
                                 Server.Properties
@@ -21,7 +21,7 @@
                         </li>
                     <% } %>
 
-                    <% if(userHelper.hasPermissions(user.id, "config/show_kadmin")) { %>
+                    <% if(userHelper.hasPermissions(userID, "config/show_kadmin")) { %>
                         <li class="nav-item">
                             <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
                                 KAdmin-Minecraft
@@ -36,7 +36,7 @@
         <div class="card shadow">
             <div class="tab-content" id="pills-tabContent">
 
-                <% if(userHelper.hasPermissions(user.id, "config/show_server")) { %>
+                <% if(userHelper.hasPermissions(userID, "config/show_server")) { %>
                     <!-- Server.Properties -->
                     <div class="tab-pane fade show active" id="pills-gus" role="tabpanel" aria-labelledby="pills-llog-tab">
                         <table class="table table-striped mb-0" style="border: 0!important;">
@@ -55,7 +55,7 @@
                     </div>
                 <% } %>
 
-                <% if(userHelper.hasPermissions(user.id, "config/show_kadmin")) { %>
+                <% if(userHelper.hasPermissions(userID, "config/show_kadmin")) { %>
                     <!-- KAdmin-ArkWIN -->
                     <form class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
                         <table class="table table-striped mb-0" style="border: 0!important;">
