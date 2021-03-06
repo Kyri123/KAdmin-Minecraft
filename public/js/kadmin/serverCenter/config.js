@@ -15,7 +15,7 @@ let editor = {
     })
 }
 
-if (hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
+if (hasPermissions(globalvars.perm, "config/show_server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
     serverInis: true,
     ini: "server",
     server: vars.cfg
