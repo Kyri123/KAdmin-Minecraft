@@ -23,7 +23,7 @@
 
                     <% if(userHelper.hasPermissions(userID, "config/show_kadmin", serverName)) { %>
                         <li class="nav-item">
-                            <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
+                            <a class="nav-link<%- !userHelper.hasPermissions(userID, "config/show_server", serverName) ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
                                 KAdmin-Minecraft
                             </a>
                         </li>
@@ -57,7 +57,7 @@
 
                 <% if(userHelper.hasPermissions(userID, "config/show_kadmin", serverName)) { %>
                     <!-- KAdmin-ArkWIN -->
-                    <form class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
+                    <form class="tab-pane fade<%- !userHelper.hasPermissions(userID, "config/show_server", serverName) ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
                         <table class="table table-striped mb-0" style="border: 0!important;">
                             <thead>
                                 <tr class="bg-dark">
@@ -160,9 +160,9 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">SEC</span>
                                             </div>
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupInterval / 60 / 1000) / 100 %>" id="autoBackupIntervalMIN"
+                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupInterval / 60 / 1000 * 100) / 100 %>" id="autoBackupIntervalMIN"
                                                    onchange="$('#autoBackupIntervalSEC').val(Math.round(parseFloat(this.value) / 60 * 100) / 100); $('#autoBackupIntervalValue').val(Math.round(parseFloat(this.value) * 1000))">
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupInterval / 60 / 60 / 1000) / 100 %>" id="autoBackupIntervalSEC"
+                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupInterval / 60 / 60 / 1000 * 100) / 100 %>" id="autoBackupIntervalSEC"
                                                    onchange="$('#autoBackupIntervalMIN').val(Math.round(parseFloat(this.value) * 60 * 100) / 100); $('#autoBackupIntervalValue').val(Math.round(parseFloat(this.value) * 60 * 1000))">
                                             <div class="input-group-append">
                                                 <span class="input-group-text">MIN</span>
