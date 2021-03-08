@@ -10,6 +10,7 @@
 
 const router            = require('express').Router()
 const updater           = require("./../../app/src/background/updater")
+const request           = require("sync-request")
 
 router.route('/')
 
@@ -107,6 +108,20 @@ router.route('/')
                     "isUpdating"    : isUpdating,
                     "needRestart"   : needRestart
                 })
+            })
+            return true
+        }
+
+        if(GET.request !== undefined) {
+            let returnString = 'false'
+            try {
+                returnString = request('GET', GET.requestURL).getBody().toString()
+            }
+            catch (e) {
+               if(debug) console.log()
+            }
+            res.render('ajax/json', {
+                data: returnString
             })
             return true
         }

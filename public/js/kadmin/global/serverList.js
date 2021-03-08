@@ -71,8 +71,6 @@ function getServerList() {
          }
       })
 
-      console.log(servercount_total, servercount_off, servercount_on)
-
       if (hasPermissions(globalvars.perm, "all/show_traffic")) {
          // Server
          VUE_traffic.serv_on     = servercount_on
