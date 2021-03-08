@@ -118,7 +118,7 @@ router.route('/')
                 returnString = request('GET', GET.requestURL).getBody().toString()
             }
             catch (e) {
-               if(debug) console.log()
+               if(debug) console.log(e)
             }
             res.render('ajax/json', {
                 data: returnString

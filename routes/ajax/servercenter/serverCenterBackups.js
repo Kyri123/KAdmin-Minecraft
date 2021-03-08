@@ -34,7 +34,6 @@ router.route('/')
                 try {
                     if(file.name.includes(".zip") && /^[0-9]+$/.test(file.name.replaceAll(".zip", ""))) {
                         let path = pathMod.join(serverCFG.pathBackup, file.name)
-                        console.log(path)
                         globalUtil.safeFileRmSync([path])
                         file.mv(pathMod.join(path))
                         success = true

@@ -17,7 +17,6 @@ setInterval(() => {
  * erzeugt gruppenliste
  */
 function getGroupList() {
-    console.log(globalvars.lang_arr.userpanel)
     $.get('/ajax/grouppanel', {
         getgrouplist: true
     }, (data) => {

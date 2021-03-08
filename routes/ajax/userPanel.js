@@ -58,7 +58,6 @@ router.route('/')
         // Code Erzeugen
         if(POST.addCode !== undefined && userHelper.hasPermissions(req.session.uid, "userpanel/create_code")) {
             let code = userHelper.createCode(POST.rank)
-            console.log(code)
 
             res.render('ajax/json', {
                 data: JSON.stringify({

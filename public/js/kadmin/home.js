@@ -25,7 +25,6 @@ function getChangelog() {
             if (data !== 'false') {
                 let array = JSON.parse(data).reverse()
                 array.forEach((value, key) => {
-                    console.log(key)
                     array[key].isOpen = false
                 })
                 VUE_changelogContainer.changelogs = array

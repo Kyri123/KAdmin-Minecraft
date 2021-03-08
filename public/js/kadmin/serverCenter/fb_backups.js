@@ -234,7 +234,6 @@ $(document).ready(() => {
                             }
                             catch (e) {
                                 fireToast(2, "error")
-                                console.log(resp)
                             }
                         },
                         error: function() {
@@ -319,7 +318,6 @@ function removeAll() {
         }).then((result) => {
             let cancel = true
             if (result.isConfirmed) {
-                console.log(files)
                 $.post("/ajax/serverCenterBackups", {
                     server: vars.cfg,
                     file: files,

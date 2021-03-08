@@ -48,7 +48,6 @@ router.route('/')
             }
 
             if( pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path) {
-               console.log(FILES)
                res.render('ajax/json', {
                   data: JSON.stringify({
                      "success": success
