@@ -7,7 +7,6 @@
     "backgroundUpdater"         : 1800000,
     "doJob"                     : 60000,
     "getVersionList"            : 3600000,
-    "getChangelogList"          : 3600000,
     "getSpigotCraftbukkitList"  : 3600000
   }
 }

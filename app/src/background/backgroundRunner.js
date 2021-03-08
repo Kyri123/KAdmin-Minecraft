@@ -31,7 +31,6 @@ module.exports = {
         setInterval(() => module.exports.getStateFromServers(),         CONFIG.main.interval.getStateFromServers)
         setInterval(() => module.exports.getVersionList(),              CONFIG.main.interval.getVersionList)
         setInterval(() => module.exports.doServerBackgrounder(),        CONFIG.main.interval.doServerBackgrounder)
-        setInterval(() => module.exports.getChangelogList(),            CONFIG.main.interval.getChangelogList)
         setInterval(() => module.exports.getSpigotCraftbukkitList(),    CONFIG.main.interval.getSpigotCraftbukkitList)
 
         // on load
@@ -42,7 +41,6 @@ module.exports = {
 
         module.exports.getTraffic()
         module.exports.getStateFromServers()
-        module.exports.getChangelogList()
     },
 
     /**
@@ -112,26 +110,6 @@ module.exports = {
                         }
                     })
             })
-
-            if(Installed) {
-                let pathFile    = pathMod.join(mainDir, '/app/json/panel/', 'changelog.json')
-                try {
-                    if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}][DEBUG]\x1b[36m Load: ${pathFile}`)
-                    global.changelog                    = globalUtil.safeFileReadSync([pathFile], true)
-                    if(typeof changelog === "boolean") {
-                        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
-                        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-                        process.exit(1)
-                    }
-                    changelog.reverse()
-                }
-                catch (e) {
-                    if(debug) console.log('[DEBUG_FAILED]', e)
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
-                    console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-                    process.exit(1)
-                }
-            }
         })()
     },
 
@@ -205,25 +183,6 @@ module.exports = {
                     }
                 })
             }
-        })()
-    },
-
-    /**
-     * Hollt die liste aller versionen
-     * @return {boolean|array}
-     */
-    getChangelogList() {
-        (async () => {
-            req("https://api.minecraft.kadmin-panel.de/changelog.json", (error, response, body) => {
-                try {
-                    if(!error && response.statusCode === 200)
-                        globalUtil.safeFileSaveSync([mainDir, "app/json/panel", "changelog.json"], JSON.parse(JSON.stringify(body)))
-                }
-                catch (e) {
-                    if(debug) console.log('[DEBUG_FAILED]', e)
-                }
-            })
-            return false
         })()
     }
 }
