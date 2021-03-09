@@ -20,8 +20,7 @@ function getCfg() {
         server: vars.cfg
     })
        .done((data) => {
-              VUE_configContainer = JSON.parse(data)
-           console.log(VUE_configContainer)
+              VUE_configContainer.cfg = JSON.parse(data)
           })
        .fail(
           () => setTimeout(

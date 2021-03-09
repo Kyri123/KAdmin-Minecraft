@@ -51,11 +51,9 @@
             </div>
         </div>
 
-        <transition name="slide">
-            <div class="card-content p-0" v-bind:id="item.version" v-show="item.isOpen">
-                <div class="card-body p-0" v-html="item.new"></div>
-            </div>
-        </transition>
+        <div class="card-content p-0" v-bind:id="item.version" v-show="item.isOpen">
+            <div class="card-body p-0" v-html="item.new"></div>
+        </div>
     </div>
 </div>
 

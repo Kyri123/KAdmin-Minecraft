@@ -4,11 +4,8 @@
 }
 
 body {
-    background: url('/img/backgrounds/bg.jpg');
-    background-position: bottom center;
-    background-repeat: no-repeat;
+    background: url('/img/backgrounds/bg.jpg') no-repeat fixed bottom center;
     background-size:cover;
-    background-attachment:fixed;
 }
 
 #changelogContainer h5 {
@@ -24,22 +21,4 @@ body {
 #changelogContainer ul {
     margin-top: 10px!important;
     margin-bottom: 10px!important;
-}
-
-.slide-enter,
-.slide-leave-to {
-    transform: scaleY(0);
-    opacity: 0;
-}
-
-.slide-enter-to,
-.slide-leave {
-    opacity: 1;
-    transform: scaleY(1);
-}
-
-.slide-enter-active,
-.slide-leave-active {
-    transition: all 0.3s ease-out;
-    transform-origin: top center;
 }

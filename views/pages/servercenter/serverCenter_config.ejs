@@ -71,186 +71,91 @@
 
                             <tbody>
                                 <!-- selfname -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["selfname"] || "selfname" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group-sm mb-0">
-                                            <input type="text" class="form-control form-control-sm" name="cfgsend[selfname]" value="<%- servcfg.selfname %>">
-                                        </div>
-                                    </td>
-                                </tr>
+                                <tr v-for="(value, key) in cfg" v-if="typeof value !== 'object' && globalvars.lang_arr['servercenter_config'].cfg[key]">
 
-                                <!-- path -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["path"] || "path" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group-sm mb-0">
-                                            <input type="text" class="form-control form-control-sm" name="cfgsend[path]" value="<%- servcfg.path %>" readonly="">
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <!-- Text -->
+                                    <td class="p-2">{{ globalvars.lang_arr['servercenter_config'].cfg[key] || key }}</td>
 
-                                <!-- pathLogs -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["pathLogs"] || "pathLogs" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group-sm mb-0">
-                                            <input type="text" class="form-control form-control-sm" name="cfgsend[pathLogs]" value="<%- servcfg.pathLogs %>" readonly="">
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- pathBackup -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["pathBackup"] || "pathBackup" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group-sm mb-0">
-                                            <input type="text" class="form-control form-control-sm" name="cfgsend[pathBackup]" value="<%- servcfg.pathBackup %>" readonly="">
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- autoBackup -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["autoBackup"] || "autoBackup" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
+                                    <!-- default Backups -->
+                                    <td v-if="key === 'autoBackup'" class="p-2" colspan="2" style="max-width: 400px!important;">
                                         <div class="input-group-sm mb-0">
                                             <select class="form-control form-control-sm" name="cfgsend[autoBackup]">
-                                                <option value="true" <%- servcfg.autoBackup.toString() === "true" ? "selected" : "" %>><%- lang[page].true %></option>
-                                                <option value="false" <%- servcfg.autoBackup.toString() === "false" ? "selected" : "" %>><%- lang[page].false %></option>
+                                                <option value="true" :selected="value">{{ globalvars.lang_arr['servercenter_config'].true }}</option>
+                                                <option value="false" :selected="!value">{{ globalvars.lang_arr['servercenter_config'].false }}</option>
                                             </select>
                                             <!-- autoBackupPara -->
                                             <div class="icheck-primary mb-3">
-                                                <input type="checkbox" name="cfgsend[autoBackupPara][]" value="--onlyworld" id="KONF_onlyworld">
+                                                <input :checked="cfg.autoBackupPara.includes('--onlyworld')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--onlyworld" id="KONF_onlyworld">
                                                 <label for="KONF_onlyworld">
-                                                    <%- lang.forservers.parameter.onlyworld %>
+                                                    {{ globalvars.lang_arr.forservers.parameter.onlyworld }}
                                                 </label>
                                             </div>
                                             <div class="icheck-primary mb-3">
-                                                <input type="checkbox" name="cfgsend[autoBackupPara][]" value="--withmods" id="KONF_withmods">
+                                                <input :checked="cfg.autoBackupPara.includes('--withmods')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--withmods" id="KONF_withmods">
                                                 <label for="KONF_withmods">
-                                                    <%- lang.forservers.parameter.withmods %>
+                                                    {{ globalvars.lang_arr.forservers.parameter.withmods }}
                                                 </label>
                                             </div>
                                             <div class="icheck-primary mb-3">
-                                                <input type="checkbox" name="cfgsend[autoBackupPara][]" value="--witplugins" id="KONF_witplugins">
+                                                <input :checked="cfg.autoBackupPara.includes('--witplugins')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--witplugins" id="KONF_witplugins">
                                                 <label for="KONF_witplugins">
-                                                    <%- lang.forservers.parameter.witplugins %>
+                                                    {{ globalvars.lang_arr.forservers.parameter.witplugins }}
                                                 </label>
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
 
-                                <!-- autoBackupMaxCount -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["autoBackupMaxCount"] || "autoBackupMaxCount" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
+                                    <!-- default Jar -->
+                                    <td v-else-if="key === 'jar'" class="p-2" colspan="2" style="max-width: 400px!important;">
                                         <div class="input-group-sm mb-0">
-                                            <input type="number" class="form-control form-control-sm" name="cfgsend[autoBackupMaxCount]" value="<%- servcfg.autoBackupMaxCount %>">
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- autoBackupInterval -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["autoBackupInterval"] || "autoBackupInterval" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group input-group-sm mb-0">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">SEC</span>
-                                            </div>
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupInterval / 60 / 1000 * 100) / 100 %>" id="autoBackupIntervalMIN"
-                                                   onchange="$('#autoBackupIntervalSEC').val(Math.round(parseFloat(this.value) / 60 * 100) / 100); $('#autoBackupIntervalValue').val(Math.round(parseFloat(this.value) * 1000))">
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupInterval / 60 / 60 / 1000 * 100) / 100 %>" id="autoBackupIntervalSEC"
-                                                   onchange="$('#autoBackupIntervalMIN').val(Math.round(parseFloat(this.value) * 60 * 100) / 100); $('#autoBackupIntervalValue').val(Math.round(parseFloat(this.value) * 60 * 1000))">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">MIN</span>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" class="form-control form-control-sm" name="cfgsend[autoBackupInterval]" id="autoBackupIntervalValue" value="<%- servcfg.autoBackupInterval %>">
-
-                                    </td>
-                                </tr>
-
-                                <!-- autoBackupMaxDirSize -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["autoBackupMaxDirSize"] || "autoBackupMaxDirSize" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group input-group-sm mb-0">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">MB</span>
-                                            </div>
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupMaxDirSize / 1024 / 1024 * 100) / 100 %>" id="autoBackupMaxDirSizeMB"
-                                                   onchange="$('#autoBackupMaxDirSizeGB').val(Math.round(parseFloat(this.value) / 1024 * 100) / 100); $('#autoBackupMaxDirSizeValue').val(Math.round(parseFloat(this.value) * 1024 * 1024))">
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.autoBackupMaxDirSize / 1024 / 1024 / 1024 * 100) / 100 %>" id="autoBackupMaxDirSizeGB"
-                                                   onchange="$('#autoBackupMaxDirSizeMB').val(Math.round(parseFloat(this.value) * 1024 * 100) / 100); $('#autoBackupMaxDirSizeValue').val(Math.round(parseFloat(this.value) * 1024 * 1024 * 1024))">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">GB</span>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" class="form-control form-control-sm" name="cfgsend[autoBackupMaxDirSize]" value="<%- servcfg.autoBackupMaxDirSize %>" id="autoBackupMaxDirSizeValue">
-                                    </td>
-                                </tr>
-
-                                <!-- xmx -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["xmx"] || "xmx" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group input-group-sm mb-0">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">MB</span>
-                                            </div>
-                                            <input type="number" name="cfgsend[xmx]" class="form-control form-control-sm" value="<%- servcfg.xmx %>" id="xmxMB"
-                                                   onchange="$('#xmxGB').val(Math.round(parseFloat(this.value) / 1024 * 100) / 100)">
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.xmx/ 1024 * 100) / 100 %>" id="xmxGB"
-                                                   onchange="$('#xmxMB').val(Math.round(parseFloat(this.value) * 1024))">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">GB</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- xms -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["xms"] || "xms" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group input-group-sm mb-0">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">MB</span>
-                                            </div>
-                                            <input type="number" name="cfgsend[xms]" class="form-control form-control-sm" value="<%- servcfg.xms %>" id="xmsMB"
-                                                   onchange="$('#xmsGB').val(Math.round(parseFloat(this.value) / 1024 * 100) / 100)">
-                                            <input type="number" step="0.01" class="form-control form-control-sm" value="<%- Math.round(servcfg.xms/ 1024 * 100) / 100 %>" id="xmsGB"
-                                                   onchange="$('#xmsMB').val(Math.round(parseFloat(this.value) * 1024))">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">GB</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- extrajava -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["extrajava"] || "extrajava" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group-sm mb-0">
-                                            <input type="text" class="form-control form-control-sm" name="cfgsend[extrajava]" value="<%- servcfg.extrajava %>">
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- jar -->
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg["jar"] || "jar" %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group-sm mb-0">
-                                            <select class="form-control form-control-sm" name="cfgsend[jar]">
+                                            <select class="form-control form-control-sm" :name="`cfgsend[${key}]`">
                                                 <%  jars.forEach(item => { %>
                                                     <option value="<%- item %>" <%- item === servcfg.jar ? "selected" : "" %>><%- item %></option>
                                                 <% }) %>
                                             </select>
+                                        </div>
+                                    </td>
+
+                                    <!-- default Size -->
+                                    <td v-else-if="key === 'xmx' || key === 'xms' || key === 'autoBackupMaxDirSize'" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group input-group-sm mb-0">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">MB</span>
+                                            </div>
+                                            <input type="number" :name="`cfgsend[${key}]`" class="form-control form-control-sm" :value="value" :id="key + 'MB'"
+                                                   @change="VUE_configContainer.cfg[key] = +document.getElementById(key + 'MB').value">
+
+                                            <input type="number" step="0.01" class="form-control form-control-sm" :value="Math.round(value / 1024 * 100) / 100" :id="key + 'GB'"
+                                                   @change="VUE_configContainer.cfg[key] = Math.round(+document.getElementById(key + 'GB').value * 1024)">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">GB</span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- default Time -->
+                                    <td v-else-if="key.toString().toLowerCase().includes('interval')" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group input-group-sm mb-0">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">SEC</span>
+                                            </div>
+
+                                            <input type="number" step="0" class="form-control form-control-sm" :value="Math.round(value / 1000)" :id="key + 'SEC'"
+                                                   @change="VUE_configContainer.cfg[key] = Math.round(+document.getElementById(key + 'SEC').value * 1000)">
+                                            <input type="number" step="0.01" class="form-control form-control-sm" :value="Math.round(value / 1000 / 60 * 100) / 100" :id="key + 'MIN'"
+                                                   @change="VUE_configContainer.cfg[key] = Math.round(+document.getElementById(key + 'MIN').value * 60 * 1000)">
+
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">MIN</span>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" class="form-control form-control-sm" :name="`cfgsend[${key}]`" id="autoBackupIntervalValue" :value="value">
+                                    </td>
+
+                                    <!-- default Text -->
+                                    <td v-else class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group-sm mb-0">
+                                            <input type="text" class="form-control form-control-sm" :name="`cfgsend[${key}]`" :value="value">
                                         </div>
                                     </td>
                                 </tr>
