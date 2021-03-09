@@ -3,64 +3,27 @@
 <%- include('../includes/nav') -%>
 <%- include('../includes/content') -%>
 
-<style>
-    #changelogContainer h5 {
-        border-top: 1px solid rgba(0,0,0,.125);
-        border-bottom: 1px solid rgba(0,0,0,.125);
-        font-size: 16px;
-        line-height: 1.1;
-        margin: 0;
-        padding: 10px;
-        color: #fff!important;
-        background-color: #17a2b8!important;
-    }
-    #changelogContainer ul {
-        margin-top: 10px!important;
-        margin-bottom: 10px!important;
-    }
-
-    .slide-enter,
-    .slide-leave-to {
-        transform: scaleY(0);
-        opacity: 0;
-    }
-
-    .slide-enter-to,
-    .slide-leave {
-        opacity: 1;
-        transform: scaleY(1);
-    }
-
-    .slide-enter-active,
-    .slide-leave-active {
-        transition: all 0.3s ease-out;
-        transform-origin: top center;
-    }
-</style>
-
-<div class="col-12 rounded-0 border-0 row m-0 p-0" style="margin-bottom: 5px;margin-right: 0px;background-color: transparent; box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 3px rgba(0,0,0,0);">
-    <div class="col-md-4 p-md-0 pt-md-0 pb-md-2 p-0 pt-0">
-        <div style="background-color: #2ecc71" class="p-2 pl-3 pr-3 text-light border">
-            Neuerungen
+<div class="row" id="changelogContainer">
+    <div class="col-12 rounded-0 border-0 row m-0 p-0" style="margin-bottom: 5px;margin-right: 0px;background-color: transparent; box-shadow: 0 0 1px rgba(0,0,0,0), 0 1px 3px rgba(0,0,0,0);">
+        <div class="col-md-4 p-md-0 pt-md-0 pb-md-2 p-0 pt-0">
+            <div style="background-color: #2ecc71" class="p-2 pl-3 pr-3 text-light border">
+                Neuerungen
+            </div>
+        </div>
+        <div class="col-md-4 pt-md-0 p-md-2 p-0 pt-0" style="padding-top: 0px!important;">
+            <div style="background-color: #3498db" class="p-2 pl-3 pr-3 text-light border">
+                Änderungen
+            </div>
+        </div>
+        <div class="col-md-4 p-md-0 pt-md-0 pb-md-2 p-0 pb-2 pt-0">
+            <div style="background-color: #9b59b6" class="p-2 pl-3 pr-3 text-light border">
+                Bugfixes
+            </div>
         </div>
     </div>
-    <div class="col-md-4 pt-md-0 p-md-2 p-0 pt-0" style="padding-top: 0px!important;">
-        <div style="background-color: #3498db" class="p-2 pl-3 pr-3 text-light border">
-            Änderungen
-        </div>
-    </div>
-    <div class="col-md-4 p-md-0 pt-md-0 pb-md-2 p-0 pb-2 pt-0">
-        <div style="background-color: #9b59b6" class="p-2 pl-3 pr-3 text-light border">
-            Bugfixes
-        </div>
-    </div>
-</div>
 
-<div id="changelogContainer" class="mb-4">
-    <div class="card" v-for="(item, index) in changelogs">
-
+    <div class="card col-12 p-0" v-for="(item, index) in changelogs">
         <div class="card-header pt-0 pb-0 pr-3 bg-dark card-dark">
-
             <h3 v-bind:class="item.datestring !== '--.--.----' ? 'text-success' : ''" class="card-title pt-2">
                 <i class="fas fa-book pr-2"></i>
                 Version {{ item.version }}
@@ -93,7 +56,6 @@
                 <div class="card-body p-0" v-html="item.new"></div>
             </div>
         </transition>
-
     </div>
 </div>
 

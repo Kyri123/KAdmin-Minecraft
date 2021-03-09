@@ -10,3 +10,36 @@ body {
     background-size:cover;
     background-attachment:fixed;
 }
+
+#changelogContainer h5 {
+    border-top: 1px solid rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    font-size: 16px;
+    line-height: 1.1;
+    margin: 0;
+    padding: 10px;
+    color: #fff!important;
+    background-color: #17a2b8!important;
+}
+#changelogContainer ul {
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
+}
+
+.slide-enter,
+.slide-leave-to {
+    transform: scaleY(0);
+    opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.3s ease-out;
+    transform-origin: top center;
+}
