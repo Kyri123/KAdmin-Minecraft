@@ -43,11 +43,9 @@ router.route('/')
 
                 // Erstelle Server
                 try {
-                    let bool = globalUtil.safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(defaultJSON)) !== false
                     res.render('ajax/json', {
                         data: JSON.stringify({
-                            added: bool,
-                            alert: alerter.rd(bool ? 1002 : 3)
+                            success: globalUtil.safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(defaultJSON)) !== false
                         })
                     })
                     return true
@@ -56,8 +54,7 @@ router.route('/')
                     if(debug) console.log('[DEBUG_FAILED]', e)
                     res.render('ajax/json', {
                         data: JSON.stringify({
-                            done: false,
-                            alert: alerter.rd(3)
+                            success: false
                         })
                     })
                     return true
@@ -67,8 +64,7 @@ router.route('/')
                 if(debug) console.log('[DEBUG_FAILED]', e)
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        done: false,
-                        alert: alerter.rd(3)
+                        success: false
                     })
                 })
                 return true
@@ -88,15 +84,12 @@ router.route('/')
 
             // lösche alle Informationen
             try {
-                if (globalUtil.safeFileExsistsSync([mainDir, '/app/json/server/', `${serverName}.json`]))                  globalUtil.safeFileRmSync([mainDir, '/app/json/server/', `${serverName}.json`])
                 if (globalUtil.safeFileExsistsSync([mainDir, '/public/json/server/', `${serverName}.json`]))               globalUtil.safeFileRmSync([mainDir, '/public/json/server/', `${serverName}.json`])
                 if (globalUtil.safeFileExsistsSync([mainDir, '/public/json/serveraction/', `action_${serverName}.json`]))  globalUtil.safeFileRmSync([mainDir, '/public/json/serveraction/', `action_${serverName}.json`])
 
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        remove: true,
-                        removed: serverName,
-                        alert: alerter.rd(1003)
+                        success: globalUtil.safeFileRmSync([mainDir, '/app/json/server/', `${serverName}.json`])
                     })
                 })
                 return true

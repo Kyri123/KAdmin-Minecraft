@@ -11,7 +11,7 @@
   "shouldRun"               : true,
   "selfname"                : false,
   "currversion"             : true,
-  "xmx"                     : false,
+  "xmx"                     : true,
   "xms"                     : true,
   "extrajava"               : false,
   "jar"                     : false

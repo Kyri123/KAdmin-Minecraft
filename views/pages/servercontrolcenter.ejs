@@ -2,42 +2,98 @@
 <%- include('../includes/top') -%>
 <%- include('../includes/nav') -%>
 <%- include('../includes/content') -%>
+<span id="serverControlCenterContainer">
+    <div class="row">
 
-<div class="row" id="sccserverlist">
-    <a class="col-12" href="#">
-        <div class="border border-info text-info align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
-            <i class="fas fa-sync fa-spin" aria-hidden="true"></i>
-        </div>
-    </a>
-</div>
+        <div v-for="value in servers" class="col-lg-6 col-xl-6">
+            <div class="card card-widget widget-user  item-box">
+                <div class="rounded-0 card bg-dark card-widget widget-user mb-0">
+                    <div class="row p-2" :title="value.datas.selfname">
+                        <div class="col-12 text-center">
+                            <h5 class="text-center left d-inline pt-3 pl-0 m-0">
+                                {{ value.datas.selfname }}
+                            </h5>
+                        </div>
 
-<div id="modallist"></div>
-
-<% if(userHelper.hasPermissions(userID, "servercontrolcenter/create")) { %>
-    <form class="modal" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
-            <div class="modal-content border-0">
-                <div class="modal-header bg-success">
-                    <h5 class="modal-title"><%- lang[page].modalCreate.title %></h5>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group row mb-1">
-                        <label class="col-sm-4 col-form-label">Name</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="selfname" class="form-control" value="[KAdmin] MinecraftServer">
+                <div class="rounded-0 widget-user-header text-white" style="background: url('/img/backgrounds/sc.jpg') center center;">
+                    <!--<h5 title="" class="widget-user-desc text-bold text-center border" style="background-color: rgb(66 66 66 / 58%)!important;">
+                        <a href="/cluster#4c51f09bf0330d03047f8bc634290fc8" class="text-light"></a>
+                    </h5>-->
+                </div>
+                <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img :src="value.datas.icon" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
+
+                <div class="d-flex bd-highlight">
+                    <div v-if="value.editPerm" class="rounded-0 p-0 flex-fill bd-highlight">
+                        <a style="width: 100%" class="rounded-0 btn btn-dark" data-toggle="modal" :data-target="`#edit${value.name}`"><i class="fas fa-cogs" aria-hidden="true"></i></a>
+                    </div>
+                    <div v-else class="rounded-0 p-0 flex-fill bd-highlight">
+                        <a style="width: 100%" class="rounded-0 btn btn-dark disabled"><i class="fas fa-cogs" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div v-if="value.deleletePerm" class="rounded-0 p-0 flex-fill bd-highlight">
+                        <a style="width: 100%" class="rounded-0 text-white btn btn-danger" data-toggle="modal" @click="remove(value.name)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </div>
+                    <div v-else class="rounded-0 p-0 flex-fill bd-highlight">
+                        <a style="width: 100%" class="rounded-0 text-white btn btn-danger disabled"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+                <div class="card-footer p-0">
+                    <div class="row">
+                        <div class="col-sm-6 border-right border-sm-right">
+                            <div class="description-block">
+                                <h5 class="description-header"><b v-bind:class="`text-${value.stateColor}`">{{ globalvars.lang_arr.forservers.state[value.stateColor] }}</b></h5>
+                                <span class="description-text">{{ globalvars.lang_arr.servercontrolcenter.state }}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="description-block">
+                                <h5 class="description-header"><b>{{ value.datas.version }}</b></h5>
+                                <span class="description-text">VERSION</span>
+                            </div>
                         </div>
                     </div>
-                    <input name="addserver" type="hidden" value="true">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalCreate.cancel %></button>
-                    <button type="button" class="btn btn-success" name="add" onclick="submitform('#addserver')"><%- lang[page].modalCreate.add %></button>
                 </div>
             </div>
         </div>
-    </form>
-<% } %>
 
+        <a class="col-lg-6 col-xl-6" data-toggle="modal" data-target="#addserver" href="#">
+            <div class="border border-success text-success align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+            </div>
+        </a>
+
+    </div>
+
+    <div id="modallist"></div>
+
+    <% if(userHelper.hasPermissions(userID, "servercontrolcenter/create")) { %>
+        <form class="modal" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
+                <div class="modal-content border-0">
+                    <div class="modal-header bg-success">
+                        <h5 class="modal-title"><%- lang[page].modalCreate.title %></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row mb-1">
+                            <label class="col-sm-4 col-form-label">Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="selfname" class="form-control" value="[KAdmin] MinecraftServer">
+                            </div>
+                        </div>
+                        <input name="addserver" type="hidden" value="true">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalCreate.cancel %></button>
+                        <button type="button" class="btn btn-success" name="add" @click="addServer()"><%- lang[page].modalCreate.add %></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <% } %>
+</span>
 <script>
     // Vars die zur JS übergeben werden
     // Allgemeine Vars

@@ -6,7 +6,8 @@
   "servercontrolcenter": {
     "show"              : 0,
     "create"            : 0,
-    "delete"            : 0
+    "delete"            : 0,
+    "editServer"       : 0
   },
   "userpanel": {
     "show"              : 0,

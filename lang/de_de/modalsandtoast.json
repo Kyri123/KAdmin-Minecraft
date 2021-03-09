@@ -53,6 +53,10 @@
     "36"  : "wird Runtergefahren oder Neugestartet",
     "37"  : "kann nicht Runtergefahren werden (Update läuft)",
     "38"  : "Ein Backup konnte nicht entfernt werden",
-    "39"  : "Die Backups wurden erfolgreich entfernt"
+    "39"  : "Die Backups wurden erfolgreich entfernt",
+    "40"  : "Der Server konnte nicht entfernt werden",
+    "41"  : "Der Server wurde erfolgreich entfernt",
+    "42"  : "Der Server konnte nicht erstellt werden",
+    "43"  : "Der Server wurde erfolgreich erstellt"
   }
 }

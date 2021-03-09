@@ -7,7 +7,7 @@
     "cancel"      : "Abbrechen",
     "remove"      : "Löschen bestätigen",
     "title"       : "Löschen",
-    "text"        : "Möchtest du den Server <b>{servername}</b> wirklich löschen?"
+    "text"        : "Möchtest du den Server {servername} wirklich löschen?"
   },
   "modalCreate": {
     "title"       : "Server Erstellen",
