@@ -7,6 +7,30 @@
 * *******************************************************************************************
 */
 "use strict"
+let VUE_configContainer = new Vue({
+    el      : '#configContainer',
+    data    : {
+        cfg : {}
+    }
+})
+
+function getCfg() {
+    $.get('/ajax/serverCenterConfig', {
+        serverCfg: true,
+        server: vars.cfg
+    })
+       .done((data) => {
+              VUE_configContainer = JSON.parse(data)
+           console.log(VUE_configContainer)
+          })
+       .fail(
+          () => setTimeout(
+             () => getCfg()
+          ), 5000
+       )
+}
+getCfg()
+
 let editor = {
     "#serverprop": CodeMirror.fromTextArea(document.getElementById("serverprop"), {
         lineNumbers: true,
@@ -36,8 +60,8 @@ function saveCfg() {
             console.log(e)
             fireToast(19, "error")
         }
-    });
-    return false;
+    })
+    return false
 }
 
 /**
@@ -54,6 +78,7 @@ function serverSave(htmlID, cfg) {
     }, (data) => {
         try {
             data = JSON.parse(data)
+            getCfg()
             fireToast(data.success ? 1 : 19, data.success ? "success" : "error")
         } catch (e) {
             console.log(e)

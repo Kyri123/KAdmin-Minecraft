@@ -325,14 +325,14 @@ module.exports = {
                 else if(typeof array[key] === "object") {
                     array[key] = module.exports.convertArray(array[key])
                 }
-                else if(!isNaN(array[key])) {
-                    array[key] = parseInt(array[key], 10)
-                }
-                else if(array[key] === 'false') {
+                else if(array[key] === 'false' || array[key] === false) {
                     array[key] = false
                 }
-                else if(array[key] === 'true') {
+                else if(array[key] === 'true' || array[key] === true) {
                     array[key] = true
+                }
+                else if(!isNaN(array[key])) {
+                    array[key] = parseInt(array[key], 10)
                 }
             })
         return array
@@ -352,14 +352,14 @@ module.exports = {
                 else if(typeof obj[key] === "object") {
                     obj[key] = module.exports.convertObject(obj[key])
                 }
-                else if(!isNaN(obj[key])) {
-                    obj[key] = parseInt(obj[key], 10)
-                }
-                else if(obj[key] === 'false') {
+                else if(obj[key] === 'false' || obj[key] === false) {
                     obj[key] = false
                 }
-                else if(obj[key] === 'true') {
+                else if(obj[key] === 'true' || obj[key] === true) {
                     obj[key] = true
+                }
+                else if(!isNaN(obj[key])) {
+                    obj[key] = parseInt(obj[key], 10)
                 }
             })
         return obj
