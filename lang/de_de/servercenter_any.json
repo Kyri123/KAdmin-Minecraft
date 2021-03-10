@@ -1,6 +1,6 @@
 {
-  "free"          : "Maximaler Speicherplatz",
-  "max"           : "Maximale Anzahl an Dateien",
+  "free"          : "Speicherplatz für Backups",
+  "max"           : "Anzahl an Backups",
   "inv"           : "Unbegrenzt",
   "mem"           : "Arbeitsspeicher",
   "actionFree"    : "Aktion ausführen",
