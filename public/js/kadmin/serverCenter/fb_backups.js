@@ -25,7 +25,11 @@ const VUE_fileBrowserBrackups = new Vue({
         folders         : [load],
         files           : [],
         isLoading       : true,
-        showSelected    : false
+        showSelected    : false,
+        max             : vars.max !== 0 ? vars.max * 1e+6 : vars.max,
+        maxis           : 0,
+        maxfiles        : vars.maxfiles,
+        maxfilesis      : 0
     }
 })
 
@@ -56,8 +60,11 @@ function get() {
                 VUE_fileBrowserBrackups.folders     = []
                 VUE_fileBrowserBrackups.isLoading   = false
 
+                let sizes = 0, fileCount = 0
                 for(let file of fileDate) {
                     if(file.FileExt === ".zip") {
+                        fileCount++
+                        sizes += file.sizebit
                         let timeStamp   = file.namePure
                         let time        = convertTime(parseInt(timeStamp))
                         let cktime      = time.split(" ")[0]
@@ -84,6 +91,9 @@ function get() {
                         })
                     }
                 }
+
+                VUE_fileBrowserBrackups.maxfilesis  = fileCount
+                VUE_fileBrowserBrackups.maxis       = sizes
                 getSection(latestSection)
             }
             catch (e) {

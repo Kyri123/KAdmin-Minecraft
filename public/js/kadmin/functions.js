@@ -178,6 +178,38 @@ String.prototype.replaceArray = function(find, replace) {
 }
 
 /**
+ * Convertiert Byte in den nächst größtmöglichen
+ * return {string}
+ */
+Number.prototype.convertBytes = function() {
+    let bytes   = +this
+    let sizes   = ["Bytes", "MB", "GB", "TB"]
+    if (bytes === 0) return "0 Bytes"
+    let i = 0
+    while(true) {
+        if(i === 0) {
+            if (bytes >= 1e+6) {
+                bytes /= 1e+6
+                i++
+            }
+            else {
+                break
+            }
+        }
+        else {
+            if (bytes >= 1024) {
+                bytes /= 1024
+                i++
+            }
+            else {
+                break
+            }
+        }
+    }
+    return i === 0 ? bytes + " " + sizes[i] : bytes.toFixed(2) + " " + sizes[i]
+}
+
+/**
  * Replaced von einem String alles
  * @param {string[]} find Strings die ersetzt werden sollen
  * @param {string[]} replace Strings wodurch es ersetzt wird
