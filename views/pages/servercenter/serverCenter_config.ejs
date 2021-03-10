@@ -56,7 +56,6 @@
                 <% } %>
 
                 <% if(userHelper.hasPermissions(userID, "config/show_kadmin", serverName)) { %>
-                    <!-- KAdmin-ArkWIN -->
                     <form class="tab-pane fade<%- !userHelper.hasPermissions(userID, "config/show_server", serverName) ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
                         <table class="table table-striped mb-0" style="border: 0!important;">
                             <thead>
@@ -161,14 +160,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
-                        <!-- shouldRun -->              <input type="hidden" name="cfgsend[shouldRun]" class="form-control form-control-sm" value="<%- servcfg.shouldRun %>">
-                        <!-- currversion -->            <input type="hidden" name="cfgsend[currversion]" class="form-control form-control-sm" value="<%- servcfg.currversion %>">
-                        <!-- autoBackupNext -->         <input type="hidden" name="cfgsend[autoBackupNext]" class="form-control form-control-sm" value="<%- servcfg.autoBackupNext %>">
-                        <!-- autoUpdate -->             <input type="hidden" name="cfgsend[autoUpdate]" class="form-control form-control-sm" value="<%- servcfg.autoUpdate %>">
-                        <!-- autoUpdateInterval -->     <input type="hidden" name="cfgsend[autoUpdateInterval]" class="form-control form-control-sm" value="<%- servcfg.autoUpdateInterval %>">
-                        <!-- autoUpdateNext -->         <input type="hidden" name="cfgsend[autoUpdateNext]" class="form-control form-control-sm" value="<%- servcfg.autoUpdateNext %>0">
 
                         <input type="hidden" name="saveServer" class="form-control form-control-sm" value="true">
                         <input type="hidden" name="cfg" class="form-control form-control-sm" value="<%- serverName %>">

@@ -11,7 +11,20 @@
 let VUE_serverControlCenterContainer = new Vue({
     el      : '#serverControlCenterContainer',
     data    : {
-        servers: {}
+        servers         : {},
+        canAdd          : hasPermissions(globalvars.perm, "servercontrolcenter/create"),
+        canEdit         : hasPermissions(globalvars.perm, "servercontrolcenter/editServer")
+    }
+})
+
+let VUE_serverControlCenterModals = new Vue({
+    el      : '#serverControlCenterModals',
+    data    : {
+        cfgForm         : {},
+        action          : 'add',
+        targetServer    : undefined,
+        canAdd          : hasPermissions(globalvars.perm, "servercontrolcenter/create"),
+        canEdit         : hasPermissions(globalvars.perm, "servercontrolcenter/editServer")
     }
 })
 
@@ -26,7 +39,6 @@ function getServers() {
         if (serverList.length > 0) {
             let list = ``
             serverList.forEach((val, key) => {
-                console.log(key)
                 let server = {}
                 if (hasPermissions(globalvars.perm, "show", val[0])) {
                     let stateColor = "danger"
@@ -41,8 +53,6 @@ function getServers() {
                     server.deleletePerm = hasPermissions(globalvars.perm, "servercontrolcenter/delete")
                     server.editPerm     = hasPermissions(globalvars.perm, "servercontrolcenter/editServer")
 
-                    console.log(server)
-
                     objServers[key] = server
                 }
             })
@@ -52,30 +62,35 @@ function getServers() {
 }
 
 getServers()
-setInterval(() => {
-    getServers()
-}, 2000)
+setInterval(() => getServers(), 2000)
 
 /**
  * Erstellt ein Server
  */
-function addServer() {
-    $.post(`/ajax/servercontrolcenter`, $('#addserver').serialize())
+function sendServer() {
+    $.post(`/ajax/servercontrolcenter`, $('#server').serialize())
        .done(function (data) {
            try {
-               let success = JSON.parse(data).success
-               $(`#addserver`).modal('hide')
+               // erzeuge Meldungen
+               let response = JSON.parse(data)
+               if(response.action === "add")    fireToast(response.success ? 43 : 42, response.success ? "success" : "error")
+               if(response.action === "edit")   fireToast(response.success ? 45 : 44, response.success ? "success" : "error")
+
+               // reload
+               getServers()
+
+               // schließe Modal
+               $(`#server`).modal('hide')
                $('.modal-backdrop').remove()
-               fireToast(success ? 43 : 42, success ? "success" : "error")
-               if(success) getServers()
            } catch (e) {
-               $(id).modal('hide')
+               console.log(e)
+               $(`#server`).modal('hide')
                $('.modal-backdrop').remove()
-               fireToast(42, "error")
+               fireToast(46, "error")
            }
        })
        .fail(() => {
-           fireToast(42, "error")
+           fireToast(46, "error")
        })
 }
 
@@ -116,4 +131,28 @@ function remove(server) {
         }
         if(cancel) fireToast(40, "error")
     })
+}
+
+/**
+ * Öffnet das Modal mit Value Daten
+ * @param {string} action Aktion (add oder edit)
+ * @param {string} server welchen server (undefined oder existierenden Server Namen)
+ */
+function openModal(action, server = undefined) {
+    $.get('/ajax/servercontrolcenter', {
+        serverCfg   : server,
+        type        : action
+    })
+       .done((data) => {
+           try{
+               let response                                  = JSON.parse(data)
+               VUE_serverControlCenterModals.action          = action
+               VUE_serverControlCenterModals.cfgForm         = response
+               VUE_serverControlCenterModals.targetServer    = server
+               $(`#server`).modal('show')
+           }
+           catch (e) {
+               //setTimeout(() => openModal(action, server), 2000)
+           }
+       })
 }

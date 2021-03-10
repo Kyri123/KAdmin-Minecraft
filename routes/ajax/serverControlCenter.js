@@ -17,54 +17,75 @@ router.route('/')
     .post((req,res)=>{
         let POST        = req.body
 
-        // Erstellen eines neuen Servers
-        if(POST.addserver !== undefined && userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create")) {
-            // Erstelle default daten & Servername
-            let defaultJSON     = globalUtil.safeFileReadSync([mainDir, '/app/json/server/template/', 'default.json'], true)
-            if(defaultJSON !== false) {
+        // Erstellen & Bearbeiten eines Servers
+        if((POST.action === 'edit' || POST.action === 'add') && userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create")) {
+
+            let createPerm      = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create")
+            let editPerm        = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
+            let forbidden       = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let serverNameJSON  = undefined
+            let sendedCfg       = POST.cfgsend
+
+            // Erstellen
+            if(POST.action === 'add' && createPerm) {
                 let curr            = fs.readdirSync(pathMod.join(mainDir, '/app/json/server/'))
+                let serverData      = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+
                 let serverName      = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
-                let serverNameJSON  = serverName + '.json'
+                serverNameJSON      = serverName + '.json'
                 while (true) {
-                    if(curr.includes(serverName)) {
-                        serverName = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7) + '.json'
-                        serverNameJSON = serverName + '.json'
-                    }
-                    else {
+                    if (curr.includes(serverNameJSON)) {
+                        serverName          = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7) + '.json'
+                        serverNameJSON      = serverName + '.json'
+                    } else {
                         break
                     }
                 }
 
-                // Schreibe Daten
-                defaultJSON.path        = defaultJSON.path.replace('{SERVERNAME}', serverName).replace('{SERVROOT}', CONFIG.app.servRoot)
-                defaultJSON.pathLogs    = defaultJSON.pathLogs.replace('{SERVERNAME}', serverName).replace('{LOGROOT}', CONFIG.app.logRoot)
-                defaultJSON.pathBackup  = defaultJSON.pathBackup.replace('{SERVERNAME}', serverName).replace('{BACKUPROOT}', CONFIG.app.pathBackup)
-                defaultJSON.selfname    = POST.selfname
+                // Erstelle Cfg
+                for (const [key, value] of Object.entries(serverData)) {
+                    if(forbidden[key]) {
+                        serverData[key] = sendedCfg[key] || value
+                    }
+                }
 
-                // Erstelle Server
-                try {
-                    res.render('ajax/json', {
-                        data: JSON.stringify({
-                            success: globalUtil.safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(defaultJSON)) !== false
-                        })
-                    })
-                    return true
-                }
-                catch (e) {
-                    if(debug) console.log('[DEBUG_FAILED]', e)
-                    res.render('ajax/json', {
-                        data: JSON.stringify({
-                            success: false
-                        })
-                    })
-                    return true
-                }
-            }
-            else {
-                if(debug) console.log('[DEBUG_FAILED]', e)
+                // Schreibe Daten
+                serverData.path         = serverData.path.replace('{SERVERNAME}', serverName).replace('{SERVROOT}', CONFIG.app.servRoot)
+                serverData.pathLogs     = serverData.pathLogs.replace('{SERVERNAME}', serverName).replace('{LOGROOT}', CONFIG.app.logRoot)
+                serverData.pathBackup   = serverData.pathBackup.replace('{SERVERNAME}', serverName).replace('{BACKUPROOT}', CONFIG.app.pathBackup)
+
+                serverData  = globalUtil.convertObject(serverData)
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        success: false
+                        success : globalUtil.safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(serverData)),
+                        action  : POST.action
+                    })
+                })
+                return true
+            }
+
+            // bearbeiten
+            else if(POST.action === 'edit' && POST.targetServer && editPerm) {
+                let serverData      = new serverClass(POST.targetServer)
+                let curr            = serverData.getConfig()
+
+                console.log(curr,sendedCfg)
+
+                // Erstelle Cfg
+                for (const [key, value] of Object.entries(curr)) {
+                    if(forbidden[key] || key === 'selfname') {
+                        curr[key] = sendedCfg[key] || value
+                    }
+                }
+
+                curr  = globalUtil.convertObject(curr)
+
+                console.log(curr)
+
+                res.render('ajax/json', {
+                    data: JSON.stringify({
+                        success : serverData.saveConfig(curr),
+                        action  : POST.action
                     })
                 })
                 return true
@@ -80,7 +101,7 @@ router.route('/')
             let serverInformationen     = serverData.getServerInfos(serverName)
 
             // fahre server runter wenn dieser noch online ist
-            if(serverInformationen.pid !== 0) serverCommands.doStop(serverName, false,false)
+            if(serverInformationen.pid !== 0) serverCommands.doStop(serverName, ['--hardstop'])
 
             // lösche alle Informationen
             try {
@@ -116,9 +137,47 @@ router.route('/')
         // DEFAULT AJAX
         let GET         = req.query
 
-        // Wenn keine Rechte zum abruf
-        if(!userHelper.hasPermissions(req.session.uid, "servercontrolcenter/show")) return true
+        if(GET.type !== undefined && (
+           userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create") ||
+           userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
+        )) {
+            let type        = GET.type === 'add'
+            let createPerm  = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create")
+            let editPerm    = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
 
+            let cfg         = {}
+            let forbidden   = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+
+            if(type && createPerm) {
+                let defaultCfg      = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+                for (const [key, value] of Object.entries(defaultCfg))
+                    if (
+                       (forbidden[key] &&
+                       key !== 'path' &&
+                       key !== 'pathLogs' &&
+                       key !== 'pathBackup') ||
+                       key === 'selfname'
+                    ) cfg[key]    = value
+            }
+
+            if(!type && editPerm && GET.serverCfg !== undefined) {
+                let serverData      = new serverClass(GET.serverCfg)
+                let currCfg         = serverData.getConfig()
+                for (const [key, value] of Object.entries(currCfg))
+                    if (
+                       (forbidden[key] &&
+                       key !== 'path' &&
+                       key !== 'pathLogs' &&
+                       key !== 'pathBackup') ||
+                       key === 'selfname'
+                    ) cfg[key]    = value
+            }
+
+            res.render('ajax/json', {
+                data: JSON.stringify(cfg)
+            })
+            return true
+        }
 
         res.render('ajax/json', {
             data: `{"request":"failed"}`

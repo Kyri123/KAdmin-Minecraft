@@ -10,8 +10,9 @@
     "text"        : "Möchtest du den Server {servername} wirklich löschen?"
   },
   "modalCreate": {
-    "title"       : "Server Erstellen",
+    "title_add"   : "Server Erstellen",
+    "title_edit"  : "Server Bearbeiten",
     "cancel"      : "Abbrechen",
-    "add"         : "Erstellen"
+    "send"        : "Senden"
   }
 }

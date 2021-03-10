@@ -64,16 +64,13 @@ function alerter(code, custom_style = "", mb = 3, closebtn = false, ml = 0, mr =
         let color   = code >= 1000 ? (code >= 2000 ? (code >= 3000 ? "info" : "warning") : "success") : "danger"
         let text    = globalvars.alertlang[code].text
         let title   = globalvars.alertlang[code].title
-        let rnd     = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
 
         return !alertform ?
-            `<div class="callout callout-${color} mb-${mb} ml-${ml} mr-${mr} mt-${mt}" style="${custom_style}" id="${rnd}">
-                ${closebtn ? `<button type="button" class="close" onclick="$('#${rnd}').fadeOut()"><span aria-hidden="true">&times;</span></button>` : ""}
+            `<div class="callout callout-${color} mb-${mb} ml-${ml} mr-${mr} mt-${mt}" style="${custom_style}">
                 <h5 class="text-${color}"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> ${title}</h5>
                 ${text}
             </div>` :
-            `<div class="p-${mb} p-${ml} p-${mr} p-${mt}" style="${custom_style}" id="${rnd}">
-                ${closebtn ? `<button type="button" class="close" onclick="$('#${rnd}').fadeOut()"><span aria-hidden="true">&times;</span></button>` : ""}
+            `<div class="p-${mb} p-${ml} p-${mr} p-${mt}" style="${custom_style}">
                 <h5 class="text-${color}"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> ${title}</h5>
                 ${text}
             </div>`
