@@ -116,6 +116,7 @@ module.exports = {
             let maxSize   = servCFG.autoBackupMaxDirSize
             let maxCount  = servCFG.autoBackupMaxCount
             if(maxCount !== 0 || maxSize !== 0) {
+               maxSize              = maxSize * 1e+6
                let backupDirInfos   = globalUtil.safeFileReadDirSync([servCFG.pathBackup])
                let totalSize        = 0
                let totalCount       = 0
