@@ -164,7 +164,7 @@
 
   "3001": {
     "title" : "Update verfügbar",
-    "text"  : "Es ist ein neues Panel Update verfügbar. Entweder es wird gerade Installiert, wenn die Option aktiv ist. Wenn dies nicht der fall ist: starte mit dem SH befehl <br> <b>cd ~ && wget https://api.minecraft.kadmin-panel.de/sh/updater.sh && chmod 755 ./updater.sh && ./updater.sh [branch]</b> <br>(Achte darauf dass du vorher das Panel Ausschaltest!) ODER per Klick im PanelMenü"
+    "text"  : "Es ist ein neues Panel Update verfügbar. Entweder es wird gerade Installiert, wenn die Option aktiv ist. Wenn dies nicht der fall ist: starte mit dem SH befehl <br> <b>cd ~ && wget https://api.minecraft.kadmin-panels.de/sh/updater.sh && chmod 755 ./updater.sh && ./updater.sh [branch]</b> <br>(Achte darauf dass du vorher das Panel Ausschaltest!) ODER per Klick im PanelMenü"
   },
 
   "3002": {

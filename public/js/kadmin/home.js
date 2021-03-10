@@ -19,7 +19,7 @@ let timeOut = false
 function getChangelog() {
     $.get('/ajax/all', {
         request: true,
-        requestURL: 'https://api.minecraft.kadmin-panel.de/changelog.json'
+        requestURL: 'https://api.minecraft.kadmin-panels.de/changelog.json'
     })
         .done((data) => {
             if (data !== 'false') {
