@@ -1,8 +1,5 @@
 {
   "pagename"      : "ServerCenter",
-  "free"          : "Maximaler Speicherplatz",
-  "max"           : "Maximale Anzahl an Dateien",
-  "inv"           : "Unendlich",
   "modal": {
     "removeText"    : "Möchtest du wirklich dieses Backup löschen?",
     "remove"        : "Backup Löschen",

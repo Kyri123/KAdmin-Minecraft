@@ -28,7 +28,13 @@ const VUE_serverCenterHead = new Vue({
         version         : "...",
         player          : "...",
         playerArray     : [],
-        playerAlert     : alerter(2000, "", 3, false, 3, 3, 3, true)
+        playerAlert     : alerter(2000, "", 3, false, 3, 3, 3, true),
+        max             : 0,
+        maxis           : 0,
+        maxfiles        : 0,
+        maxfilesis      : 0,
+        maxmemory       : 0,
+        memory          : 0
     }
 })
 
@@ -87,6 +93,13 @@ function getSCState() {
         let state_id        = $('#state')
         let player_id       = $('#player')
         let inhalt
+
+        VUE_serverCenterHead.max            = serverInfos.backup.max * 1024 * 1024
+        VUE_serverCenterHead.maxis          = serverInfos.backup.maxis
+        VUE_serverCenterHead.maxfiles       = serverInfos.backup.maxCount
+        VUE_serverCenterHead.maxfilesis     = serverInfos.backup.maxCountis
+        VUE_serverCenterHead.maxmemory      = serverInfos.maxmemory * 1024 * 1024
+        VUE_serverCenterHead.memory         = serverInfos.memory
 
         // Serverstatus (Farbe)
         let                                                                             stateColor  = "danger"

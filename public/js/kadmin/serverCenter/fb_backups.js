@@ -25,11 +25,7 @@ const VUE_fileBrowserBrackups = new Vue({
         folders         : [load],
         files           : [],
         isLoading       : true,
-        showSelected    : false,
-        max             : vars.max !== 0 ? vars.max * 1e+6 : vars.max,
-        maxis           : 0,
-        maxfiles        : vars.maxfiles,
-        maxfilesis      : 0
+        showSelected    : false
     }
 })
 

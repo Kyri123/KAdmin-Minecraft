@@ -104,6 +104,57 @@
         </div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col-12 col-sm-4">
+            <div class="info-box mb-0 p-0" style="height: 100%;">
+                <span class="info-box-icon bg-dark elevation-1">
+                    <i aria-hidden="true" class="fas fa-memory"></i>
+                </span>
+                <div class="info-box-content pt-2 pl-3">
+                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.mem }}</span>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" :style="max === 0 ? 'width: 0%' : `width: ${Math.round(memory / maxmemory * 100 * 100) / 100}%`"></div>
+                    </div>
+                    <span id="mem" class="info-box-number text-sm">
+                        {{ `${memory.convertBytes()} / ${maxmemory.convertBytes()}` }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="info-box mb-0 p-0" style="height: 100%;">
+                <span class="info-box-icon bg-dark elevation-1">
+                    <i aria-hidden="true" class="fas fa-hdd"></i>
+                </span>
+                <div class="info-box-content pt-2 pl-3">
+                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.free }}</span>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" :style="max === 0 ? 'width: 0%' : `width: ${Math.round(maxis / max * 100 * 100) / 100}%`"></div>
+                    </div>
+                    <span id="mem" class="info-box-number text-sm">
+                        {{ max === 0 ? globalvars.lang_arr.servercenter_any.inv : `${maxis.convertBytes()} / ${max.convertBytes()}` }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="info-box mb-0 p-0" style="height: 100%;">
+                <span class="info-box-icon bg-dark elevation-1">
+                    <i aria-hidden="true" class="fas fa-file-archive"></i>
+                </span>
+                <div class="info-box-content pt-2 pl-3">
+                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.max }}</span>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" :style="maxfiles === 0 ? 'width: 0%' : `width: ${Math.round(maxfilesis / maxfiles * 100 * 100) / 100}%`"></div>
+                    </div>
+                    <span id="mem" class="info-box-number text-sm">
+                        {{ maxfiles === 0 ? globalvars.lang_arr.servercenter_any.inv : `${maxfilesis} / ${maxfiles}` }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Meldungen -->
     <div id="all_resp"><%- response %></div>
     <% if(userHelper.hasPermissions(user.id, "actions", serverName)) { %>

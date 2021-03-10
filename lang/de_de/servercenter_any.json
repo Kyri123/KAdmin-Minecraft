@@ -1,4 +1,8 @@
 {
+  "free"          : "Maximaler Speicherplatz",
+  "max"           : "Maximale Anzahl an Dateien",
+  "inv"           : "Unbegrenzt",
+  "mem"           : "Arbeitsspeicher",
   "actionFree"    : "Aktion ausführen",
   "actionClose"   : "Gesperrt",
   "state"         : "Server Status",

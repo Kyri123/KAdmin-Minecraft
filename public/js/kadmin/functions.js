@@ -182,31 +182,12 @@ String.prototype.replaceArray = function(find, replace) {
  * return {string}
  */
 Number.prototype.convertBytes = function() {
-    let bytes   = +this
-    let sizes   = ["Bytes", "MB", "GB", "TB"]
-    if (bytes === 0) return "0 Bytes"
-    let i = 0
-    while(true) {
-        if(i === 0) {
-            if (bytes >= 1e+6) {
-                bytes /= 1e+6
-                i++
-            }
-            else {
-                break
-            }
-        }
-        else {
-            if (bytes >= 1024) {
-                bytes /= 1024
-                i++
-            }
-            else {
-                break
-            }
-        }
-    }
-    return i === 0 ? bytes + " " + sizes[i] : bytes.toFixed(2) + " " + sizes[i]
+    let bytes = this
+    let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 0;
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i == 0) return bytes + ' ' + sizes[i];
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
 /**
