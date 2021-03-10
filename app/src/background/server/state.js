@@ -13,6 +13,7 @@ const Gamedig       = require('gamedig')
 const ip            = require("ip")
 const findProcess   = require('find-process')
 const pidusage      = require('pidusage')
+const os            = require('os')
 
 
 /**
@@ -146,15 +147,28 @@ module.exports = {
                 findProcess('name', name)
                     .then(async function (list) {
                         if (list.length) {
-                            let pid     = list[0].pid
-                            let ppid    = list[0].ppid
-                            let cmd     = list[0].cmd
-                            let bin     = list[0].bin
-                            let pidData = await pidusage(pid, {usePs: true})
-                            data.cpuUsage          = pidData.cpu
-                            data.memory            = pidData.memory
-                            data.elapsed           = pidData.elapsed
-                            data.epoch             = pidData.timestamp
+                            let index = 0
+                            for(let i in list) {
+                                if(list[i].bin === "java") {
+                                    index = i
+                                    break
+                                }
+                            }
+                            let pid     = list[index].pid
+                            let ppid    = list[index].ppid
+                            let cmd     = list[index].cmd
+                            let bin     = list[index].bin
+                            try {
+                                let pidData = await pidusage(pid)
+                                data.cpuUsage          = Math.round(pidData.cpu / os.cpus().length * 100) / 100
+                                data.memory            = pidData.memory
+                                data.elapsed           = pidData.elapsed
+                                data.epoch             = pidData.timestamp
+                            }
+                            catch (e) {
+
+                            }
+
 
                              data.run            = true
                              data.cmd            = cmd

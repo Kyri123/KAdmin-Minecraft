@@ -1,7 +1,7 @@
 <span id="serverCenterHead">
     <div class="row">
-        <div class="col-12">
-            <div class="card card-widget widget-user item-box">
+        <div class="col-12 m-0">
+            <div class="card card-widget widget-user item-box m-0">
                 <div class="widget-user-header text-white p-0" style="background: url('/img/backgrounds/sc.jpg') center center;">
                     <div style="background-color: rgba(66,66,66,0.30)!important; height: 100%" class="p-3">
                         <h3 class="widget-user-username text-center text-light left"><%- servcfg.selfname %></h3>
@@ -105,7 +105,24 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-md-6 mt-3">
+            <div class="info-box mb-0 p-0" style="height: 100%;">
+                <span class="info-box-icon bg-dark elevation-1">
+                    <i aria-hidden="true" class="fas fa-microchip"></i>
+                </span>
+                <div class="info-box-content pt-2 pl-3">
+                    <span class="info-box-text">CPU</span>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" :style="`width: ${cpuUsage}%`"></div>
+                    </div>
+                    <span id="mem" class="info-box-number text-sm">
+                        {{ `${cpuUsage}% / 100%` }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 mt-3">
             <div class="info-box mb-0 p-0" style="height: 100%;">
                 <span class="info-box-icon bg-dark elevation-1">
                     <i aria-hidden="true" class="fas fa-memory"></i>
@@ -121,7 +138,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4">
+
+        <div class="col-12 col-md-6 mt-3">
             <div class="info-box mb-0 p-0" style="height: 100%;">
                 <span class="info-box-icon bg-dark elevation-1">
                     <i aria-hidden="true" class="fas fa-hdd"></i>
@@ -137,7 +155,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4">
+
+        <div class="col-12 col-md-6 mt-3">
             <div class="info-box mb-0 p-0" style="height: 100%;">
                 <span class="info-box-icon bg-dark elevation-1">
                     <i aria-hidden="true" class="fas fa-file-archive"></i>
