@@ -32,8 +32,8 @@ Webbasiertes Admin Panel für Minecraft-Server
 
 Wichtig
 =============
-- **[Dev-Tree]** Benutzten auf eigene GEFAHR (Debugs, Tests usw.)
-- **[Test-Tree]** Benutzten auf eigene GEFAHR (Tests usw.)
+- **[Dev-Tree]** benutzten auf eigene **GEFAHR**: Debugs, Tests usw.
+- **[Test-Tree]** benutzten auf eigene **GEFAHR**: hier werden "Stabile" aber ungetestete Builds für das nächste Update veröffentlicht
 - Derzeitiger Status: **BETA**
 - `Links`
   - Spenden? https://www.paypal.com/cgi-bin/webscr?shell=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
