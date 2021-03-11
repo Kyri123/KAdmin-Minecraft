@@ -4,18 +4,58 @@
             <footer class="main-footer">
                 <a class="float-right" href="/changelog">
                     <br class="d-block d-sm-none">
-                    <b>Branch:</b> <%- CONFIG.updater.useBranch %> | <b>Version:</b> <%- panelVersion %>
+                    <b>Branch:</b> <%- CONFIG.updater.useBranch %> | <b>Version:</b> <%- panelVersion %> | <b>Build:</b> <%- buildID %>
                 </a>
                 <strong>Framework by <a target="_blank" href="https://adminlte.io">AdminLTE.io</a> | (c) by <a target="_blank" href="https://github.com/Kyri123">Kyri123</a></strong>
             </footer>
 
+            <span id="panelControlerModals" v-if="isAdmin">
+
+                <!-- Log -->
+                <div class="modal" id="panelControlerLogs">
+                    <div class="modal-dialog modal-xl" style="max-width: 700px">
+                        <div class="modal-content border-0">
+                            <div class="modal-body p-0 direct-chat-messages bg-dark p-1" style="height: 700px">
+                                <code>
+                                    <p class="p-0 m-0 text-info" v-for="line in logArray" v-bind:class="line.class">{{ line.text }}</p>
+                                </code>
+                            </div>
+                            <div class="modal-footer bg-dark">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang["servercenter_any"].alertClose %></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </span>
+
             <aside class="control-sidebar control-sidebar-dark">
             </aside>
         </div>
-
+        <script src="/js/kadmin/global/panelControler.js?time=<%- Date.now() %>"></script>
+        <script src="/js/kadmin/global/traffic.js?time=<%- Date.now() %>"></script>
+        <script src="/js/kadmin/global/serverList.js?time=<%- Date.now() %>"></script>
         <script src="/plugins/jquery/jquery.min.js"></script>
         <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
         <script src="/js/adminLTE/adminlte.min.js"></script>
+
+        <script>
+           const updateAlert = new Vue({
+              el: "#updateAlert",
+              data: {
+                 alert: ""
+              }
+           })
+           setInterval(() => {
+              updateAlert.alert = ''
+              updateAlert.alert += globalvars.isUpdate && hasPermissions(globalvars.perm, "all/is_admin")
+                 ? alerter(3001, "", 3, false).replace("[branch]", '<%- CONFIG.updater.useBranch %>').replace("~", '<%- mainDir %>')
+                 : ""
+              updateAlert.alert += globalvars.needRestart && hasPermissions(globalvars.perm, "all/is_admin")
+                 ? alerter(3002, "", 3, false)
+                 : ""
+           }, 50)
+        </script>
     </body>
 </html>

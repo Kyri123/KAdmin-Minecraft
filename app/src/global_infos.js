@@ -39,7 +39,7 @@ module.exports = {
                     }
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             })
         }

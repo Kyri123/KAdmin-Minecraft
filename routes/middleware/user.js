@@ -119,5 +119,18 @@ module.exports = {
             res.redirect('/login')
             return true
         })
+    },
+
+    checkPerm: (perm) => {
+        return function(req, res, next) {
+            let userid = req.session.uid
+
+            if(userHelper.hasPermissions(userid, perm)) {
+                next()
+            }
+            else {
+                res.redirect('/401')
+            }
+        }
     }
 }

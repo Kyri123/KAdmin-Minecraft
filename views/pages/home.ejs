@@ -3,7 +3,7 @@
 <%- include('../includes/nav') -%>
 <%- include('../includes/content') -%>
 
-<div class="row">
+<div class="row" id="changelogContainer">
 
     <!-- CHANGELOGS -->
     <div class="col-12">
@@ -31,22 +31,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <%
-                        let currfound = false
-                        changelog.forEach((val, key) => {
-                            if(val.version === panelVersion) currfound = true
-                        %>
-                            <tr>
-                                <td>Version <%- val.version %></td>
-                                <td><%- val.datestring %></td>
-                                <td><span class="badge badge-<%- val.version === panelVersion ? "success" : currfound ? "info" : "danger" %> rounded-0"><%- val.version === panelVersion ? lang[page].curr : currfound ? lang[page].old : lang[page].new %></span></td>
+                            <tr v-for="item in changelogs">
+                                <td>
+                                    Version {{ item.version }}
+                                </td>
+                                <td>
+                                    {{ item.datestring !== '--.--.----' ? item.datestring : 'WIP' }}
+                                </td>
+                                <td>
+                                    <span v-bind:class="item.version === currentVersion ? 'badge-success' : parseInt(item.version.replaceAll(/[^0-9]/g, '')) < parseInt(currentVersion.replaceAll(/[^0-9]/g, '')) ? 'badge-info' : 'badge-danger'" class="badge rounded-0">
+                                        {{ item.version === currentVersion ? globalvars.lang_arr.home.curr : parseInt(item.version.replaceAll(/[^0-9]/g, "")) < parseInt(currentVersion.replaceAll(/[^0-9]/g, "")) ? globalvars.lang_arr.home.old : globalvars.lang_arr.home.new }}
+                                    </span>
+                                </td>
                                 <td class="text-right">
-                                    <a href="/changelog#<%- val.version %>" class="btn btn-xs btn-primary rounded-0"><i class="nav-icon fa fa-book" aria-hidden="true"></i></a>
-                                    <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/tag/<%- val.version %>" target="_blank" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fab fa-github" aria-hidden="true"></i></a>
-                                    <a href="https://github.com/Kyri123/KAdmin-Minecraft/releases/download/<%- val.version %>/<%- val.version %>.zip" download="" class="btn btn-xs btn-dark rounded-0"><i class="nav-icon fa fa-download" aria-hidden="true"></i></a>
+                                    <a :href="`/changelog#${item.version}`" class="btn btn-xs btn-primary rounded-0">
+                                        <i class="nav-icon fa fa-book" aria-hidden="true"></i>
+                                    </a>
+                                    <a v-if="item.datestring !== '--.--.----'" :href="`https://github.com/Kyri123/KAdmin-Minecraft/releases/tag/${item.version}`" target="_blank" class="btn btn-xs btn-dark rounded-0">
+                                        <i class="nav-icon fab fa-github" aria-hidden="true"></i>
+                                    </a>
+                                    <a v-if="item.datestring !== '--.--.----'" :href="`https://github.com/Kyri123/KAdmin-Minecraft/archive/${item.version}`" download class="btn btn-xs btn-dark rounded-0">
+                                        <i class="nav-icon fa fa-download" aria-hidden="true"></i>
+                                    </a>
                                 </td>
                             </tr>
-                        <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -60,5 +68,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    let currentVersion  = '<%- panelVersion %>'
+</script>
+<script src="/js/kadmin/home.js"></script>
 
 <%- include('../includes/foother') -%>

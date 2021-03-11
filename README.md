@@ -32,9 +32,9 @@ Webbasiertes Admin Panel für Minecraft-Server
 
 Wichtig
 =============
-- **[Dev-Tree]** Benutzten auf eigene GEFAHR (Debugs, Tests usw.)
-- **[Test-Tree]** Benutzten auf eigene GEFAHR (Tests usw.)
-- Derzeitiger Status: **Alpha**
+- **[Dev-Tree]** benutzten auf eigene **GEFAHR**: Debugs, Tests usw.
+- **[Test-Tree]** benutzten auf eigene **GEFAHR**: hier werden "Stabile" aber ungetestete Builds für das nächste Update veröffentlicht
+- Derzeitiger Status: **BETA**
 - `Links`
   - Spenden? https://www.paypal.com/cgi-bin/webscr?shell=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
   - Discord: https://discord.gg/ykGnw49
@@ -47,25 +47,25 @@ Installation
    2. Installiere alle nötigen Module `sudo apt-get install openjdk-8-jre-headless screen unzip zip curl`
    3. Installiere NodeJS (min 15.6.0)
 2. Log dich in den Benutzer ein `su kadmin`
-3. Downloade den letzten Release `cd ~ && wget https://api.minecraft.kadmin-panel.de/sh/installer.sh && chmod 755 ./installer.sh && ./installer.sh master`
+3. Downloade den letzten Release `cd ~ && wget https://api.minecraft.kadmin-panels.de/sh/installer.sh && chmod 755 ./installer.sh && ./installer.sh master`
    1. Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
 4. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese (Todo Automatisiertes erstellen von Tabellen)
 5. Konfiguriere:
    - `app/config/app.json`
    - `app/config/mysql.json`
-6. Starte das Programm mit `./starter.sh`
+6. Starte das Programm mit `chmod 755 ./starter.sh && ./starter.sh`
 
 Update
 =============
 - Funktioniert automatisch
-- Manuell: `cd ~ && wget https://api.minecraft.kadmin-panel.de/sh/updater.sh && chmod 755 ./updater.sh && ./updater.sh master`
+- Manuell: `cd ~ && wget https://api.minecraft.kadmin-panels.de/sh/updater.sh && chmod 755 ./updater.sh && ./updater.sh master`
   - Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
 
 Autostart einrichten
 =============
 1. Logge dich in den benutzer `kadmin` ein `su kadmin`
 2. Öffne den Crontab `crontab -e`
-3. füge folgende Zeile hinzu: `@reboot sh ~/starter.sh` **(Hierbei kann der Pfad `~/starter.sh` abweichen!)**
+3. füge folgende Zeile hinzu: `@reboot sh chmod 755 ~/starter.sh && ~/starter.sh` **(Hierbei kann der Pfad `~/starter.sh` abweichen!)**
 
 Standart Login
 =============
@@ -80,6 +80,7 @@ app.json
 | `logRoot`             | Pfad wo die Logs liegen sollen |
 | `pathBackup`          | Pfad wo die Backups liegen sollen |
 | `lang`                | **wird nicht mehr verwendet** |
+| `useDebug`            | Debug modus für die Konsole (**true** = an / **false** = aus) |
 
 updater.json
 =============
@@ -94,7 +95,6 @@ main.json
 
 | Eigenschaften                         | Wert | 
 | :---                                  | :--- |
-| `useDebug`                            | Debug modus für die Konsole (**true** = an / **false** = aus) |
 | `interval > getStateFromServers`      | Interval wo der Status der Server abgefragt wird |
 | `interval > getTraffic`               | Interval wo der Server Traffic angefragt wird |
 | `interval > doReReadConfig`           | Interval wo die Konfigurationen neu geladen werden |

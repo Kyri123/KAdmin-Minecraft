@@ -4,8 +4,8 @@
         <img src="/img/logo/logo.png" alt="AdminLTE Logo" class="brand-image img-circle" style="opacity: .8">
         <span class="brand-text font-weight-light pl-0">KAdmin-Minecraft</span>
         <div class="ribbon-wrapper">
-            <div class="ribbon bg-danger">
-                Alpha
+            <div class="ribbon bg-success">
+                Beta
             </div>
         </div>
     </a>
@@ -28,6 +28,17 @@
                             <i class="nav-icon fa fa-server" aria-hidden="true"></i>
                             <p>
                                 <%- lang.servercontrolcenter.pagename %>
+                            </p>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if(userHelper.hasPermissions(userID, "all/is_admin")) { %>
+                    <li class="nav-item">
+                        <a href="/config" class="nav-link <%- page === "config" ? " active" : "" %>">
+                            <i class="nav-icon fas fa-file-code" aria-hidden="true"></i>
+                            <p>
+                                <%- lang.all.panelControler.config %>
                             </p>
                         </a>
                     </li>

@@ -1,0 +1,79 @@
+<%- include('../includes/head'); -%>
+<%- include('../includes/top') -%>
+<%- include('../includes/nav') -%>
+<%- include('../includes/content') -%>
+
+<div class="row" id="configControler">
+
+    <!-- CHANGELOGS -->
+    <div class="col-12">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark p-0">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse navbar-secondary" id="navbarColor03">
+                <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
+                    <li class="nav-item" v-for="(item, index) in files">
+                        <a v-bind:class="index === 0 ? 'active' : ''" class="nav-link btn-dark p-3" :id="'pills-' + item.hash + '-tab'" data-toggle="pill" :href="'#pills-' + item.hash" role="tab" :aria-controls="'pills-' + item.hash" :aria-selected="index === 0 ? 'true' : 'false'">
+                            {{ item.name }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <!-- Cards -->
+        <div class="card shadow">
+            <div class="tab-content" id="pills-tabContent">
+
+                <!-- Tabs -->
+                <form v-for="(item, index) in files" v-bind:class="index === 0 ? 'show active' : ''" class="tab-pane fade" :id="'pills-' + item.hash" role="tabpanel" :aria-labelledby="'pills-' + item.hash + '-tab'">
+                    <table class="table table-striped mb-0" style="border: 0!important;">
+                        <tr v-for="(value, key) in item.data">
+                            <td class="p-2" width="50%"><b>{{ key }}</b> - {{ globalvars.lang_arr.config.options[item.name][key] }}</td>
+                            <td class="p-2">
+                                <div class="input-group-sm mb-0">
+                                    <select v-if="key === 'useBranch'" class="form-control form-control-sm" :name="'cfg[' + key + ']'">
+                                        <option value="master" :selected="globalvars.branch === 'master'">Master</option>
+                                        <option value="test" :selected="globalvars.branch === 'test'">Testing</option>
+                                        <option value="dev" :selected="globalvars.branch === 'dev'">Dev</option>
+                                    </select>
+
+                                    <input v-else-if="typeof value === 'number'" type="number" class="form-control form-control-sm" :name="'cfg[' + key + ']'" :value="value">
+
+                                    <input v-else-if="typeof value === 'string'" type="text" class="form-control form-control-sm" :name="'cfg[' + key + ']'" :value="value">
+
+                                    <select v-else-if="typeof value === 'boolean'" class="form-control form-control-sm" :name="'cfg[' + key + ']'">
+                                        <option value="true" :selected="value">{{ globalvars.lang_arr['servercenter_config'].true }}</option>
+                                        <option value="false" :selected="!value">{{ globalvars.lang_arr['servercenter_config'].false }}</option>
+                                    </select>
+
+                                    <span v-else>
+                                        pls post this text in Discord: <b>File: {{ key }} | {{ typeof value }} has no Input!</b>
+                                        <input v-if="typeof value === 'number'" type="hidden" :name="'cfg[' + key + ']'" :value="value">
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="cfgfile" :value="item.name">
+                    <input type="hidden" name="savecfg" value="true">
+                    <button class="btn btn-primary" style="width: 100%" @click="saveCfg(item.hash)" type="button"><%- lang[page].save %></button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+   // Vars die zur JS übergeben werden
+   // Allgemeine Vars
+   let vars = {}
+</script>
+
+<script src="/js/kadmin/config.js" type="application/javascript"></script>
+<%- include('../includes/foother') -%>

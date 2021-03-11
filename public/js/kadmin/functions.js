@@ -7,7 +7,111 @@
  * *******************************************************************************************
  */
 "use strict"
-let old_state = {}
+
+/**
+ * Wandelt Stamp in String
+ * @param {int} stamp Input zeit (mit MS)
+ * @param {string} format "d.m.y h:min:s.ms"
+ * @return {string}
+ */
+function convertTime(stamp = 0, format = "d.m.y h:min") {
+    // nehme jetztige Zeit wenn nichts anderes angegeben ist
+    if(stamp === 0) stamp = Date.now()
+
+    // Splite Zeitstring
+    let ms = new Date(stamp).toISOString().split('.')[1].replace("Z", "")
+    stamp = new Date(stamp).toISOString().split('.')[0]
+    let date = stamp.split('T')[0].split('-')
+    let time = stamp.split('T')[1].split(':')
+
+    // Return & Replacer
+    return format
+        .replace("d", date[2])
+        .replace("m", date[1])
+        .replace("y", date[0])
+        .replace("h", time[0])
+        .replace("min", time[1])
+        .replace("s", time[2])
+        .replace("ms", ms)
+}
+
+/**
+ * Copiert aus einem input
+ * @param {string} id HTML ID (Format JQUERY '#XXX')
+ */
+function copythis(id) {
+    var txt = document.getElementById(id)
+    txt.select()
+    txt.setSelectionRange(0, 99999)
+
+    // Kopiere
+    document.execCommand("copy")
+}
+
+/**
+ * @param {int}     code            Code für den Alert (lang file)
+ * @param {string}  custom_style    Style="XXX"
+ * @param {int}     mb              Margin-Bottom
+ * @param {boolean} closebtn        Soll der Schließen Button verwendet werden?
+ * @param {int}     ml              Margin-Left
+ * @param {int}     mr              Margin-Right
+ * @param {int}     mt              Margin-Top
+ * @param {boolean} alertform       FORM
+ * @returns {string|undefined}      Undefined -> Code nicht vorhanden
+ */
+function alerter(code, custom_style = "", mb = 3, closebtn = false, ml = 0, mr = 0, mt = 0, alertform = false) {
+    if(globalvars.alertlang[code] !== undefined) {
+        let color   = code >= 1000 ? (code >= 2000 ? (code >= 3000 ? "info" : "warning") : "success") : "danger"
+        let text    = globalvars.alertlang[code].text
+        let title   = globalvars.alertlang[code].title
+
+        return !alertform ?
+            `<div class="callout callout-${color} mb-${mb} ml-${ml} mr-${mr} mt-${mt}" style="${custom_style}">
+                <h5 class="text-${color}"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> ${title}</h5>
+                ${text}
+            </div>` :
+            `<div class="p-${mb} p-${ml} p-${mr} p-${mt}" style="${custom_style}">
+                <h5 class="text-${color}"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> ${title}</h5>
+                ${text}
+            </div>`
+    }
+    return undefined
+}
+
+/**
+ * Prüft ob der Nutzer die nötigen Rechte hat
+ * @param {int} permission Rechte array
+ * @param {string} perm Pfad (format: 'xxx/xxx/...')
+ * @param {string|boolean} server wenn es serverechte sind -> Servername
+ * @return {boolean}
+ */
+function hasPermissions(permission ,perm, server = false) {
+    let userperm = permission
+    if(typeof userperm.id === "undefined") {
+        try {
+            let permarr = server !== false ? userperm.server[server] !== undefined ? userperm.server[server] : false : userperm
+            if(permarr === false) return false
+
+            if(server !== false) if(permarr.is_server_admin === 1) return true
+            if(userperm.all.is_admin === 1) return true
+
+            let bool        = false
+            let needPerm    = perm.includes('/') ? perm.split('/') : [perm]
+            needPerm.forEach((val) => {
+                if(permarr[val] !== undefined) {
+                    permarr = permarr[val]
+                    if(typeof permarr !== "object" && typeof permarr === "number") bool = parseInt(permarr) === 1
+                }
+            })
+
+            return bool
+        }
+        catch (e) {
+            if(debug) console.log('[DEBUG_FAILED]', e)
+        }
+    }
+    return false
+}
 
 /**
  * erstellt ein Loading
@@ -33,90 +137,6 @@ function failed(type) {
     if(type === "FB")
         return `<div class="p-1 pl-2 pr-3 list-group-item border-left-0 text-danger bg-${typeof args[1] !== "undefined" ? args[1] : "dark"}"><i class="fas fa-times" aria-hidden="true"></i> ${globalvars.lang_arr.all.failed}</div>`
 }
-
-// hole Serverliste zyklisch
-getServerList()
-getTraffic()
-setInterval(() => {
-    getServerList()
-    getTraffic()
-},2000)
-
-/**
- * Update Traffic vom Server
- */
-function getTraffic() {
-    $.get('/json/serverInfos/auslastung.json', (data) => {
-        if (hasPermissions(globalvars.perm, "all/show_traffic")) {
-
-            // CPU
-            $('#cpu').html(`${data.cpu} <small>%</small>`)
-            $('#cpu_perc').css('width', `${data.cpu}%`)
-
-            // Speicher
-            $('#mem').html(`${data.mem_availble} / ${data.mem_total}`)
-            $('#mem_perc').css('width', `${data.mem}%`)
-
-            // RAM
-            $('#ram').html(`${data.ram_availble} / ${data.ram_total}`)
-            $('#ram_perc').css('width', `${data.ram}%`)
-        }
-    })
-}
-
-/**
- * hole Serverliste für Navigation oben
- */
-function getServerList() {
-    let servercount_on = 0
-    $.get('/ajax/serverCenterAny', {
-        "getglobalinfos": true
-    }, (data) => {
-        let newServerList = ``
-        data = JSON.parse(data)
-
-        data.servers_arr.forEach((val, key) => {
-            if (hasPermissions(globalvars.perm, "all/show_traffic")) {
-                // Server
-                $('#top_on').html(data.servercounter.on)
-                $('#top_off').html(data.servercounter.off)
-                $('#top_proc').html(data.servercounter.proc)
-                $('#top_total').html(data.servercounter.total)
-                $('#top_perc').css('width', `${data.servercounter.on / data.servercounter.total * 100}%`)
-            }
-
-            let                                                              stateColor  = "danger"
-            if(!val[1].is_installed)                                         stateColor  = "warning"
-            if(val[1].pid !== 0 && val[1].online)                            stateColor  = "success"
-            if((val[1].pid !== 0 && !val[1].online) || val[1].isAction)      stateColor  = "primary"
-            if(val[1].is_installing)                                         stateColor  = "info"
-
-            if(old_state[val[0]] === undefined) old_state[val[0]] = stateColor
-            if(old_state[val[0]] !== stateColor) {
-                fireToast(stateColor, "info", {
-                    replace: [
-                        ["{server}"],
-                        [val[1].selfname]
-                    ]
-                })
-                old_state[val[0]] = stateColor
-            }
-
-            if(val[1].server === undefined && hasPermissions(globalvars.perm, "show", val[0])) newServerList += `
-                <a href="/servercenter/${val[0]}/home" class="dropdown-item">
-                    <i class="fas fa-server mr-2"></i> ${val[1].selfname.substring(0,22)}${val[1].selfname.length > 22 ? "..." : ""}
-                    <span class="float-right text-sm text-${stateColor}"><b>${val[1].aplayers}</b>/<b>${val[1].players}</b></span>
-                </a>
-                <div class="dropdown-divider"></div>
-            `
-
-            if(hasPermissions(globalvars.perm, "show", val[0]) && val[1].online) servercount_on++
-            $('#serverbadge').html(servercount_on)
-        })
-        $('#serverlist').html(newServerList)
-    })
-}
-
 
 /**
  * setzt diverse eingaben in id
@@ -155,6 +175,19 @@ String.prototype.replaceArray = function(find, replace) {
         replaceString = replaceString.replace(regex, replace[i])
     }
     return replaceString
+}
+
+/**
+ * Convertiert Byte in den nächst größtmöglichen
+ * return {string}
+ */
+Number.prototype.convertBytes = function() {
+    let bytes = this
+    let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 0;
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i == 0) return bytes + ' ' + sizes[i];
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
 /**

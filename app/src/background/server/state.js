@@ -12,6 +12,8 @@
 const Gamedig       = require('gamedig')
 const ip            = require("ip")
 const findProcess   = require('find-process')
+const pidusage      = require('pidusage')
+const os            = require('os')
 
 
 /**
@@ -51,6 +53,11 @@ module.exports = {
                 // Default werte
                 data.aplayers          = 0
                 data.players           = 0
+                data.cpuUsage          = 0
+                data.memory            = 0
+                data.maxmemory         = servCFG.xmx
+                data.elapsed           = 0
+                data.epoch             = 0
                 data.listening         = false
                 data.online            = false
                 data.cfg               = name
@@ -76,6 +83,30 @@ module.exports = {
                 data.pid               = 0
                 data.ppid              = 0
                 data.bin               = ""
+
+                // BackupInfos
+                let obj         = {},
+                    scan        = globalUtil.safeFileReadDirSync([servCFG.pathBackup])
+                obj.max         = servCFG.autoBackupMaxDirSize
+                obj.maxCount    = servCFG.autoBackupMaxCount
+                if(scan !== false) {
+                    let fileCount = 0,
+                        totalSize = 0
+                    for(let item of scan) {
+                        if(item.name.includes(".zip")) {
+                            fileCount++
+                            totalSize += item.sizebit
+                        }
+                    }
+                    obj.maxis           = totalSize
+                    obj.maxCountis      = fileCount
+                }
+                else {
+                    obj.maxis           = 0
+                    obj.maxCountis      = 0
+                }
+
+                data.backup = obj
 
                 // More data
                 data.aplayers          = 0
@@ -114,12 +145,30 @@ module.exports = {
                         data.alerts.push("4000")
 
                 findProcess('name', name)
-                    .then(function (list) {
+                    .then(async function (list) {
                         if (list.length) {
-                            let pid     = list[0].pid
-                            let ppid    = list[0].ppid
-                            let cmd     = list[0].cmd
-                            let bin     = list[0].bin
+                            let index = 0
+                            for(let i in list) {
+                                if(list[i].bin === "java") {
+                                    index = i
+                                    break
+                                }
+                            }
+                            let pid     = list[index].pid
+                            let ppid    = list[index].ppid
+                            let cmd     = list[index].cmd
+                            let bin     = list[index].bin
+                            try {
+                                let pidData = await pidusage(pid)
+                                data.cpuUsage          = Math.round(pidData.cpu / os.cpus().length * 100) / 100
+                                data.memory            = pidData.memory
+                                data.elapsed           = pidData.elapsed
+                                data.epoch             = pidData.timestamp
+                            }
+                            catch (e) {
+
+                            }
+
 
                              data.run            = true
                              data.cmd            = cmd

@@ -37,8 +37,8 @@
     "20"  : "Neue Meldungen wurden erzeugt",
     "21"  : "Das Backup wurde nicht entfernt",
     "22"  : "Das Backup wurde erfolgreich entfernt",
-    "23"  : "Das Backup wurde nicht Eingespielt",
-    "24"  : "Das Backup wird Eingespielt (Abgebrochen, Fehlgeschlagen oder Server Online/Running)",
+    "23"  : "Das Backup wurde nicht Eingespielt (Abgebrochen, Fehlgeschlagen oder Server Online/Running)",
+    "24"  : "Das Backup wird Eingespielt",
     "25"  : "Code wurde erfolgreich erstellt",
     "26"  : "Code konnte nicht erstellt werden",
     "27"  : "Benutzergruppe(n) zugewiesen",
@@ -46,6 +46,20 @@
     "29"  : "Benutzer entfernt",
     "30"  : "Benutzer NICHT entfernt",
     "31"  : "Code entfernt",
-    "32"  : "Code NICHT entfernt"
+    "32"  : "Code NICHT entfernt",
+    "33"  : "Aktion konnte nicht ausgeführt werden",
+    "34"  : "Das Panel wird auf Updates geprüft sollte eins verfügbar wird dies in kürze Angezeigt (im Log wird der Status außerdem ausgegeben)",
+    "35"  : "Update wird gestartet und Installiert",
+    "36"  : "wird Runtergefahren oder Neugestartet",
+    "37"  : "kann nicht Runtergefahren werden (Update läuft)",
+    "38"  : "Ein Backup konnte nicht entfernt werden",
+    "39"  : "Die Backups wurden erfolgreich entfernt",
+    "40"  : "Der Server konnte nicht entfernt werden",
+    "41"  : "Der Server wurde erfolgreich entfernt",
+    "42"  : "Der Server konnte nicht erstellt werden",
+    "43"  : "Der Server wurde erfolgreich erstellt",
+    "44"  : "Der Server konnte nicht bearbeitet werden",
+    "45"  : "Der Server wurde erfolgreich bearbeitet",
+    "46"  : "Server konnte nicht erreicht werden...."
   }
 }
