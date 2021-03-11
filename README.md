@@ -34,7 +34,7 @@ Wichtig
 =============
 - **[Dev-Tree]** Benutzten auf eigene GEFAHR (Debugs, Tests usw.)
 - **[Test-Tree]** Benutzten auf eigene GEFAHR (Tests usw.)
-- Derzeitiger Status: **Alpha**
+- Derzeitiger Status: **BETA**
 - `Links`
   - Spenden? https://www.paypal.com/cgi-bin/webscr?shell=_s-xclick&hosted_button_id=68PT9KPRABVCU&source=url
   - Discord: https://discord.gg/ykGnw49
@@ -53,7 +53,7 @@ Installation
 5. Konfiguriere:
    - `app/config/app.json`
    - `app/config/mysql.json`
-6. Starte das Programm mit `./starter.sh`
+6. Starte das Programm mit `chmod 755 ./starter.sh && ./starter.sh`
 
 Update
 =============
@@ -65,7 +65,7 @@ Autostart einrichten
 =============
 1. Logge dich in den benutzer `kadmin` ein `su kadmin`
 2. Öffne den Crontab `crontab -e`
-3. füge folgende Zeile hinzu: `@reboot sh ~/starter.sh` **(Hierbei kann der Pfad `~/starter.sh` abweichen!)**
+3. füge folgende Zeile hinzu: `@reboot sh chmod 755 ~/starter.sh && ~/starter.sh` **(Hierbei kann der Pfad `~/starter.sh` abweichen!)**
 
 Standart Login
 =============
