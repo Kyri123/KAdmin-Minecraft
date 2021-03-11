@@ -1,6 +1,6 @@
 <span id="serverCenterHead">
     <div class="row">
-        <div class="col-12 m-0">
+        <div class="col-12 mb-3">
             <div class="card card-widget widget-user item-box m-0">
                 <div class="widget-user-header text-white p-0" style="background: url('/img/backgrounds/sc.jpg') center center;">
                     <div style="background-color: rgba(66,66,66,0.30)!important; height: 100%" class="p-3">
@@ -30,34 +30,103 @@
                         </div>
                     <% } %>
                 </div>
-                <div class="card-footer pt-3">
+                <div class="card-footer p-0">
                     <div class="row">
-                        <div class="col-sm-3 border-sm-right">
-                            <div class="description-block">
-                                <h5 v-bind:class="stateClass">{{ state }}</h5>
-                                <span class="description-text"><%- lang["servercenter_any"].state %></span>
+                        <div class="col-12 col-md-3 pr-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="description-text"><%- lang["servercenter_any"].state %></span>
+                                    <h6 v-bind:class="stateClass" style="font-weight: bold!important;">{{ state }}</h6>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 border-sm-right">
-                            <div class="description-block">
-                                <h5 class="description-header" v-html="player"></h5>
-                                <span class="description-text"><%- lang["servercenter_any"].player %></span>
+                        <div class="col-12 col-md-3 p-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="description-text"><%- lang["servercenter_any"].player %></span>
+                                    <h6 class="description-header" v-html="player"></h6>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 border-sm-right">
-                            <div class="description-block">
-                                <h5 class="description-header text-success" v-bind:class="actionClass" v-html="action"></h5>
-                                <span class="description-text"><%- lang["servercenter_any"].action %></span>
+                        <div class="col-12 col-md-3 p-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="description-text"><%- lang["servercenter_any"].action %></span>
+                                    <h6 class="description-header text-success" v-bind:class="actionClass" v-html="action"></h6>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="description-block">
-                                <h5 class="description-header" v-html="version"></h5>
-                                <span class="description-text">Version</span>
+                        <div class="col-12 col-md-3 pl-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="description-text">Version</span>
+                                    <h6 class="description-header" style="font-weight: bold!important;" v-html="version"></h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="card-footer p-0">
+                    <div class="row">
+                        <div class="col-12 col-md-3 pr-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="info-box-text">CPU</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" :style="`width: ${cpuUsage}%`"></div>
+                                    </div>
+                                    <span id="mem" class="info-box-number text-sm">
+                                        {{ `${cpuUsage}% / 100%` }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 p-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.mem }}</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" :style="max === 0 ? 'width: 0%' : `width: ${Math.round(memory / maxmemory * 100 * 100) / 100}%`"></div>
+                                    </div>
+                                    <span id="mem" class="info-box-number text-sm">
+                                        {{ `${memory.convertBytes()} / ${maxmemory.convertBytes()}` }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 p-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.free }}</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" :style="max === 0 ? 'width: 0%' : `width: ${Math.round(maxis / max * 100 * 100) / 100}%`"></div>
+                                    </div>
+                                    <span id="mem" class="info-box-number text-sm">
+                                        {{ max === 0 ? globalvars.lang_arr.servercenter_any.inv : `${maxis.convertBytes()} / ${max.convertBytes()}` }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 pl-0">
+                            <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                                <div class="info-box-content pt-2 pl-3">
+                                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.max }}</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" :style="maxfiles === 0 ? 'width: 0%' : `width: ${Math.round(maxfilesis / maxfiles * 100 * 100) / 100}%`"></div>
+                                    </div>
+                                    <span id="mem" class="info-box-number text-sm">
+                                        {{ maxfiles === 0 ? globalvars.lang_arr.servercenter_any.inv : `${maxfilesis} / ${maxfiles}` }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-footer p-0">
                     <nav class="navbar navbar-expand-lg navbar-dark p-0">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHead" aria-controls="navbarHead" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,76 +168,6 @@
                             </ul>
                         </div>
                     </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="col-12 col-md-6 mt-3">
-            <div class="info-box mb-0 p-0" style="height: 100%;">
-                <span class="info-box-icon bg-dark elevation-1">
-                    <i aria-hidden="true" class="fas fa-microchip"></i>
-                </span>
-                <div class="info-box-content pt-2 pl-3">
-                    <span class="info-box-text">CPU</span>
-                    <div class="progress">
-                        <div class="progress-bar bg-danger" :style="`width: ${cpuUsage}%`"></div>
-                    </div>
-                    <span id="mem" class="info-box-number text-sm">
-                        {{ `${cpuUsage}% / 100%` }}
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 mt-3">
-            <div class="info-box mb-0 p-0" style="height: 100%;">
-                <span class="info-box-icon bg-dark elevation-1">
-                    <i aria-hidden="true" class="fas fa-memory"></i>
-                </span>
-                <div class="info-box-content pt-2 pl-3">
-                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.mem }}</span>
-                    <div class="progress">
-                        <div class="progress-bar bg-danger" :style="max === 0 ? 'width: 0%' : `width: ${Math.round(memory / maxmemory * 100 * 100) / 100}%`"></div>
-                    </div>
-                    <span id="mem" class="info-box-number text-sm">
-                        {{ `${memory.convertBytes()} / ${maxmemory.convertBytes()}` }}
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 mt-3">
-            <div class="info-box mb-0 p-0" style="height: 100%;">
-                <span class="info-box-icon bg-dark elevation-1">
-                    <i aria-hidden="true" class="fas fa-hdd"></i>
-                </span>
-                <div class="info-box-content pt-2 pl-3">
-                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.free }}</span>
-                    <div class="progress">
-                        <div class="progress-bar bg-danger" :style="max === 0 ? 'width: 0%' : `width: ${Math.round(maxis / max * 100 * 100) / 100}%`"></div>
-                    </div>
-                    <span id="mem" class="info-box-number text-sm">
-                        {{ max === 0 ? globalvars.lang_arr.servercenter_any.inv : `${maxis.convertBytes()} / ${max.convertBytes()}` }}
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 mt-3">
-            <div class="info-box mb-0 p-0" style="height: 100%;">
-                <span class="info-box-icon bg-dark elevation-1">
-                    <i aria-hidden="true" class="fas fa-file-archive"></i>
-                </span>
-                <div class="info-box-content pt-2 pl-3">
-                    <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.max }}</span>
-                    <div class="progress">
-                        <div class="progress-bar bg-danger" :style="maxfiles === 0 ? 'width: 0%' : `width: ${Math.round(maxfilesis / maxfiles * 100 * 100) / 100}%`"></div>
-                    </div>
-                    <span id="mem" class="info-box-number text-sm">
-                        {{ maxfiles === 0 ? globalvars.lang_arr.servercenter_any.inv : `${maxfilesis} / ${maxfiles}` }}
-                    </span>
                 </div>
             </div>
         </div>
