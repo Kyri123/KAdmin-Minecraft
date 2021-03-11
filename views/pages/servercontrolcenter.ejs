@@ -21,7 +21,7 @@
                     <a href="/cluster#4c51f09bf0330d03047f8bc634290fc8" class="text-light"></a>
                 </h5>-->
             </div>
-            <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img :src="value.datas.icon" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
+            <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img :src="value.datas.icon" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" v-bind:class="`border-${value.stateColor}`"></div>
 
             <div class="d-flex bd-highlight">
                 <div v-if="value.editPerm" class="rounded-0 p-0 flex-fill bd-highlight">
@@ -39,18 +39,53 @@
                 </div>
             </div>
 
-            <div class="card-footer p-0">
+            <div class="card-footer p-0 bg-light">
                 <div class="row">
-                    <div class="col-sm-6 border-right border-sm-right">
-                        <div class="description-block">
-                            <h5 class="description-header"><b v-bind:class="`text-${value.stateColor}`">{{ globalvars.lang_arr.forservers.state[value.stateColor] }}</b></h5>
-                            <span class="description-text">{{ globalvars.lang_arr.servercontrolcenter.state }}</span>
+                    <div class="col-sm-6 border-right border-sm-right pr-0  rounded-0">
+                        <div class="info-box mb-0 p-0  rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="description-text">{{ globalvars.lang_arr.servercontrolcenter.state }}</span>
+                                <h6 class="description-header"><b v-bind:class="`text-${value.stateColor}`">{{ globalvars.lang_arr.forservers.state[value.stateColor] }}</b></h6>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="description-block">
-                            <h5 class="description-header"><b>{{ value.datas.version }}</b></h5>
-                            <span class="description-text">VERSION</span>
+                    <div class="col-sm-6 pl-0">
+                        <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="description-text">VERSION</span>
+                                <h6 class="description-header"><b>{{ value.datas.version }}</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <div class="row">
+                    <div class="col-sm-6 border-right border-sm-right pr-0  rounded-0">
+                        <div class="info-box mb-0 p-0  rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text">CPU</span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" :style="`width: ${value.datas.cpuUsage}%`"></div>
+                                </div>
+                                <span id="mem" class="info-box-number text-sm">
+                                {{ `${value.datas.cpuUsage}% / 100%` }}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 pl-0">
+                        <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.mem }}</span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" :style="value.datas.max === 0 ? 'width: 0%' : `width: ${Math.round(value.datas.memory / (value.datas.maxmemory * 1048576) * 100 * 100) / 100}%`"></div>
+                                </div>
+                                <span id="mem" class="info-box-number text-sm">
+                                {{ `${value.datas.memory.convertBytes()} / ${(value.datas.maxmemory * 1048576).convertBytes()}` }}
+                            </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +94,7 @@
             <div class="card-footer p-0">
                 <div class="row">
                     <div class="col-12">
-                        <a :href="`/servercenter/${value.name}/home`" class="btn btn-sm btn-dark" style="width: 100%">ServerCenter</a>
+                        <a :href="`/servercenter/${value.name}/home`" class="btn btn-sm btn-dark rounded-0" style="width: 100%">ServerCenter</a>
                     </div>
                 </div>
             </div>
