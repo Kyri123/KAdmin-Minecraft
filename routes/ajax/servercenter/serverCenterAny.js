@@ -103,13 +103,16 @@ router.route('/')
                 switch(POST.action) {
                     case "start":
                         done = serverCommands.doStart(POST.cfg, para)
-                        break;
+                        break
                     case "stop":
                         done = serverCommands.doStop(POST.cfg, para)
-                        break;
+                        break
                     case "backup":
                         done = serverCommands.doBackup(POST.cfg, para)
-                        break;
+                        break
+                    case "restart":
+                        done = serverCommands.doRestart(POST.cfg, para)
+                        break
                 }
 
                 if(done) {

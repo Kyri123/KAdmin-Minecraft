@@ -31,8 +31,8 @@ module.exports = {
             if(para.includes("--alwaysstart")) serv.writeConfig("shouldRun", true)
             return serverShell.runSHELL(startLine)
          }
-         return false
       }
+      return false
    },
 
    /**
@@ -55,11 +55,55 @@ module.exports = {
                return serverShell.runSHELL(`kill ${info.pid}`)
             }
             else {
+               setTimeout(() => {
+                  if(serv.isrun()) serverShell.runSHELL(`kill ${info.pid}`)
+               }, 30000)
                return CommandUtil.sendToScreen(server, "stop")
             }
          }
-         return false
       }
+      return false
+   },
+
+   /**
+    * Startet einen Server neu (auch wenn dieser Offline ist!)
+    * @param server {string}
+    * @param para {array} Parameters
+    * <br>
+    * - **--hardstop** (Beendet mit kill) <br>
+    * - **--alwaysstart** (Server startet immer wenn dieser NICHT läuft) <br>
+    * @return {boolean}
+    */
+   doRestart: (server, para) => {
+      let serv       = new serverClass(server)
+      if(serv.serverExsists()) {
+         let interval         = undefined
+         let doStartInterval  = undefined
+
+         if(serv.isrun()) {
+            module.exports.doStop(server, para)
+            interval    = setInterval(() => {
+               if(!serv.isrun()) {
+                  clearInterval(interval)
+                  interval = undefined
+               }
+            }, 2000)
+         }
+
+         doStartInterval = setInterval(() => {
+            if(!interval) {
+               if(!serv.isrun()) {
+                  clearInterval(doStartInterval)
+                  doStartInterval = undefined
+
+                  module.exports.doStart(server, para)
+               }
+            }
+         }, 2000)
+
+         return true
+      }
+      return false
    },
 
    /**

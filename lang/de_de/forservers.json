@@ -1,8 +1,9 @@
 {
   "commands": {
-    "start": "Server starten",
-    "stop": "Server stoppen (Deaktiviert auch Allwaysstart)",
-    "backup": "Backup Erstellen"
+    "start"   : "Server Starten",
+    "restart" : "Server Neustarten",
+    "stop"    : "Server Stoppen (deaktiviert auch Allwaysstart)",
+    "backup"  : "Backup Erstellen"
   },
   "parameter": {
     "warn"                : "Spieler auf dem Server warnen (benötigt RCON)",
