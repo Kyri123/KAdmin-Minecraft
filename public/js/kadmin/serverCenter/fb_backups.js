@@ -112,7 +112,7 @@ function playInBackup(file = undefined) {
     if(file !== undefined)
         swalWithBootstrapButtons .fire({
             icon: 'question',
-            text: e.currentTarget.dataset.file,
+            text: file,
             title: `<strong>${globalvars.lang_arr["servercenter_backups"].sweet.playin.title}</strong>`,
             showCancelButton: true,
             confirmButtonText: `<i class="fas fa-upload"></i>`,
@@ -122,7 +122,7 @@ function playInBackup(file = undefined) {
             if (result.isConfirmed) {
                 $.post("/ajax/serverCenterBackups", {
                     server      : vars.cfg,
-                    file        : e.currentTarget.dataset.file,
+                    file        : file,
                     playin      : true
                 })
                    .done((data) => {
