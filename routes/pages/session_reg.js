@@ -27,7 +27,8 @@ router.route('/')
         res.render('pages/reg', {
             page        : "reg",
             response    : response,
-            lang        : lang
+            lang        : lang,
+            perm        : {}
         })
         return true
     })
@@ -109,7 +110,8 @@ router.route('/')
         res.render('pages/reg', {
             page        : "reg",
             response    : response,
-            lang        : lang
+            lang        : lang,
+            perm        : {}
         })
         return true
     })

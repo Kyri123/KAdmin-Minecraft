@@ -26,12 +26,15 @@ router.route('/')
        let lang         = LANG[langStr]
 
        res.render('pages/home', {
-          userID        : req.session.uid,
-          page          : "home",
-          response      : response,
-          lang          : lang,
-          perm          : userHelper.permissions(req.session.uid),
-          sinfos        : globalinfos.get()
+            userID        : req.session.uid,
+            page          : "home",
+            response      : response,
+            lang          : lang,
+            perm          : userHelper.permissions(req.session.uid),
+            sinfos        : globalinfos.get(),
+            breadcrumb           : [
+               lang.breadcrumb["home"]
+            ]
        })
     })
 

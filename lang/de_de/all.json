@@ -3,6 +3,14 @@
     "userAndGroups"   : "Benutzer und Gruppen",
     "createServer"    : "Server Erstellen"
   },
+  "panelControler"  : {
+    "isUpdate"        : "UPDATE",
+    "updateNow"       : "Update starten",
+    "log"             : "Aktuellen Log anzeigen",
+    "config"          : "Panel Konfiguration",
+    "checkUpdate"     : "Prüfe auf Update",
+    "shutdown"        : "Panel Ausschalten / Neustarten "
+  },
   "cpu"             : "CPU Traffic",
   "ram"             : "Arbeitsspeicher",
   "mem"             : "Festplatten Speicher",

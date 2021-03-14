@@ -2,46 +2,218 @@
 <%- include('../includes/top') -%>
 <%- include('../includes/nav') -%>
 <%- include('../includes/content') -%>
+<div class="row" id="serverControlCenterContainer">
 
-<div class="row" id="sccserverlist">
-    <a class="col-12" href="#">
-        <div class="border border-info text-info align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
-            <i class="fas fa-sync fa-spin" aria-hidden="true"></i>
-        </div>
-    </a>
-</div>
+    <div v-for="value in servers" class="col-lg-6 col-xl-6">
+        <div class="card card-widget widget-user  item-box">
+            <div class="rounded-0 card bg-dark card-widget widget-user mb-0">
+                <div class="row p-2" :title="value.datas.selfname">
+                    <div class="col-12 text-center">
+                        <h5 class="text-center left d-inline pt-3 pl-0 m-0">
+                            {{ value.datas.selfname }}
+                        </h5>
+                    </div>
 
-<div id="modallist"></div>
-
-<% if(userHelper.hasPermissions(userID, "servercontrolcenter/create")) { %>
-    <form class="modal" id="addserver" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
-            <div class="modal-content border-0">
-                <div class="modal-header bg-success">
-                    <h5 class="modal-title"><%- lang[page].modalCreate.title %></h5>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group row mb-1">
-                        <label class="col-sm-4 col-form-label">Name</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="selfname" class="form-control" value="[KAdmin] MinecraftServer">
+            </div>
+            <div class="rounded-0 widget-user-header text-white" style="background: url('/img/backgrounds/sc.jpg') center center;">
+                <!--<h5 title="" class="widget-user-desc text-bold text-center border" style="background-color: rgb(66 66 66 / 58%)!important;">
+                    <a href="/cluster#4c51f09bf0330d03047f8bc634290fc8" class="text-light"></a>
+                </h5>-->
+            </div>
+            <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img :src="value.datas.icon" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" v-bind:class="`border-${value.stateColor}`"></div>
+
+            <div class="d-flex bd-highlight">
+                <div v-if="value.editPerm" class="rounded-0 p-0 flex-fill bd-highlight">
+                    <a style="width: 100%" class="rounded-0 btn btn-dark" @click="openModal('edit', value.name)"><i class="fas fa-cogs" aria-hidden="true"></i></a>
+                </div>
+                <div v-else class="rounded-0 p-0 flex-fill bd-highlight">
+                    <a style="width: 100%" class="rounded-0 btn btn-dark disabled"><i class="fas fa-cogs" aria-hidden="true"></i></a>
+                </div>
+
+                <div v-if="value.deleletePerm" class="rounded-0 p-0 flex-fill bd-highlight">
+                    <a style="width: 100%" class="rounded-0 text-white btn btn-danger" data-toggle="modal" @click="remove(value.name)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                </div>
+                <div v-else class="rounded-0 p-0 flex-fill bd-highlight">
+                    <a style="width: 100%" class="rounded-0 text-white btn btn-danger disabled"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="card-footer p-0 bg-light">
+                <div class="row">
+                    <div class="col-sm-6 border-sm-right pr-sm-0 rounded-0">
+                        <div class="info-box mb-0 p-0  rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="description-text">{{ globalvars.lang_arr.servercontrolcenter.state }}</span>
+                                <h6 class="description-header"><b v-bind:class="`text-${value.stateColor}`">{{ globalvars.lang_arr.forservers.state[value.stateColor] }}</b></h6>
+                            </div>
                         </div>
                     </div>
-                    <input name="addserver" type="hidden" value="true">
+                    <div class="col-sm-6 pl-sm-0">
+                        <div class="info-box mb-0 p-0 rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="description-text">VERSION</span>
+                                <h6 class="description-header"><b>{{ value.datas.version }}</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-0">
+                <div class="row">
+                    <div class="col-sm-6 border-sm-right pr-sm-0 rounded-0">
+                        <div class="info-box mb-0 p-0 pb-2 rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text">CPU</span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" :style="`width: ${value.datas.cpuUsage}%`"></div>
+                                </div>
+                                <span id="mem" class="info-box-number text-sm">
+                                {{ `${value.datas.cpuUsage}% / 100%` }}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 pl-sm-0">
+                        <div class="info-box mb-0 p-0 pb-2 rounded-0" style="height: 100%;">
+                            <div class="info-box-content pt-2 pl-3">
+                                <span class="info-box-text">{{ globalvars.lang_arr.servercenter_any.mem }}</span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" :style="value.datas.max === 0 ? 'width: 0%' : `width: ${Math.round(value.datas.memory / (value.datas.maxmemory * 1048576) * 100 * 100) / 100}%`"></div>
+                                </div>
+                                <span id="mem" class="info-box-number text-sm">
+                                {{ `${value.datas.memory.convertBytes()} / ${(value.datas.maxmemory * 1048576).convertBytes()}` }}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer p-0">
+                <div class="row">
+                    <div class="col-12">
+                        <a :href="`/servercenter/${value.name}/home`" class="btn btn-sm btn-dark rounded-0" style="width: 100%">ServerCenter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a v-if="canAdd" class="col-lg-6 col-xl-6" data-toggle="modal" @click="openModal('add')">
+        <div class="border border-success text-success align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
+            <i class="fas fa-plus" aria-hidden="true"></i>
+        </div>
+    </a>
+
+</div>
+
+<span id="serverControlCenterModals">
+    <form v-if="canEdit || canAdd" class="modal" id="server" tabindex="-1" method="post" action="#" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title">{{ globalvars.lang_arr.servercontrolcenter.modalCreate[`title_${action}`] }}</h5>
+                </div>
+                <div class="modal-body p-0">
+                    <table class="table table-striped mb-0" style="border: 0!important;">
+                        <tbody>
+                            <!-- selfname -->
+                            <tr v-for="(value, key) in cfgForm" v-if="typeof value !== 'object' && globalvars.lang_arr['servercenter_config'].cfg[key]">
+
+                                <!-- Text -->
+                                <td class="p-2">{{ globalvars.lang_arr['servercenter_config'].cfg[key] || key }}</td>
+
+                                <!-- default Backups -->
+                                <td v-if="key === 'autoBackup'" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                    <div class="input-group-sm mb-0">
+                                        <select class="form-control form-control-sm" name="cfgsend[autoBackup]">
+                                            <option value="true" :selected="value">{{ globalvars.lang_arr['servercenter_config'].true }}</option>
+                                            <option value="false" :selected="!value">{{ globalvars.lang_arr['servercenter_config'].false }}</option>
+                                        </select>
+                                        <!-- autoBackupPara -->
+                                        <div class="icheck-primary mb-3">
+                                            <input :checked="cfg.autoBackupPara.includes('--onlyworld')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--onlyworld" id="KONF_onlyworld">
+                                            <label for="KONF_onlyworld">
+                                                {{ globalvars.lang_arr.forservers.parameter.onlyworld }}
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary mb-3">
+                                            <input :checked="cfg.autoBackupPara.includes('--withmods')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--withmods" id="KONF_withmods">
+                                            <label for="KONF_withmods">
+                                                {{ globalvars.lang_arr.forservers.parameter.withmods }}
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary mb-3">
+                                            <input :checked="cfg.autoBackupPara.includes('--witplugins')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--witplugins" id="KONF_witplugins">
+                                            <label for="KONF_witplugins">
+                                                {{ globalvars.lang_arr.forservers.parameter.witplugins }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- default Size -->
+                                <td v-else-if="key === 'xmx' || key === 'xms' || key === 'autoBackupMaxDirSize'" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                    <div class="input-group input-group-sm mb-0">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">MB</span>
+                                        </div>
+                                        <input type="number" :name="`cfgsend[${key}]`" class="form-control form-control-sm" :value="value" :id="key + 'MB'"
+                                               @change="VUE_serverControlCenterModals.cfgForm[key] = +document.getElementById(key + 'MB').value">
+
+                                        <input type="number" step="0.01" class="form-control form-control-sm" :value="Math.round(value / 1024 * 100) / 100" :id="key + 'GB'"
+                                               @change="VUE_serverControlCenterModals.cfgForm[key] = Math.round(+document.getElementById(key + 'GB').value * 1024)">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">GB</span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- default Time -->
+                                <td v-else-if="key.toString().toLowerCase().includes('interval')" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                    <div class="input-group input-group-sm mb-0">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">SEC</span>
+                                        </div>
+
+                                        <input type="number" step="0" class="form-control form-control-sm" :value="Math.round(value / 1000)" :id="key + 'SEC'"
+                                               @change="VUE_serverControlCenterModals.cfgForm[key] = Math.round(+document.getElementById(key + 'SEC').value * 1000)">
+                                        <input type="number" step="0.01" class="form-control form-control-sm" :value="Math.round(value / 1000 / 60 * 100) / 100" :id="key + 'MIN'"
+                                               @change="VUE_serverControlCenterModals.cfgForm[key] = Math.round(+document.getElementById(key + 'MIN').value * 60 * 1000)">
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">MIN</span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="form-control form-control-sm" :name="`cfgsend[${key}]`" id="autoBackupIntervalValue" :value="value">
+                                </td>
+
+                                <!-- default Text -->
+                                <td v-else class="p-2" colspan="2" style="max-width: 400px!important;">
+                                    <div class="input-group-sm mb-0">
+                                        <input type="text" class="form-control form-control-sm" :name="`cfgsend[${key}]`" :value="value">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input name="action" type="hidden" :value="action">
+                    <input v-if="targetServer !== undefined" name="targetServer" type="hidden" :value="targetServer">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><%- lang[page].modalCreate.cancel %></button>
-                    <button type="button" class="btn btn-success" name="add" onclick="submitform('#addserver')"><%- lang[page].modalCreate.add %></button>
+                    <button type="button" class="btn btn-success" name="add" @click="sendServer()"><%- lang[page].modalCreate.send %></button>
                 </div>
             </div>
         </div>
     </form>
-<% } %>
-
+</span>
 <script>
     // Vars die zur JS übergeben werden
     // Allgemeine Vars
-    var vars = {};
+    let vars = {};
     vars.ip         = '<%- ip.address() %>';
 </script>
 

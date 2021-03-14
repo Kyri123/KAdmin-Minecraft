@@ -7,6 +7,29 @@
 * *******************************************************************************************
 */
 "use strict"
+let VUE_configContainer = new Vue({
+    el      : '#configContainer',
+    data    : {
+        cfg : {}
+    }
+})
+
+function getCfg() {
+    $.get('/ajax/serverCenterConfig', {
+        serverCfg: true,
+        server: vars.cfg
+    })
+       .done((data) => {
+              VUE_configContainer.cfg = JSON.parse(data)
+          })
+       .fail(
+          () => setTimeout(
+             () => getCfg()
+          ), 5000
+       )
+}
+getCfg()
+
 let editor = {
     "#serverprop": CodeMirror.fromTextArea(document.getElementById("serverprop"), {
         lineNumbers: true,
@@ -15,7 +38,7 @@ let editor = {
     })
 }
 
-if (hasPermissions(globalvars.perm, "confg/server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
+if (hasPermissions(globalvars.perm, "config/show_server", varser.cfg)) $.get('/ajax/serverCenterConfig', {
     serverInis: true,
     ini: "server",
     server: vars.cfg
@@ -36,8 +59,8 @@ function saveCfg() {
             console.log(e)
             fireToast(19, "error")
         }
-    });
-    return false;
+    })
+    return false
 }
 
 /**
@@ -54,6 +77,7 @@ function serverSave(htmlID, cfg) {
     }, (data) => {
         try {
             data = JSON.parse(data)
+            getCfg()
             fireToast(data.success ? 1 : 19, data.success ? "success" : "error")
         } catch (e) {
             console.log(e)
@@ -62,19 +86,3 @@ function serverSave(htmlID, cfg) {
     })
     return false
 }
-
-/*
-function addToForm(type) {
-    let rndID   = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 50);
-    let toAdd   = `<tr id="${rndID}">
-                        <td class="p-2" colspan="2">
-                            <div class="input-group mb-0">
-                                <input type="text" name="${type}[]" class="form-control form-control-sm">
-                                <div class="input-group-append">
-                                    <span onclick="$('#${rndID}').remove()" style="cursor:pointer" class="input-group-btn btn-danger pr-2 pl-2 pt-1 " id="basic-addon2"><i class="fa fa-times" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>`;
-    $(`#${type}`).after(toAdd);
-}*/

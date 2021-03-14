@@ -1,4 +1,8 @@
 {
+  "free"          : "Speicherplatz für Backups",
+  "max"           : "Anzahl an Backups",
+  "inv"           : "Unbegrenzt",
+  "mem"           : "Arbeitsspeicher",
   "actionFree"    : "Aktion ausführen",
   "actionClose"   : "Gesperrt",
   "state"         : "Server Status",

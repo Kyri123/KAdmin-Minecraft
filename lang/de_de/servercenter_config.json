@@ -1,5 +1,5 @@
 {
-  "pagename"      : "ServerCenter > Konfig",
+  "pagename"      : "ServerCenter",
   "save"          : "Speichern",
   "true"          : "An",
   "false"         : "Aus",
@@ -8,11 +8,13 @@
     "pathBackup"            : "Backup Pfad",
     "pathLogs"              : "Logs Pfad",
     "autoBackup"            : "Automatisches Backup",
-    "autoBackupInterval"    : "Automatisches Backup Intervall (in ms)",
+    "autoBackupInterval"    : "Automatisches Backup Intervall",
     "selfname"              : "Serverbezeichnung (im Panel)",
-    "xmx"                   : "Maximale RAM zuweisung (in MB)",
-    "xms"                   : "Minimale RAM zuweisung (in MB)",
+    "xmx"                   : "Maximale RAM zuweisung",
+    "xms"                   : "Minimale RAM zuweisung",
     "extrajava"             : "Java Parameters",
-    "jar"                   : ".Jar Datei die als Server verwendet werden soll"
+    "jar"                   : ".Jar Datei die als Server verwendet werden soll",
+    "autoBackupMaxCount"    : "Maximale Anzahl an Backups (0 = unendlich; die ältesten backups werden gelöscht)",
+    "autoBackupMaxDirSize"  : "Maximale Größe des Backup Ordners (0 = unendlich; die ältesten backups werden gelöscht)"
   }
 }

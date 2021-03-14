@@ -14,6 +14,31 @@ let whiteList   = false
 let banList     = {}
 let old_alerts  = undefined
 
+// Vue Serverlist
+const VUE_serverCenterHead = new Vue({
+    el      : '#serverCenterHead',
+    data    : {
+        logoBorder      : "border-dark",
+        infoCounter     : 0,
+        infoArray       : [],
+        state           : "...",
+        stateClass      : "description-header text-dark",
+        action          : "...",
+        actionClass     : "description-header text-dark",
+        version         : "...",
+        player          : "...",
+        playerArray     : [],
+        playerAlert     : alerter(2000, "", 3, false, 3, 3, 3, true),
+        max             : 0,
+        maxis           : 0,
+        maxfiles        : 0,
+        maxfilesis      : 0,
+        maxmemory       : 0,
+        memory          : 0,
+        cpuUsage        : 0
+    }
+})
+
 // Bestätige mit Enter suche von Modpacks
 $("#lfModPackInput").keypress((event) => {
     if (event.key === "Enter") {
@@ -66,102 +91,76 @@ function getSCState() {
         "server": varser.cfg
     }, (data) => {
         let serverInfos     = JSON.parse(data)
-        let state_id        = $('#state')
-        let player_id       = $('#player')
         let inhalt
 
+        console.log(serverInfos)
+        VUE_serverCenterHead.max            = serverInfos.backup.max * 1024 * 1024
+        VUE_serverCenterHead.maxis          = serverInfos.backup.maxis
+        VUE_serverCenterHead.maxfiles       = serverInfos.backup.maxCount
+        VUE_serverCenterHead.maxfilesis     = serverInfos.backup.maxCountis
+        VUE_serverCenterHead.maxmemory      = serverInfos.maxmemory * 1024 * 1024
+        VUE_serverCenterHead.memory         = serverInfos.memory
+        VUE_serverCenterHead.cpuUsage       = serverInfos.cpuUsage
+
+        // Serverstatus (Farbe)
         let                                                                             stateColor  = "danger"
         if(!serverInfos.is_installed)                                                   stateColor  = "warning"
         if(serverInfos.pid !== 0 && serverInfos.online)                                 stateColor  = "success"
         if((serverInfos.pid !== 0 && !serverInfos.online) || serverInfos.isAction)      stateColor  = "primary"
         if(serverInfos.is_installing)                                                   stateColor  = "info"
 
-        let stateText = varser.lang_arr.forservers.state[stateColor]
+        VUE_serverCenterHead.state          = varser.lang_arr.forservers.state[stateColor]
+        VUE_serverCenterHead.stateClass     = `description-header text-${stateColor}`
+        VUE_serverCenterHead.logoBorder     = `border-${stateColor}`
 
         // Versionserfassung
-            let version
-            if(stateColor === "danger" || stateColor === "warning") {
-                version = hasPermissions(globalvars.perm, "versionpicker", varser.cfg)
-                   ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
-                   : serverInfos.version
-            }
-            else {
-                version = serverInfos.version
-            }
-            $('#version').html(version)
-
-        //server IMG
-            $('#serv_img')
-               .attr('class', `border-${stateColor}`)
-               .attr('src', serverInfos.icon)
-
-        // Status
-            if(state_id.html() !== stateText) state_id.html(stateText).attr('class',`description-header text-${stateColor}`)
+        VUE_serverCenterHead.version        = !((stateColor === "danger" || stateColor === "warning") && hasPermissions(globalvars.perm, "versionpicker", varser.cfg))
+           ? serverInfos.version
+           : `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#versionpicker">${serverInfos.version}</a>`
 
         // Action Card
-            let css
-            if(stateColor === "warning" || stateColor === "info") {
-                inhalt = varser.lang_arr.servercenter_any.actionClose
+            let css         = 'danger'
+            inhalt          = varser.lang_arr.servercenter_any.actionClose
+
+            if(!(stateColor === "warning" || stateColor === "info") && hasPermissions(globalvars.perm, "actions", varser.cfg)) {
+                inhalt      = `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#action">${varser.lang_arr.servercenter_any.actionFree}</a>`
+                css         = "success"
             }
-            else {
-                inhalt = hasPermissions(globalvars.perm, "actions", varser.cfg)
-                    ? `<a href="javascript:void()" class="small-box-footer btn btn-sm btn-success" data-toggle="modal" data-target="#action">${varser.lang_arr.servercenter_any.actionFree}</a>`
-                    : varser.lang_arr.servercenter_any.actionClose
-            }
-            css = 'success'
-            if($('#actions').html() !== inhalt) $('#actions').html(inhalt).attr('class',`description-header text-${css}`);// Action Card -> Select
+
+            VUE_serverCenterHead.action          = inhalt
+            VUE_serverCenterHead.actionClass     = `description-header text-${css}`
 
         // Spielerliste
             // Button & Anzeige
+            VUE_serverCenterHead.player = `${serverInfos.aplayers} / ${serverInfos.players}`
             if(stateColor === "success") {
-                $('#btnJoin').attr('href', joinAdress).toggleClass("disabled", false)
-                //inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
-                inhalt = hasPermissions(globalvars.perm, "showplayers", varser.cfg)
+                VUE_serverCenterHead.player = hasPermissions(globalvars.perm, "showplayers", varser.cfg)
                    ? `<a href="#" data-toggle="modal" data-target="#playerlist_modal" class="btn btn-sm btn-primary">${serverInfos.aplayers} / ${serverInfos.players}</a>`
                    : `${serverInfos.aplayers} / ${serverInfos.players}`
             }
-            else {
-                $('#btnJoin').attr('href', '').toggleClass("disabled", true)
-                inhalt = `${serverInfos.aplayers} / ${serverInfos.players}`
-            }
-            if(player_id.html() !== inhalt) player_id.html(inhalt)
 
             // Liste
-            let playerlist
-            let i           = 0
+            VUE_serverCenterHead.playerArray    = []
+            let i                               = 0
             serverInfos.aplayersarr.sort((a, b) => (a.name < b.name) ? 1 : -1)
             for(let item of serverInfos.aplayersarr) {
                 let isOP    = "false"
                 for(let op of opList)
-                    if(op.uuid === item.id) isOP = "true"
+                    if(op.uuid === item.id) isOP = true
 
-                playerlist  += `
-                        <tr>
-                        <td style="width: 50%">
-                            <div class="media">
-                                <img src="https://crafatar.com/renders/body/${item.id}" alt="User Avatar" class="mr-3 img-circle" style="height: 60px">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title text-bold">
-                                        ${item.name}
-                                        <a target="_blank" href="https://de.namemc.com/profile/${item.id}" class="float-right text-sm btn btn-sm btn-outline-info"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                        ${hasPermissions(globalvars.perm, "sendCommands", varser.cfg) ? `
-                                            <button onclick="playeraction('${item.id}', '${item.name}', 'ban')" class="float-right text-sm btn btn-sm btn-outline-danger mr-1"><i class="fas fa-lock"></i></button>
-                                            <button onclick="playeraction('${item.id}', '${item.name}', 'kick')" class="float-right text-sm btn btn-sm btn-outline-danger mr-1"><i class="fa fa-times"></i></button>
-                                            <button onclick="playeraction('${item.id}', '${item.name}', 'op', '${isOP}')" class="float-right text-sm btn btn-sm btn-outline-primary mr-1">${isOP === "true" ? "<i class=\"fas fa-angle-double-down\"></i>" : "<i class=\"fas fa-angle-double-up\"></i>"}</button>
-                                        ` : ""}
-                                    </h3>
-                                    <p class="text-sm m-0"><b>OP:</b> <span class="text-${isOP === "true" ? "success" : "danger"}">${globalvars.lang_arr["servercenter_any"].playermodal[isOP]}</span></p>
-                                    <p class="text-sm m-0"><b>ID:</b> ${item.id}</p>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                `
-                i++
+                item.img                = 'https://crafatar.com/renders/body/' + item.id
+                item.url                = 'https://de.namemc.com/profile/' + item.id
+                item.isOP               = isOP
+                item.isOPIcon           = isOP ? "fas fa-angle-double-down" : "fas fa-angle-double-up"
+                item.isOPText           = globalvars.lang_arr["servercenter_any"].playermodal[isOP]
+                item.isOPColor          = `text-${isOP ? "success" : "danger"}`
+                item.canSendCommands    = hasPermissions(globalvars.perm, "sendCommands", varser.cfg)
+                VUE_serverCenterHead.playerArray.push(item)
             }
 
-            $(`#playerlist`).html(playerlist ? playerlist : alerter(2000, "", 3, false, 3, 3, 3, true))
-
+            VUE_serverCenterHead.playerAlert = VUE_serverCenterHead.playerArray.length === 0
+               ? alerter(2000, "", 3, false, 3, 3, 3, true)
+               : ""
 
         // Alerts
             if(serverInfos.alerts !== undefined) {
@@ -171,16 +170,13 @@ function getSCState() {
                     old_alerts = serverInfos.alerts
                 }
 
-                let list    = []
-                let counter = 0
+                VUE_serverCenterHead.infoArray   = []
+                VUE_serverCenterHead.infoCounter = 0
 
                 serverInfos.alerts.forEach((val) => {
-                    list.push(alerter(val, "", 3, false, 3, 3, 3, true))
-                    if(val !== "4000") counter++
+                    VUE_serverCenterHead.infoArray.push({alert: alerter(val, "", 3, false, 3, 3, 3, true)})
+                    if(val !== "4000") VUE_serverCenterHead.infoCounter++
                 })
-
-                $(`#infoCounter`).html(counter)
-                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
             }
             else {
                 if(old_alerts === undefined) old_alerts = []
@@ -189,11 +185,9 @@ function getSCState() {
                     old_alerts = []
                 }
 
-                let list    = []
-                let counter = 0
-                list.push(alerter("4000", "", 3, false, 3, 3, 3, true))
-                $(`#infoCounter`).html(counter)
-                $(`#AlertBody`).html(list.join('<hr class="m-0">'))
+                VUE_serverCenterHead.infoArray   = []
+                VUE_serverCenterHead.infoCounter = 0
+                VUE_serverCenterHead.infoArray.push({alert: alerter("4000", "", 3, false, 3, 3, 3, true)})
             }
     })
 }
@@ -531,6 +525,7 @@ function installModpack(modid, fileid, server, btnid) {
  */
 function playeraction(uuid, name, action, isop = "false") {
     let command = ""
+    isop        = isop.toString()
 
     if(action === "op") {
         command = `${isop === "false" ? "op" : "deop"} ${name}`
@@ -547,23 +542,7 @@ function playeraction(uuid, name, action, isop = "false") {
         "command"           : command,
         "server"            : vars.cfg
     }
-    $.post('/ajax/serverCenterAny', postObj, (data) => {
-        try {
-            let info = JSON.parse(data)
-            if (info.success) {
-                fireToast(15)
-            }
-            else {
-                fireToast(16, "error")
-            }
-        }
-        catch (e) {
-            fireToast(16, "error")
-            console.log(e)
-            btn
-                .attr("class", "btn btn-sm btn-outline-danger")
-                .html(`<i class="fa fa-times"></i>`)
-        }
-        // done
-    })
+    $.post('/ajax/serverCenterAny', postObj, (data) =>
+        fireToast(data === "true" ? 15 : 16, data === "true" ? "success" : "error")
+    )
 }

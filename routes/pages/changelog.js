@@ -30,7 +30,10 @@ router.route('/')
             page        : "changelog",
             response    : response,
             perm        : userHelper.permissions(req.session.uid),
-            sinfos      : globalinfos.get()
+            sinfos      : globalinfos.get(),
+            breadcrumb  : [
+                lang.breadcrumb["changelog"]
+            ]
         });
     })
 

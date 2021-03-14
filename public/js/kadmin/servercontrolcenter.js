@@ -8,128 +8,151 @@
 */
 "use strict"
 
-// + am ende um neue Server hinzuzufügen
-const toEnd = `    <a class="col-lg-6 col-xl-6" data-toggle="modal" data-target="#addserver" href="#">
-                        <div class="border border-success text-success align-content-center justify-content-center align-items-center d-flex card" style="font-size: 75px; width:100%; height:278px; border: 2px solid!important; cursor: pointer">
-                            <i class="fas fa-plus" aria-hidden="true"></i>
-                        </div>
-                    </a>`
+let VUE_serverControlCenterContainer = new Vue({
+    el      : '#serverControlCenterContainer',
+    data    : {
+        servers         : {},
+        canAdd          : hasPermissions(globalvars.perm, "servercontrolcenter/create"),
+        canEdit         : hasPermissions(globalvars.perm, "servercontrolcenter/editServer")
+    }
+})
 
-setInterval(() => {
+let VUE_serverControlCenterModals = new Vue({
+    el      : '#serverControlCenterModals',
+    data    : {
+        cfgForm         : {},
+        action          : 'add',
+        targetServer    : undefined,
+        canAdd          : hasPermissions(globalvars.perm, "servercontrolcenter/create"),
+        canEdit         : hasPermissions(globalvars.perm, "servercontrolcenter/editServer")
+    }
+})
+
+function getServers() {
     /**
      * hole Server für die Anzeige
      */
     $.get('/ajax/serverCenterAny?getglobalinfos', (datas) => {
+        let serverList = JSON.parse(datas).servers_arr
+        let objServers = {}
 
-        let serverList  = JSON.parse(datas).servers_arr
-        if(serverList.length > 0) {
+        if (serverList.length > 0) {
             let list = ``
-            serverList.forEach((val) => {
-                let stateColor                                                 = "danger"
-                if(!val[1].is_installed)                            stateColor = "warning"
-                if(val[1].pid !== 0 && !val[1].online)              stateColor = "primary"
-                if(val[1].pid !== 0 && val[1].online)               stateColor = "success"
-                if(val[1].is_installing)                            stateColor = "info"
+            serverList.forEach((val, key) => {
+                let server = {}
+                if (hasPermissions(globalvars.perm, "show", val[0])) {
+                    let stateColor = "danger"
+                    if (!val[1].is_installed) stateColor = "warning"
+                    if (val[1].pid !== 0 && !val[1].online) stateColor = "primary"
+                    if (val[1].pid !== 0 && val[1].online) stateColor = "success"
+                    if (val[1].is_installing) stateColor = "info"
 
-                if(hasPermissions(globalvars.perm, "show", val[0])) list +=    `    <div class="col-lg-6 col-xl-6" id="${val[0]}">
-                    <div class="card card-widget widget-user  item-box">
-                        <div class="rounded-0 card bg-dark card-widget widget-user mb-0">
-                            <div class="row p-2" title="${val[1].selfname}">
-                                <div class="col-12 text-center">
-                                    <h5 class="text-center left d-inline pt-3 pl-0 m-0">
-                                        ${val[1].selfname}
-                                    </h5>
-                                </div>
-            
-                            </div>
-                        </div>
-                        <div class="rounded-0 widget-user-header text-white" style="background: url('/img/backgrounds/sc.jpg') center center;">
-                            <!--<h5 title="" class="widget-user-desc text-bold text-center border" style="background-color: rgb(66 66 66 / 58%)!important;">
-                                <a href="/cluster#4c51f09bf0330d03047f8bc634290fc8" class="text-light"></a>
-                            </h5>-->
-                        </div>
-                        <div class="widget-user-image" id="serv_img" style="top: 135px;z-index: 1000"><img src="${val[1].icon}" style="border-top-width: 3px!important;height: 90px;width: 90px;background-color: #001f3f" class="border-secondary"></div>
-                        
-                        <div class="d-flex bd-highlight">
-                            <div class="rounded-0 p-0 flex-fill bd-highlight">
-                                <a href="/servercenter/${val[0]}" style="width: 100%" class="rounded-0 btn btn-dark"><i class="fas fa-server" aria-hidden="true"></i></a>
-                            </div>
-                            <div class="rounded-0 p-0 flex-fill bd-highlight">
-                                <a style="width: 100%" class="rounded-0 text-white btn btn-danger${hasPermissions(globalvars.perm, "servercontrolcenter/delete", val[0]) ? `" data-toggle="modal" data-target="#remove${val[0]}"` : ' disabled"'}><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer p-0">
-                            <div class="row">
-                                <div class="col-sm-6 border-right border-sm-right">
-                                    <div class="description-block">
-                                        <h5 class="description-header"><b class="text-${stateColor}">${globalvars.lang_arr.forservers.state[stateColor]}</b></h5>
-                                        <span class="description-text">${globalvars.lang_arr.servercontrolcenter.state}</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="description-block">
-                                        <h5 class="description-header"><b>${val[1].version}</b></h5>
-                                        <span class="description-text">VERSION</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `
+                    server.stateColor   = stateColor
+                    server.name         = val[0]
+                    server.datas        = val[1]
+                    server.deleletePerm = hasPermissions(globalvars.perm, "servercontrolcenter/delete")
+                    server.editPerm     = hasPermissions(globalvars.perm, "servercontrolcenter/editServer")
 
-                if($(`#remove${val[0]}`).html() === undefined) $('#modallist').append(`<form class="modal" method="post" action="#" id="remove${val[0]}" tabindex="-1" style="display: none;" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl" role="document" style="max-width: 700px">
-                                        <div class="modal-content border-0">
-                                            <div class="modal-header bg-danger">
-                                                <h5 class="modal-title">${globalvars.lang_arr.servercontrolcenter.modalDelete.title}</h5>
-                                            </div>
-                                
-                                            <div class="modal-body">
-                                                <p>${globalvars.lang_arr.servercontrolcenter.modalDelete.text.replace("{servername}", val[1].selfname)}</p>
-                                                <input name="cfg" value="${val[0]}" type="hidden">
-                                                <input name="deleteserver" value="true" type="hidden">
-                                            </div>
-                                
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">${globalvars.lang_arr.servercontrolcenter.modalDelete.cancel}</button>
-                                                <button type="button" class="btn btn-danger" name="del" onclick="submitform('#remove${val[0]}')">${globalvars.lang_arr.servercontrolcenter.modalDelete.remove}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>`)
+                    objServers[key] = server
+                }
             })
-            if(hasPermissions(globalvars.perm, "servercontrolcenter/create")) list += toEnd
-            $('#sccserverlist').html(list)
+            VUE_serverControlCenterContainer.servers = objServers
         }
     })
-}, 2000)
+}
+
+getServers()
+setInterval(() => getServers(), 2000)
 
 /**
- * Submit ein Formular
- * @param {string} id
+ * Erstellt ein Server
  */
-function submitform(id) {
-    $.post(`/ajax/servercontrolcenter`, $(id).serialize())
-        .done(function(data) {
-            try {
-                data = JSON.parse(data)
-                if(data.alert !== undefined) $('#global_resp').append(data.alert)
-                if (data.remove !== undefined) {
-                    $(id).modal('hide')
-                    $(`#remove${data.removed}`).modal('hide').remove()
-                    $(`#${data.removed}`).remove()
-                    $('.modal-backdrop').remove()
-                }
-                if(data.added !== undefined) {
-                    $(`#addserver`).modal('hide')
-                    $('.modal-backdrop').remove()
-                }
-            }
-            catch (e) {
-                $(id).modal('hide')
-                $('.modal-backdrop').remove()
-            }
-        })
+function sendServer() {
+    $.post(`/ajax/servercontrolcenter`, $('#server').serialize())
+       .done(function (data) {
+           try {
+               // erzeuge Meldungen
+               let response = JSON.parse(data)
+               if(response.action === "add")    fireToast(response.success ? 43 : 42, response.success ? "success" : "error")
+               if(response.action === "edit")   fireToast(response.success ? 45 : 44, response.success ? "success" : "error")
+
+               // reload
+               getServers()
+
+               // schließe Modal
+               $(`#server`).modal('hide')
+               $('.modal-backdrop').remove()
+           } catch (e) {
+               console.log(e)
+               $(`#server`).modal('hide')
+               $('.modal-backdrop').remove()
+               fireToast(46, "error")
+           }
+       })
+       .fail(() => {
+           fireToast(46, "error")
+       })
+}
+
+/**
+ * Entfernen eines Servers
+ * @param {string} server
+ */
+function remove(server) {
+    if(hasPermissions(globalvars.perm, "show", server)) swalWithBootstrapButtons .fire({
+        icon: 'question',
+        text: globalvars.lang_arr["servercontrolcenter"].modalDelete.text.replace('{servername}', server),
+        title: `<strong>${globalvars.lang_arr["servercontrolcenter"].modalDelete.remove}</strong>`,
+        showCancelButton: true,
+        confirmButtonText: `<i class="far fa-trash-alt"></i>`,
+        cancelButtonText: `<i class="fas fa-times"></i>`,
+    }).then((result) => {
+        let cancel = true
+        if (result.isConfirmed) {
+            $.post("/ajax/serverControlCenter", {
+                cfg             : server,
+                deleteserver    : true
+            })
+               .done((data) => {
+                   try {
+                       let success = JSON.parse(data).success
+                       fireToast(success ? 41 : 40, success ? 'success' : 'error')
+                       getServers()
+                   }
+                   catch (e) {
+                       console.log(e)
+                       fireToast(40, "error")
+                   }
+               })
+               .fail(() => {
+                   fireToast(40, "error")
+               })
+            cancel = false
+        }
+        if(cancel) fireToast(40, "error")
+    })
+}
+
+/**
+ * Öffnet das Modal mit Value Daten
+ * @param {string} action Aktion (add oder edit)
+ * @param {string} server welchen server (undefined oder existierenden Server Namen)
+ */
+function openModal(action, server = undefined) {
+    $.get('/ajax/servercontrolcenter', {
+        serverCfg   : server,
+        type        : action
+    })
+       .done((data) => {
+           try{
+               let response                                  = JSON.parse(data)
+               VUE_serverControlCenterModals.action          = action
+               VUE_serverControlCenterModals.cfgForm         = response
+               VUE_serverControlCenterModals.targetServer    = server
+               $(`#server`).modal('show')
+           }
+           catch (e) {
+               //setTimeout(() => openModal(action, server), 2000)
+           }
+       })
 }

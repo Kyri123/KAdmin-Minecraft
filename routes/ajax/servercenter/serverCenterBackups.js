@@ -34,14 +34,13 @@ router.route('/')
                 try {
                     if(file.name.includes(".zip") && /^[0-9]+$/.test(file.name.replaceAll(".zip", ""))) {
                         let path = pathMod.join(serverCFG.pathBackup, file.name)
-                        console.log(path)
                         globalUtil.safeFileRmSync([path])
                         file.mv(pathMod.join(path))
                         success = true
                     }
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                     success = false
                 }
 
@@ -54,7 +53,7 @@ router.route('/')
             }
         }
         catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
         }
 
         if(
@@ -66,12 +65,32 @@ router.route('/')
             let serverCFG   = serverData.getConfig()
             let success     = false
             try {
-                if(globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
-                    success = globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
+                if(Array.isArray(POST.file)) {
+                    let tmpSuccess = true
+                    for(let file of POST.file) {
+                        if(!file.includes("/")) {
+                            if (globalUtil.poisonNull(file) && !file.includes("..")) {
+                                if (!globalUtil.safeFileRmSync([serverCFG.pathBackup, file]))
+                                    tmpSuccess = false
+                            }
+                            else {
+                                tmpSuccess = false
+                            }
+                        }
+                        else {
+                            tmpSuccess = false
+                        }
+                    }
+                    success = tmpSuccess
+                }
+                else {
+                    if (globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
+                        success = globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
+                    }
                 }
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
 
             res.render('ajax/json', {
@@ -79,6 +98,7 @@ router.route('/')
                     success: success
                 })
             })
+            return
         }
 
         // Playin
@@ -111,7 +131,7 @@ router.route('/')
                 }
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
 
             res.render('ajax/json', {
@@ -119,6 +139,7 @@ router.route('/')
                     success: success
                 })
             })
+            return
         }
 
 

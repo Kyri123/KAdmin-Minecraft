@@ -11,8 +11,9 @@
 console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
 console.log('\x1b[33m%s\x1b[0m', `          ${Installed ? "       " : " "}   [ KAdmin-Minecraft${Installed ? "" : " - Installer"} ] `)
 console.log('\x1b[33m%s\x1b[0m', `                       Version: \x1b[36m${panelVersion}`)
+console.log('\x1b[33m%s\x1b[0m', `                     Build: \x1b[36m${buildID}`)
 console.log('\x1b[33m%s\x1b[0m', `                    Entwickler: \x1b[36mKyri123`)
-console.log('\x1b[33m%s\x1b[0m', `                        Branch: \x1b[36m${panelBranch}`)
+//console.log('\x1b[33m%s\x1b[0m', `                        Branch: \x1b[36m${panelBranch}`)
 console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
 console.log('\x1b[33m%s\x1b[0m', `  Github:  \x1b[36mhttps://github.com/Kyri123/KAdmin-Minecraft`)
 console.log('\x1b[33m%s\x1b[0m', `  Discord: \x1b[36mhttps://discord.gg/uXxsqXD`)
@@ -58,24 +59,3 @@ fs.readdirSync(pathLangDir).forEach(item => {
             }
         })
 })
-
-// lese Changelog
-if(Installed) {
-    let pathFile    = pathMod.join(mainDir, '/app/json/panel/', 'changelog.json')
-    try {
-        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathFile}`)
-        global.changelog                    = globalUtil.safeFileReadSync([pathFile], true)
-        if(typeof changelog === "boolean") {
-            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
-            console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-            process.exit(1)
-        }
-        changelog.reverse()
-    }
-    catch (e) {
-        if(debug) console.log(e)
-        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m ${pathFile} not found`)
-        console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
-        process.exit(1)
-    }
-}

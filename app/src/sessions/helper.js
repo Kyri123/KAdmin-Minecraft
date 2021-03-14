@@ -64,7 +64,7 @@ module.exports = {
                 permissions.server[key] = permissions_servers
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
         }
 
@@ -89,7 +89,7 @@ module.exports = {
                     permissions.server[key] = permissions_servers
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
 
@@ -138,7 +138,7 @@ module.exports = {
                 return bool
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
         }
         return false

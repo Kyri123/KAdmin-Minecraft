@@ -19,31 +19,40 @@ router.route('/')
 
         // Speicher Server
         if(POST.saveServer !== undefined && userHelper.hasPermissions(req.session.uid, "config/kadmin-mc", POST.cfg)) {
-            let serverData  = new serverClass(POST.cfg);
+            let serverData  = new serverClass(POST.cfg)
+            let cfg         = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+            let forbidden   = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let currCfg     = serverData.getConfig()
+            let sendedCfg   = POST.cfgsend
 
-            delete POST.saveServer;
-            delete POST.cfg;
+            delete POST.saveServer
+            delete POST.cfg
 
-            // Wandel string in
-            if(POST.cfgsend.autoBackupPara === undefined) POST.cfgsend.autoBackupPara = []
-            Object.keys(POST.cfgsend).forEach((key) => {
-                if(Array.isArray(POST.cfgsend[key])){
-                    // skip
+            // Erstelle Cfg
+            for (const [key, value] of Object.entries(cfg)) {
+                cfg[key] = currCfg[key]
+
+                if(!forbidden[key]) {
+                    if(!(key === 'extrajava' &&
+                        (sendedCfg[key].toString().toLowerCase().includes('-xmx') || sendedCfg[key].toString().toLowerCase().includes('-xms'))
+                    )) {
+                        cfg[key] = sendedCfg[key]
+                    }
+                    else {
+                        cfg[key] = currCfg[key]
+                    }
                 }
-                else if(!isNaN(POST.cfgsend[key])){
-                    POST.cfgsend[key] = parseInt(POST.cfgsend[key], 10);
-                }
-                else if(POST.cfgsend[key] === 'false'){
-                    POST.cfgsend[key] = false;
-                }
-                else if(POST.cfgsend[key] === 'true'){
-                    POST.cfgsend[key] = true;
-                }
-            })
+
+                if(key === "autoBackupPara")
+                    if(cfg[key] === undefined) cfg[key] = []
+            }
+
+            // setzte alle Vars
+            cfg = globalUtil.convertObject(cfg)
 
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    success: serverData.saveConfig(POST.cfgsend)
+                    success: serverData.saveConfig(cfg)
                 })
             })
             return true
@@ -70,19 +79,35 @@ router.route('/')
 
     .get((req,res)=>{
         // DEFAULT AJAX
-        let GET         = req.query;
-
-        // Wenn keine Rechte zum abruf
-        if(!userHelper.hasPermissions(req.session.uid, "show", GET.server) || !userHelper.hasPermissions(req.session.uid, "config/show", GET.server)) return true;
+        let GET         = req.query
+        if(GET.server === undefined) GET.server = ''
 
         // GET serverInis
-        if(GET.serverInis !== undefined) {
-            let serverData  = new serverClass(GET.server);
+        if(GET.serverInis !== undefined && userHelper.hasPermissions(req.session.uid, "show_kadmin", GET.server)) {
+            let serverData  = new serverClass(GET.server)
 
             res.render('ajax/json', {
                 data: serverData.getINI() !== false ? ini.stringify(serverData.getINI()) : 'failed'
-            });
-            return true;
+            })
+            return true
+        }
+
+        // GET serverCfg
+        if(GET.serverCfg !== undefined && userHelper.hasPermissions(req.session.uid, "show_server", GET.server)) {
+            let serverData  = new serverClass(GET.server)
+
+            let cfg         = {}
+            let forbidden   = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let currCfg     = serverData.getConfig()
+
+            for (const [key, value] of Object.entries(currCfg))
+                if(!forbidden[key])
+                    cfg[key] = currCfg[key]
+
+            res.render('ajax/json', {
+                data: JSON.stringify(cfg)
+            })
+            return true
         }
 
         res.render('ajax/json', {

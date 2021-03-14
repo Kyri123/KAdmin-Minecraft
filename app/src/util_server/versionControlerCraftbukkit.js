@@ -88,7 +88,7 @@ module.exports = class versionCraftbukkitControler {
                }
             }
             catch (e) {
-               if(debug) console.log(e)
+               if(debug) console.log('[DEBUG_FAILED]', e)
             }
          })
          return false

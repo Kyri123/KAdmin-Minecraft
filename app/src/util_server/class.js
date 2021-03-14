@@ -119,7 +119,7 @@ module.exports = class serverClass {
             return json !== false ? globalUtil.safeFileSaveSync(file, JSON.stringify(json)) : false
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return false
@@ -138,7 +138,7 @@ module.exports = class serverClass {
             return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(this.cfg))
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return false
@@ -158,7 +158,7 @@ module.exports = class serverClass {
             return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(saveData))
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return false
@@ -177,7 +177,7 @@ module.exports = class serverClass {
             return globalUtil.safeFileSaveSync([path], prop)
          }
          catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
          }
       }
       return false
@@ -197,7 +197,7 @@ module.exports = class serverClass {
                return ini.parse(file)
             }
             catch(e) {
-               if(debug) console.log(e)
+               if(debug) console.log('[DEBUG_FAILED]', e)
             }
       }
       return false

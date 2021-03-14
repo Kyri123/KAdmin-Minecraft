@@ -3,7 +3,7 @@
 <%- include('../../includes/nav') -%>
 <%- include('../../includes/content') -%>
 <%- include('./head'); -%>
-<div class="row">
+<div class="row" id="configContainer">
     <div class="col-12 mb-4">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark p-0">
@@ -13,7 +13,7 @@
 
             <div class="collapse navbar-collapse navbar-secondary" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto aa-nav" id="pills-tab">
-                    <% if(userHelper.hasPermissions(user.id, "config/show_server")) { %>
+                    <% if(userHelper.hasPermissions(userID, "config/show_server", serverName)) { %>
                         <li class="nav-item">
                             <a class="nav-link active btn-dark p-3" id="pills-gus-tab" data-toggle="pill" href="#pills-gus" role="tab" aria-controls="pills-gus" aria-selected="false">
                                 Server.Properties
@@ -21,9 +21,9 @@
                         </li>
                     <% } %>
 
-                    <% if(userHelper.hasPermissions(user.id, "config/show_kadmin")) { %>
+                    <% if(userHelper.hasPermissions(userID, "config/show_kadmin", serverName)) { %>
                         <li class="nav-item">
-                            <a class="nav-link<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
+                            <a class="nav-link<%- !userHelper.hasPermissions(userID, "config/show_server", serverName) ? " active" : "" %> btn-dark p-3" id="pills-server-tab" data-toggle="pill" href="#pills-server" role="tab" aria-controls="pills-server" aria-selected="false">
                                 KAdmin-Minecraft
                             </a>
                         </li>
@@ -36,7 +36,7 @@
         <div class="card shadow">
             <div class="tab-content" id="pills-tabContent">
 
-                <% if(userHelper.hasPermissions(user.id, "config/show_server")) { %>
+                <% if(userHelper.hasPermissions(userID, "config/show_server", serverName)) { %>
                     <!-- Server.Properties -->
                     <div class="tab-pane fade show active" id="pills-gus" role="tabpanel" aria-labelledby="pills-llog-tab">
                         <table class="table table-striped mb-0" style="border: 0!important;">
@@ -55,9 +55,8 @@
                     </div>
                 <% } %>
 
-                <% if(userHelper.hasPermissions(user.id, "config/show_kadmin")) { %>
-                    <!-- KAdmin-ArkWIN -->
-                    <form class="tab-pane fade<%- !userHelper.hasPermissions(user.id, "config/Engine") && !userHelper.hasPermissions(user.id, "config/Game") && !userHelper.hasPermissions(user.id, "config/GameUserSettings") ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
+                <% if(userHelper.hasPermissions(userID, "config/show_kadmin", serverName)) { %>
+                    <form class="tab-pane fade<%- !userHelper.hasPermissions(userID, "config/show_server", serverName) ? " show active" : "" %>" id="pills-server" role="tabpanel" aria-labelledby="pills-llog-tab">
                         <table class="table table-striped mb-0" style="border: 0!important;">
                             <thead>
                                 <tr class="bg-dark">
@@ -70,100 +69,98 @@
                             </thead>
 
                             <tbody>
-                                <% Object.entries(servcfg).forEach(([key, value]) => {
-                                       let skip = [
-                                           "shouldRun",
-                                           "autoBackupNext",
-                                           "autoUpdateNext",
-                                           "autoUpdate",
-                                           "autoUpdateInterval",
-                                           "currversion",
-                                           "jar",
-                                           "autoBackupPara"
-                                       ]
-                                        let readonly = [
-                                            "path",
-                                            "pathLogs",
-                                            "pathBackup"
-                                        ]
-                                        let isNum = [
-                                            "autoBackupInterval",
-                                            "xmx",
-                                            "xms"
-                                        ]
-                                        let isBool = [
-                                            "autoBackup"
-                                        ]
-                                        if(!skip.includes(key) && key !== "autoBackup") {
-                                %>
-                                    <tr>
-                                        <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
-                                        <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                            <div class="input-group mb-0">
-                                                <%  if(isBool.includes(key)) { %>
-                                                    <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
-                                                        <option value="true" <%- value.toString() === "true" ? "selected" : "" %>><%- lang[page].true %></option>
-                                                        <option value="false" <%- value.toString() === "false" ? "selected" : "" %>><%- lang[page].false %></option>
-                                                    </select>
-                                                <%  } else { %>
-                                                            <input type="<%- isNum.includes(key) ? "number" : "text" %>" class="form-control form-control-sm" name="cfgsend[<%- key %>]" value="<%- value %>" <%- readonly.includes(key) ? "readonly" : "" %>>
-                                                <% } %>
+                                <!-- selfname -->
+                                <tr v-for="(value, key) in cfg" v-if="typeof value !== 'object' && globalvars.lang_arr['servercenter_config'].cfg[key]">
+
+                                    <!-- Text -->
+                                    <td class="p-2">{{ globalvars.lang_arr['servercenter_config'].cfg[key] || key }}</td>
+
+                                    <!-- default Backups -->
+                                    <td v-if="key === 'autoBackup'" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group-sm mb-0">
+                                            <select class="form-control form-control-sm" name="cfgsend[autoBackup]">
+                                                <option value="true" :selected="value">{{ globalvars.lang_arr['servercenter_config'].true }}</option>
+                                                <option value="false" :selected="!value">{{ globalvars.lang_arr['servercenter_config'].false }}</option>
+                                            </select>
+                                            <!-- autoBackupPara -->
+                                            <div class="icheck-primary mb-3">
+                                                <input :checked="cfg.autoBackupPara.includes('--onlyworld')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--onlyworld" id="KONF_onlyworld">
+                                                <label for="KONF_onlyworld">
+                                                    {{ globalvars.lang_arr.forservers.parameter.onlyworld }}
+                                                </label>
                                             </div>
-                                        </td>
-                                    </tr>
-                                <%
-                                        }
-                                        else if(key === "autoBackup") { %>
-                                    <tr>
-                                        <td class="p-2"><%- lang[page].cfg[key] !== undefined ? lang[page].cfg[key] : key %></td>
-                                        <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                            <div class="input-group mb-0">
-                                                <select class="form-control form-control-sm" name="cfgsend[<%- key %>]">
-                                                    <option value="true" <%- value.toString() === "true" ? "selected" : "" %>><%- lang[page].true %></option>
-                                                    <option value="false" <%- value.toString() === "false" ? "selected" : "" %>><%- lang[page].false %></option>
-                                                </select>
-                                                <div class="icheck-primary mb-3">
-                                                    <input type="checkbox" <%- servcfg.autoBackupPara.includes("--onlyworld") ? "checked" : "" %> name="cfgsend[autoBackupPara][]" value="--onlyworld" id="KONF_onlyworld">
-                                                    <label for="KONF_onlyworld">
-                                                        <%- lang.forservers.parameter.onlyworld %>
-                                                    </label>
-                                                </div>
-                                                <div class="icheck-primary mb-3">
-                                                    <input type="checkbox" <%- servcfg.autoBackupPara.includes("--withmods") ? "checked" : "" %> name="cfgsend[autoBackupPara][]" value="--withmods" id="KONF_withmods">
-                                                    <label for="KONF_withmods">
-                                                        <%- lang.forservers.parameter.withmods %>
-                                                    </label>
-                                                </div>
-                                                <div class="icheck-primary mb-3">
-                                                    <input type="checkbox" <%- servcfg.autoBackupPara.includes("--witplugins") ? "checked" : "" %> name="cfgsend[autoBackupPara][]" value="--witplugins" id="KONF_witplugins">
-                                                    <label for="KONF_witplugins">
-                                                        <%- lang.forservers.parameter.witplugins %>
-                                                    </label>
-                                                </div>
+                                            <div class="icheck-primary mb-3">
+                                                <input :checked="cfg.autoBackupPara.includes('--withmods')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--withmods" id="KONF_withmods">
+                                                <label for="KONF_withmods">
+                                                    {{ globalvars.lang_arr.forservers.parameter.withmods }}
+                                                </label>
                                             </div>
-                                        </td>
-                                    </tr>
-                                        <% }
-                                        else {
-                                            if(key !== "jar" && key !== "autoBackupPara") {
-                                                %><input type="hidden" name="cfgsend[<%- key %>]" class="form-control form-control-sm" value="<%- value %>"><%
-                                            }
-                                        }
-                                    }) %>
-                                <tr>
-                                    <td class="p-2"><%- lang[page].cfg.jar %></td>
-                                    <td class="p-2" colspan="2" style="max-width: 400px!important;">
-                                        <div class="input-group mb-0">
-                                            <select class="form-control form-control-sm" name="cfgsend[jar]">
+                                            <div class="icheck-primary mb-3">
+                                                <input :checked="cfg.autoBackupPara.includes('--witplugins')" type="checkbox" name="cfgsend[autoBackupPara][]" value="--witplugins" id="KONF_witplugins">
+                                                <label for="KONF_witplugins">
+                                                    {{ globalvars.lang_arr.forservers.parameter.witplugins }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- default Jar -->
+                                    <td v-else-if="key === 'jar'" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group-sm mb-0">
+                                            <select class="form-control form-control-sm" :name="`cfgsend[${key}]`">
                                                 <%  jars.forEach(item => { %>
                                                     <option value="<%- item %>" <%- item === servcfg.jar ? "selected" : "" %>><%- item %></option>
                                                 <% }) %>
                                             </select>
                                         </div>
                                     </td>
+
+                                    <!-- default Size -->
+                                    <td v-else-if="key === 'xmx' || key === 'xms' || key === 'autoBackupMaxDirSize'" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group input-group-sm mb-0">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">MB</span>
+                                            </div>
+                                            <input type="number" :name="`cfgsend[${key}]`" class="form-control form-control-sm" :value="value" :id="key + 'MB'"
+                                                   @change="VUE_configContainer.cfg[key] = +document.getElementById(key + 'MB').value">
+
+                                            <input type="number" step="0.01" class="form-control form-control-sm" :value="Math.round(value / 1024 * 100) / 100" :id="key + 'GB'"
+                                                   @change="VUE_configContainer.cfg[key] = Math.round(+document.getElementById(key + 'GB').value * 1024)">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">GB</span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- default Time -->
+                                    <td v-else-if="key.toString().toLowerCase().includes('interval')" class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group input-group-sm mb-0">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">SEC</span>
+                                            </div>
+
+                                            <input type="number" step="0" class="form-control form-control-sm" :value="Math.round(value / 1000)" :id="key + 'SEC'"
+                                                   @change="VUE_configContainer.cfg[key] = Math.round(+document.getElementById(key + 'SEC').value * 1000)">
+                                            <input type="number" step="0.01" class="form-control form-control-sm" :value="Math.round(value / 1000 / 60 * 100) / 100" :id="key + 'MIN'"
+                                                   @change="VUE_configContainer.cfg[key] = Math.round(+document.getElementById(key + 'MIN').value * 60 * 1000)">
+
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">MIN</span>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" class="form-control form-control-sm" :name="`cfgsend[${key}]`" id="autoBackupIntervalValue" :value="value">
+                                    </td>
+
+                                    <!-- default Text -->
+                                    <td v-else class="p-2" colspan="2" style="max-width: 400px!important;">
+                                        <div class="input-group-sm mb-0">
+                                            <input type="text" class="form-control form-control-sm" :name="`cfgsend[${key}]`" :value="value">
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
+
                         <input type="hidden" name="saveServer" class="form-control form-control-sm" value="true">
                         <input type="hidden" name="cfg" class="form-control form-control-sm" value="<%- serverName %>">
                         <button class="btn btn-primary" style="width: 100%" onclick="saveCfg()" type="button"><%- lang[page].save %></button>
@@ -181,10 +178,10 @@
 <script>
     // Vars die zur JS übergeben werden
     // Allgemeine Vars
-    var vars = {};
+    let vars = {};
     vars.cfg = '<%- serverName %>';
 </script>
 
-<script src="/js/kadmin/servercenter_config.js" type="application/javascript"></script>
+<script src="/js/kadmin/serverCenter/config.js" type="application/javascript"></script>
 
 <%- include('../../includes/foother'); -%>

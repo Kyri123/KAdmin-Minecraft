@@ -7,12 +7,43 @@
  * *******************************************************************************************
  */
 "use strict"
-
+global.fs                             = require('fs')
+global.pathMod                        = require('path')
+global.util                           = require('util')
 global.dateFormat                     = require('dateformat')
-global.panelBranch                    = process.argv.includes("dev") ? "dev" : "master"
+
+// überschreibe console.log
+let logDir          = pathMod.join(__dirname, "latest_logs")
+let logFile         = pathMod.join(logDir, "current.log")
+
+// erstelle Log ordner & file (Überschreibe Console.log())
+if(fs.existsSync(logDir)) fs.rmSync(logDir, {recursive: true})
+fs.mkdirSync(logDir)
+fs.writeFileSync(logFile, "")
+
+let logStream = fs.createWriteStream(logFile, {flags : 'w'});
+let logStdout = process.stdout;
+
+console.log = function() {
+  logStdout.write(util.format(...arguments) + '\n')
+
+  for(let i in arguments) {
+    if(typeof arguments[i] === "string") arguments[i] = arguments[i]
+       .replaceAll('%s\x1b[0m', '')
+       .replaceAll('\x1b[30m', '')
+       .replaceAll('\x1b[31m', '')
+       .replaceAll('\x1b[32m', '')
+       .replaceAll('\x1b[33m', '')
+       .replaceAll('\x1b[34m', '')
+       .replaceAll('\x1b[35m', '')
+       .replaceAll('\x1b[36m', '')
+  }
+
+  logStream.write(util.format(...arguments) + '\n', () => logStream.emit("write"))
+}
 
 // Prüfe NodeJS version
-if(parseInt(process.version.replaceAll(".", "").replaceAll("v", "")) < 1560) {
+if(parseInt(process.version.replaceAll(/[^0-9]/g, '')) < 1560) {
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m NodeJS Version not supported (min 15.6.0)`)
   console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[31m Exit KAdmin-Minecraft`)
   process.exit(1)
@@ -38,18 +69,16 @@ const uuid                            = require('uuid')
 const helmet                          = require("helmet")
 const compression                     = require("compression")
 const backgroundRunner                = require('./app/src/background/backgroundRunner')
+const syncRequest                     = require('sync-request')
 global.userHelper                     = require('./app/src/sessions/helper')
 global.mainDir                        = __dirname
 global.ip                             = require('ip')
 global.md5                            = require('md5')
 global.htmlspecialchars               = require('htmlspecialchars')
 global.mysql                          = require('mysql')
-global.pathMod                        = require('path')
-global.fs                             = require('fs')
-//global.mode                           = "dev"
-global.panelVersion                   = "0.0.4"
-global.buildID                        = "00004.00017"
-global.isUpdate                       = false
+//global.mode                         = "dev"
+global.buildID                        = fs.readFileSync(pathMod.join(mainDir, "build"), 'utf-8')
+global.panelVersion                   = "0.1.0"
 global.globalUtil                     = require('./app/src/util')
 global.Installed                      = true
 global.serverClass                    = require('./app/src/util_server/class')
@@ -67,12 +96,25 @@ global.versionControlerModpacks       = new versionControlerModpacks()
 // Modulealerter
 require('./app/main/mainLoader.js')
 global.alerter                        = require('./app/src/alert.js')
-global.debug                          = CONFIG.main.useDebug
+global.debug                          = CONFIG.app.useDebug || false
 
 globalUtil.safeFileMkdirSync([CONFIG.app.servRoot])
 globalUtil.safeFileMkdirSync([CONFIG.app.logRoot])
 globalUtil.safeFileMkdirSync([CONFIG.app.pathBackup])
 
+global.buildIDBranch                  = false
+try {
+  global.buildIDBranch = Buffer.from(JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/build?ref=${CONFIG.updater.useBranch}`, {
+    headers: {
+      'user-agent': 'KAdmin-Minecraft',
+    },
+  }).getBody().toString()).content, 'base64').toString('utf-8')
+} catch (e) {
+  global.buildIDBranch = false
+}
+global.isUpdate                       = buildID !== buildIDBranch
+global.isUpdating                     = false
+global.needRestart                    = false
 
 // Checking Installed
 /*
@@ -102,6 +144,7 @@ let app         = express()
   app.use('/serv', express.static(pathMod.join(CONFIG.app.servRoot)))
   app.use('/logs', express.static(pathMod.join(CONFIG.app.logRoot)))
   app.use('/backup', express.static(pathMod.join(CONFIG.app.pathBackup)))
+  app.use('/nodejs_logs', express.static(logDir))
 
   // Session
   app.use(session({

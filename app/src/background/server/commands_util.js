@@ -26,7 +26,7 @@ module.exports = {
             let logPath         = servConfig.pathLogs + '/latest.log'
             if(!globalUtil.safeFileExsistsSync([logPath])) globalUtil.safeFileSaveSync([logPath], '')
 
-            return `screen -dmS kadmin-${server} bash -c "cd ${serverPath} && java ${servConfig.extrajava} -Xmx${servConfig.xmx}m -Xms${servConfig.xms}m ${servConfig.jar} nogui > ${logPath}"`
+            return `screen -dmS kadmin-${server} bash -c "cd ${serverPath} && java ${servConfig.extrajava} -Xmx${servConfig.xmx}m -Xms${servConfig.xms}m ${serverPath}/${servConfig.jar} nogui > ${logPath} && exit"`
         }
         return false
     },

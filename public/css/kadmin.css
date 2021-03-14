@@ -1,0 +1,24 @@
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #2a2a2f !important;
+    color: #fff !important;
+}
+
+body {
+    background: url('/img/backgrounds/bg.jpg') no-repeat fixed bottom center;
+    background-size:cover;
+}
+
+#changelogContainer h5 {
+    border-top: 1px solid rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    font-size: 16px;
+    line-height: 1.1;
+    margin: 0;
+    padding: 10px;
+    color: #fff!important;
+    background-color: #17a2b8!important;
+}
+#changelogContainer ul {
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
+}

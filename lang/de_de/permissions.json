@@ -16,6 +16,7 @@
     "show"                    : "Darf aufrufen",
     "create"                  : "Darf erstellen",
     "delete"                  : "Darf löschen",
+    "editServer"              : "Darf Server Konfigurationen ändern (RAM, Max Backup usw.)",
     "show_codes"              : "Darf Codes sehen (AdminCodes nur wenn der User über Admin verfügt)",
     "create_code"             : "Darf Codes erstellen (AdminCodes nur wenn der User über Admin verfügt)",
     "delete_code"             : "Darf Codes löschen",

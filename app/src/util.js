@@ -96,7 +96,7 @@ module.exports = {
                 return true
             }
             catch (e) {
-                if(debug) console.log(e)
+                if(debug) console.log('[DEBUG_FAILED]', e)
             }
         }
         return false
@@ -120,7 +120,7 @@ module.exports = {
                     return fs.existsSync(filePath)
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -148,7 +148,7 @@ module.exports = {
                     return true
                 }
                 catch (e) {
-                    if(debug) console.log(e); console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -195,7 +195,7 @@ module.exports = {
                     return json ? JSON.parse(fs.readFileSync(filePath, codierung)) : fs.readFileSync(filePath, codierung)
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -222,7 +222,7 @@ module.exports = {
                     return true
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -266,7 +266,7 @@ module.exports = {
                     return dirArray
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
@@ -304,11 +304,65 @@ module.exports = {
                     return func(filePath)
                 }
                 catch (e) {
-                    if(debug) console.log(e)
+                    if(debug) console.log('[DEBUG_FAILED]', e)
                 }
             }
         }
         return false
+    },
+
+    /**
+     * convertiert Values in Types (Array vom POST)
+     * @param {Array} obj Post Array
+     * @return {Array}
+     */
+    convertArray(array) {
+        if(Array.isArray(array))
+            array.forEach((key) => {
+                if(Array.isArray(array[key])) {
+                    array[key] = module.exports.convertArray(array[key])
+                }
+                else if(typeof array[key] === "object") {
+                    array[key] = module.exports.convertArray(array[key])
+                }
+                else if(array[key] === 'false' || array[key] === false) {
+                    array[key] = false
+                }
+                else if(array[key] === 'true' || array[key] === true) {
+                    array[key] = true
+                }
+                else if(!isNaN(array[key])) {
+                    array[key] = parseInt(array[key], 10)
+                }
+            })
+        return array
+    },
+
+    /**
+     * convertiert Values in Types (Object vom POST)
+     * @param {Object} obj Post Array
+     * @return {Object}
+     */
+    convertObject(obj) {
+        if(typeof obj === "object")
+            Object.keys(obj).forEach((key) => {
+                if(Array.isArray(obj[key])) {
+                    obj[key] = module.exports.convertArray(obj[key])
+                }
+                else if(typeof obj[key] === "object") {
+                    obj[key] = module.exports.convertObject(obj[key])
+                }
+                else if(obj[key] === 'false' || obj[key] === false) {
+                    obj[key] = false
+                }
+                else if(obj[key] === 'true' || obj[key] === true) {
+                    obj[key] = true
+                }
+                else if(!isNaN(obj[key])) {
+                    obj[key] = parseInt(obj[key], 10)
+                }
+            })
+        return obj
     },
 
     /**
@@ -329,7 +383,7 @@ module.exports = {
             return synccon.query(sql)
         }
         catch (e) {
-            if(debug) console.log(e)
+            if(debug) console.log('[DEBUG_FAILED]', e)
         }
         return false
     },
