@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -84,7 +84,7 @@ module.exports = class versionCraftbukkitControler {
                   versions.push("craftbukkit-1.1-R5-SNAPSHOT.jar")
                   versions.push("craftbukkit-1.0.0-SNAPSHOT.jar")
 
-                  globalUtil.safeFileSaveSync(this.localUrl, JSON.stringify(versions))
+                  safeFileSaveSync(this.localUrl, JSON.stringify(versions))
                }
             }
             catch (e) {
@@ -100,7 +100,7 @@ module.exports = class versionCraftbukkitControler {
     * @return {boolean|array}
     */
    readList() {
-      return globalUtil.safeFileReadSync(this.localUrl, true)
+      return safeFileReadSync(this.localUrl, true)
    }
 
    /**
@@ -112,14 +112,14 @@ module.exports = class versionCraftbukkitControler {
    downloadServer(version, path) {
       (async () => {
          path = pathMod.join(path)
-         globalUtil.safeFileSaveSync([path.replace("serverCraftbukkit.jar", "installing")], "true")
-         globalUtil.safeFileRmSync([path])
+         safeFileSaveSync([path.replace("serverCraftbukkit.jar", "installing")], "true")
+         safeFileRmSync([path])
 
          download(this.downloadUrlRaw + version.replace("Craftbukkit", "craftbukkit"))
             .pipe(fs.createWriteStream(path))
             .on("close", () => {
-               globalUtil.safeFileRmSync([path.replace("serverCraftbukkit.jar", "installing")])
-               globalUtil.safeFileSaveSync([path.replace("serverCraftbukkit.jar", "eula.txt")], "eula=true")
+               safeFileRmSync([path.replace("serverCraftbukkit.jar", "installing")])
+               safeFileSaveSync([path.replace("serverCraftbukkit.jar", "eula.txt")], "eula=true")
             })
       })()
       return true

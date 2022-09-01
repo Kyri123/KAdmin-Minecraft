@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -22,7 +22,7 @@ global.debug                          = true
 global.Installed                      = true
 global.pathMod                        = require('path')
 global.fs                             = require('fs')
-global.globalUtil                     = require('./app/src/util')
+global.globalUtil                     = require('./Src/App/Functions/util')
 global.versionSpigotControler         = require('./app/src/util_server/versionControlerSpigot')
 global.versionSpigotControler         = new versionSpigotControler()
 global.versionCraftbukkitControler    = require('./app/src/util_server/versionControlerCraftbukkit')

@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -33,12 +33,12 @@ router.route('/')
                if (FileArray.length !== undefined) {
                   for (let file of FileArray) {
                      let path = pathMod.join(POST.path, file.name)
-                     globalUtil.safeFileRmSync([path])
+                     safeFileRmSync([path])
                      file.mv(path)
                   }
                } else {
                   let path    = pathMod.join(POST.path, FileArray.name)
-                  globalUtil.safeFileRmSync([path])
+                  safeFileRmSync([path])
                   FileArray.mv(pathMod.join(path))
                }
             }
@@ -72,7 +72,7 @@ router.route('/')
             res.render('ajax/json', {
                data: JSON.stringify({
                   "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
-                     ? globalUtil.safeFileRmSync([POST.path])
+                     ? safeFileRmSync([POST.path])
                      : false
                })
             })
@@ -94,7 +94,7 @@ router.route('/')
          res.render('ajax/json', {
             data: JSON.stringify({
                "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
-                  ? globalUtil.safeFileSaveSync([POST.path], POST.data)
+                  ? safeFileSaveSync([POST.path], POST.data)
                   : false
             })
          })
@@ -112,7 +112,7 @@ router.route('/')
             res.render('ajax/json', {
                data: JSON.stringify({
                   "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
-                     ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
+                     ? fs.existsSync(pathMod.join(POST.path)) ? false : safeFileMkdirSync([POST.path])
                      : false
                })
             })
@@ -159,7 +159,7 @@ router.route('/')
                      : fs.existsSync(pathMod.join(POST.oldPath)) && !fs.existsSync(pathMod.join(POST.newPath))
                   success     = pathMod.join(POST.oldPath).includes(POST.server) && pathMod.join(POST.newPath).includes(POST.server)
                      ? validateNew
-                        ? globalUtil.safeFileRenameSync([POST.oldPath], [POST.newPath])
+                        ? safeFileRenameSync([POST.oldPath], [POST.newPath])
                         : false
                      : false
                }
@@ -167,7 +167,7 @@ router.route('/')
                   validateNew = fs.existsSync(pathMod.join(POST.oldPath)) && !fs.existsSync(pathMod.join(POST.newPath))
                   success  = pathMod.join(POST.oldPath).includes(POST.server) && pathMod.join(POST.newPath).includes(POST.server)
                      ? validateNew
-                        ? globalUtil.safeFileRenameSync([POST.oldPath], [POST.newPath])
+                        ? safeFileRenameSync([POST.oldPath], [POST.newPath])
                         : false
                      : false
                }
@@ -196,7 +196,7 @@ router.route('/')
             res.render('ajax/json', {
                data: JSON.stringify({
                   "success": pathMod.join(POST.path).includes(POST.server) && pathMod.join(POST.path) !== serverData.getConfig().path
-                     ? fs.existsSync(pathMod.join(POST.path)) ? false : globalUtil.safeFileMkdirSync([POST.path])
+                     ? fs.existsSync(pathMod.join(POST.path)) ? false : safeFileMkdirSync([POST.path])
                      : false
                })
             })
@@ -223,7 +223,7 @@ router.route('/')
          typeof GET.path     !== "undefined"
       ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/show`, GET.server)) {
          res.render('ajax/json', {
-            data: pathMod.join(GET.path).includes(GET.server) ? JSON.stringify(globalUtil.safeFileReadDirSync([GET.path])) : false
+            data: pathMod.join(GET.path).includes(GET.server) ? JSON.stringify(safeFileReadDirSync([GET.path])) : false
          })
          return true
       }
@@ -235,7 +235,7 @@ router.route('/')
       ) if(userHelper.hasPermissions(req.session.uid,`filebrowser/show`, GET.server)) {
          let serverData  = new serverClass(GET.server)
          res.render('ajax/json', {
-            data: JSON.stringify(globalUtil.safeFileReadAllDirsWithoutFilesSync([serverData.getConfig().path]))
+            data: JSON.stringify(safeFileReadAllDirsWithoutFilesSync([serverData.getConfig().path]))
          })
          return true
       }
@@ -247,7 +247,7 @@ router.route('/')
          typeof GET.file         !== "undefined"
       ) if((userHelper.hasPermissions(req.session.uid,`filebrowser/editFiles`, GET.server) || userHelper.hasPermissions(req.session.uid,`filebrowser/showFiles`, GET.server)) && GET.file.includes(GET.server)) {
          res.render('ajax/json', {
-            data: globalUtil.safeFileReadSync([GET.file])
+            data: safeFileReadSync([GET.file])
          })
          return true
       }

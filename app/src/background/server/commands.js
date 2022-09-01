@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -121,38 +121,38 @@ module.exports = {
          let zipPath          = pathMod.join(servCFG.pathBackup, `${Date.now()}.zip`)
          let backuprun        = pathMod.join(servCFG.pathBackup, `backuprun`)
          let paths            = []
-         globalUtil.safeFileMkdirSync([servCFG.pathBackup])
+         safeFileMkdirSync([servCFG.pathBackup])
 
          if(!para.includes('--onlyworld'))
-            if(globalUtil.safeFileExsistsSync([servCFG.path]))
+            if(safeFileExsistsSync([servCFG.path]))
                paths.push("./")
 
          if(para.includes('--onlyworld')) {
-            if(globalUtil.safeFileExsistsSync([servCFG.path, servINI['level-name']]))
+            if(safeFileExsistsSync([servCFG.path, servINI['level-name']]))
                paths.push(`./${servINI['level-name']}`)
-            if(globalUtil.safeFileExsistsSync([servCFG.path, servINI['level-name'] + "_nether"]))
+            if(safeFileExsistsSync([servCFG.path, servINI['level-name'] + "_nether"]))
                paths.push(`./${servINI['level-name']}_nether`)
-            if(globalUtil.safeFileExsistsSync([servCFG.path, servINI['level-name'] + "_the_end"]))
+            if(safeFileExsistsSync([servCFG.path, servINI['level-name'] + "_the_end"]))
                paths.push(`./${servINI['level-name']}_the_end`)
          }
 
          if(para.includes('--onlyworld') && para.includes('--withmods')) {
-            if (globalUtil.safeFileExsistsSync([servCFG.path, "mods"]))
+            if (safeFileExsistsSync([servCFG.path, "mods"]))
                paths.push("./mods")
-            if (globalUtil.safeFileExsistsSync([servCFG.path, "config"]))
+            if (safeFileExsistsSync([servCFG.path, "config"]))
                paths.push("./config")
          }
 
          if(para.includes('--onlyworld') && para.includes('--witplugins'))
-            if(globalUtil.safeFileExsistsSync([servCFG.path, "plugins"]))
+            if(safeFileExsistsSync([servCFG.path, "plugins"]))
                paths.push("./plugins")
 
          if(
-            !globalUtil.checkValidatePath(servCFG.path) ||
-            !globalUtil.checkValidatePath(servCFG.pathBackup)
+            !checkValidatePath(servCFG.path) ||
+            !checkValidatePath(servCFG.pathBackup)
          ) return false
 
-         if(globalUtil.safeFileCreateSync([backuprun]) && paths.length !== 0) {
+         if(safeFileCreateSync([backuprun]) && paths.length !== 0) {
             // prüfe backupverzeichnis
             let checkBackupPath = function () {
             let haveRm          = false
@@ -161,7 +161,7 @@ module.exports = {
             let maxCount  = servCFG.autoBackupMaxCount
             if(maxCount !== 0 || maxSize !== 0) {
                maxSize              = maxSize * 1e+6
-               let backupDirInfos   = globalUtil.safeFileReadDirSync([servCFG.pathBackup])
+               let backupDirInfos   = safeFileReadDirSync([servCFG.pathBackup])
                let totalSize        = 0
                let totalCount       = 0
                let oldestFile       = false
@@ -183,7 +183,7 @@ module.exports = {
                      (maxCount !== 0 && maxCount <= totalCount) ||
                      (maxSize !== 0 && maxSize <= totalSize)
                   ) {
-                     globalUtil.safeFileRmSync([servCFG.pathBackup, `${oldestFile}.zip`])
+                     safeFileRmSync([servCFG.pathBackup, `${oldestFile}.zip`])
                      haveRm = true
                   }
                }

@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -58,7 +58,7 @@ router.route('/')
             POST.code       = htmlspecialchars(POST.code.trim())
 
             let sql             = 'SELECT * FROM users WHERE `username`=? OR `email`=?'
-            let result      = globalUtil.safeSendSQLSync(sql, POST.username, POST.email)
+            let result      = safeSendSQLSync(sql, POST.username, POST.email)
 
             // Prüfe ob Benutzer in Kombination der Email bereits exsistiert
             if(result.length === 0) {
@@ -75,12 +75,12 @@ router.route('/')
                         POST.pw2        = md5(htmlspecialchars(POST.pw2.trim()))
 
                         sql             = 'SELECT * FROM reg_code WHERE `used`=0 AND `code`=?'
-                        let code_result = globalUtil.safeSendSQLSync(sql, POST.code)
+                        let code_result = safeSendSQLSync(sql, POST.code)
                         if(code_result.length > 0) {
                             sql             = `INSERT INTO users (\`username\`, \`email\`, \`password\`, \`ban\`, \`registerdate\` ,\`rang\`) VALUES (?, ?, ?, '0', '${Date.now()}', '[${code_result[0].rang}]')`
-                            if(globalUtil.safeSendSQLSync(sql, POST.username, POST.email, POST.pw1) !== false) {
+                            if(safeSendSQLSync(sql, POST.username, POST.email, POST.pw1) !== false) {
                                 sql         = 'UPDATE reg_code SET `used`=1 WHERE `code`=?'
-                                result      = globalUtil.safeSendSQLSync(sql, POST.code)
+                                result      = safeSendSQLSync(sql, POST.code)
                                 response    += alerter.rd((result !== false ? 1000 : 2), langStr)
                             }
                             else {

@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -29,9 +29,9 @@ module.exports = class serverClass {
       this.serverInfoPath     = [mainDir, '/public/json/server/', `${this.server}.json`]
       this.cfg                = {}
 
-      if(globalUtil.poisonNull(this.server)) {
-         let file        = globalUtil.safeFileReadSync(this.cfgPath, true)
-         let dfile       = globalUtil.safeFileReadSync(this.defaultCfgPath, true)
+      if(poisonNull(this.server)) {
+         let file        = safeFileReadSync(this.cfgPath, true)
+         let dfile       = safeFileReadSync(this.defaultCfgPath, true)
          this.cfg        = file !== false ? (
             dfile !== false ? array_replace_recursive(dfile, file)
                : file
@@ -46,8 +46,8 @@ module.exports = class serverClass {
     * @return {boolean}
     */
    cfgReload() {
-      let file        = globalUtil.safeFileReadSync(this.cfgPath, true)
-      let dfile       = globalUtil.safeFileReadSync(this.defaultCfgPath, true)
+      let file        = safeFileReadSync(this.cfgPath, true)
+      let dfile       = safeFileReadSync(this.defaultCfgPath, true)
       let reloadCfg   = file !== false ? (
          dfile !== false ? array_replace_recursive(dfile, file)
             : file
@@ -102,7 +102,7 @@ module.exports = class serverClass {
     * @return {object}
     */
    getServerInfos() {
-      return globalUtil.safeFileReadSync(this.serverInfoPath, true)
+      return safeFileReadSync(this.serverInfoPath, true)
    }
 
    /**
@@ -115,8 +115,8 @@ module.exports = class serverClass {
       if(this.serverExsists()) {
          try {
             let file = [mainDir, "public/server", `${this.server}.json`]
-            let json = globalUtil.safeFileReadSync(file, true)
-            return json !== false ? globalUtil.safeFileSaveSync(file, JSON.stringify(json)) : false
+            let json = safeFileReadSync(file, true)
+            return json !== false ? safeFileSaveSync(file, JSON.stringify(json)) : false
          }
          catch (e) {
             if(debug) console.log('[DEBUG_FAILED]', e)
@@ -135,7 +135,7 @@ module.exports = class serverClass {
       if(this.serverExsists() && typeof this.cfg[key] !== "undefined") {
          this.cfg[key] = value
          try {
-            return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(this.cfg))
+            return safeFileSaveSync(this.cfgPath, JSON.stringify(this.cfg))
          }
          catch (e) {
             if(debug) console.log('[DEBUG_FAILED]', e)
@@ -155,7 +155,7 @@ module.exports = class serverClass {
          try {
             let saveData               = array_replace_recursive(config, cfg)
             saveData.autoBackupPara    = cfg.autoBackupPara
-            return globalUtil.safeFileSaveSync(this.cfgPath, JSON.stringify(saveData))
+            return safeFileSaveSync(this.cfgPath, JSON.stringify(saveData))
          }
          catch (e) {
             if(debug) console.log('[DEBUG_FAILED]', e)
@@ -172,9 +172,9 @@ module.exports = class serverClass {
    saveINI(prop) {
       if(this.serverExsists()) {
          let path    = pathMod.join(this.cfg.path, `server.properties`)
-         if(!globalUtil.safeFileExsistsSync([path])) globalUtil.safeFileCreateSync([path])
+         if(!safeFileExsistsSync([path])) safeFileCreateSync([path])
          try {
-            return globalUtil.safeFileSaveSync([path], prop)
+            return safeFileSaveSync([path], prop)
          }
          catch (e) {
             if(debug) console.log('[DEBUG_FAILED]', e)
@@ -189,9 +189,9 @@ module.exports = class serverClass {
     */
    getINI() {
       if(this.serverExsists()) {
-         let file    = globalUtil.safeFileReadSync([this.cfg.path, `server.properties`])
+         let file    = safeFileReadSync([this.cfg.path, `server.properties`])
          if(file === false)
-            file     = globalUtil.safeFileReadSync([mainDir, `/app/data/ini`, `server.properties`])
+            file     = safeFileReadSync([mainDir, `/app/data/ini`, `server.properties`])
          if(file !== false)
             try {
                return ini.parse(file)

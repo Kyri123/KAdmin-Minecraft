@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -49,7 +49,7 @@ router.route('/')
             response        : response,
             sinfos          : globalinfos.get(),
             topBtn          : topBtn,
-            groups          : globalUtil.safeSendSQLSync('SELECT * FROM `user_group` ORDER BY `id`'),
+            groups          : safeSendSQLSync('SELECT * FROM `user_group` ORDER BY `id`'),
             breadcrumb      : [
                 lang.breadcrumb["userpanel"]
             ]

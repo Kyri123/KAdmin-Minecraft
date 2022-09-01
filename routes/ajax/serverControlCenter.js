@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -22,14 +22,14 @@ router.route('/')
 
             let createPerm      = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create")
             let editPerm        = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
-            let forbidden       = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let forbidden       = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
             let serverNameJSON  = undefined
             let sendedCfg       = POST.cfgsend
 
             // Erstellen
             if(POST.action === 'add' && createPerm) {
                 let curr            = fs.readdirSync(pathMod.join(mainDir, '/app/json/server/'))
-                let serverData      = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+                let serverData      = safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
 
                 let serverName      = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
                 serverNameJSON      = serverName + '.json'
@@ -54,10 +54,10 @@ router.route('/')
                 serverData.pathLogs     = serverData.pathLogs.replace('{SERVERNAME}', serverName).replace('{LOGROOT}', CONFIG.app.logRoot)
                 serverData.pathBackup   = serverData.pathBackup.replace('{SERVERNAME}', serverName).replace('{BACKUPROOT}', CONFIG.app.pathBackup)
 
-                serverData  = globalUtil.convertObject(serverData)
+                serverData  = convertObject(serverData)
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        success : globalUtil.safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(serverData)),
+                        success : safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(serverData)),
                         action  : POST.action
                     })
                 })
@@ -78,7 +78,7 @@ router.route('/')
                     }
                 }
 
-                curr  = globalUtil.convertObject(curr)
+                curr  = convertObject(curr)
 
                 console.log(curr)
 
@@ -105,12 +105,12 @@ router.route('/')
 
             // lösche alle Informationen
             try {
-                if (globalUtil.safeFileExsistsSync([mainDir, '/public/json/server/', `${serverName}.json`]))               globalUtil.safeFileRmSync([mainDir, '/public/json/server/', `${serverName}.json`])
-                if (globalUtil.safeFileExsistsSync([mainDir, '/public/json/serveraction/', `action_${serverName}.json`]))  globalUtil.safeFileRmSync([mainDir, '/public/json/serveraction/', `action_${serverName}.json`])
+                if (safeFileExsistsSync([mainDir, '/public/json/server/', `${serverName}.json`]))               safeFileRmSync([mainDir, '/public/json/server/', `${serverName}.json`])
+                if (safeFileExsistsSync([mainDir, '/public/json/serveraction/', `action_${serverName}.json`]))  safeFileRmSync([mainDir, '/public/json/serveraction/', `action_${serverName}.json`])
 
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        success: globalUtil.safeFileRmSync([mainDir, '/app/json/server/', `${serverName}.json`])
+                        success: safeFileRmSync([mainDir, '/app/json/server/', `${serverName}.json`])
                     })
                 })
                 return true
@@ -146,10 +146,10 @@ router.route('/')
             let editPerm    = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
 
             let cfg         = {}
-            let forbidden   = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let forbidden   = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
 
             if(type && createPerm) {
-                let defaultCfg      = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+                let defaultCfg      = safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
                 for (const [key, value] of Object.entries(defaultCfg))
                     if (
                        (forbidden[key] &&

@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -20,8 +20,8 @@ router.route('/')
         // Speicher Server
         if(POST.saveServer !== undefined && userHelper.hasPermissions(req.session.uid, "config/kadmin-mc", POST.cfg)) {
             let serverData  = new serverClass(POST.cfg)
-            let cfg         = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
-            let forbidden   = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let cfg         = safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+            let forbidden   = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
             let currCfg     = serverData.getConfig()
             let sendedCfg   = POST.cfgsend
 
@@ -48,7 +48,7 @@ router.route('/')
             }
 
             // setzte alle Vars
-            cfg = globalUtil.convertObject(cfg)
+            cfg = convertObject(cfg)
 
             res.render('ajax/json', {
                 data: JSON.stringify({
@@ -97,7 +97,7 @@ router.route('/')
             let serverData  = new serverClass(GET.server)
 
             let cfg         = {}
-            let forbidden   = globalUtil.safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let forbidden   = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
             let currCfg     = serverData.getConfig()
 
             for (const [key, value] of Object.entries(currCfg))

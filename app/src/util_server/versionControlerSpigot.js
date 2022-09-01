@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -71,7 +71,7 @@ module.exports = class versionSpigotControler {
                versions.push("spigot-1.4.7-R1.1-SNAPSHOT.jar")
                versions.push("spigot-1.4.6-R0.4-SNAPSHOT.jar")
 
-               globalUtil.safeFileSaveSync(this.localUrl, JSON.stringify(versions))
+               safeFileSaveSync(this.localUrl, JSON.stringify(versions))
             }
          }
          catch (e) {
@@ -86,7 +86,7 @@ module.exports = class versionSpigotControler {
     * @return {boolean|array}
     */
    readList() {
-      return globalUtil.safeFileReadSync(this.localUrl, true)
+      return safeFileReadSync(this.localUrl, true)
    }
 
    /**
@@ -98,14 +98,14 @@ module.exports = class versionSpigotControler {
    downloadServer(version, path) {
       (async () => {
          path = pathMod.join(path)
-         globalUtil.safeFileSaveSync([path.replace("serverSpigot.jar", "installing")], "true")
+         safeFileSaveSync([path.replace("serverSpigot.jar", "installing")], "true")
 
-         globalUtil.safeFileRmSync([path])
+         safeFileRmSync([path])
          download(this.downloadUrlRaw + version.replace("Spigot", "spigot"))
             .pipe(fs.createWriteStream(path))
             .on("close", () => {
-               globalUtil.safeFileRmSync([path.replace("serverSpigot.jar", "installing")])
-               globalUtil.safeFileSaveSync([path.replace("serverSpigot.jar", "eula.txt")], "eula=true")
+               safeFileRmSync([path.replace("serverSpigot.jar", "installing")])
+               safeFileSaveSync([path.replace("serverSpigot.jar", "eula.txt")], "eula=true")
             })
       })()
       return true

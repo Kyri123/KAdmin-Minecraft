@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -24,12 +24,12 @@ router.route('/')
             let alertcode   = 100
 
             if(POST.group_name !== '') {
-                let groupTest   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `name`=?', POST.group_name)
+                let groupTest   = safeSendSQLSync('SELECT * FROM `user_group` WHERE `name`=?', POST.group_name)
                 let perm        = JSON.stringify(POST.permissions) !== undefined ? JSON.stringify(POST.permissions) : "{}"
 
                 if(groupTest !== false) alertcode   = 2
                 if(groupTest !== false) if(groupTest.length === 0) {
-                    alertcode   = globalUtil.safeSendSQLSync(
+                    alertcode   = safeSendSQLSync(
                         'INSERT INTO `user_group` (name, editform, time, permissions, canadd) VALUES (?, ?, ?, ?, \'[]\')' ,
                         POST.group_name,
                         sess.uid,
@@ -57,8 +57,8 @@ router.route('/')
 
             // Superadmin darf nicht verändert werden
             if(parseInt(POST.gid) !== 1) {
-                let groupTest = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', POST.gid)
-                if(groupTest !== false) if(groupTest.length !== 0) alertcode   = globalUtil.safeSendSQLSync(
+                let groupTest = safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', POST.gid)
+                if(groupTest !== false) if(groupTest.length !== 0) alertcode   = safeSendSQLSync(
                     'DELETE FROM `user_group` WHERE `id`=?' ,
                     POST.gid
                 ) !== false ? 1015 : 2
@@ -79,11 +79,11 @@ router.route('/')
 
             // Superadmin darf nicht verändert werden
             if(parseInt(POST.gid) !== 1) {
-                let groupTest   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', POST.editgroupid)
+                let groupTest   = safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', POST.editgroupid)
                 let perm        = JSON.stringify(POST.permissions) !== undefined ? JSON.stringify(POST.permissions) : "{}"
 
                 if(groupTest !== false)                             alertcode   = 2
-                if(groupTest !== false) if(groupTest.length !== 0)  alertcode   = globalUtil.safeSendSQLSync(
+                if(groupTest !== false) if(groupTest.length !== 0)  alertcode   = safeSendSQLSync(
                         'UPDATE `user_group` SET `name`=?,`editform`=?, `time`=?, `permissions`=? WHERE `id`=?' ,
                         POST.group_name,
                         sess.uid,
@@ -120,7 +120,7 @@ router.route('/')
         if(GET.getgrouplist) {
             res.render('ajax/json', {
                 data: JSON.stringify({
-                    grouplist: globalUtil.safeSendSQLSync('SELECT * FROM user_group')
+                    grouplist: safeSendSQLSync('SELECT * FROM user_group')
                 })
             })
             return true

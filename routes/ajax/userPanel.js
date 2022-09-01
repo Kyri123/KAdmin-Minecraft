@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -96,7 +96,7 @@ router.route('/')
 
         // Userlist
         if(GET.getuserlist) {
-            let userList = globalUtil.safeSendSQLSync('SELECT `id`, `username`, `email`, `lastlogin`, `registerdate`, `rang`, `ban` FROM users')
+            let userList = safeSendSQLSync('SELECT `id`, `username`, `email`, `lastlogin`, `registerdate`, `rang`, `ban` FROM users')
             let endList  = []
 
             for(let user of userList) {
@@ -105,7 +105,7 @@ router.route('/')
                 item.groupinfo  = []
 
                 for(let rank of ranks){
-                    let groupinfo   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', rank)
+                    let groupinfo   = safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', rank)
                     if(groupinfo !== false)
                         item.groupinfo.push(groupinfo[0])
                 }
@@ -123,11 +123,11 @@ router.route('/')
 
         // Codelist
         if(GET.getcodelist) {
-            let codeList = globalUtil.safeSendSQLSync(`SELECT * FROM \`reg_code\` WHERE \`used\`=0${!userHelper.hasPermissions(req.session.uid, "all/is_admin") ? ' AND `rang`!=1' : ''}`)
+            let codeList = safeSendSQLSync(`SELECT * FROM \`reg_code\` WHERE \`used\`=0${!userHelper.hasPermissions(req.session.uid, "all/is_admin") ? ' AND `rang`!=1' : ''}`)
             let endList  = []
 
             for(let code of codeList) {
-                let groupinfo   = globalUtil.safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', code.rang)
+                let groupinfo   = safeSendSQLSync('SELECT * FROM `user_group` WHERE `id`=?', code.rang)
                 let item        = code
                 item.groupinfo  = false
                 if(groupinfo !== false)

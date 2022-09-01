@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -53,7 +53,7 @@ router.route('/')
             POST.pw     = htmlspecialchars(POST.pw.trim())
 
             let sql             = 'SELECT * FROM users WHERE `username`=? OR (`email`=? AND `password`=?)'
-            let result      = globalUtil.safeSendSQLSync(sql, POST.logger, POST.logger, md5(POST.pw))
+            let result      = safeSendSQLSync(sql, POST.logger, POST.logger, md5(POST.pw))
             // Prüfe ob Account Exsistiert
             if(result.length > 0) {
                 // Prüfe ob Account gebannt ist
@@ -68,7 +68,7 @@ router.route('/')
                             res.cookie('id', md5(sess.uid), { maxAge: (525600*60*10000), httpOnly: true })
                             res.cookie('validate', md5(rndstring), { maxAge: (525600*60*10000), httpOnly: true })
                             sql             = 'INSERT INTO `user_cookies` (`md5id`, `validate`, `userid`) VALUES (?, ?, ?)'
-                            globalUtil.safeSendSQLSync(sql, md5(sess.uid), md5(rndstring), sess.uid)
+                            safeSendSQLSync(sql, md5(sess.uid), md5(rndstring), sess.uid)
                         }
 
                         res.redirect("/home")

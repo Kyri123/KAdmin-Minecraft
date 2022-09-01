@@ -27,7 +27,7 @@ function save(data, name, state, use_state = true) {
       // Todo X.X.X Stats
       // > state > use_state
       //data.push(state)
-      globalUtil.safeFileSaveSync([mainDir, '/public/json/server', `${name}.json`], JSON.stringify(data))
+      safeFileSaveSync([mainDir, '/public/json/server', `${name}.json`], JSON.stringify(data))
 }
 
 module.exports = {
@@ -40,7 +40,7 @@ module.exports = {
             if (ITEM.includes(".json")) {
 
                 let file               = pathMod.join(mainDir, '/public/json/server/')
-                if(!globalUtil.safeFileExsistsSync([file])) globalUtil.safeFileMkdirSync([file])
+                if(!safeFileExsistsSync([file])) safeFileMkdirSync([file])
                 let name               = ITEM.replace(".json", "")
                 let serverData         = new serverClass(name)
                 let data               = serverData.getServerInfos() !== false
@@ -64,16 +64,16 @@ module.exports = {
                 data.ServerMap         = servINI["level-name"]
                 data.ServerName        = servINI["motd"]
                 data.connect           = `steam://connect/${ip.address()}:${servCFG.query}`
-                data.is_installed      = globalUtil.safeFileExsistsSync([serverPath, servCFG.jar])
-                data.is_installing     = globalUtil.safeFileExsistsSync([serverPath, "installing"])
+                data.is_installed      = safeFileExsistsSync([serverPath, servCFG.jar])
+                data.is_installing     = safeFileExsistsSync([serverPath, "installing"])
                 data.is_free           = true
                 data.selfname          = servCFG.selfname
-                data.icon              = globalUtil.safeFileExsistsSync([serverPath, "server-icon.png"])
+                data.icon              = safeFileExsistsSync([serverPath, "server-icon.png"])
                    ? `/serv/${name}/server-icon.png`
                    : "/img/logo/logo.png"
                 data.isAction          = (
-                    globalUtil.safeFileExsistsSync([serverPath, "backuprun"]) ||
-                    globalUtil.safeFileExsistsSync([serverPath, "isplayin"])
+                    safeFileExsistsSync([serverPath, "backuprun"]) ||
+                    safeFileExsistsSync([serverPath, "isplayin"])
                 )
 
                 // Runing infos
@@ -86,7 +86,7 @@ module.exports = {
 
                 // BackupInfos
                 let obj         = {},
-                    scan        = globalUtil.safeFileReadDirSync([servCFG.pathBackup])
+                    scan        = safeFileReadDirSync([servCFG.pathBackup])
                 obj.max         = servCFG.autoBackupMaxDirSize
                 obj.maxCount    = servCFG.autoBackupMaxCount
                 if(scan !== false) {
@@ -134,9 +134,9 @@ module.exports = {
                         data.alerts.push("3995")
 
                     // Eula
-                    let eula                = globalUtil.safeFileExsistsSync([serverPath, "eula.txt"]) === false
+                    let eula                = safeFileExsistsSync([serverPath, "eula.txt"]) === false
                         ? ""
-                        : globalUtil.safeFileReadSync([serverPath, "eula.txt"])
+                        : safeFileReadSync([serverPath, "eula.txt"])
                     if(!eula.includes("eula=true"))
                         data.alerts.push("3997")
 

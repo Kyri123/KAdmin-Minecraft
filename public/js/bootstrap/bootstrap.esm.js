@@ -47,7 +47,7 @@ function _inheritsLoose(subClass, superClass) {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.0-alpha2): util/index.js
+ * Bootstrap (v5.0.0-alpha2): util/index.ts
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */

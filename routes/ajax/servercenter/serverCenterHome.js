@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -44,7 +44,7 @@ router.route('/')
         if(GET.getLogFormServer !== undefined && GET.server !== undefined) {
             let serverData  = new serverClass(GET.server)
             res.render('ajax/json', {
-                data: globalUtil.safeFileReadSync([serverData.getConfig().pathLogs, "latest.log"])
+                data: safeFileReadSync([serverData.getConfig().pathLogs, "latest.log"])
             });
             return true;
         }

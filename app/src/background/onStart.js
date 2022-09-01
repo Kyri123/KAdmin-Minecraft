@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -29,7 +29,7 @@ module.exports = {
         if(serverInfos.servers_arr.length > 0) {
             serverInfos.servers_arr.forEach((val) => {
                 let file = pathMod.join(`${val[1].pathLogs}.cmd`)
-               if(globalUtil.safeFileExsistsSync([file])) globalUtil.safeFileRmSync([file])
+               if(safeFileExsistsSync([file])) safeFileRmSync([file])
             })
         }
     },

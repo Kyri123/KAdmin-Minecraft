@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "outDir": "./Dist",
+        "rootDir": "./Src",
+        "typeRoots": [
+            "node_modules/@types",
+            "./Src/Types"
+        ],
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "references": [
+        {
+            "path": "./Src/App/tsconfig.json"
+        },
+        {
+            "path": "./Src/Web/tsconfig.json"
+        }
+    ]
+}

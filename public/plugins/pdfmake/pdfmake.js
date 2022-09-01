@@ -12361,7 +12361,7 @@ var bomHandling = __webpack_require__(389),
     iconv = module.exports;
 
 // All codecs and aliases are kept here, keyed by encoding name/alias.
-// They are lazy loaded in `iconv.getCodec` from `encodings/index.js`.
+// They are lazy loaded in `iconv.getCodec` from `encodings/index.ts`.
 iconv.encodings = null;
 
 // Characters emitted in case of error.
@@ -30451,7 +30451,7 @@ var GZIP_HEADER_ID1 = 0x1f;
 var GZIP_HEADER_ID2 = 0x8b;
 
 /**
- * Emulate Node's zlib C++ layer for use by the JS layer in index.js
+ * Emulate Node's zlib C++ layer for use by the JS layer in index.ts
  */
 function Zlib(mode) {
   if (typeof mode !== 'number' || mode < exports.DEFLATE || mode > exports.UNZIP) {
@@ -54701,7 +54701,7 @@ fontkit.registerFormat(TrueTypeCollection);
 fontkit.registerFormat(DFont);
 
 module.exports = fontkit;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.ts.map
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(10).Buffer))
 

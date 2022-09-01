@@ -51,8 +51,8 @@ Installation
    1. Hierbei kann `master` zu `dev` oder `test` geändert werden jenachdem welche branch man benutzen will
 4. Erstelle die eine Datenbank (MariaDB) und lade die Tabellen aus `./forInstaller` in diese (Todo Automatisiertes erstellen von Tabellen)
 5. Konfiguriere:
-   - `app/config/app.json`
-   - `app/config/mysql.json`
+   - `index/config/index.json`
+   - `index/config/mysql.json`
 6. Starte das Programm mit `chmod 755 ./starter.sh && ./starter.sh`
 
 Update
@@ -71,7 +71,7 @@ Standart Login
 =============
 - Benutzername UND Password: `admin`
 
-app.json
+index.json
 =============
 | Eigenschaften         | Wert | 
 | :---                  | :--- |

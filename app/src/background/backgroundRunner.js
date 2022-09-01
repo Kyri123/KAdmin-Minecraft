@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -12,7 +12,7 @@ const globalInfos           = require('./../global_infos')
 const si                    = require('systeminformation')
 const osu                   = require('node-os-utils')
 const disk                  = require('check-disk-space')
-const AA_util               = require('../util')
+const AA_util               = require('../../../Src/App/Functions/util')
 const server_state          = require('./server/state')
 const serverCommands        = require('./server/commands')
 const shell                 = require('./server/shell')
@@ -33,9 +33,9 @@ module.exports = {
         setInterval(() => module.exports.getSpigotCraftbukkitList(),    CONFIG.main.interval.getSpigotCraftbukkitList)
 
         // on load
-        if(!globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersions.json"]))
+        if(!safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersions.json"]))
             module.exports.getVersionList()
-        if(!globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsSpigot.json"]) || !globalUtil.safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsCraftbukkit.json"]))
+        if(!safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsSpigot.json"]) || !safeFileExsistsSync([mainDir, "public/json/serverInfos", "mcVersionsCraftbukkit.json"]))
             module.exports.getSpigotCraftbukkitList()
 
         module.exports.getTraffic()
@@ -126,7 +126,7 @@ module.exports = {
         (async () => {
             if(debug) console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}][DEBUG]\x1b[36m run > getTraffic`)
             osu.cpu.usage().then (cpuPercentage => {
-                let disk_path = pathMod.join(globalUtil.safeFileExsistsSync([CONFIG.app.servRoot]) ? CONFIG.app.servRoot : mainDir)
+                let disk_path = pathMod.join(safeFileExsistsSync([CONFIG.app.servRoot]) ? CONFIG.app.servRoot : mainDir)
                 disk(disk_path).then((info) => {
                     si.mem()
                        .then(mem => {
@@ -143,7 +143,7 @@ module.exports = {
                                "mem_availble" : AA_util.convertBytes(info.size - info.free)
                            }
 
-                           globalUtil.safeFileSaveSync([mainDir, '/public/json/serverInfos/', 'auslastung.json'], JSON.stringify(data))
+                           safeFileSaveSync([mainDir, '/public/json/serverInfos/', 'auslastung.json'], JSON.stringify(data))
                        })
                 })
             })

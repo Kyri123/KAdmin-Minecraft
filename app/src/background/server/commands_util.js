@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -24,7 +24,7 @@ module.exports = {
             let servConfig      = serverData.getConfig()
             let serverPath      = servConfig.path
             let logPath         = servConfig.pathLogs + '/latest.log'
-            if(!globalUtil.safeFileExsistsSync([logPath])) globalUtil.safeFileSaveSync([logPath], '')
+            if(!safeFileExsistsSync([logPath])) safeFileSaveSync([logPath], '')
 
             return `screen -dmS kadmin-${server} bash -c "cd ${serverPath} && java ${servConfig.extrajava} -Xmx${servConfig.xmx}m -Xms${servConfig.xms}m ${serverPath}/${servConfig.jar} nogui > ${logPath} && exit"`
         }

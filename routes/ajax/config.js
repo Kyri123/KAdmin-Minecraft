@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -20,7 +20,7 @@ router.route('/')
       if(POST.savecfg !== undefined) {
          let mainPath            = pathMod.join(mainDir, "app/config")
          let path                = pathMod.join(mainPath, POST.cfgfile)
-         let data                = globalUtil.convertObject(POST.cfg)
+         let data                = convertObject(POST.cfg)
          let success, canWrite   = false
          let findDuplicates      = arr => arr.filter((item, index) => arr.indexOf(item) !== index)
 

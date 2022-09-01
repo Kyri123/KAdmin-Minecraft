@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -69,7 +69,7 @@ router.route('/')
             let dirPath     = Array.isArray(POST.dirPath) ? POST.dirPath : [POST.dirPath]
 
             res.render('ajax/json', {
-                data: JSON.stringify(globalUtil.safeFileReadDirSync([dirPath]))
+                data: JSON.stringify(safeFileReadDirSync([dirPath]))
             })
             return true
         }

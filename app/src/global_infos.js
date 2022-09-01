@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -19,14 +19,14 @@ module.exports = {
         let serverLocalPath     = pathMod.join(mainDir, '/public/json/server')
         let servers             = []
 
-        if(globalUtil.safeFileExsistsSync([serverLocalPath])) {
+        if(safeFileExsistsSync([serverLocalPath])) {
             let dirArray            = fs.readdirSync(serverLocalPath)
 
             dirArray.forEach((ITEM,KEY) => {
                 try {
                     // Serverliste
-                    if(globalUtil.safeFileExsistsSync([serverLocalPath, ITEM])) {
-                        let array   = globalUtil.safeFileReadSync([serverLocalPath, ITEM], true)
+                    if(safeFileExsistsSync([serverLocalPath, ITEM])) {
+                        let array   = safeFileReadSync([serverLocalPath, ITEM], true)
                         if(array !== false) {
                             let serverData  = new serverClass(ITEM)
                             ITEM            = ITEM.replace(".json", '')
@@ -35,7 +35,7 @@ module.exports = {
                         }
                     }
                     else {
-                        globalUtil.safeFileRmSync([serverLocalPath, ITEM])
+                        safeFileRmSync([serverLocalPath, ITEM])
                     }
                 }
                 catch (e) {
@@ -49,7 +49,7 @@ module.exports = {
 
     get: () => {
         let infos               = {}
-        let file                = globalUtil.safeFileReadSync([mainDir, '/public/json/serverInfos/', 'auslastung.json'], true)
+        let file                = safeFileReadSync([mainDir, '/public/json/serverInfos/', 'auslastung.json'], true)
         infos.server_data       = file !== false ? file : {}
 
         // Erkenne die Server

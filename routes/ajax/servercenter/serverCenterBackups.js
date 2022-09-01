@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -34,7 +34,7 @@ router.route('/')
                 try {
                     if(file.name.includes(".zip") && /^[0-9]+$/.test(file.name.replaceAll(".zip", ""))) {
                         let path = pathMod.join(serverCFG.pathBackup, file.name)
-                        globalUtil.safeFileRmSync([path])
+                        safeFileRmSync([path])
                         file.mv(pathMod.join(path))
                         success = true
                     }
@@ -69,8 +69,8 @@ router.route('/')
                     let tmpSuccess = true
                     for(let file of POST.file) {
                         if(!file.includes("/")) {
-                            if (globalUtil.poisonNull(file) && !file.includes("..")) {
-                                if (!globalUtil.safeFileRmSync([serverCFG.pathBackup, file]))
+                            if (poisonNull(file) && !file.includes("..")) {
+                                if (!safeFileRmSync([serverCFG.pathBackup, file]))
                                     tmpSuccess = false
                             }
                             else {
@@ -84,8 +84,8 @@ router.route('/')
                     success = tmpSuccess
                 }
                 else {
-                    if (globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
-                        success = globalUtil.safeFileRmSync([serverCFG.pathBackup, POST.file])
+                    if (poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/")) {
+                        success = safeFileRmSync([serverCFG.pathBackup, POST.file])
                     }
                 }
             }
@@ -111,20 +111,20 @@ router.route('/')
             let serverCFG   = serverData.getConfig()
             let success     = false
             try {
-                if(globalUtil.poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/") && !serverData.isrun()) {
-                    if(globalUtil.safeFileMkdirSync([serverCFG.path, "tmp"]) && globalUtil.safeFileCreateSync([serverCFG.path, "isplayin"])) {
+                if(poisonNull(POST.file) && !POST.file.includes("..") && !POST.file.includes("/") && !serverData.isrun()) {
+                    if(safeFileMkdirSync([serverCFG.path, "tmp"]) && safeFileCreateSync([serverCFG.path, "isplayin"])) {
                         fs.createReadStream(pathMod.join(serverCFG.pathBackup, POST.file))
                             .pipe(unzip.Extract({path: pathMod.join(serverCFG.path, "tmp")}))
                             .on("close", () => {
                                 let dirRead = fs.readdirSync(pathMod.join(serverCFG.path, "tmp"))
 
                                 for(let file of dirRead) {
-                                    globalUtil.safeFileRmSync([serverCFG.path, file])
-                                    globalUtil.safeFileRenameSync([serverCFG.path, "tmp", file], [serverCFG.path, file])
+                                    safeFileRmSync([serverCFG.path, file])
+                                    safeFileRenameSync([serverCFG.path, "tmp", file], [serverCFG.path, file])
                                 }
 
-                                globalUtil.safeFileRmSync([serverCFG.path, "tmp"])
-                                globalUtil.safeFileRmSync([serverCFG.path, "isplayin"])
+                                safeFileRmSync([serverCFG.path, "tmp"])
+                                safeFileRmSync([serverCFG.path, "isplayin"])
                             })
                         success = true
                     }
@@ -161,9 +161,9 @@ router.route('/')
         if(GET.getDir !== undefined && GET.server !== undefined) {
             let serverData  = new serverClass(GET.server)
             let CFG         = serverData.getConfig()
-            if(globalUtil.safeFileExsistsSync([CFG.pathBackup]) && serverData.serverExsists()) {
+            if(safeFileExsistsSync([CFG.pathBackup]) && serverData.serverExsists()) {
                 res.render('ajax/json', {
-                    data: JSON.stringify(globalUtil.safeFileReadDirSync([CFG.pathBackup]))
+                    data: JSON.stringify(safeFileReadDirSync([CFG.pathBackup]))
                 })
                 return true
             }

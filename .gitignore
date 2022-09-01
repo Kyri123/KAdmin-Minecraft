@@ -4,9 +4,9 @@
 node_modules
 
 # APP
-app/json/serverinfo
-app/data/sha.txt
-app/json/panel/installer.json
+index/json/serverinfo
+index/data/sha.txt
+index/json/panel/installer.json
 
 # PUBLIC
 public/json/serverInfos/auslastung.json

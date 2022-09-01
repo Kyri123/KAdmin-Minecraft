@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -91,16 +91,16 @@ module.exports = class versionControlerModpacks {
          let cfg  = serv.getConfig();
 
          (async () => {
-            globalUtil.safeFileSaveSync([cfg.path, "installing"], "true")
-            globalUtil.safeFileRmSync([cfg.path, "mods"])
-            globalUtil.safeFileRmSync([cfg.path, "config"])
-            globalUtil.safeFileRmSync([cfg.path, "journeymap"])
-            globalUtil.safeFileRmSync([cfg.path, "libraries"])
-            globalUtil.safeFileRmSync([cfg.path, "scripts"])
-            globalUtil.safeFileRmSync([cfg.path, "modpack"])
-            globalUtil.safeFileRmSync([cfg.path, "resources"])
-            globalUtil.safeFileRmSync([cfg.path, "oresources"])
-            globalUtil.safeFileRmSync([cfg.path, "fontfiles"])
+            safeFileSaveSync([cfg.path, "installing"], "true")
+            safeFileRmSync([cfg.path, "mods"])
+            safeFileRmSync([cfg.path, "config"])
+            safeFileRmSync([cfg.path, "journeymap"])
+            safeFileRmSync([cfg.path, "libraries"])
+            safeFileRmSync([cfg.path, "scripts"])
+            safeFileRmSync([cfg.path, "modpack"])
+            safeFileRmSync([cfg.path, "resources"])
+            safeFileRmSync([cfg.path, "oresources"])
+            safeFileRmSync([cfg.path, "fontfiles"])
 
             fs.readdir(pathMod.join(cfg.path), (err, files) =>
                files.forEach(file => {
@@ -112,7 +112,7 @@ module.exports = class versionControlerModpacks {
                      file.includes(".pdf") ||
                      file.includes(".txt")
                   )
-                     globalUtil.safeFileRmSync([cfg.path, file])
+                     safeFileRmSync([cfg.path, file])
                })
             )
 
@@ -131,9 +131,9 @@ module.exports = class versionControlerModpacks {
                   )
 
                   serv.writeConfig("currversion", "ModPack - " + modpackID)
-                  globalUtil.safeFileRmSync([cfg.path, "modpack.zip"])
-                  globalUtil.safeFileRmSync([cfg.path, "installing"])
-                  globalUtil.safeFileSaveSync([cfg.path, "eula.txt"], "eula=true")
+                  safeFileRmSync([cfg.path, "modpack.zip"])
+                  safeFileRmSync([cfg.path, "installing"])
+                  safeFileSaveSync([cfg.path, "eula.txt"], "eula=true")
                })
 
          })()

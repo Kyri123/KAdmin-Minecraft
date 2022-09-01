@@ -1,7 +1,7 @@
 /*
  * *******************************************************************************************
  * @author:  Oliver Kaufmann (Kyri123)
- * @copyright Copyright (c) 2020-2021, Oliver Kaufmann
+ * @copyright Copyright (c) 2020-2022, Oliver Kaufmann
  * @license MIT License (LICENSE or https://github.com/Kyri123/KAdmin-Minecraft/blob/master/LICENSE)
  * Github: https://github.com/Kyri123/KAdmin-Minecraft
  * *******************************************************************************************
@@ -32,7 +32,7 @@ module.exports = class versionControler {
       rq(this.versionUrl, (error, response, body) => {
          try {
             if(!error && response.statusCode === 200)
-               globalUtil.safeFileSaveSync(this.localUrl, JSON.parse(JSON.stringify(body)))
+               safeFileSaveSync(this.localUrl, JSON.parse(JSON.stringify(body)))
          }
          catch (e) {
             if(debug) console.log('[DEBUG_FAILED]', e)
@@ -46,7 +46,7 @@ module.exports = class versionControler {
     * @return {boolean|array}
     */
    readList() {
-      return globalUtil.safeFileReadSync(this.localUrl, true)
+      return safeFileReadSync(this.localUrl, true)
    }
 
    /**
@@ -115,13 +115,13 @@ module.exports = class versionControler {
       if(url !== false) {
          (async () => {
             path = pathMod.join(path)
-            globalUtil.safeFileSaveSync([path.replace("server.jar", "installing")], "true")
-            globalUtil.safeFileRmSync([path])
+            safeFileSaveSync([path.replace("server.jar", "installing")], "true")
+            safeFileRmSync([path])
             download(url)
                .pipe(fs.createWriteStream(pathMod.join(path)))
                .on("close", () => {
-                  globalUtil.safeFileRmSync([path.replace("server.jar", "installing")])
-                  globalUtil.safeFileSaveSync([path.replace("server.jar", "eula.txt")], "eula=true")
+                  safeFileRmSync([path.replace("server.jar", "installing")])
+                  safeFileSaveSync([path.replace("server.jar", "eula.txt")], "eula=true")
                })
          })()
       }
