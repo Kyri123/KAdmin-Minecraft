@@ -99,7 +99,7 @@ ExpressServer.use(function (request: express.Request, response: express.Response
 
 http.globalAgent.maxSockets = Infinity;
 let httpServer = http.createServer(ExpressServer)
-httpServer.listen(ConfigManager.GetEnvConfig.WebPort)
+httpServer.listen(ConfigManager.GetEnvConfig.Panel_WebPort)
    .on('listening', () => {
-     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36mhttp://${IpAddress.Address4}:${ConfigManager.GetEnvConfig.WebPort}/`)
+     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36mhttp://${IpAddress.Address4}:${ConfigManager.GetEnvConfig.Panel_WebPort}/`)
    })

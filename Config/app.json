@@ -1,7 +1,0 @@
-{
-  "servRoot"      : "/home/kadmin/servers/server",
-  "logRoot"       : "/home/kadmin/servers/logs",
-  "pathBackup"    : "/home/kadmin/servers/backups",
-  "port"          : 20015,
-  "useDebug"      : true
-}

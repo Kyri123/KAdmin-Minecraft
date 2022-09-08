@@ -1,16 +1,12 @@
 import {readFileSync} from "fs";
 import path from "path";
-import {AppConfig_App, AppConfig_Main, EnvConfig, AppConfig_Updater} from "../../Types/Config";
+import {EnvConfig} from "../../Types/Config";
+import {poisonNull} from "../Functions/util";
 
 export class ConfigManagerClass {
     // Configs
     private Package: string = "package.json"
-
-    private ConfigRootPath: string = path.join(__dirname, "Config");
-    private Mysql: string = "mysql.json"
-    private App: string = "app.json"
-    private Updater: string = "updater.json"
-    private Main: string = "main.json"
+    public ConfigRootPath: string = path.join(__dirname, "Config");
 
     /**
      * try to load config json
@@ -18,10 +14,12 @@ export class ConfigManagerClass {
      * @return true if file exists
      */
     public static ReadJson(path: string): any {
-        try {
-            return JSON.parse(readFileSync(path).toString());
-        } catch (e) {
-            console.log(`Cannot load config ${path}`)
+        if(!poisonNull(path)) {
+            try {
+                return JSON.parse(readFileSync(path).toString());
+            } catch (e) {
+                console.log(`Cannot load config ${path}`)
+            }
         }
         return {};
     }
@@ -30,22 +28,9 @@ export class ConfigManagerClass {
         return process.env as EnvConfig;
     }
 
-    public get GetAppConfig(): AppConfig_App {
-        return ConfigManagerClass.ReadJson(path.join(this.ConfigRootPath, this.Mysql));
-    }
-
-    public get GetMainConfig(): AppConfig_Main {
-        return ConfigManagerClass.ReadJson(path.join(this.ConfigRootPath, this.Mysql));
-    }
-
-    public get GetUpdaterConfig(): AppConfig_Updater {
-        return ConfigManagerClass.ReadJson(path.join(this.ConfigRootPath, this.Mysql));
-    }
-
     public get GetPackageConfig(): any {
         return ConfigManagerClass.ReadJson(this.Package);
     }
-
 }
 
 if (global.ConfigManager === undefined) {
