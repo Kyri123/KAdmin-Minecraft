@@ -7,6 +7,10 @@
  * *******************************************************************************************
  */
 
+import {ConfigManager} from "./Helper/ConfigManager";
+
+require('dotenv').config()
+
 import {CheckOSAndNode, MakeRootPaths, OverwriteConsole} from "./Functions/Init";
 import {TaskManager} from "./TaskManager/TaskManager";
 import * as http from "http";
@@ -92,15 +96,10 @@ ExpressServer.use(function (request: express.Request, response: express.Response
   response.render('error')
 })
 
-// process.env.PORT = Portuse für z.B. Plesk
-let port = typeof process.env.PORT !== "undefined" ?
-   parseInt(process.env.PORT, 10) : typeof CONFIG.app.port !== "undefined" ?
-      parseInt(CONFIG.app.port.toString(), 10) : 80
 
 http.globalAgent.maxSockets = Infinity;
-
 let httpServer = http.createServer(ExpressServer)
-httpServer.listen(port)
+httpServer.listen(ConfigManager.GetEnvConfig.WebPort)
    .on('listening', () => {
-     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36mhttp://${IpAddress.Address4}:${CONFIG.app.port}/`)
+     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36mhttp://${IpAddress.Address4}:${ConfigManager.GetEnvConfig.WebPort}/`)
    })

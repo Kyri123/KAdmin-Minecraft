@@ -3,7 +3,6 @@ export type AppBranches = "master" | "dev" | "test" | "typescript"
 export interface AppConfig extends Record<string, any> {
     app: AppConfig_App,
     main: AppConfig_Main,
-    mysql: AppConfig_MariaDB,
     updater: AppConfig_Updater,
 }
 
@@ -19,6 +18,14 @@ export interface AppConfig_Main extends Record<string, any> {
     "interval": AppConfig_Main_Interval
 }
 
+export interface EnvConfig extends Record<string, any> {
+    "WebPort"               : string,
+    "MySQL_dbhost"          : string,
+    "MySQL_dbuser"          : string,
+    "MySQL_dbpass"          : string,
+    "MySQL_dbbase"          : string
+}
+
 export interface AppConfig_Main_Interval extends Record<string, any> {
     "getStateFromServers"       : number,
     "getTraffic"                : number,
@@ -27,13 +34,6 @@ export interface AppConfig_Main_Interval extends Record<string, any> {
     "backgroundUpdater"         : number,
     "doJob"                     : number,
     "getVersionList"            : number
-}
-
-export interface AppConfig_MariaDB extends Record<string, any> {
-    "dbhost"  : string,
-    "dbuser"  : string,
-    "dbpass"  : string,
-    "dbbase"  : string
 }
 
 export interface AppConfig_Updater extends Record<string, any> {

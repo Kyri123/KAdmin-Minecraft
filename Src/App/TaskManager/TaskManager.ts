@@ -1,5 +1,5 @@
-import {TaskBase} from "../Classes/Task.Base";
 import {readdir} from "fs";
+import {TaskBase} from "../Classes/Task.Base";
 
 export class TaskManagerClass {
     public ActiveTasks: TaskBase[];

@@ -1,6 +1,6 @@
 import {readFileSync} from "fs";
 import path from "path";
-import {AppConfig_App, AppConfig_Main, AppConfig_MariaDB, AppConfig_Updater} from "../../Types/Config";
+import {AppConfig_App, AppConfig_Main, EnvConfig, AppConfig_Updater} from "../../Types/Config";
 
 export class ConfigManagerClass {
     // Configs
@@ -26,8 +26,8 @@ export class ConfigManagerClass {
         return {};
     }
 
-    public get GetMysqlConfig(): AppConfig_MariaDB {
-        return ConfigManagerClass.ReadJson(path.join(this.ConfigRootPath, this.Mysql));
+    public get GetEnvConfig(): EnvConfig {
+        return process.env as EnvConfig;
     }
 
     public get GetAppConfig(): AppConfig_App {
