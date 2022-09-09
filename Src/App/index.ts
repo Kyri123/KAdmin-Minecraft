@@ -7,7 +7,7 @@
  * *******************************************************************************************
  */
 
-import {ConfigManager} from "./Helper/ConfigManager";
+import {ConfigManager, ConfigManagerClass} from "./Helper/ConfigManager";
 
 require('dotenv').config()
 
@@ -32,7 +32,7 @@ CheckOSAndNode();
 MakeRootPaths();
 TaskManager.Init();
 
-global.debug                          = CONFIG.app.useDebug || false
+global.debug                          = ConfigManager.GetEnvConfig.Dev_UseDebug || false
 
 // Express Konfig
 // Init the ExpressServer

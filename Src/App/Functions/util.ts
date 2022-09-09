@@ -11,6 +11,7 @@
 import path from "path";
 import {existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync} from "fs";
 import {convertBytes} from "./Math";
+import {ConfigManager} from "../Helper/ConfigManager";
 
 /**
  * Prüft string auf unzulässige Zeichen (Pfad)
@@ -56,9 +57,9 @@ export function safeFileExsistsSync(paths: string[]) {
 export function checkValidatePath(path: string) {
     return (
         (
-            path.indexOf(CONFIG.app.servRoot)         !== -1
-            || path.indexOf(CONFIG.app.logRoot)       !== -1
-            || path.indexOf(CONFIG.app.pathBackup)    !== -1
+            path.indexOf(ConfigManager.GetEnvConfig.Panel_ServerRootDir)         !== -1
+            || path.indexOf(ConfigManager.GetEnvConfig.Panel_LogRootDir)       !== -1
+            || path.indexOf(ConfigManager.GetEnvConfig.Panel_BackupRootDir)    !== -1
             || path.indexOf(`${mainDir}/public`)      !== -1
             || path.indexOf(`${mainDir}/lang`)        !== -1
             || path.indexOf(`${mainDir}/app/json`)    !== -1

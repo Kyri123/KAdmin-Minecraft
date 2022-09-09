@@ -8,7 +8,6 @@
  */
 "use strict"
 
-const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
 
 /**
  * Konvertiert Bytes in KB/MB/GB/TB
@@ -16,6 +15,7 @@ const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
  * @returns {string}
  */
 export function convertBytes(bytes: number | string): string {
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
     let NumBytes: number = Number(bytes);
 
     if (NumBytes === 0)

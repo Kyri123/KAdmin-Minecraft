@@ -1,7 +1,8 @@
 import path from "path";
 import syncRequest from "sync-request";
-import {GithubBuild} from "../../Types/Github";
+import {GithubBuild} from "../Types/Github";
 import {readFileSync} from "fs";
+import {ConfigManager} from "./ConfigManager";
 
 export class AppStateClass {
     private GithubQuery: GithubBuild
@@ -23,7 +24,7 @@ export class AppStateClass {
 
     Query() {
         try {
-            this.GithubQuery = JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/build?ref=${CONFIG.updater.useBranch}`, {
+            this.GithubQuery = JSON.parse(syncRequest('GET', `https://api.github.com/repos/Kyri123/KAdmin-Minecraft/contents/build?ref=${ConfigManager.GetEnvConfig.Updater_GithubBranch}`, {
                 headers: {
                     'user-agent': 'KAdmin-Minecraft',
                 },

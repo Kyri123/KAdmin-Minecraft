@@ -34,8 +34,7 @@ else
   	npm update
   	npm fund
   	echo Done!
-  	echo Konfiguriere nun Folgende Dateien
-  	echo ./app/config/mysql.json
-  	echo ./app/config/app.json
-  	echo danach start den Server in einem Screen mit ./start_master
+  	echo Konfiguriere nun Folgende Datei
+  	echo .env
+  	echo danach start den Server in einem Screen mit "npm run start"
 fi

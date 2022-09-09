@@ -54,13 +54,10 @@ export function CheckOSAndNode() {
 }
 
 export function MakeRootPaths() {
-    safeFileMkdirSync([CONFIG.app.servRoot])
-    safeFileMkdirSync([CONFIG.app.logRoot])
-    safeFileMkdirSync([CONFIG.app.pathBackup])
+    safeFileMkdirSync([ConfigManager.GetEnvConfig.Panel_ServerRootDir])
+    safeFileMkdirSync([ConfigManager.GetEnvConfig.Panel_LogRootDir])
+    safeFileMkdirSync([ConfigManager.GetEnvConfig.Panel_BackupRootDir])
 }
 
 export function InitGithub() {
-    safeFileMkdirSync([CONFIG.app.servRoot])
-    safeFileMkdirSync([CONFIG.app.logRoot])
-    safeFileMkdirSync([CONFIG.app.pathBackup])
 }

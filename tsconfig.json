@@ -3,9 +3,8 @@
         "target": "ESNext",
         "module": "commonjs",
         "esModuleInterop": true,
+        "outDir": "/",
         "moduleResolution": "node",
-        "outDir": "./Dist",
-        "rootDir": "./Src",
         "typeRoots": [
             "node_modules/@types",
             "./Src/Types"
@@ -21,7 +20,11 @@
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "resolveJsonModule": true
     },
+    "include": [
+        "Src/Types/**/*"
+    ],
     "exclude": [
         "node_modules"
     ],
@@ -30,7 +33,7 @@
             "path": "./Src/App/tsconfig.json"
         },
         {
-            "path": "./Src/Web/tsconfig.json"
+            "path": "./Src/Public/tsconfig.json"
         }
     ]
 }
