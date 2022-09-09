@@ -9,7 +9,7 @@
 "use strict"
 
 const router            = require('express').Router()
-const updater           = require("./../../app/src/background/updater")
+const updater           = require("../../app___OLD/src/background/updater")
 const request           = require("sync-request")
 
 router.route('/')

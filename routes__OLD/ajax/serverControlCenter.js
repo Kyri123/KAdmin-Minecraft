@@ -9,8 +9,8 @@
 "use strict"
 
 const router            = require('express').Router()
-const serverClass       = require('../../app/src/util_server/class')
-const serverCommands    = require('../../app/src/background/server/commands')
+const serverClass       = require('../../app___OLD/src/util_server/class')
+const serverCommands    = require('../../app___OLD/src/background/server/commands')
 
 router.route('/')
 
@@ -22,14 +22,14 @@ router.route('/')
 
             let createPerm      = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/create")
             let editPerm        = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
-            let forbidden       = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let forbidden       = safeFileReadSync([mainDir, "app___OLD/json/server/template", "forbidden.json"], true)
             let serverNameJSON  = undefined
             let sendedCfg       = POST.cfgsend
 
             // Erstellen
             if(POST.action === 'add' && createPerm) {
-                let curr            = fs.readdirSync(pathMod.join(mainDir, '/app/json/server/'))
-                let serverData      = safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+                let curr            = fs.readdirSync(pathMod.join(mainDir, '/app___OLD/json/server/'))
+                let serverData      = safeFileReadSync([mainDir, "app___OLD/json/server/template", "default.json"], true)
 
                 let serverName      = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7)
                 serverNameJSON      = serverName + '.json'
@@ -57,7 +57,7 @@ router.route('/')
                 serverData  = convertObject(serverData)
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        success : safeFileSaveSync([mainDir, '/app/json/server/', serverNameJSON], JSON.stringify(serverData)),
+                        success : safeFileSaveSync([mainDir, '/app___OLD/json/server/', serverNameJSON], JSON.stringify(serverData)),
                         action  : POST.action
                     })
                 })
@@ -110,7 +110,7 @@ router.route('/')
 
                 res.render('ajax/json', {
                     data: JSON.stringify({
-                        success: safeFileRmSync([mainDir, '/app/json/server/', `${serverName}.json`])
+                        success: safeFileRmSync([mainDir, '/app___OLD/json/server/', `${serverName}.json`])
                     })
                 })
                 return true
@@ -146,10 +146,10 @@ router.route('/')
             let editPerm    = userHelper.hasPermissions(req.session.uid, "servercontrolcenter/editServer")
 
             let cfg         = {}
-            let forbidden   = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let forbidden   = safeFileReadSync([mainDir, "app___OLD/json/server/template", "forbidden.json"], true)
 
             if(type && createPerm) {
-                let defaultCfg      = safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
+                let defaultCfg      = safeFileReadSync([mainDir, "app___OLD/json/server/template", "default.json"], true)
                 for (const [key, value] of Object.entries(defaultCfg))
                     if (
                        (forbidden[key] &&

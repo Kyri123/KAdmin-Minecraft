@@ -9,7 +9,7 @@
 "use strict"
 
 const router            = require('express').Router()
-const updater           = require("./../../app/src/background/updater")
+const updater           = require("../../app___OLD/src/background/updater")
 
 router.route('/')
 
@@ -18,24 +18,24 @@ router.route('/')
       let sess        = req.session
 
       if(POST.savecfg !== undefined) {
-         let mainPath            = pathMod.join(mainDir, "app/config")
+         let mainPath            = pathMod.join(mainDir, "app___OLD/config")
          let path                = pathMod.join(mainPath, POST.cfgfile)
          let data                = convertObject(POST.cfg)
          let success, canWrite   = false
          let findDuplicates      = arr => arr.filter((item, index) => arr.indexOf(item) !== index)
 
-         // wenn es nicht die app.json ist
+         // wenn es nicht die app___OLD.json ist
          if(
             path.includes(".json") &&
             path.includes(mainPath) &&
-            !path.includes("app.json")
+            !path.includes("app___OLD.json")
          ) canWrite = true
 
-         // wenn es die app.json ist
+         // wenn es die app___OLD.json ist
          if(
             path.includes(".json") &&
             path.includes(mainPath) &&
-            path.includes("app.json")
+            path.includes("app___OLD.json")
          ) {
             let pathArray           = [
                pathMod.join(data.servRoot),
@@ -50,7 +50,7 @@ router.route('/')
                findDuplicates(pathArray).length === 0
             ) {
                try {
-                  let serverDir = pathMod.join(mainDir, "app/json/server")
+                  let serverDir = pathMod.join(mainDir, "app___OLD/json/server")
 
                   // Passe alle server An
                   fs.readdirSync(serverDir, {
@@ -105,7 +105,7 @@ router.route('/')
 
    if(GET.fileList !== undefined) {
       try {
-         let path  = pathMod.join(mainDir, "app/config")
+         let path  = pathMod.join(mainDir, "app___OLD/config")
          let scan  = fs.readdirSync(path)
          let array = []
 

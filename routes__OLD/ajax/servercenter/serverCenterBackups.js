@@ -9,7 +9,7 @@
 "use strict"
 
 const router            = require('express').Router()
-const serverClass       = require('./../../../app/src/util_server/class')
+const serverClass       = require('../../../app___OLD/src/util_server/class')
 const unzip             = require("unzipper")
 
 router.route('/')

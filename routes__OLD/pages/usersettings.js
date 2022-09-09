@@ -9,8 +9,8 @@
 "use strict"
 
 const router        = require('express').Router()
-const globalinfos   = require('./../../app/src/global_infos');
-const userHelper    = require('./../../app/src/sessions/helper');
+const globalinfos   = require('../../app___OLD/src/global_infos')
+const userHelper    = require('../../app___OLD/src/sessions/helper')
 
 router.route('/')
 
@@ -25,22 +25,17 @@ router.route('/')
           : "de_de"
        let lang         = LANG[langStr]
 
-        if(!userHelper.hasPermissions(req.session.uid, "servercontrolcenter/show")) {
-            res.redirect("/401");
-            return true;
-        }
-
-        res.render('pages/servercontrolcenter', {
-            userID          : req.session.uid,
-            page            : "servercontrolcenter",
-            response        : response,
+        res.render('pages/usersettings', {
             lang            : lang,
+            userID          : req.session.uid,
             perm            : userHelper.permissions(req.session.uid),
+            page            : "usersettings",
+            response        : response,
             sinfos          : globalinfos.get(),
             breadcrumb      : [
-                lang.breadcrumb["servercontrolcenter"]
+                lang.breadcrumb["usersettings"]
             ]
-        });
+        })
     })
 
 module.exports = router;

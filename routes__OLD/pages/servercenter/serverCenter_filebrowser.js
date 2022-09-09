@@ -9,13 +9,13 @@
 "use strict"
 
 const router            = require('express').Router()
-const globalinfos       = require('./../../../app/src/global_infos');
-const serverClass       = require('./../../../app/src/util_server/class');
+const globalinfos       = require('../../../app___OLD/src/global_infos');
+const serverClass       = require('../../../app___OLD/src/util_server/class');
 
 
 router.route('/')
 
-    .all((req,res)=>{
+   .all((req,res)=>{
       global.user         = userHelper.getinfos(req.session.uid);
       // DEFAULT ServerCenter
       let GET           = req.query
@@ -23,28 +23,25 @@ router.route('/')
       let response      = ""
       let cookies       = req.cookies
       let langStr       = (cookies.lang !== undefined) ?
-       fs.existsSync(pathMod.join(mainDir, "lang", cookies.lang)) ?
-          cookies.lang : "de_de"
-       : "de_de"
+         fs.existsSync(pathMod.join(mainDir, "lang", cookies.lang)) ?
+            cookies.lang : "de_de"
+         : "de_de"
       let lang          = LANG[langStr]
       let serverName    = req.baseUrl.split('/')[2]
 
-      // Leite zu 401 wenn Rechte nicht gesetzt sind
-      if(!userHelper.hasPermissions(req.session.uid, "backups/show", serverName) || !userHelper.hasPermissions(req.session.uid, "show", serverName)) {
+      if(!userHelper.hasPermissions(req.session.uid, "filebrowser/show", serverName)) {
          res.redirect("/401");
          return true;
       }
-
-      // Die eigentl. Seite
 
       let serverData    = new serverClass(serverName);
       let servCfg       = serverData.getConfig();
       let servIni       = serverData.getINI();
 
       // Render Seite
-      res.render('pages/servercenter/serverCenter_backups', {
+      res.render('pages/servercenter/serverCenter_filebrowser', {
           userID                  : req.session.uid,
-          page                    : "servercenter_backups",
+          page                    : "servercenter_filebrowser",
           response                : response,
           lang                    : lang,
           perm                    : userHelper.permissions(req.session.uid),
@@ -54,12 +51,13 @@ router.route('/')
           servcfg                 : servCfg,
           sclass                  : serverData,
           serverName              : serverName,
+          defaultPath             : servCfg.path,
           breadcrumb      : [
               lang.breadcrumb["servercenter"],
               serverName,
-              lang.breadcrumb["servercenter_backups"],
+              lang.breadcrumb["servercenter_filebrowser"],
           ]
       });
-    })
+   })
 
 module.exports = router;

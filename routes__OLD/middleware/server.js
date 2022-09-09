@@ -8,7 +8,7 @@
  */
 "use strict"
 
-const serverClass    = require('./../../app/src/util_server/class')
+const serverClass    = require('../../app___OLD/src/util_server/class')
 
 module.exports = {
     /**

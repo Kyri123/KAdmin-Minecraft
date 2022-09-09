@@ -12489,7 +12489,7 @@ iconv.getDecoder = function getDecoder(encoding, options) {
 // Streaming API
 // NOTE: Streaming API naturally depends on 'stream' module from Node.js. Unfortunately in browser environments this module can add
 // up to 100Kb to the output bundle. To avoid unnecessary code bloat, we don't enable Streaming API in browser by default.
-// If you would like to enable it explicitly, please add the following code to your app:
+// If you would like to enable it explicitly, please add the following code to your app___OLD:
 // > iconv.enableStreamingAPI(require('stream'));
 iconv.enableStreamingAPI = function enableStreamingAPI(stream_module) {
     if (iconv.supportsStreams)

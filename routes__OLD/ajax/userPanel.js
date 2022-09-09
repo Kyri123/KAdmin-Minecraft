@@ -9,7 +9,7 @@
 "use strict"
 
 const router            = require('express').Router()
-const userHelper        = require('./../../app/src/sessions/helper')
+const userHelper        = require('../../app___OLD/src/sessions/helper')
 
 router.route('/')
 

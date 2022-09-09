@@ -9,12 +9,12 @@
 "use strict"
 
 const router        = require('express').Router()
-const globalinfos   = require('./../../app/src/global_infos');
+const globalinfos   = require('../../app___OLD/src/global_infos')
+const userHelper    = require('../../app___OLD/src/sessions/helper')
 
 router.route('/')
 
     .all((req,res)=>{
-       global.user     = userHelper.getinfos(req.session.uid)
        let GET         = req.query
        let POST        = req.body
        let response    = ""
@@ -24,17 +24,18 @@ router.route('/')
              cookies.lang : "de_de"
           : "de_de"
        let lang         = LANG[langStr]
-        res.render('pages/changelog', {
-            userID      : req.session.uid,
-            lang        : lang,
-            page        : "changelog",
-            response    : response,
-            perm        : userHelper.permissions(req.session.uid),
-            sinfos      : globalinfos.get(),
-            breadcrumb  : [
-                lang.breadcrumb["changelog"]
+
+       res.render('pages/home', {
+            userID        : req.session.uid,
+            page          : "home",
+            response      : response,
+            lang          : lang,
+            perm          : userHelper.permissions(req.session.uid),
+            sinfos        : globalinfos.get(),
+            breadcrumb           : [
+               lang.breadcrumb["home"]
             ]
-        });
+       })
     })
 
 module.exports = router;

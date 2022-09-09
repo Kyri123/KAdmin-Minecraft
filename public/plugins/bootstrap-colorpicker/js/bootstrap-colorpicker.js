@@ -5614,7 +5614,7 @@ module.exports = convert;
 var conversions = __webpack_require__(6);
 
 /*
-	this function routes a model to all other models.
+	this function routes__OLD a model to all other models.
 
 	all functions that are routed have a property `.conversion` attached
 	to the returned synthetic function. This property is an array

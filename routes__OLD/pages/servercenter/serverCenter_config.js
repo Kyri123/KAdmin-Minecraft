@@ -9,8 +9,8 @@
 "use strict"
 
 const router            = require('express').Router()
-const globalinfos       = require('./../../../app/src/global_infos');
-const serverClass       = require('./../../../app/src/util_server/class');
+const globalinfos       = require('../../../app___OLD/src/global_infos');
+const serverClass       = require('../../../app___OLD/src/util_server/class');
 
 
 router.route('/')
