@@ -73,7 +73,7 @@ module.exports = {
     doReReadConfig: () => {
         (async () => {
             // Lade Konfigurationen
-            let pathConfigDir    = pathMod.join(mainDir, '/app/config/')
+            let pathConfigDir    = pathMod.join(mainDir, '/app___OLD/config/')
             fs.readdirSync(pathConfigDir).forEach(item => {
                 if(item.includes(".json")) {
                     try {

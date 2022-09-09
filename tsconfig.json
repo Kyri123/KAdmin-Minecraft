@@ -3,7 +3,7 @@
         "target": "ESNext",
         "module": "commonjs",
         "esModuleInterop": true,
-        "outDir": "/",
+        "outDir": "./",
         "moduleResolution": "node",
         "typeRoots": [
             "node_modules/@types",
@@ -23,17 +23,9 @@
         "resolveJsonModule": true
     },
     "include": [
-        "Src/Types/**/*"
+        "./Src/**/*"
     ],
     "exclude": [
         "node_modules"
-    ],
-    "references": [
-        {
-            "path": "./Src/App/tsconfig.json"
-        },
-        {
-            "path": "./Src/Public/tsconfig.json"
-        }
     ]
 }

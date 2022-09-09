@@ -230,7 +230,7 @@ API.txt for details.
         }
     }
 
-    // map of app. size of time units in seconds
+    // map of app___OLD. size of time units in seconds
     var timeUnitSizeSeconds = {
         "microsecond": 0.000001,
         "millisecond": 0.001,
@@ -243,7 +243,7 @@ API.txt for details.
         "year": 365.2425 * 24 * 60 * 60
     };
 
-    // map of app. size of time units in milliseconds
+    // map of app___OLD. size of time units in milliseconds
     var timeUnitSizeMilliseconds = {
         "microsecond": 0.001,
         "millisecond": 1,
@@ -256,7 +256,7 @@ API.txt for details.
         "year": 365.2425 * 24 * 60 * 60 * 1000
     };
 
-    // map of app. size of time units in microseconds
+    // map of app___OLD. size of time units in microseconds
     var timeUnitSizeMicroseconds = {
         "microsecond": 1,
         "millisecond": 1000,

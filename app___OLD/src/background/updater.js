@@ -26,14 +26,14 @@ module.exports = {
         let updateZipPath   = pathMod.join(tmpPath, "update.zip")
         let branch          = CONFIG.updater.useBranch
         let removeFileArray = [
-            "/app/config/app.json",
-            "/app/config/mysql.json",
-            "/app/config/updater.json",
-            "/app/json/panel/changelog.json",
+            "/app___OLD/config/app___OLD.json",
+            "/app___OLD/config/mysql.json",
+            "/app___OLD/config/updater.json",
+            "/app___OLD/json/panel/changelog.json",
             "/public/json/serverInfos/mcVersionsCraftbukkit.json",
             "/public/json/serverInfos/mcVersionsSpigot.json",
-            "/app/json/server/5c68f48w.json",
-            "/app/json/server/5g28f48x.json"
+            "/app___OLD/json/server/5c68f48w.json",
+            "/app___OLD/json/server/5g28f48x.json"
         ]
 
         // Erstelle tmp Ordner

@@ -9,7 +9,7 @@
 "use strict"
 
 const router            = require('express').Router()
-const serverClass       = require('./../../../app/src/util_server/class');
+const serverClass       = require('../../../app___OLD/src/util_server/class');
 const ini               = require('ini')
 
 router.route('/')
@@ -20,8 +20,8 @@ router.route('/')
         // Speicher Server
         if(POST.saveServer !== undefined && userHelper.hasPermissions(req.session.uid, "config/kadmin-mc", POST.cfg)) {
             let serverData  = new serverClass(POST.cfg)
-            let cfg         = safeFileReadSync([mainDir, "app/json/server/template", "default.json"], true)
-            let forbidden   = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let cfg         = safeFileReadSync([mainDir, "app___OLD/json/server/template", "default.json"], true)
+            let forbidden   = safeFileReadSync([mainDir, "app___OLD/json/server/template", "forbidden.json"], true)
             let currCfg     = serverData.getConfig()
             let sendedCfg   = POST.cfgsend
 
@@ -97,7 +97,7 @@ router.route('/')
             let serverData  = new serverClass(GET.server)
 
             let cfg         = {}
-            let forbidden   = safeFileReadSync([mainDir, "app/json/server/template", "forbidden.json"], true)
+            let forbidden   = safeFileReadSync([mainDir, "app___OLD/json/server/template", "forbidden.json"], true)
             let currCfg     = serverData.getConfig()
 
             for (const [key, value] of Object.entries(currCfg))

@@ -26,7 +26,7 @@ console.log('\x1b[33m%s\x1b[0m', `  Trello:  \x1b[36mhttps://trello.com/b/qJfbqa
 console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
 
 // Lade Konfigurationen
-let pathConfigDir    = pathMod.join(mainDir, '/app/config/')
+let pathConfigDir    = pathMod.join(mainDir, '/app___OLD/config/')
 fs.readdirSync(pathConfigDir).forEach(item => {
     if(item.includes(".json")) {
         console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36m Load: ${pathConfigDir + item}`)

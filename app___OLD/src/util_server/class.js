@@ -24,8 +24,8 @@ module.exports = class serverClass {
       // Erstelle this Vars
       this.exsists            = false
       this.server             = servername
-      this.cfgPath            = [mainDir, '/app/json/server/', `${this.server}.json`]
-      this.defaultCfgPath     = [mainDir, '/app/json/server/template/', `default.json`]
+      this.cfgPath            = [mainDir, '/app___OLD/json/server/', `${this.server}.json`]
+      this.defaultCfgPath     = [mainDir, '/app___OLD/json/server/template/', `default.json`]
       this.serverInfoPath     = [mainDir, '/public/json/server/', `${this.server}.json`]
       this.cfg                = {}
 

@@ -55,12 +55,12 @@ module.exports = {
      * @returns {array}
      */
     defaultPermissions: () => {
-        let permissions         = safeFileReadSync([mainDir, '/app/json/permissions/', 'default.json'], true)
+        let permissions         = safeFileReadSync([mainDir, '/app___OLD/json/permissions/', 'default.json'], true)
         let servers             = globalInfos.getServerList()
 
         for (const [key] of Object.entries(servers)) {
             try {
-                let permissions_servers = safeFileReadSync([mainDir, '/app/json/permissions/', 'default_server.json'], true)
+                let permissions_servers = safeFileReadSync([mainDir, '/app___OLD/json/permissions/', 'default_server.json'], true)
                 permissions.server[key] = permissions_servers
             }
             catch (e) {
@@ -79,13 +79,13 @@ module.exports = {
     permissions: (uid) => {
         let result      = safeSendSQLSync('SELECT * FROM users WHERE `id`=?', uid)
         if(result.length > 0) {
-            let permissions         = safeFileReadSync([mainDir, '/app/json/permissions/', 'default.json'], true)
+            let permissions         = safeFileReadSync([mainDir, '/app___OLD/json/permissions/', 'default.json'], true)
             let groups              = JSON.parse(result[0].rang)
             let servers             = globalInfos.getServerList()
 
             for (const [key] of Object.entries(servers)) {
                 try {
-                    let permissions_servers = safeFileReadSync([mainDir, '/app/json/permissions/', 'default_server.json'], true)
+                    let permissions_servers = safeFileReadSync([mainDir, '/app___OLD/json/permissions/', 'default_server.json'], true)
                     permissions.server[key] = permissions_servers
                 }
                 catch (e) {
