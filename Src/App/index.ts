@@ -25,7 +25,10 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import fileUpload from "express-fileupload";
 import dateFormat from "dateformat";
-import * as IpAddress from 'ip-address';
+import {Logging} from "./Functions/Logging";
+const Ip = require("ip");
+
+global.mainDir = path.join("..", __dirname);
 
 OverwriteConsole();
 CheckOSAndNode();
@@ -81,7 +84,7 @@ ExpressServer.use(helmet.hidePoweredBy())
 
 // Routes
 // Main
-require("./RestApi/Router");
+require("./Routes/Router");
 /*
 ExpressServer.use(require('../../routes'))
 */
@@ -100,6 +103,6 @@ ExpressServer.use(function (request: express.Request, response: express.Response
 http.globalAgent.maxSockets = Infinity;
 let httpServer = http.createServer(ExpressServer)
 httpServer.listen(ConfigManager.GetEnvConfig.Panel_WebPort)
-   .on('listening', () => {
-     console.log('\x1b[33m%s\x1b[0m', `[${dateFormat(new Date(), "dd.mm.yyyy HH:MM:ss")}]\x1b[36mhttp://${IpAddress.Address4}:${ConfigManager.GetEnvConfig.Panel_WebPort}/`)
+   .on('listening', async () => {
+     Logging(`http://${Ip.address()}:${ConfigManager.GetEnvConfig.Panel_WebPort}/`, "Info");
    })

@@ -1,6 +1,7 @@
 import mariadb, {Pool, PoolConfig} from "mariadb";
 import {ConfigManager, ConfigManagerClass} from "./ConfigManager";
 import {SQLTable} from "../../Types/MariaDB";
+import {Logging} from "../Functions/Logging";
 
 export class QueryInformation {
     public Rows: any[] = [];
@@ -35,6 +36,9 @@ export class MariaDbManagerClass {
         PoolSettings.connectionLimit = this.ConnectionLimit;
         PoolSettings.charset = "utf8mb4";
         this.Pool = mariadb.createPool(PoolSettings);
+        if(this.Pool) {
+            Logging("Connected to MariaDB", "Info")
+        }
     }
 
     async Select(Table: SQLTable, Where: any = undefined): Promise<QueryInformation> {
@@ -150,8 +154,8 @@ if (!global.MariaDbManager) {
     global.MariaDbManager = new MariaDbManagerClass({
         host: ConfigManager.GetEnvConfig.MySQL_dbhost,
         user: ConfigManager.GetEnvConfig.MySQL_dbuser,
-        password: ConfigManager.GetEnvConfig.MySQL_dbpassword,
-        database: ConfigManager.GetEnvConfig.MySQL_dbdatabase
+        password: ConfigManager.GetEnvConfig.MySQL_dbpass,
+        database: ConfigManager.GetEnvConfig.MySQL_dbbase
     });
 }
 

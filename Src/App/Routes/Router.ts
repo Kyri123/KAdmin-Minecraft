@@ -1,14 +1,16 @@
 import {readdirSync, statSync} from "fs";
 import path from "path";
+import {Logging} from "../Functions/Logging";
 
 
 let Read = function (Path: string) {
+    Logging(`Searching for router on directory: ${Path}`, "Debug");
     let Files = readdirSync(Path);
     for(const File of Files) {
         let FilePath = path.join(Path, File);
         let FileStats = statSync(FilePath);
         if(FileStats.isFile()) {
-            if (!File.endsWith('.map') && !File.includes("Default")) {
+            if (File.toLowerCase().endsWith('.js') && !File.toLowerCase().endsWith('.map') && File.toLowerCase() !== "default.js") {
                 require(FilePath);
             }
         }
@@ -18,6 +20,5 @@ let Read = function (Path: string) {
     }
 }
 
-Read(path.join(__dirname, 'Routes', 'Pages'));
-
-require(path.join(__dirname, 'Routes', 'Pages', 'Default.js'));
+require(path.join(__dirname, 'Pages', 'Default.js'));
+Read(path.join(__dirname, 'Pages'));

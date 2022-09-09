@@ -5,6 +5,7 @@ import {NextFunction} from "express";
 class REST_DefaultRoutes extends RestApiRouteBase {
     constructor() {
         super();
+        this.Url = "/login/*"
         this.UseMiddleware = false;
         this.UseCheck = true;
         this.Init();

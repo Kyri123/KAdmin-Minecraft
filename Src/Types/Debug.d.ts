@@ -1,0 +1,1 @@
+export type LogCategory = "Info" | "Warning" | "Log" | "Error" | "Fatal" | "Debug";

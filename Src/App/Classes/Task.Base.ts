@@ -1,3 +1,5 @@
+import {Logging} from "../Functions/Logging";
+
 export class TaskBase {
     private Task: NodeJS.Timer | undefined;
 
@@ -6,7 +8,6 @@ export class TaskBase {
     protected TaskId: number = 0;
 
     constructor() {
-        this.InitTask()
     }
 
     // init the Task
@@ -14,10 +15,10 @@ export class TaskBase {
         this.Task = setInterval(() => this.ExecuteTask(), this.TaskTime);
         if (ShouldExc) {
             this.ExecuteTask().then(r => {
-                console.log(this.TaskName + " Init Exec > Time: " + this.TaskTime);
+                Logging(this.TaskName + " Init Exec > Time: " + this.TaskTime, "Info")
             });
         }
-        console.log(this.TaskName + " Installed > Time: " + this.TaskTime);
+        Logging(this.TaskName + " Installed > Time: " + this.TaskTime, "Info")
     }
 
     set SetNewTaskInterval(TaskTime: number) {

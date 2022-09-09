@@ -1,5 +1,7 @@
 import {readdir} from "fs";
 import {TaskBase} from "../Classes/Task.Base";
+import * as path from "path";
+import {Logging} from "../Functions/Logging";
 
 export class TaskManagerClass {
     public ActiveTasks: TaskBase[];
@@ -9,15 +11,17 @@ export class TaskManagerClass {
     }
 
     Init() {
-        readdir("./Tasks", (err, Files) => {
+        readdir(path.join(__dirname, "Tasks"), (err, Files) => {
             if(!err) {
                 for(const File of Files) {
-                    let Task: TaskBase = require("./Tasks/" + Files) as TaskBase;
-                    this.ActiveTasks.push(Task);
+                    if(File.endsWith(".js")) {
+                        let Task: TaskBase = require(path.join(__dirname, "Tasks", File)) as TaskBase;
+                        this.ActiveTasks.push(Task);
+                    }
                 }
             }
             else if(debug) {
-                console.error(err);
+                Logging(err, "Error");
             }
         })
     }

@@ -3,6 +3,7 @@ import {NextFunction} from "express";
 import * as core from "express-serve-static-core";
 import {GetSession} from "../Functions/RouteUtils";
 import {MariaDbManager} from "../Helper/MariaDB";
+import {Logging} from "../Functions/Logging";
 
 export class RestApiRouteBase {
     protected ExpressRouter: core.Router;
@@ -28,7 +29,7 @@ export class RestApiRouteBase {
         this.InitAll();
 
         ExpressServer.use(this.ExpressRouter);
-        console.log(`Install Rooter on url: ${this.Url} | UseMiddleware: ${this.UseMiddleware}`);
+        Logging(`Install Router on url: ${this.Url} | UseMiddleware: ${this.UseMiddleware}`, "Info");
     }
 
     protected InitMiddleware() {

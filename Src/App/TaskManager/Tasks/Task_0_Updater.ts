@@ -5,6 +5,7 @@ class UpdaterTask extends TaskBase {
         super();
         this.TaskName = "Changelog Task";
         this.TaskId = 0;
+        this.InitTask();
     }
 }
 
