@@ -1,6 +1,6 @@
 import {readFileSync} from "fs";
 import path from "path";
-import {EnvConfig} from "../Types/Config";
+import {EnvConfig} from "../../Types/Config";
 import {poisonNull} from "../Functions/util";
 
 export class ConfigManagerClass {

@@ -11,7 +11,7 @@
 
 // Header
 import {AppState} from "../../Src/App/Helper/AppState";
-import {AppConfig_App, AppConfig_Main, AppConfig_MariaDB, AppConfig_Updater} from "../../Src/App/Types/Config";
+import {AppConfig_App, AppConfig_Main, AppConfig_MariaDB, AppConfig_Updater} from "../../Src/Types/Config";
 
 console.log('\x1b[36m%s\x1b[0m', `-----------------------------------------------------------`)
 console.log('\x1b[33m%s\x1b[0m', `                    [ KAdmin-Minecraft ] `)

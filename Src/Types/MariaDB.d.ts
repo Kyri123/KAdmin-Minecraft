@@ -1,1 +1,1 @@
-export type SQLTable = "PlaceTablesHere!";
+export type SQLTable = "KAMC_User" | "KAMC_Session";

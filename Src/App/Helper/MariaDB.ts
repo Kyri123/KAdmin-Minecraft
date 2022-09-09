@@ -128,7 +128,7 @@ export class MariaDbManagerClass {
         return Information;
     }
 
-    async Query(query: string, values: any[] = []): Promise<QueryInformation> {
+    private async Query(query: string, values: any[] = []): Promise<QueryInformation> {
         let conn;
         let Information: QueryInformation = new QueryInformation();
 

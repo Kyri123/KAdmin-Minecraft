@@ -1,6 +1,8 @@
 import * as express from "express";
 import {NextFunction} from "express";
 import * as core from "express-serve-static-core";
+import {GetSession} from "../Functions/RouteUtils";
+import {MariaDbManager} from "../Helper/MariaDB";
 
 export class RestApiRouteBase {
     protected ExpressRouter: core.Router;
@@ -9,7 +11,6 @@ export class RestApiRouteBase {
     protected Url: string = '*';
     protected UseMiddleware: boolean = true;
     protected UseCheck: boolean = true;
-    protected CheckNeedGuildValidate: boolean = true;
 
     public constructor() {
         this.ExpressRouter = express.Router();
@@ -32,10 +33,7 @@ export class RestApiRouteBase {
 
     protected InitMiddleware() {
         if(this.UseCheck) {
-            if(this.CheckNeedGuildValidate)
-                this.ExpressRouter.use(this.Url, this.CheckedMiddleware);
-            else
-                this.ExpressRouter.use(this.Url, this.CheckedGuildMiddleware);
+            this.ExpressRouter.use(this.Url, this.CheckedMiddleware);
         }
         else {
             this.ExpressRouter.use(this.Url, this.Middleware);
@@ -63,39 +61,55 @@ export class RestApiRouteBase {
     }
 
     public async CheckedMiddleware(request: express.Request, response: express.Response, next: NextFunction): Promise<void> {
-        /*if(request.body && request.body.UserId && request.body.SessionHash) {
-            if(await IsSessionValid(request.body.SessionHash, request.body.UserId)) {
-                next();
-                return;
+        let Session = GetSession(request);
+        if(Session.ActiveSessionId) {
+            let UserInformation = await MariaDbManager.Select("KAMC_User", {
+                UID: Session.SessionUserID
+            });
+
+            if(!UserInformation.IsValid) {
+                Response.redirect("/logout");
             }
-        }*/
-        next();
-        return;
-        response.json({Request: false, RequestType: 'Post', NoPermission: true});
-    }
-
-    public async CheckedGuildMiddleware(request: express.Request, response: express.Response, next: NextFunction): Promise<void> {
-        /*if(request.body && request.body.SessionHash && request.body.UserId && request.body.GuildId) {
-            if(await IsSessionValid(request.body.SessionHash, request.body.UserId)) {
-                let SuperAdminQuery = await MariaDbManager.Select("Web_AdminLogin", {
-                    IsSuperAdmin: true,
-                    UserId: request.body.UserId
-                })
-
-                let GuildAdminQuery = await MariaDbManager.Select("Web_AdminLogin", {
-                    GuildId: request.body.GuildId,
-                    UserId: request.body.UserId
-                })
-
-                if (SuperAdminQuery.IsValid || GuildAdminQuery.IsValid) {
-                    next();
-                    return;
+            else {
+                if(UserInformation.first.Banned) {
+                    Response.redirect("/logout");
+                }
+                else {
+                    next()
                 }
             }
-        }*/
-        next();
-        return;
-        response.json({Request: false, RequestType: 'Post', NoPermission: true});
+        }
+        else {
+            // Todo: Cookie support
+            /*
+            let cookies = request.cookies
+            if(cookies.id !== undefined && cookies.validate !== undefined) {
+                let sql    = 'SELECT * FROM `user_cookies` WHERE `md5id`=? AND `validate`=?'
+                let result = safeSendSQLSync(sql, cookies.id, cookies.validate)
+                if(result.length > 0) {
+                    sess.uid = result[0].userid
+                    req.session.save((err) => {})
+                    // Prüfe ob dieser gebannt ist
+                    sql    = 'SELECT * FROM `users` WHERE `id`=?'
+                    result = safeSendSQLSync(sql, sess.uid)
+                    if(result[0].ban === 0) {
+                        next()
+                    }
+                    else {
+                        module.exports.logout(req, res)
+                    }
+                }
+                else {
+                    res.redirect("/login")
+                    return true
+                }
+            }
+            else {
+                res.redirect("/login")
+                return true
+            }
+            */
+        }
     }
 
     public async Middleware(request: express.Request, response: express.Response, next: NextFunction): Promise<void> {

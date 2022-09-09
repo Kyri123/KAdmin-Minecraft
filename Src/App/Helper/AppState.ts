@@ -1,6 +1,6 @@
 import path from "path";
 import syncRequest from "sync-request";
-import {GithubBuild} from "../Types/Github";
+import {GithubBuild} from "../../Types/Github";
 import {readFileSync} from "fs";
 import {ConfigManager} from "./ConfigManager";
 
