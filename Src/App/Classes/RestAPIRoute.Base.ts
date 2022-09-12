@@ -4,6 +4,7 @@ import * as core from "express-serve-static-core";
 import {GetSession} from "../Functions/RouteUtils";
 import {MariaDbManager} from "../Helper/MariaDB";
 import {Logging} from "../Functions/Logging";
+import {KAMC_User} from "../../Types/MariaDB";
 
 export class RestApiRouteBase {
     protected ExpressRouter: core.Router;
@@ -65,7 +66,7 @@ export class RestApiRouteBase {
     public async CheckedMiddleware(request: express.Request, response: express.Response, next: NextFunction): Promise<void> {
         let Session = GetSession(request);
         if(Session.ActiveSessionId) {
-            let UserInformation = await MariaDbManager.Select("KAMC_User", {
+            let UserInformation = await MariaDbManager.Select<KAMC_User>("KAMC_User", {
                 UID: Session.SessionUserID
             });
 
@@ -73,7 +74,14 @@ export class RestApiRouteBase {
                 Response.redirect("/logout");
             }
             else {
-                if(UserInformation.first.Banned) {
+                if(UserInformation.first.Banned || UserInformation.first.ForcedLoggedOut) {
+                    let Query = UserInformation.first;
+                    Query.ForcedLoggedOut = false;
+
+                    await MariaDbManager.Update("KAMC_User", Query, {
+                        UserID: Query.UserID
+                    })
+
                     Response.redirect("/logout");
                 }
                 else {
