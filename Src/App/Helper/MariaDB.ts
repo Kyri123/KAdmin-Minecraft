@@ -3,23 +3,23 @@ import {ConfigManager, ConfigManagerClass} from "./ConfigManager";
 import {SQLTable} from "../../Types/MariaDB";
 import {Logging} from "../Functions/Logging";
 
-export class QueryInformation {
-    public Rows: any[] = [];
+export class QueryInformation<Type> {
+    public Rows: Type[] = [];
     public Success: boolean = false;
 
     get IsValid(): boolean {
         return !this.isEmpty && this.success;
     }
 
-    get first(): any {
+    get first(): Type {
         return this.Rows[0];
     }
 
-    get isEmpty(): any {
+    get isEmpty(): boolean {
         return this.Rows.length <= 0;
     }
 
-    get last(): any {
+    get last(): Type {
         return this.Rows[this.Rows.length - 1];
     }
 
@@ -41,8 +41,8 @@ export class MariaDbManagerClass {
         }
     }
 
-    async Select(Table: SQLTable, Where: any = undefined): Promise<QueryInformation> {
-        let Information: QueryInformation = new QueryInformation();
+    async Select<Type>(Table: SQLTable, Where: any = undefined): Promise<QueryInformation<Type>> {
+        let Information: QueryInformation<Type>;
         let Values = [];
         let Request = `SELECT * FROM \`${Table}\``;
         if (Where !== undefined) {
@@ -60,8 +60,8 @@ export class MariaDbManagerClass {
         return Information;
     }
 
-    async Delete(Table: SQLTable, Where: any): Promise<QueryInformation> {
-        let Information: QueryInformation = new QueryInformation();
+    async Delete<Type>(Table: SQLTable, Where: any): Promise<QueryInformation<Type>> {
+        let Information: QueryInformation<Type>;
         let Values = [];
         let Request = `DELETE FROM \`${Table}\``;
 
@@ -75,12 +75,12 @@ export class MariaDbManagerClass {
         }
         Request += WhereDelegates.join(" AND ");
 
-        Information = await this.Query(Request, Values);
+        Information = await this.Query<Type>(Request, Values);
         return Information;
     }
 
-    async Update(Table: SQLTable, Set: any, Where: any): Promise<QueryInformation> {
-        let Information: QueryInformation;
+    async Update<Type>(Table: SQLTable, Set: any, Where: any): Promise<QueryInformation<Type>> {
+        let Information: QueryInformation<Type>;
         let Values = [];
         let Request = `UPDATE \`${Table}\``;
 
@@ -104,13 +104,13 @@ export class MariaDbManagerClass {
         }
         Request += WhereDelegates.join(" AND ");
 
-        Information = await this.Query(Request, Values);
+        Information = await this.Query<Type>(Request, Values);
         return Information;
     }
 
 
-    async Insert(Table: SQLTable, SetValues: any): Promise<QueryInformation> {
-        let Information: QueryInformation = new QueryInformation();
+    async Insert<Type>(Table: SQLTable, SetValues: any): Promise<QueryInformation<Type>> {
+        let Information: QueryInformation<Type>;
         let Values = [];
         let ValuesPlaceHolders = [];
         let Request = `INSERT INTO \`${Table}\``;
@@ -128,13 +128,13 @@ export class MariaDbManagerClass {
         Request += " VALUES ";
         Request += `(${ValuesPlaceHolders.join(", ")})`;
 
-        Information = await this.Query(Request, Values);
+        Information = await this.Query<Type>(Request, Values);
         return Information;
     }
 
-    private async Query(query: string, values: any[] = []): Promise<QueryInformation> {
+    private async Query<Type>(query: string, values: any[] = []): Promise<QueryInformation<Type>> {
         let conn;
-        let Information: QueryInformation = new QueryInformation();
+        let Information: QueryInformation<Type> = new QueryInformation();
 
         try {
             conn = await this.Pool.getConnection();

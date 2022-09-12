@@ -1,1 +1,1 @@
-export type SQLTable = "KAMC_User" | "KAMC_Session";
+export type SQLTable = "KAMC_User" | "KAMC_Session" | "KAMC_Server" | "KAMC_UserGroupes";

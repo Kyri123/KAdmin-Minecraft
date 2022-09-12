@@ -12,6 +12,7 @@ export class RestApiRouteBase {
     protected Url: string = '*';
     protected UseMiddleware: boolean = true;
     protected UseCheck: boolean = true;
+    protected RenderPage: string = "pages/404";
 
     public constructor() {
         this.ExpressRouter = express.Router();
